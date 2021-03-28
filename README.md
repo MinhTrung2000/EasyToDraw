@@ -1,4 +1,4 @@
-# EasyToDraw
+# SketchPoint
 Đồ án Kĩ thuật đồ họa 2018
 
 ## Mô tả
