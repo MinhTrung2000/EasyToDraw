@@ -125,16 +125,17 @@ public class Paint extends javax.swing.JFrame {
         Label_DrawingMode.setBackground(new java.awt.Color(248, 248, 248));
         Label_DrawingMode.setText("Drawing Mode:");
 
-        labelButton_leftA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintui/leftArrow.png"))); // NOI18N
+        labelButton_leftA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/leftArrow.png"))); // NOI18N
 
-        labelButton_rightA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/paintui/rightArrow.png"))); // NOI18N
+        labelButton_rightA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/rightArrow.png"))); // NOI18N
 
         javax.swing.GroupLayout Panel_ShapesLinesLayout = new javax.swing.GroupLayout(Panel_ShapesLines);
         Panel_ShapesLines.setLayout(Panel_ShapesLinesLayout);
         Panel_ShapesLinesLayout.setHorizontalGroup(
             Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_ShapesLinesLayout.createSequentialGroup()
-                .addComponent(labelButton_leftA)
+                .addGap(2, 2, 2)
+                .addComponent(labelButton_leftA, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
@@ -144,15 +145,17 @@ public class Paint extends javax.swing.JFrame {
                         .addComponent(Button_2D)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Button_3D)
-                        .addGap(36, 36, 36))
-                    .addComponent(Label_ShapesLines, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45))
                     .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
-                        .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Panel_Shapes, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ComboBox_Lines, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelButton_rightA)))
-                .addGap(9, 9, 9))
+                        .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Label_ShapesLines, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
+                                .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Panel_Shapes, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(ComboBox_Lines, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(labelButton_rightA)))
+                        .addGap(0, 12, Short.MAX_VALUE))))
         );
         Panel_ShapesLinesLayout.setVerticalGroup(
             Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -311,6 +314,7 @@ public class Paint extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Paint().setVisible(true);
             }
