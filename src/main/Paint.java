@@ -30,8 +30,8 @@ public class Paint extends javax.swing.JFrame {
         Button_Pencil = new javax.swing.JButton();
         Button_StraightLine = new javax.swing.JButton();
         Button_Select = new javax.swing.JButton();
-        Button_View = new javax.swing.JButton();
-        Button_Animation = new javax.swing.JButton();
+        Button_Undo = new javax.swing.JButton();
+        Button_Redo = new javax.swing.JButton();
         Separator2 = new javax.swing.JSeparator();
         Panel_ShapesLines = new javax.swing.JPanel();
         Panel_Shapes = new javax.swing.JPanel();
@@ -49,27 +49,33 @@ public class Paint extends javax.swing.JFrame {
         Separator1 = new javax.swing.JSeparator();
         Button_OpenFile = new javax.swing.JButton();
         Button_Save = new javax.swing.JButton();
-        Button_Undo = new javax.swing.JButton();
-        Button_Redo = new javax.swing.JButton();
+        Button_View = new javax.swing.JButton();
+        Button_Animation = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         DrawingArea = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(12, 240, 240));
+        setResizable(false);
 
         ControlArea.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         Panel_Tools1.setLayout(new java.awt.GridLayout(1, 0, 16, 0));
 
         Button_ColorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorChooser.png"))); // NOI18N
+        Button_ColorChooser.setToolTipText("Color picker");
         Panel_Tools1.add(Button_ColorChooser);
 
         Button_FillColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fillColor.png"))); // NOI18N
+        Button_FillColor.setToolTipText("Fill");
         Panel_Tools1.add(Button_FillColor);
 
         Button_ClearAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clearAll.png"))); // NOI18N
+        Button_ClearAll.setToolTipText("Clear");
         Panel_Tools1.add(Button_ClearAll);
 
         Button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
+        Button_Eraser.setToolTipText("Eraser");
         Panel_Tools1.add(Button_Eraser);
 
         Label_Tools.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -80,38 +86,48 @@ public class Paint extends javax.swing.JFrame {
         Panel_Tools2.setLayout(new java.awt.GridLayout(1, 0, 16, 0));
 
         Button_Pencil.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/pencil.png"))); // NOI18N
+        Button_Pencil.setToolTipText("Pencil");
         Panel_Tools2.add(Button_Pencil);
 
         Button_StraightLine.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/straightLine.png"))); // NOI18N
+        Button_StraightLine.setToolTipText("Line");
         Panel_Tools2.add(Button_StraightLine);
 
         Button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
+        Button_Select.setToolTipText("Select");
         Panel_Tools2.add(Button_Select);
 
-        Button_View.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/view.png"))); // NOI18N
-        Panel_Tools2.add(Button_View);
+        Button_Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/undo.png"))); // NOI18N
+        Button_Undo.setToolTipText("Undo");
+        Panel_Tools2.add(Button_Undo);
 
-        Button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animations.png"))); // NOI18N
-        Panel_Tools2.add(Button_Animation);
+        Button_Redo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/redo.png"))); // NOI18N
+        Button_Redo.setToolTipText("Redo");
+        Panel_Tools2.add(Button_Redo);
 
         Separator2.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         Panel_Shapes.setLayout(new java.awt.GridLayout(1, 0, 16, 0));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/rectangle.png"))); // NOI18N
+        jButton2.setToolTipText("Rectangle");
         Panel_Shapes.add(jButton2);
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/triangle.png"))); // NOI18N
+        jButton1.setToolTipText("Triangle");
         Panel_Shapes.add(jButton1);
 
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/circle.png"))); // NOI18N
+        jButton3.setToolTipText("Circle");
         Panel_Shapes.add(jButton3);
 
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/diamond.png"))); // NOI18N
+        jButton5.setToolTipText("Diamond");
         Panel_Shapes.add(jButton5);
 
         ComboBox_Lines.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         ComboBox_Lines.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ──────────────────", " ---------------------------------", "- ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ -", "── ∙ ∙ ── ∙ ∙ ── ∙ ∙ ── ∙ ∙ ──" }));
+        ComboBox_Lines.setToolTipText("Select a line");
 
         Label_ShapesLines.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         Label_ShapesLines.setForeground(new java.awt.Color(90, 90, 90));
@@ -126,15 +142,17 @@ public class Paint extends javax.swing.JFrame {
         Label_DrawingMode.setText("Drawing Mode:");
 
         labelButton_leftA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/leftArrow.png"))); // NOI18N
+        labelButton_leftA.setToolTipText("Back");
 
         labelButton_rightA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/rightArrow.png"))); // NOI18N
+        labelButton_rightA.setToolTipText("Next");
 
         javax.swing.GroupLayout Panel_ShapesLinesLayout = new javax.swing.GroupLayout(Panel_ShapesLines);
         Panel_ShapesLines.setLayout(Panel_ShapesLinesLayout);
         Panel_ShapesLinesLayout.setHorizontalGroup(
             Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Panel_ShapesLinesLayout.createSequentialGroup()
-                .addGap(2, 2, 2)
+                .addContainerGap()
                 .addComponent(labelButton_leftA, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +171,7 @@ public class Paint extends javax.swing.JFrame {
                                 .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(Panel_Shapes, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(ComboBox_Lines, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(7, 7, 7)
                                 .addComponent(labelButton_rightA)))
                         .addGap(0, 12, Short.MAX_VALUE))))
         );
@@ -161,33 +179,40 @@ public class Paint extends javax.swing.JFrame {
             Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
                 .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
-                        .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Panel_Shapes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(labelButton_rightA))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ComboBox_Lines, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(Panel_ShapesLinesLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(labelButton_leftA, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(Panel_Shapes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelButton_rightA, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelButton_leftA, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ComboBox_Lines, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(Panel_ShapesLinesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Label_DrawingMode)
                     .addComponent(Button_2D)
                     .addComponent(Button_3D))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
                 .addComponent(Label_ShapesLines))
         );
 
         Separator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         Button_OpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/openFile.png"))); // NOI18N
+        Button_OpenFile.setToolTipText("Open image");
 
         Button_Save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/saveFile.png"))); // NOI18N
+        Button_Save.setToolTipText("Save image");
 
-        Button_Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/undo.png"))); // NOI18N
+        Button_View.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/view.png"))); // NOI18N
+        Button_View.setToolTipText("View");
 
-        Button_Redo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/redo.png"))); // NOI18N
+        Button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animations.png"))); // NOI18N
+        Button_Animation.setToolTipText("Animations");
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(90, 90, 90));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("File & View");
+        jLabel1.setFocusable(false);
+        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout ControlAreaLayout = new javax.swing.GroupLayout(ControlArea);
         ControlArea.setLayout(ControlAreaLayout);
@@ -195,21 +220,22 @@ public class Paint extends javax.swing.JFrame {
             ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ControlAreaLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(ControlAreaLayout.createSequentialGroup()
                         .addComponent(Button_OpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Button_Save, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(ControlAreaLayout.createSequentialGroup()
-                        .addComponent(Button_Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Button_View, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Button_Redo, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Button_Animation, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addComponent(Panel_ShapesLines, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Separator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(Separator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Panel_Tools1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -224,13 +250,10 @@ public class Paint extends javax.swing.JFrame {
                 .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Panel_ShapesLines, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(ControlAreaLayout.createSequentialGroup()
-                        .addComponent(Separator1)
-                        .addContainerGap())
-                    .addGroup(ControlAreaLayout.createSequentialGroup()
                         .addComponent(Panel_Tools1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(13, 13, 13)
                         .addComponent(Panel_Tools2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                         .addComponent(Label_Tools))
                     .addGroup(ControlAreaLayout.createSequentialGroup()
                         .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,10 +261,15 @@ public class Paint extends javax.swing.JFrame {
                             .addComponent(Button_OpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(Button_Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Button_Redo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(Separator2)))
+                            .addComponent(Button_View, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Button_Animation, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel1))
+                    .addGroup(ControlAreaLayout.createSequentialGroup()
+                        .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Separator2)
+                            .addComponent(Separator1))
+                        .addContainerGap())))
         );
 
         DrawingArea.setBackground(new java.awt.Color(248, 248, 248));
@@ -267,7 +295,7 @@ public class Paint extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(DrawingArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ControlArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -276,7 +304,7 @@ public class Paint extends javax.swing.JFrame {
                 .addComponent(ControlArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DrawingArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
@@ -353,6 +381,7 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel labelButton_leftA;
     private javax.swing.JLabel labelButton_rightA;
     // End of variables declaration//GEN-END:variables

@@ -6,6 +6,7 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="f0" green="f0" red="c" type="rgb"/>
     </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -32,7 +33,7 @@
                   <Component id="DrawingArea" max="32767" attributes="0"/>
                   <Component id="ControlArea" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -43,7 +44,7 @@
               <Component id="ControlArea" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="DrawingArea" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="18" max="32767" attributes="0"/>
+              <EmptySpace pref="24" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,25 +64,26 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Group type="102" attributes="0">
                           <Component id="Button_OpenFile" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="Button_Save" min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="Button_Undo" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="Button_View" min="-2" pref="59" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="Button_Redo" min="-2" pref="59" max="-2" attributes="0"/>
+                          <Component id="Button_Animation" min="-2" pref="59" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="32767" attributes="0"/>
                   <Component id="Separator1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                   <Component id="Panel_ShapesLines" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="Separator2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
+                  <Component id="Separator2" min="-2" pref="2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="Panel_Tools1" min="-2" pref="359" max="-2" attributes="0"/>
                       <Component id="Panel_Tools2" min="-2" pref="359" max="-2" attributes="0"/>
@@ -98,14 +100,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="Panel_ShapesLines" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
-                          <Component id="Separator1" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" attributes="0">
                           <Component id="Panel_Tools1" min="-2" pref="49" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                           <Component id="Panel_Tools2" min="-2" pref="49" max="-2" attributes="0"/>
-                          <EmptySpace pref="10" max="32767" attributes="0"/>
+                          <EmptySpace pref="14" max="32767" attributes="0"/>
                           <Component id="Label_Tools" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" attributes="0">
@@ -115,12 +113,19 @@
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="Button_Undo" min="-2" pref="49" max="-2" attributes="0"/>
-                              <Component id="Button_Redo" min="-2" pref="49" max="-2" attributes="0"/>
+                              <Component id="Button_View" min="-2" pref="49" max="-2" attributes="0"/>
+                              <Component id="Button_Animation" min="-2" pref="49" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="Separator2" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="Separator2" max="32767" attributes="0"/>
+                              <Component id="Separator1" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
           </Group>
@@ -140,6 +145,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/colorChooser.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Color picker"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Button_FillColor">
@@ -147,6 +153,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/fillColor.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Fill"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Button_ClearAll">
@@ -154,6 +161,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/clearAll.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Clear"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Button_Eraser">
@@ -161,6 +169,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/eraser.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Eraser"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -190,6 +199,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/pencil.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Pencil"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Button_StraightLine">
@@ -197,6 +207,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/straightLine.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Line"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="Button_Select">
@@ -204,20 +215,23 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/select.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Select"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="Button_View">
+            <Component class="javax.swing.JButton" name="Button_Undo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/img/view.png"/>
+                  <Image iconType="3" name="/img/undo.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Undo"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="Button_Animation">
+            <Component class="javax.swing.JButton" name="Button_Redo">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/img/animations.png"/>
+                  <Image iconType="3" name="/img/redo.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Redo"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -233,7 +247,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="labelButton_leftA" min="-2" pref="16" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -254,7 +268,7 @@
                                           <Component id="Panel_Shapes" min="-2" pref="280" max="-2" attributes="0"/>
                                           <Component id="ComboBox_Lines" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                                       <Component id="labelButton_rightA" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
@@ -268,26 +282,19 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="Panel_Shapes" min="-2" max="-2" attributes="0"/>
-                                  <Component id="labelButton_rightA" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="ComboBox_Lines" min="-2" pref="20" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="labelButton_leftA" min="-2" pref="52" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="Panel_Shapes" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelButton_rightA" alignment="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="labelButton_leftA" alignment="1" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="ComboBox_Lines" min="-2" pref="20" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="Label_DrawingMode" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Button_2D" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Button_3D" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="7" max="32767" attributes="0"/>
                       <Component id="Label_ShapesLines" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -307,6 +314,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/rectangle.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Rectangle"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton1">
@@ -314,6 +322,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/triangle.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Triangle"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton3">
@@ -321,6 +330,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/circle.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Circle"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButton5">
@@ -328,6 +338,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/img/diamond.png"/>
                     </Property>
+                    <Property name="toolTipText" type="java.lang.String" value="Diamond"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -340,6 +351,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="new javax.swing.DefaultComboBoxModel&lt;&gt;(new String[] { &quot; &#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&quot;, &quot; ---------------------------------&quot;, &quot;- &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; - &#x2219; -&quot;, &quot;&#x2500;&#x2500; &#x2219; &#x2219; &#x2500;&#x2500; &#x2219; &#x2219; &#x2500;&#x2500; &#x2219; &#x2219; &#x2500;&#x2500; &#x2219; &#x2219; &#x2500;&#x2500;&quot; })" type="code"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Select a line"/>
               </Properties>
               <AuxValues>
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -380,6 +392,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/leftArrow.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Back"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="labelButton_rightA">
@@ -387,6 +400,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/rightArrow.png"/>
                 </Property>
+                <Property name="toolTipText" type="java.lang.String" value="Next"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -401,6 +415,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/openFile.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Open image"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="Button_Save">
@@ -408,20 +423,37 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/img/saveFile.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Save image"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="Button_Undo">
+        <Component class="javax.swing.JButton" name="Button_View">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/undo.png"/>
+              <Image iconType="3" name="/img/view.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="View"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="Button_Redo">
+        <Component class="javax.swing.JButton" name="Button_Animation">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/redo.png"/>
+              <Image iconType="3" name="/img/animations.png"/>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" value="Animations"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="18" style="0"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="5a" green="5a" red="5a" type="rgb"/>
+            </Property>
+            <Property name="horizontalAlignment" type="int" value="0"/>
+            <Property name="text" type="java.lang.String" value="File &amp; View"/>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
         </Component>
       </SubComponents>
