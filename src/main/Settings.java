@@ -15,7 +15,7 @@ public class Settings {
     public static final int WIDTH_DRAW_AREA = 918;
     public static final int HEIGHT_DRAW_AREA = 718;
     
-        // Khoảng cách 2 pixel.
+    // Khoảng cách 2 pixel.
     public static final int SPACE = 2 * PIXEL_UNIT;
     // Kích thước 1 pixel.
     public static final int SIZE = 5 * PIXEL_UNIT;

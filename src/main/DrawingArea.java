@@ -63,7 +63,7 @@ public class DrawingArea extends JPanel {
     }
     
     private int getNewX(int x) {
-        return (65 + x) * (this.space + this.size) + 1;
+        return (65 +x) * (this.space + this.size) + 1;
     }
     
     private int getNewY(int y) {
