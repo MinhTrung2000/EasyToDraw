@@ -355,9 +355,9 @@ public class Paint extends javax.swing.JFrame {
     
     private void DrawingAreaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DrawingAreaMouseMoved
         // TODO add your handling code here:
-        int a = evt.getX()/(space+size) -(width/2-1)/(space+size);
-        Label_XCoord.setText("X: "+ (evt.getX()/(space+size) -(width/2-1)/(space+size)));
-        Label_YCoord.setText("Y: "+ (evt.getY()/(space+size) - (height/2+1)/(space+size)));
+        
+        Label_XCoord.setText("X: "+ ((evt.getX()-(width/2-1))/(space+size)));
+        Label_YCoord.setText("Y: " + (-(evt.getY()-(height/2+1))/(space+size)));
     }//GEN-LAST:event_DrawingAreaMouseMoved
 
     /**

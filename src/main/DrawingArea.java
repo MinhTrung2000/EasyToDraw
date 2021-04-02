@@ -36,7 +36,7 @@ public class DrawingArea extends JPanel {
         OY = height / 2 + 1;
     }
 
-    private void createGridLayout(Graphics g) {
+    public void createGridLayout(Graphics g) {
         g.setColor(new Color(235, 235, 235));
         g.fillRect(0, 0, width, height); // vẽ nền, chính là lưới pixel sau khi chấm các điểm pixel màu trắng lên
         g.setColor(Color.white);
@@ -46,8 +46,6 @@ public class DrawingArea extends JPanel {
             }
         }
     }
-    
-    
 
     @Override
     public void paintComponent(Graphics g) {
