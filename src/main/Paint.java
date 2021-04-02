@@ -51,8 +51,11 @@ public class Paint extends javax.swing.JFrame {
         Button_Save = new javax.swing.JButton();
         Button_View = new javax.swing.JButton();
         Button_Animation = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        DrawingArea = new DrawingArea();
+        Label_FileView = new javax.swing.JLabel();
+        DrawingArea = new DrawingArea(width,height,space,size);
+        jLabel2 = new javax.swing.JLabel();
+        Label_XCoord = new javax.swing.JLabel();
+        Label_YCoord = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(12, 240, 240));
@@ -207,12 +210,12 @@ public class Paint extends javax.swing.JFrame {
         Button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animations.png"))); // NOI18N
         Button_Animation.setToolTipText("Animations");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(90, 90, 90));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("File & View");
-        jLabel1.setFocusable(false);
-        jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        Label_FileView.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Label_FileView.setForeground(new java.awt.Color(90, 90, 90));
+        Label_FileView.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Label_FileView.setText("File & View");
+        Label_FileView.setFocusable(false);
+        Label_FileView.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout ControlAreaLayout = new javax.swing.GroupLayout(ControlArea);
         ControlArea.setLayout(ControlAreaLayout);
@@ -229,7 +232,7 @@ public class Paint extends javax.swing.JFrame {
                         .addComponent(Button_View, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Button_Animation, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Label_FileView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 19, Short.MAX_VALUE)
                 .addComponent(Separator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
@@ -264,7 +267,7 @@ public class Paint extends javax.swing.JFrame {
                             .addComponent(Button_View, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(Button_Animation, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1))
+                        .addComponent(Label_FileView))
                     .addGroup(ControlAreaLayout.createSequentialGroup()
                         .addGroup(ControlAreaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Separator2)
@@ -274,6 +277,11 @@ public class Paint extends javax.swing.JFrame {
 
         DrawingArea.setBackground(new java.awt.Color(248, 248, 248));
         DrawingArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        DrawingArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                DrawingAreaMouseMoved(evt);
+            }
+        });
 
         javax.swing.GroupLayout DrawingAreaLayout = new javax.swing.GroupLayout(DrawingArea);
         DrawingArea.setLayout(DrawingAreaLayout);
@@ -286,15 +294,31 @@ public class Paint extends javax.swing.JFrame {
             .addGap(0, 716, Short.MAX_VALUE)
         );
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Coord.png"))); // NOI18N
+
+        Label_XCoord.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Label_XCoord.setText("X:");
+
+        Label_YCoord.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Label_YCoord.setText("Y:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(ControlArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(DrawingArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(ControlArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(DrawingArea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_XCoord, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Label_YCoord, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -304,15 +328,36 @@ public class Paint extends javax.swing.JFrame {
                 .addComponent(ControlArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(DrawingArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Label_YCoord)
+                            .addComponent(Label_XCoord))))
+                .addGap(6, 6, 6))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private int size = 5;
+    private int space = 2;
+    private int width = 918;
+    private int height = 718;
+    
+    private void DrawingAreaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DrawingAreaMouseMoved
+        // TODO add your handling code here:
+        int a = evt.getX()/(space+size) -(width/2-1)/(space+size);
+        Label_XCoord.setText("X: "+ (evt.getX()/(space+size) -(width/2-1)/(space+size)));
+        Label_YCoord.setText("Y: "+ (evt.getY()/(space+size) - (height/2+1)/(space+size)));
+    }//GEN-LAST:event_DrawingAreaMouseMoved
+
     /**
      * @param args the command line arguments
      */
+   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -369,8 +414,11 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JPanel ControlArea;
     private javax.swing.JPanel DrawingArea;
     private javax.swing.JLabel Label_DrawingMode;
+    private javax.swing.JLabel Label_FileView;
     private javax.swing.JLabel Label_ShapesLines;
     private javax.swing.JLabel Label_Tools;
+    private javax.swing.JLabel Label_XCoord;
+    private javax.swing.JLabel Label_YCoord;
     private javax.swing.JPanel Panel_Shapes;
     private javax.swing.JPanel Panel_ShapesLines;
     private javax.swing.JPanel Panel_Tools1;
@@ -381,7 +429,7 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel labelButton_leftA;
     private javax.swing.JLabel labelButton_rightA;
     // End of variables declaration//GEN-END:variables

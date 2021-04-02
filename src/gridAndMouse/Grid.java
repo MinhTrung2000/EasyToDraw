@@ -138,7 +138,7 @@ public class Grid extends JPanel {
                 window.add(tv);
                 window.setVisible(true);
                 //nhap pixel thuong qua ham fill cell se tu dong tang kich co pixel 
-//                createLine(tv, 5, 4, 15, 4);
+                createLine(tv, 5, 4, 15, 4);
                 // 5 4 15 4
                 createLine(tv, 2, 3, 16, 16); // duong nay bi loi
                 //createLine(tv, 100, 3, 51, 52);
