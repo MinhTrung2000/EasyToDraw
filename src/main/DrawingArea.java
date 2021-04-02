@@ -21,9 +21,10 @@ public class DrawingArea extends JPanel {
    
    private int space;
    private  int size;
+    private int OX;
+    private int OY;
    
-   private int OX = width/2 -1;
-  private int OY = height/2 +1;
+   
    
    // private int OX = space + width / 2 * (space+size) + (size) / 2;
    //  private int OY = space + height / 2 * (space+size) + (size) / 2;
@@ -33,6 +34,8 @@ public class DrawingArea extends JPanel {
       this.height=height;
       this.space=space;
       this.size=size;
+      OX = this.width/2 -1;
+       OY = this.height/2 +1;
   }
     @Override
     public void paintComponent (Graphics g){
