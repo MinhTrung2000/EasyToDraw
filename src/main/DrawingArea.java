@@ -58,10 +58,10 @@ public class DrawingArea extends JPanel {
         
         //g.setColor(Color.yellow);
         
-        //Point2D point = new Point2D(-5,1);
+        Point2D point = new Point2D(-5,1);
         
-        //point=point.ConvertToPixelCoord(point, OX, OY);
-        //g.fillRect(point.X, point.Y, size, size);
+        point=point.ConvertToPixelCoord(point, OX, OY);
+        g.fillRect(point.X, point.Y, size, size);
         
     }
 }
