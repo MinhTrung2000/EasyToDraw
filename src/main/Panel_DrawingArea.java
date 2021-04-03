@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  *
  * @author Minh Tu
  */
-public class DrawingArea extends JPanel {
+public class Panel_DrawingArea extends JPanel {
 
     private int width;
     private int height;
@@ -26,7 +26,7 @@ public class DrawingArea extends JPanel {
 
     // private int OX = space + width / 2 * (space+size) + (size) / 2;
     //  private int OY = space + height / 2 * (space+size) + (size) / 2;
-    public DrawingArea(int width, int height, int space, int size) {
+    public Panel_DrawingArea(int width, int height, int space, int size) {
         super();
         this.width = width;
         this.height = height;
