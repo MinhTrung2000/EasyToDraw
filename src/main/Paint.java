@@ -1,25 +1,335 @@
 package main;
 
+import com.sun.corba.se.impl.util.Utility;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.util.Pair;
+import javax.imageio.ImageIO;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.JSpinner;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import static main.Settings.*;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Paint extends javax.swing.JFrame {
 
-    /**
-     * Creates new form PaintUI
-     */
-    private int size = 5;
-    private int space = 2;
-    private int width = 918;
-    private int height = 718;
+    // Set 2D as default coordinated system.
+    private CoordinateMode coordinateMode = CoordinateMode.MODE_2D;
+
+    // Visual option
+    private boolean showGrid_Flag = true;
+    private boolean showCoordinate_Flag = false;
+    private boolean showStatusBar_Flag = true;
+
+    // Selected objects.
+    private Button selectedButton = null;
+    private Color selectedColor = Color.BLACK;
+    private LineStyle selectedLineStyle = LineStyle.DEFAULT;
+    private Integer selectedLineSize = 1;
+
+    // Animation playing flag
+    private boolean animationPlaying_Flag = false;
+
+    // Mouse coordinate
+    private Point2D previousCoordMouse;
+    private Point2D currentCoordMouse;
+
+    private ButtonGroup coordModeButtonGroup = new ButtonGroup();
+
+    private JPopupMenu popMenu_Line = new JPopupMenu();
+    private JPopupMenu popMenu_Polygon = new JPopupMenu();
+    private JPopupMenu popMenu_Shape = new JPopupMenu();
+    private JPopupMenu popMenu_Transform = new JPopupMenu();
 
     public Paint() {
-        initComponents();
-        // this.getContentPane().setBackground(new java.awt.Color(248, 248, 248));
+        customizeComponents();
+        setIconFrame();
+        setOptionLineStyle();
+        setEventHandler();
+    }
 
-        // Set icon for this frame.
+    /**
+     * Method to customize the components.
+     */
+    private void customizeComponents() {
+        initComponents();
+        Spinner_SizeLize.setModel(new SpinnerNumberModel(
+                MIN_LINE_SIZE,
+                MIN_LINE_SIZE,
+                MAX_LINE_SIZE,
+                STEP_LINE_SIZE)
+        );
+
+        // Make a group of 2 button mode 2D and 3D
+        coordModeButtonGroup.add(Button_2DMode);
+        coordModeButtonGroup.add(Button_3DMode);
+
+        // Create menu pop up for drawing tools.
+        popMenu_Line.add(new JMenuItem("Free line"));
+        popMenu_Line.add(new JMenuItem("Straight line"));
+        
+        popMenu_Polygon.add(new JMenuItem("Free polygon"));
+        popMenu_Polygon.add(new JMenuItem("Triangle"));
+        popMenu_Polygon.add(new JMenuItem("Rectangle"));
+        popMenu_Polygon.add(new JMenuItem("Circle"));
+        
+        popMenu_Shape.add(new JMenuItem("Arrow"));
+        popMenu_Shape.add(new JMenuItem("Start"));
+        popMenu_Shape.add(new JMenuItem("Heart"));
+        
+        popMenu_Transform.add(new JMenuItem("Rotation"));
+        popMenu_Transform.add(new JMenuItem("Symmetry"));
+    }
+
+    /**
+     * Set icon for paint frame.
+     */
+    private void setIconFrame() {
         ImageIcon img = new ImageIcon(getClass().getResource("/img/paintIcon.png"));
         this.setIconImage(img.getImage());
+    }
+
+    /**
+     * Set options for line mode.
+     */
+    private void setOptionLineStyle() {
+        for (LineStyle lm : LineStyle.values()) {
+            comboBox_StyleLine.addItem(lm.toString());
+        }
+    }
+
+    private void setEventHandler() {
+        //======================================================================
+        // User control option
+        //======================================================================        
+        Button_OpenFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+
+                /*
+                JFileChooser fileChooser = new JFileChooser();
+                FileNameExtensionFilter fileNameFilter = new FileNameExtensionFilter(
+                        "PNG Images",
+                        "png"
+                );
+                int returnedValue = fileChooser.showOpenDialog(null);
+
+                if (returnedValue == JFileChooser.APPROVE_OPTION) {
+                    //System.out.println("You chose to open this file: " +
+                    //chooser.getSelectedFile().getName());
+                    try {
+                        Board.applyImageInput();
+                        
+                        // Create a buffer image.
+                        BufferedImage myNewPNGFile = ImageIO.read(
+                                new File(fileChooser
+                                        .getSelectedFile()
+                                        .getAbsolutePath()
+                                )
+                        );
+                        
+                        
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                 */
+            }
+        });
+
+        Button_CreateNewFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_SaveFile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Undo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Redo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Helper.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        //======================================================================
+        // User visual option
+        //======================================================================
+        checkBox_showGridlines.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                showGrid_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
+
+        checkBox_showCoordinate.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
+
+        checkBox_showStatusBar.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                showStatusBar_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+            }
+        });
+
+        //======================================================================
+        // User format option
+        //======================================================================
+        comboBox_StyleLine.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                int selectedIndex = comboBox_StyleLine.getSelectedIndex();
+                for (LineStyle ls : LineStyle.values()) {
+                    if (selectedIndex == ls.ordinal()) {
+                        selectedLineStyle = ls;
+                        break;
+                    }
+                }
+            }
+        });
+
+        Spinner_SizeLize.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent event) {
+                selectedLineSize = (Integer) ((JSpinner) event.getSource()).getValue();
+            }
+        });
+
+        //======================================================================
+        // User tool option
+        //====================================================================== 
+        Button_ColorPicker.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_FillColor.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_ClearAll.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Eraser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Select.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_Animation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        //======================================================================
+        // User color option
+        //====================================================================== 
+        Button_ColorChooser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        //======================================================================
+        // User drawing option
+        //====================================================================== 
+        Button_2DMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        Button_3DMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                JOptionPane.showMessageDialog(null, "Not support yet!");
+            }
+        });
+
+        button_Line.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                if (SwingUtilities.isLeftMouseButton(event)) {
+                    
+                } else if (SwingUtilities.isRightMouseButton(event)) {
+                    Ultility.showPopMenuOfButton(button_Line, popMenu_Line);
+                }
+            }
+        });
+        
+        
+
     }
 
     /**
@@ -31,23 +341,21 @@ public class Paint extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        Panel_ColorChooser = new javax.swing.JColorChooser();
-        Panel_FileChooser = new javax.swing.JFileChooser();
         Panel_Operation = new javax.swing.JPanel();
         Button_OpenFile = new javax.swing.JButton();
         Button_CreateNewFile = new javax.swing.JButton();
         Button_SaveFile = new javax.swing.JButton();
         Button_Undo = new javax.swing.JButton();
         Button_Redo = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        Button_Helper = new javax.swing.JButton();
         Panel_Control = new javax.swing.JPanel();
         Panel_View = new javax.swing.JPanel();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
+        checkBox_showGridlines = new javax.swing.JCheckBox();
+        checkBox_showCoordinate = new javax.swing.JCheckBox();
+        checkBox_showStatusBar = new javax.swing.JCheckBox();
         Panel_Format = new javax.swing.JPanel();
         Label_StyleLine = new javax.swing.JLabel();
-        Comb_StyleLine = new javax.swing.JComboBox<>();
+        comboBox_StyleLine = new javax.swing.JComboBox<>();
         Label_SizeLine = new javax.swing.JLabel();
         Spinner_SizeLize = new javax.swing.JSpinner();
         Label_Pixel = new javax.swing.JLabel();
@@ -71,13 +379,13 @@ public class Paint extends javax.swing.JFrame {
         Panel_Drawing = new javax.swing.JPanel();
         Panel_DrawingTool = new javax.swing.JPanel();
         Panel_SelectCoordinate = new javax.swing.JPanel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        Button_Line = new javax.swing.JButton();
+        Button_2DMode = new javax.swing.JRadioButton();
+        Button_3DMode = new javax.swing.JRadioButton();
+        button_Line = new javax.swing.JButton();
         Button_Transform = new javax.swing.JButton();
         Button_Shape = new javax.swing.JButton();
         Button_Polygon = new javax.swing.JButton();
-        Panel_DrawingArea = new Panel_DrawingArea(width,height,space,size);
+        Panel_DrawingArea = new javax.swing.JPanel();
         Panel_StatusBar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -110,8 +418,8 @@ public class Paint extends javax.swing.JFrame {
         Button_Redo.setRolloverEnabled(false);
         Button_Redo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/helper.png"))); // NOI18N
-        jButton1.setToolTipText("Helper");
+        Button_Helper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/helper.png"))); // NOI18N
+        Button_Helper.setToolTipText("Helper");
 
         javax.swing.GroupLayout Panel_OperationLayout = new javax.swing.GroupLayout(Panel_Operation);
         Panel_Operation.setLayout(Panel_OperationLayout);
@@ -129,7 +437,7 @@ public class Paint extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(Button_Redo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 840, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(Button_Helper, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         Panel_OperationLayout.setVerticalGroup(
             Panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,7 +449,7 @@ public class Paint extends javax.swing.JFrame {
                     .addComponent(Button_Redo)
                     .addComponent(Button_SaveFile))
                 .addGap(1, 1, 1))
-            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(Button_Helper, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         Panel_Control.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
@@ -149,14 +457,14 @@ public class Paint extends javax.swing.JFrame {
 
         Panel_View.setBorder(javax.swing.BorderFactory.createTitledBorder("Visual"));
 
-        jCheckBox2.setText("Show coordinate");
-        jCheckBox2.setToolTipText("Whether to show coordinate");
+        checkBox_showGridlines.setText("Show gridlines");
+        checkBox_showGridlines.setToolTipText("Whether to show grid");
 
-        jCheckBox1.setText("Show gridlines");
-        jCheckBox1.setToolTipText("Whether to show grid");
+        checkBox_showCoordinate.setText("Show coordinate");
+        checkBox_showCoordinate.setToolTipText("Whether to show coordinate");
 
-        jCheckBox3.setText("Show status bar");
-        jCheckBox3.setToolTipText("Whether to show status bar below");
+        checkBox_showStatusBar.setText("Show status bar");
+        checkBox_showStatusBar.setToolTipText("Whether to show status bar below");
 
         javax.swing.GroupLayout Panel_ViewLayout = new javax.swing.GroupLayout(Panel_View);
         Panel_View.setLayout(Panel_ViewLayout);
@@ -165,20 +473,20 @@ public class Paint extends javax.swing.JFrame {
             .addGroup(Panel_ViewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(Panel_ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3))
+                    .addComponent(checkBox_showGridlines)
+                    .addComponent(checkBox_showCoordinate)
+                    .addComponent(checkBox_showStatusBar))
                 .addContainerGap())
         );
         Panel_ViewLayout.setVerticalGroup(
             Panel_ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_ViewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jCheckBox1)
+                .addComponent(checkBox_showGridlines)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox2)
+                .addComponent(checkBox_showCoordinate)
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox3)
+                .addComponent(checkBox_showStatusBar)
                 .addContainerGap())
         );
 
@@ -186,9 +494,8 @@ public class Paint extends javax.swing.JFrame {
 
         Label_StyleLine.setText("Style:");
 
-        Comb_StyleLine.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Comb_StyleLine.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ──────────────────", " ---------------------------------", "- ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ∙ -", "── ∙ ∙ ── ∙ ∙ ── ∙ ∙ ── ∙ ∙ ──" }));
-        Comb_StyleLine.setToolTipText("Choose line style");
+        comboBox_StyleLine.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        comboBox_StyleLine.setToolTipText("Choose line style");
 
         Label_SizeLine.setText("Size:");
 
@@ -206,7 +513,7 @@ public class Paint extends javax.swing.JFrame {
                     .addGroup(Panel_FormatLayout.createSequentialGroup()
                         .addComponent(Label_StyleLine)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(Comb_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(Panel_FormatLayout.createSequentialGroup()
                         .addComponent(Label_SizeLine)
                         .addGap(18, 18, 18)
@@ -224,7 +531,7 @@ public class Paint extends javax.swing.JFrame {
                         .addComponent(Label_StyleLine))
                     .addGroup(Panel_FormatLayout.createSequentialGroup()
                         .addGap(27, 27, 27)
-                        .addComponent(Comb_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(32, 32, 32)
                 .addGroup(Panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Label_SizeLine)
@@ -417,41 +724,41 @@ public class Paint extends javax.swing.JFrame {
                     .addComponent(Panel_Format, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Panel_Tool, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Panel_View, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Panel_Color, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(Panel_Color, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         Panel_SelectCoordinate.setBorder(javax.swing.BorderFactory.createTitledBorder("Coordinate"));
         Panel_SelectCoordinate.setToolTipText("Choose drawing coordinate");
 
-        jRadioButton1.setText("2D");
+        Button_2DMode.setText("2D");
 
-        jRadioButton2.setText("3D");
+        Button_3DMode.setText("3D");
 
         javax.swing.GroupLayout Panel_SelectCoordinateLayout = new javax.swing.GroupLayout(Panel_SelectCoordinate);
         Panel_SelectCoordinate.setLayout(Panel_SelectCoordinateLayout);
         Panel_SelectCoordinateLayout.setHorizontalGroup(
             Panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_SelectCoordinateLayout.createSequentialGroup()
-                .addComponent(jRadioButton1)
+                .addComponent(Button_2DMode)
                 .addGap(18, 18, 18)
-                .addComponent(jRadioButton2))
+                .addComponent(Button_3DMode))
         );
         Panel_SelectCoordinateLayout.setVerticalGroup(
             Panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Panel_SelectCoordinateLayout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(Panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(Button_2DMode)
+                    .addComponent(Button_3DMode))
                 .addContainerGap())
         );
 
-        Button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/straightLine.png"))); // NOI18N
-        Button_Line.setText("Line");
-        Button_Line.setFocusable(false);
-        Button_Line.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        Button_Line.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/straightLine.png"))); // NOI18N
+        button_Line.setText("Line");
+        button_Line.setFocusable(false);
+        button_Line.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        button_Line.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         Button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/transform.png"))); // NOI18N
         Button_Transform.setText("Transform");
@@ -480,7 +787,7 @@ public class Paint extends javax.swing.JFrame {
                 .addGroup(Panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(Button_Shape, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Panel_SelectCoordinate, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Button_Line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_Line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Button_Polygon, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(Button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -491,7 +798,7 @@ public class Paint extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(Panel_SelectCoordinate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(Button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -503,7 +810,7 @@ public class Paint extends javax.swing.JFrame {
 
         Panel_DrawingArea.setBackground(new java.awt.Color(248, 248, 248));
         Panel_DrawingArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        Panel_DrawingArea.setMinimumSize(new java.awt.Dimension(1055, 2));
+        Panel_DrawingArea.setMinimumSize(new java.awt.Dimension(1055, 656));
         Panel_DrawingArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 Panel_DrawingAreaMouseMoved(evt);
@@ -589,6 +896,79 @@ public class Paint extends javax.swing.JFrame {
 //        Label_YCoord.setText("Y: " + (-(evt.getY() - (height / 2 + 1)) / (space + size)));
     }//GEN-LAST:event_Panel_DrawingAreaMouseMoved
 
+    // Button event handling
+    public void actionPerformed(ActionEvent actionEvent) {
+        Object affectedComponent = actionEvent.getSource();
+
+        if (!animationPlaying_Flag) {
+            // If animation is not played, get affected component and continue.
+
+        } else {
+            // Otherwise, force to select animation button to turn off.
+
+        }
+    }
+
+    // Mouse event handling
+    public class Click implements MouseListener {
+
+        @Override
+        public void mouseClicked(MouseEvent event) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mousePressed(MouseEvent event) {
+//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if (SwingUtilities.isLeftMouseButton(event)) {
+
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent event) {
+//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if (SwingUtilities.isLeftMouseButton(event)) {
+
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
+
+// Move event handling
+    public class Move implements MouseMotionListener {
+
+        public void showCoordInformation() {
+//            xCoord2D.setText("X: " + (mouseEvent.getX() / rectSize - OX / rectSize));
+//            yCoord2D.setText("Y: " + (-(mouseEvent.getY() / rectSize - OY / rectSize)));
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent event) {
+//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if (SwingUtilities.isLeftMouseButton(event)) {
+                showCoordInformation();
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent event) {
+            showCoordInformation();
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -599,27 +979,25 @@ public class Paint extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
             // Set windows style
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Paint.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Paint.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Paint.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Paint.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Paint.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Paint.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Paint.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Paint.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -631,6 +1009,8 @@ public class Paint extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton Button_2DMode;
+    private javax.swing.JRadioButton Button_3DMode;
     private javax.swing.JButton Button_Animation;
     private javax.swing.JButton Button_ClearAll;
     private javax.swing.JButton Button_ColorChooser;
@@ -646,7 +1026,7 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JButton Button_CreateNewFile;
     private javax.swing.JButton Button_Eraser;
     private javax.swing.JButton Button_FillColor;
-    private javax.swing.JButton Button_Line;
+    private javax.swing.JButton Button_Helper;
     private javax.swing.JButton Button_OpenFile;
     private javax.swing.JButton Button_Polygon;
     private javax.swing.JButton Button_Redo;
@@ -655,17 +1035,14 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JButton Button_Shape;
     private javax.swing.JButton Button_Transform;
     private javax.swing.JButton Button_Undo;
-    private javax.swing.JComboBox<String> Comb_StyleLine;
     private javax.swing.JLabel Label_Pixel;
     private javax.swing.JLabel Label_SizeLine;
     private javax.swing.JLabel Label_StyleLine;
     private javax.swing.JPanel Panel_Color;
-    private javax.swing.JColorChooser Panel_ColorChooser;
     private javax.swing.JPanel Panel_Control;
     private javax.swing.JPanel Panel_Drawing;
     private javax.swing.JPanel Panel_DrawingArea;
     private javax.swing.JPanel Panel_DrawingTool;
-    private javax.swing.JFileChooser Panel_FileChooser;
     private javax.swing.JPanel Panel_Format;
     private javax.swing.JPanel Panel_Operation;
     private javax.swing.JPanel Panel_SelectCoordinate;
@@ -673,12 +1050,11 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JPanel Panel_Tool;
     private javax.swing.JPanel Panel_View;
     private javax.swing.JSpinner Spinner_SizeLize;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JButton button_Line;
+    private javax.swing.JCheckBox checkBox_showCoordinate;
+    private javax.swing.JCheckBox checkBox_showGridlines;
+    private javax.swing.JCheckBox checkBox_showStatusBar;
+    private javax.swing.JComboBox<String> comboBox_StyleLine;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     // End of variables declaration//GEN-END:variables
 }
