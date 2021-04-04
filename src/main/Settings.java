@@ -37,9 +37,76 @@ public class Settings {
         },
     }
     
-    public enum LineMode {
-        FREE,
-        STRAIGHT,
+    public enum LineDrawingToolMode {
+        SEGMENT {
+            public String toString() {
+                return "Segment";
+            }
+        },
+        FREE_LINE {
+            public String toString() {
+                return "Line";
+            }
+        },
+        STRAIGHT_LINE {
+            public String toString() {
+                return "Straight line";
+            }
+        },
+    }
+    
+    public enum PolygonDrawingToolMode {
+        FREE_POLYGON {
+            public String toString() {
+                return "Polygon";
+            }
+        },
+        TRIANGLE {
+            public String toString() {
+                return "Triangle";
+            }
+        },
+        RECTANGLE {
+            public String toString() {
+                return "Rectangle";
+            }
+        },
+        CIRCLE {
+            public String toString() {
+                return "Circle";
+            }
+        },
+    }
+    
+    public enum ShapeDrawingToolMode {
+        ARROW {
+            public String toString() {
+                return "Arrow";
+            }
+        },
+        START {
+            public String toString() {
+                return "Start";
+            }
+        },
+        DIAMOND {
+            public String toString() {
+                return "Diamond";
+            }
+        },
+    }
+    
+    public enum TransformDrawingToolMode {
+        ROTATION {
+            public String toString() {
+                return "Rotation";
+            }
+        },
+        SYMMETRY {
+            public String toString() {
+                return "Symmetry";
+            }
+        },
     }
     
     public Settings() {}
@@ -49,7 +116,8 @@ public class Settings {
     // machine pixel.
     public static final int PIXEL_UNIT = 1;
     
-    // The size of drawing area.
+    // The size of drawing area (fixed version).
+    // TODO: remove if find out the way to make drawing area resizeable.
     public static final int WIDTH_DRAW_AREA = 1055;
     public static final int HEIGHT_DRAW_AREA = 656;
     
