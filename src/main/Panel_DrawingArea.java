@@ -330,8 +330,8 @@ public class Panel_DrawingArea extends JPanel {
     }
 
     public void setSelected(Point2D startPoint, Point2D endPoint) {
-        startDrawingPoint.setCoor(startPoint);
-        endDrawingPoint.setCoor(endPoint);
+        startDrawingPoint.setCoord(startPoint);
+        endDrawingPoint.setCoord(endPoint);
     }
 
     /**

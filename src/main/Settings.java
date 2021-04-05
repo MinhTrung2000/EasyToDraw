@@ -21,22 +21,23 @@ public class Settings {
         },
         DASH {
             public String toString() {
-                return "---------------------";
+//                return "---------------------";
+                return "──── ──── ────";
             }
         },
         DASH_DOT {
             public String toString() {
-                return "- ∙ - ∙ - ∙ - ∙ - ∙ - ∙ - ";
+                return "── ∙ ── ∙ ── ∙ ── ∙ ";
             }
         },
-        DASH_DASH_DOT {
+        DASH_DOT_DOT {
             public String toString() {
-                return "── ∙ ∙ ── ∙ ∙ ── ∙ ─";
+                return "── ∙ ∙ ── ∙ ∙ ── ∙ ∙";
             }
         },
         ARROW {
             public String toString() {
-                return "────────────>";
+                return "────────────→";
             }
         },
     }

@@ -1,88 +1,82 @@
 package main;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import static main.Settings.*;
 
-public class Line2D {
-    
-    private Point2D startPoint;
-    private Point2D descPoint;
-    
-    private LineStyle style = LineStyle.DEFAULT;
-    
-    public Line2D() {}
-    
-    public Line2D(Point2D startPoint, Point2D descPoint) {
-        this.startPoint = startPoint;
-        this.descPoint = descPoint;
+public class Line2D extends Shape {
+
+    public Line2D(boolean[][] nextDrawing, Color[][] nextPoint, Color color) {
+        super(nextDrawing, nextPoint, color);
+    }
+
+    /**
+     * The line drawing method implemented by Bresenham algorithm.
+     *
+     * @param startPoint
+     * @param endPoint
+     * @param lineStyle
+     */
+    @Override
+    public void draw() {
+        drawSegment(sourcePoint, destinationPoint, lineStyle);
+    }
+
+    @Override
+    public void rotate(Point2D basePoint, double angle) {
+        double totalAngle = angle + this.rotatedAngle;
+
+        Point2D rotatedStartPoint = sourcePoint.rotate(basePoint, totalAngle);
+        Point2D rotatedEndPoint = destinationPoint.rotate(basePoint, totalAngle);
+
+        drawSegment(rotatedStartPoint, rotatedEndPoint, this.lineStyle);
+    }
+
+    /**
+     * Line rotation in its center point.
+     * @param angle 
+     */
+    public void rotateInPlace(double angle) {
+        double totalAngle = angle + this.rotatedAngle;
+
+        Point2D rotatedStartPoint = sourcePoint.rotate(centerPoint, totalAngle);
+        Point2D rotatedEndPoint = destinationPoint.rotate(centerPoint, totalAngle);
+
+        drawSegment(rotatedStartPoint, rotatedEndPoint, this.lineStyle);
+    }
+
+    public void setProperty(Point2D sourcePoint, Point2D destinationPoint, LineStyle lineStyle) {
+        this.sourcePoint = sourcePoint;
+        this.destinationPoint = destinationPoint;
+        this.lineStyle = lineStyle;
+
+        this.centerPoint = new Point2D(
+                (int) (sourcePoint.coordX + destinationPoint.coordX) / 2,
+                (int) (sourcePoint.coordY + destinationPoint.coordY) / 2
+        );
     }
     
-    public Line2D rotate(Point2D basePoint, double angle) {
-        return new Line2D();
+    /**
+     * Update rotation angle after rotating it.
+     * @param angle 
+     */
+    public void applyRotation(double angle) {
+        this.rotatedAngle += angle;
     }
     
-    public void drawByMidPointMethod(Point2D startPoint, Point2D descPoint, LineStyle lineStyle) {
+    /**
+     * Move the line and change in place.
+     * @param vector 
+     */
+    @Override
+    public void move(Vector2D vector) {
+        sourcePoint = sourcePoint.getMovePoint(vector);
+        destinationPoint = destinationPoint.getMovePoint(vector);
+        draw();
+    }
+    
+    public void drawSymmetricOY() {
         
     }
-    
-//    public void draw(Graphics graphic, int x1, int y1, int x2, int y2) {
-//    public void draw(Graphics graphic, int x1, int y1, int x2, int y2) {
-//        int x, y;
-//        int dx, dy;
-//        int incx, incy;
-//        int balance;
-//
-//        if (x2 >= x1) {
-//            dx = x2 - x1;
-//            incx = 1;
-//        } else {
-//            dx = x1 - x2;
-//            incx = -1;
-//        }
-//
-//        if (y2 >= y1) {
-//            dy = y2 - y1;
-//            incy = 1;
-//        } else {
-//            dy = y1 - y2;
-//            incy = -1;
-//        }
-//
-//        x = x1;
-//        y = y1;
-//
-//        if (dx >= dy) {
-//            dy <<= 1;
-//            balance = dy - dx;
-//            dx <<= 1;
-//
-//            while (x != x2) {
-//                putPixel(graphic, x, y);
-//                if (balance >= 0) {
-//                    y += incy;
-//                    balance -= dx;
-//                }
-//                balance += dy;
-//                x += incx;
-//            }
-//            putPixel(graphic, x, y);
-//        } else {
-//            dx <<= 1;
-//            balance = dx - dy;
-//            dy <<= 1;
-//
-//            while (y != y2) {
-//                putPixel(graphic, x, y);
-//                if (balance >= 0) {
-//                    x += incx;
-//                    balance -= dy;
-//                }
-//                balance += dx;
-//                y += incy;
-//            }
-//            putPixel(graphic, x, y);
-//        }
-//        return;
-//    }
-//    
 }

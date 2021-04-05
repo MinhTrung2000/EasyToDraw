@@ -10,11 +10,11 @@ public class Point2D {
     protected Color color;
     
     public Point2D() {
-        setCoord(0, 0);
+        Point2D.this.setCoord(0, 0);
     }
     
     public Point2D(int coordX, int coordY) {
-        setCoord(coordX, coordY);
+        Point2D.this.setCoord(coordX, coordY);
     }
     
     public void setCoord(int coordX, int coordY) {
@@ -22,7 +22,7 @@ public class Point2D {
         this.coordY = coordY;
     }
     
-    public void setCoor(Point2D other) {
+    public void setCoord(Point2D other) {
         this.coordX = other.coordX;
         this.coordY = other.coordY;
     }
@@ -37,11 +37,8 @@ public class Point2D {
     
     public void saveCoord(String[][] coordOfBoard) {
         String coordPointInformation = 
-                "(" 
-                + (coordX - (Settings.COORD_X_O / Settings.SIZE + Settings.SPACE))
-                + ", "
-                + (-(coordY - (Settings.COORD_Y_O / Settings.SIZE + Settings.SPACE)))
-                + ")";
+                "(" + (coordX - (Settings.COORD_X_O / Settings.SIZE + Settings.SPACE))
+                + ", " + (-(coordY - (Settings.COORD_Y_O / Settings.SIZE + Settings.SPACE))) + ")";
         
         coordOfBoard[coordX][coordY] = coordPointInformation;
     }
@@ -78,7 +75,7 @@ public class Point2D {
      * @param basePoint Point2D
      * @return Point2D
      */
-    public Point2D getSymmetricPoint(Point2D basePoint) {
+    public Point2D getPointSymmetry(Point2D basePoint) {
         Point2D resultPoint = new Point2D();
         int newCoordX = 2 * basePoint.coordX - this.coordX;
         int newCoordY = 2 * basePoint.coordY - this.coordY;
@@ -86,9 +83,34 @@ public class Point2D {
         return resultPoint;
     }
     
-    public Point2D getSymmetricPoint(Line2D baseLine) {
-        return new Point2D();
+    public Point2D getOXSymmetry() {
+        Point2D projectionOXPoint = new Point2D(this.coordX, 0);
+        return getPointSymmetry(projectionOXPoint);
     }
+    
+    public Point2D getOYSymmetry() {
+        Point2D projectionOYPoint = new Point2D(0, this.coordY);
+        return getPointSymmetry(projectionOYPoint);
+    }
+    
+    /**
+     * Return a new vector as a movement of this point following vector.
+     * @param vector
+     * @return 
+     */
+    public Point2D getMovePoint(Vector2D vector) {
+        return new Point2D(
+                this.coordX + (int) vector.getCoordX(),
+                this.coordY + (int) vector.getCoordY()
+        );
+    }
+
+    public Point2D move(Vector2D vector) {
+        this.coordX += (int) vector.getCoordX();
+        this.coordY += (int) vector.getCoordY();
+        return this;
+    }
+
     
 //    public Point2D ConvertToPixelCoord (Point2D inputCoord, int OX, int OY){
 //        Point2D result= new Point2D(0,0);

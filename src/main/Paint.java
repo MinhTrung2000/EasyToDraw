@@ -496,7 +496,6 @@ public class Paint extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent event) {
                 Settings.CoordinateMode currentDrawingMode
                         = ((Panel_DrawingArea) panel_DrawingArea).getCoordinateMode();
-                System.out.println("3d event: " + currentDrawingMode);
 
                 // If user click the same mode, do nothing
                 if (currentDrawingMode == Settings.CoordinateMode.MODE_3D) {
@@ -1370,6 +1369,8 @@ public class Paint extends javax.swing.JFrame {
         public void mouseDragged(MouseEvent event) {
             if (SwingUtilities.isLeftMouseButton(event)) {
                 showCoordInformation(event);
+                
+                
             }
         }
 
