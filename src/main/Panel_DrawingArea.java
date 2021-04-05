@@ -9,29 +9,152 @@ public class Panel_DrawingArea extends JPanel {
 
     // The actual size of board
     // The visual drawing part have these sizes in fixed version.
-    private final int widthBoard = Settings.WIDTH_DRAW_AREA;
-    private final int heightBoard = Settings.HEIGHT_DRAW_AREA;
+    public final int widthBoard = Settings.WIDTH_DRAW_AREA;
+    public final int heightBoard = Settings.HEIGHT_DRAW_AREA;
 
     // The size of drawing panel can be resizable later.
     // These variables are used to handle it.
-    private int widthOfScreen = Settings.WIDTH_DRAW_AREA;
-    private int heightOfScreen = Settings.HEIGHT_DRAW_AREA;
+    private int widthOfScreen;
+    private int heightOfScreen;
 
-    // Two arrays are used for saving the state of board, include color
-    // and coordinate of objects (point, shapes, ect...)
-    private String[][] coordOfBoard = new String[widthBoard][heightBoard];
-    private Color[][] colorOfBoard = new Color[widthBoard][heightBoard];
+    // Color and coord property of all points when any drawing action is applied
+    private Color[][] colorOfBoard;
+    private String[][] coordOfBoard;
 
-    // Undo, Redo stack
-    private static Stack<String[][]> stack_UndoCoordOfBoard = new Stack<>();
-    private static Stack<Color[][]> stack_UndoColorOfBoard = new Stack<>();
-    private static Stack<String[][]> stack_RedoCoordOfBoard = new Stack<>();
-    private static Stack<Color[][]> stack_RedoColorOfBoard = new Stack<>();
+    // The color property of all points when a new drawing action is happened.
+    private Color[][] changedColorOfBoard;
+    private String[][] changedCoordOfBoard;
+    // This array is used to mark the point is changed in an action.
+    private boolean[][] markedChangeOfBoard;
+
+    // Undo, Redo container
+    // Each includes color and coordinate stack
+    private static Stack<String[][]> stack_UndoCoordOfBoard;
+    private static Stack<Color[][]> stack_UndoColorOfBoard;
+    private static Stack<String[][]> stack_RedoCoordOfBoard;
+    private static Stack<Color[][]> stack_RedoColorOfBoard;
 
     // Variable to save the recently drawn shape.
     private Shape recentlyDrawnShape;
-    
+
+    // Visual option
+    private boolean showGrid_Flag;
+    private boolean showCoordinate_Flag;
+
+    private Point2D startDrawingPoint;
+    private Point2D endDrawingPoint;
+    public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
+
+    // Set 2D as default coordinated system.
+    private Settings.CoordinateMode coordinateMode;
+
+    // Color of board, includes grid color and background color and coordinate color
+    private Color gridColor;
+    private Color backgroundColor;
+    private Color coordinateColor;
+    public static final Color DEFAULT_GRID_COLOR = Color.WHITE;
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(235, 235, 235);
+    public static final Color DEFAULT_COORDINATE_COLOR = new Color(128, 128, 128);
+
     public Panel_DrawingArea() {
+        widthOfScreen = Settings.WIDTH_DRAW_AREA;
+        heightOfScreen = Settings.HEIGHT_DRAW_AREA;
+
+        this.colorOfBoard = new Color[heightBoard][widthBoard];
+        this.coordOfBoard = new String[heightBoard][widthBoard];
+
+        this.changedColorOfBoard = new Color[heightBoard][widthBoard];
+        this.changedCoordOfBoard = new String[heightBoard][widthBoard];
+
+        this.markedChangeOfBoard = new boolean[heightBoard][widthBoard];
+
+        stack_UndoCoordOfBoard = new Stack<>();
+        stack_UndoColorOfBoard = new Stack<>();
+        stack_RedoCoordOfBoard = new Stack<>();
+        stack_RedoColorOfBoard = new Stack<>();
+
+        showGrid_Flag = Settings.DEFAULT_VISUAL_SHOW_GRID;
+        showCoordinate_Flag = Settings.DEFAULT_VISUAL_SHOW_COORDINATE;
+
+        coordinateMode = Settings.CoordinateMode.MODE_2D;
+
+        backgroundColor = DEFAULT_BACKGROUND_COLOR;
+        gridColor = DEFAULT_GRID_COLOR;
+        coordinateColor = DEFAULT_COORDINATE_COLOR;
+
+        startDrawingPoint = DEFAULT_UNUSED_POINT;
+        endDrawingPoint = DEFAULT_UNUSED_POINT;
+        
+        resetChangedColorArray();
+        resetChangedColorArray();
+        resetChangedCoordArray();
+        
+        clearBoard();
+    }
+
+    public void setCoordinateMode(Settings.CoordinateMode mode) {
+        if (this.coordinateMode == mode) return;
+        
+        // Clear old coordinate system before changing coordinate mode flag
+        
+        
+        this.coordinateMode = mode;
+    }
+    
+    /**
+     * Release all resource in undo, redo stack.
+     */
+    private void disposeStack() {
+        stack_RedoColorOfBoard.clear();
+        stack_RedoCoordOfBoard.clear();
+        stack_UndoColorOfBoard.clear();
+        stack_UndoCoordOfBoard.clear();
+    }
+    
+    /**
+     * Clear all drawn object in board.
+     */
+    public void clearBoard() {
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                colorOfBoard[i][j] = this.gridColor;
+                coordOfBoard[i][j] = null;
+            }
+        }
+    }
+    
+    public void resetMarkedChangeArray() {
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                markedChangeOfBoard[i][j] = false;
+            }
+        }
+    }
+
+    public void resetChangedColorArray() {
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                changedColorOfBoard[i][j] = this.gridColor;
+            }
+        }
+    }
+
+    public void resetChangedCoordArray() {
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                changedCoordOfBoard[i][j] = null;
+            }
+        }
+    }
+
+    public void setShowGridLinesFlag(boolean flag) {
+        showGrid_Flag = flag;
+        this.repaint();
+    }
+
+    public void setShowCoordinateFlag(boolean flag) {
+        showCoordinate_Flag = flag;
+        this.repaint();
     }
 
     public void updateCurrentSize() {
@@ -81,7 +204,7 @@ public class Panel_DrawingArea extends JPanel {
      * Save the current color of drawing board to undo stack.
      */
     private void saveCurrentColorBoardToUndoStack() {
-        Color[][] tempBoard = new Color[widthBoard][heightBoard];
+        Color[][] tempBoard = new Color[heightBoard][widthBoard];
         copyColorValue(colorOfBoard, tempBoard);
         stack_UndoColorOfBoard.push(tempBoard);
     }
@@ -90,16 +213,16 @@ public class Panel_DrawingArea extends JPanel {
      * Save the current coordinates of drawing board to undo stack.
      */
     private void saveCurrentCoordBoardToUndoStack() {
-        String[][] tempBoard = new String[widthBoard][heightBoard];
+        String[][] tempBoard = new String[heightBoard][widthBoard];
         copyCoordValue(coordOfBoard, tempBoard);
         stack_UndoCoordOfBoard.push(tempBoard);
     }
-    
+
     /**
      * Save the current color of drawing board to redo stack.
      */
     private void saveCurrentColorBoardToRedoStack() {
-        Color[][] tempBoard = new Color[widthBoard][heightBoard];
+        Color[][] tempBoard = new Color[heightBoard][widthBoard];
         copyColorValue(colorOfBoard, tempBoard);
         stack_RedoColorOfBoard.push(tempBoard);
     }
@@ -108,25 +231,25 @@ public class Panel_DrawingArea extends JPanel {
      * Save the current coordinates of drawing board to redo stack.
      */
     private void saveCurrentCoordBoardToRedoStack() {
-        String[][] tempBoard = new String[widthBoard][heightBoard];
+        String[][] tempBoard = new String[heightBoard][widthBoard];
         copyCoordValue(coordOfBoard, tempBoard);
         stack_RedoCoordOfBoard.push(tempBoard);
     }
 
     /**
      * Get the previous status of board. <br>
-     * This reverts back to the saved state at the top of undo stack. 
-     * If user just changes any color but not coordinate of objects, we only 
-     * get the color from undo stack of color, not stack of coordinates. The 
-     * same works for changing coordinate but not color. 
-     * Simultaneously, the redo stack will push the current state to its.
+     * This reverts back to the saved state at the top of undo stack. If user
+     * just changes any color but not coordinate of objects, we only get the
+     * color from undo stack of color, not stack of coordinates. The same works
+     * for changing coordinate but not color. Simultaneously, the redo stack
+     * will push the current state to its.
      */
     public void undo() {
-        if (! stack_UndoColorOfBoard.empty()) {
+        if (!stack_UndoColorOfBoard.empty()) {
             saveCurrentColorBoardToRedoStack();
             copyColorValue(stack_UndoColorOfBoard.pop(), colorOfBoard);
         }
-        if (! stack_UndoCoordOfBoard.empty()) {
+        if (!stack_UndoCoordOfBoard.empty()) {
             saveCurrentCoordBoardToRedoStack();
             copyCoordValue(stack_UndoCoordOfBoard.pop(), coordOfBoard);
         }
@@ -134,11 +257,11 @@ public class Panel_DrawingArea extends JPanel {
 
     /**
      * Get the previous status of board after undo action. <br>
-     * This reverts back to the saved state at the top of redo stack. 
-     * If user just changes any color but not coordinate of objects, we only 
-     * get the color from redo stack of color, not stack of coordinates. The 
-     * same works for changing coordinate but not color. 
-     * Simultaneously, the undo stack will push the current state to its.
+     * This reverts back to the saved state at the top of redo stack. If user
+     * just changes any color but not coordinate of objects, we only get the
+     * color from redo stack of color, not stack of coordinates. The same works
+     * for changing coordinate but not color. Simultaneously, the undo stack
+     * will push the current state to its.
      */
     public void redo() {
         if (!stack_RedoColorOfBoard.empty()) {
@@ -152,35 +275,116 @@ public class Panel_DrawingArea extends JPanel {
     }
 
     /**
-     * Save the last user's drawing action to the board.
+     * Save the last user's drawing action to saved board.
      */
     public void apply() {
-        // Clear redo stack.
+        // Clear redo stacks.
         stack_RedoColorOfBoard.clear();
         stack_RedoCoordOfBoard.clear();
-        
+
         // Save current state to undo stack.
         saveCurrentColorBoardToUndoStack();
         saveCurrentCoordBoardToUndoStack();
+
+        // Merge of changed color to saved state of board
+        // NOTE: Why not mergeColorValue coordinate??
+        mergeColorValue(markedChangeOfBoard, changedColorOfBoard);
+
+        // Save the changed coordinate into board.
+        copyCoordValue(coordOfBoard, changedCoordOfBoard);
+
+        // Reset marked change array.
+        resetMarkedChangeArray();
+        resetChangedColorArray();
+        resetChangedCoordArray();
     }
-    
-//    public void createGridLayout(Graphics g) {
-//        g.setColor(new Color(235, 235, 235));
-//        g.fillRect(0, 0, width, height); // vẽ nền, chính là lưới pixel sau khi chấm các điểm pixel màu trắng lên
-//        g.setColor(Color.white);
-//        for (int i = 0; i < height; i++) {
-//            for (int j = 0; j < width; j++) {
-//                g.fillRect(i * (space + size) + 1, j * (space + size) + 1, size, size); //chấm các điểm pixel màu trắng (+1 để thụt vào 1 pixel, không bị viền đen che mất)
-//            }
-//        }
-//    }
+
+    private boolean isNotSelected() {
+        return (startDrawingPoint.equal(DEFAULT_UNUSED_POINT)
+                && endDrawingPoint.equal(DEFAULT_UNUSED_POINT));
+    }
+
+    public void setSelected(Point2D startPoint, Point2D endPoint) {
+        startDrawingPoint.setCoor(startPoint);
+        endDrawingPoint.setCoor(endPoint);
+    }
+
+    public void showGridLines(Graphics graphic) {
+        graphic.setColor(Color.WHITE);
+        graphic.fillRect(0, 0, this.widthBoard, this.heightBoard);
+
+        if (showGrid_Flag) {
+            graphic.setColor(this.backgroundColor);
+            graphic.fillRect(0, 0, this.widthBoard, this.heightBoard);
+            graphic.setColor(this.gridColor);
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
+                    graphic.fillRect(
+                            i * (Settings.SPACE + Settings.SIZE) + 1,
+                            j * (Settings.SPACE + Settings.SIZE) + 1,
+                            Settings.SIZE,
+                            Settings.SIZE
+                    );
+                }
+            }
+        }
+    }
+
+    public void showCoordinate(Graphics graphic) {
+        if (showCoordinate_Flag) {
+            graphic.setColor(this.coordinateColor);
+        } else {
+            graphic.setColor(DEFAULT_GRID_COLOR);
+        }
+        if (coordinateMode == Settings.CoordinateMode.MODE_2D) {
+            // Show coordinate in 2D
+            // Ox axis 
+            graphic.drawLine(1, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
+            // Oy axis
+            graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, this.heightBoard);
+
+            // Coordinate of points
+            // ??
+        } else {
+            // Show coordinate in 3D
+            // Ox
+            graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
+            // Oy
+            graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, Settings.COORD_Y_O);
+            // Oz
+            graphic.drawLine(
+                    Settings.COORD_X_O, 
+                    Settings.COORD_Y_O, 
+                    Settings.COORD_X_O, 
+                    1
+            );
+        }
+    }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-//        createGridLayout(g);
-//        createCoordinateAxis(g);
+    public void paintComponent(Graphics graphic) {
+//        System.out.println("main.Panel_DrawingArea.paintComponent()");
 
+        super.paintComponent(graphic);
+        showGridLines(graphic);
+
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                if (markedChangeOfBoard[i][j] == true) {
+                    graphic.setColor(changedColorOfBoard[i][j]);
+                } else {
+                    graphic.setColor(colorOfBoard[i][j]);
+                }
+                graphic.fillRect(
+                        i * (Settings.SPACE + Settings.SIZE) + 1,
+                        j * (Settings.SPACE + Settings.SIZE) + 1,
+                        Settings.SIZE,
+                        Settings.SIZE
+                );
+            }
+        }
+
+        showCoordinate(graphic);
         //g.setColor(Color.yellow);
         //Point2D point = new Point2D(-5,1);
         //point=point.ConvertToPixelCoord(point, OX, OY);
@@ -195,77 +399,23 @@ public class Panel_DrawingArea extends JPanel {
 //    private int getNewY(int y) {
 //        return (51 - y) * (this.space + this.size) + 1;
 //    }
-
-//    public void createCoordinateAxis(Graphics g) {
-//        //Ve truc Y
-//        g.setColor(Color.red);
-//        g.drawLine(OX, 1, OX, height);
-//        //Ve truc X
-//        g.drawLine(1, OY, width, OY);
+//    public static void putPixel(Graphics graphic, int x, int y) {
+//        graphic.fillRect(getNewX(x), getNewY(y), this.size, this.size);
 //    }
-
-//    public void putPixel(Graphics g, int x, int y) {
-//        g.fillRect(getNewX(x), getNewY(y), this.size, this.size);
-//    }
-    
-    /*
-    public void createLine(Graphics g, int x1, int y1, int x2, int y2) {
-        int x, y;
-        int dx, dy;
-        int incx, incy;
-        int balance;
-
-        if (x2 >= x1) {
-            dx = x2 - x1;
-            incx = 1;
-        } else {
-            dx = x1 - x2;
-            incx = -1;
-        }
-
-        if (y2 >= y1) {
-            dy = y2 - y1;
-            incy = 1;
-        } else {
-            dy = y1 - y2;
-            incy = -1;
-        }
-
-        x = x1;
-        y = y1;
-
-        if (dx >= dy) {
-            dy <<= 1;
-            balance = dy - dx;
-            dx <<= 1;
-
-            while (x != x2) {
-                putPixel(g, x, y);
-                if (balance >= 0) {
-                    y += incy;
-                    balance -= dx;
+    /**
+     * Merge color of this board with another in pixel having position marked in
+     * permittedPoint array.
+     *
+     * @param permittedPoint
+     * @param otherBoard
+     */
+    public void mergeColorValue(boolean[][] permittedPoint, Color[][] otherBoard) {
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                if (permittedPoint[i][j] == true) {
+                    this.colorOfBoard[i][j] = new Color(otherBoard[i][j].getRGB());
                 }
-                balance += dy;
-                x += incx;
             }
-            putPixel(g, x, y);
-        } else {
-            dx <<= 1;
-            balance = dx - dy;
-            dy <<= 1;
-
-            while (y != y2) {
-                putPixel(g, x, y);
-                if (balance >= 0) {
-                    x += incx;
-                    balance -= dy;
-                }
-                balance += dx;
-                y += incy;
-            }
-            putPixel(g, x, y);
         }
-        return;
     }
-    */
 }

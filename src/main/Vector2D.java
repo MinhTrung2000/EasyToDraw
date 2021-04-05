@@ -11,8 +11,8 @@ public class Vector2D {
     }
 
     public Vector2D(double coordX, double coordY) {
-        this.coordX = other.coordX;
-        this.coordY = other.coordY;
+        this.coordX = coordX;
+        this.coordY = coordY;
     }
 
     public Vector2D(Point2D point_from, Point2D point_to) {

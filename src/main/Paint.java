@@ -1,10 +1,6 @@
 package main;
 
-import com.sun.corba.se.impl.util.Utility;
-import java.awt.Button;
 import java.awt.Color;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -13,18 +9,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.util.Pair;
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -35,20 +22,14 @@ import static main.Settings.*;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Paint extends javax.swing.JFrame {
 
-    // Set 2D as default coordinated system.
-    private CoordinateMode coordinateMode;
-    
     // Visual option
-    private boolean showGrid_Flag;
-    private boolean showCoordinate_Flag;
     private boolean showStatusBar_Flag;
 
-    // Selected objects.
-    private Button selectedButton;
+    // Selected option by user.
+    private JButton selectedButton;
     private Color selectedColor;
     private LineStyle selectedLineStyle;
     private Integer selectedLineSize = 1;
@@ -60,25 +41,50 @@ public class Paint extends javax.swing.JFrame {
     private Point2D previousCoordMouse;
     private Point2D currentCoordMouse;
 
-    private ButtonGroup coordModeButtonGroup;
+    private ButtonGroup buttonGroup_CoordMode;
 
+    // Popup Menu and its menu items.
     private JPopupMenu popMenu_Line;
+    private JMenuItem menuItem_Segment;
+    private JMenuItem menuItem_Line;
+    private JMenuItem menuItem_FreeDrawing;
+    // User selected option of line tool button.
+    private int selectedIndexOfButtonLine;
+
     private JPopupMenu popMenu_Polygon;
+    private JMenuItem menuItem_FreePolygon;
+    private JMenuItem menuItem_Triangle;
+    private JMenuItem menuItem_Rectangle;
+    private JMenuItem menuItem_Circle;
+    // User selected option of polygon tool button.
+    private int selectedIndexOfButtonPolygon;
+
     private JPopupMenu popMenu_Shape;
+    private JMenuItem menuItem_Arrow;
+    private JMenuItem menuItem_Star;
+    private JMenuItem menuItem_Diamond;
+    // User selected option of shape tool button.
+    private int selectedIndexOfButtonShape;
+
     private JPopupMenu popMenu_Transform;
+    private JMenuItem menuItem_Rotation;
+    private JMenuItem menuItem_Symmetry;
+    // User selected option of transformation tool button.
+    private int selectedIndexOfButtonTransform;
 
     public Paint() {
         customizeComponents();
         setIconFrame();
         setOptionLineStyle();
-        setEventHandler();
+        setAllEventHandler();
     }
-    
+
     /**
      * Method to customize the components.
      */
     private void customizeComponents() {
         initComponents();
+
         spinner_SizeLize.setModel(new SpinnerNumberModel(
                 MIN_LINE_SIZE,
                 MIN_LINE_SIZE,
@@ -87,73 +93,108 @@ public class Paint extends javax.swing.JFrame {
         );
 
         // Make a group of 2 button mode 2D and 3D
-        coordModeButtonGroup = new ButtonGroup();
-        coordModeButtonGroup.add(Button_2DMode);
-        coordModeButtonGroup.add(Button_3DMode);
+        buttonGroup_CoordMode = new ButtonGroup();
+        buttonGroup_CoordMode.add(button_2DMode);
+        buttonGroup_CoordMode.add(button_3DMode);
 
+        buttonGroup_CoordMode.setSelected(button_2DMode.getModel(), true);
+        
         // Create menu pop up for drawing tools.
         popMenu_Line = new JPopupMenu();
         popMenu_Polygon = new JPopupMenu();
         popMenu_Shape = new JPopupMenu();
         popMenu_Transform = new JPopupMenu();
 
-        popMenu_Line.add(new JMenuItem(
+        // Segment
+        menuItem_Segment = new JMenuItem(
                 LineDrawingToolMode.SEGMENT.toString(),
-                new ImageIcon(getClass().getResource("/img/segment24px.png")))
+                new ImageIcon(getClass().getResource("/img/segment24px.png"))
         );
-        popMenu_Line.add(new JMenuItem(
+        popMenu_Line.add(menuItem_Segment);
+
+        // Straight line
+        menuItem_Line = new JMenuItem(
                 LineDrawingToolMode.STRAIGHT_LINE.toString(),
-                new ImageIcon(getClass().getResource("/img/straightLine24px.png")))
+                new ImageIcon(getClass().getResource("/img/straightLine24px.png"))
         );
-        popMenu_Line.add(new JMenuItem(
+        popMenu_Line.add(menuItem_Line);
+
+        // Free drawing
+        menuItem_FreeDrawing = new JMenuItem(
                 LineDrawingToolMode.FREE_LINE.toString(),
-                new ImageIcon(getClass().getResource("/img/freeDrawing24px.png")))
+                new ImageIcon(getClass().getResource("/img/freeDrawing24px.png"))
         );
+        popMenu_Line.add(menuItem_FreeDrawing);
 
-        popMenu_Polygon.add(new JMenuItem(
+        // Free polygon
+        menuItem_FreePolygon = new JMenuItem(
                 PolygonDrawingToolMode.FREE_POLYGON.toString(),
-                new ImageIcon(getClass().getResource("/img/polygon24px.png")))
+                new ImageIcon(getClass().getResource("/img/polygon24px.png"))
         );
-        popMenu_Polygon.add(new JMenuItem(
+        popMenu_Polygon.add(menuItem_FreePolygon);
+
+        // Triangle
+        menuItem_Triangle = new JMenuItem(
                 PolygonDrawingToolMode.TRIANGLE.toString(),
-                new ImageIcon(getClass().getResource("/img/triangle24px.png")))
+                new ImageIcon(getClass().getResource("/img/triangle24px.png"))
         );
-        popMenu_Polygon.add(new JMenuItem(
+        popMenu_Polygon.add(menuItem_Triangle);
+
+        // Rectangle
+        menuItem_Rectangle = new JMenuItem(
                 PolygonDrawingToolMode.RECTANGLE.toString(),
-                new ImageIcon(getClass().getResource("/img/rectangle24px.png")))
+                new ImageIcon(getClass().getResource("/img/rectangle24px.png"))
         );
-        popMenu_Polygon.add(new JMenuItem(
+        popMenu_Polygon.add(menuItem_Rectangle);
+
+        // Circle
+        menuItem_Circle = new JMenuItem(
                 PolygonDrawingToolMode.CIRCLE.toString(),
-                new ImageIcon(getClass().getResource("/img/circle24px.png")))
+                new ImageIcon(getClass().getResource("/img/circle24px.png"))
         );
+        popMenu_Polygon.add(menuItem_Circle);
 
-        popMenu_Shape.add(new JMenuItem(
-                ShapeDrawingToolMode.ARROW.toString(),
-                new ImageIcon(getClass().getResource("/img/arrow24px.png")))
-        );
-        popMenu_Shape.add(new JMenuItem(
+        // Star
+        menuItem_Star = new JMenuItem(
                 ShapeDrawingToolMode.START.toString(),
-                new ImageIcon(getClass().getResource("/img/star24px.png")))
+                new ImageIcon(getClass().getResource("/img/star24px.png"))
         );
-        popMenu_Shape.add(new JMenuItem(
-                ShapeDrawingToolMode.DIAMOND.toString(),
-                new ImageIcon(getClass().getResource("/img/diamond24px.png")))
-        );
+        popMenu_Shape.add(menuItem_Star);
 
-        popMenu_Transform.add(new JMenuItem(
+        // Diamond
+        menuItem_Diamond = new JMenuItem(
+                ShapeDrawingToolMode.DIAMOND.toString(),
+                new ImageIcon(getClass().getResource("/img/diamond24px.png"))
+        );
+        popMenu_Shape.add(menuItem_Diamond);
+
+        // Arrow
+        menuItem_Arrow = new JMenuItem(
+                ShapeDrawingToolMode.ARROW.toString(),
+                new ImageIcon(getClass().getResource("/img/arrow24px.png"))
+        );
+        popMenu_Shape.add(menuItem_Arrow);
+
+        // Rotation
+        menuItem_Rotation = new JMenuItem(
                 TransformDrawingToolMode.ROTATION.toString(),
-                new ImageIcon(getClass().getResource("/img/rotation24px.png")))
+                new ImageIcon(getClass().getResource("/img/rotation24px.png"))
         );
-        popMenu_Transform.add(new JMenuItem(
+        popMenu_Transform.add(menuItem_Rotation);
+
+        // Symmetry
+        menuItem_Symmetry = new JMenuItem(
                 TransformDrawingToolMode.SYMMETRY.toString(),
-                new ImageIcon(getClass().getResource("/img/symmetry24px.png")))
+                new ImageIcon(getClass().getResource("/img/symmetry24px.png"))
         );
+        popMenu_Transform.add(menuItem_Symmetry);
+
+        selectedIndexOfButtonLine = LineDrawingToolMode.SEGMENT.ordinal();
+        selectedIndexOfButtonPolygon = PolygonDrawingToolMode.FREE_POLYGON.ordinal();
+        selectedIndexOfButtonShape = ShapeDrawingToolMode.START.ordinal();
+        selectedIndexOfButtonTransform = TransformDrawingToolMode.ROTATION.ordinal();
 
         // Set default values
-        coordinateMode = CoordinateMode.MODE_2D;
-
-        showGrid_Flag = true;
-        showCoordinate_Flag = false;
         showStatusBar_Flag = true;
 
         selectedButton = null;
@@ -161,6 +202,14 @@ public class Paint extends javax.swing.JFrame {
         selectedLineStyle = LineStyle.DEFAULT;
         selectedLineSize = 1;
         animationPlaying_Flag = false;
+        
+        checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
+        checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
+        checkBox_showStatusBar.setSelected(Settings.DEFAULT_VISUAL_SHOW_STATUSBAR);
+    }
+
+    public void showStatusBar(boolean flag) {
+        JOptionPane.showMessageDialog(this, "Imple. show status bar");
     }
 
     /**
@@ -180,43 +229,14 @@ public class Paint extends javax.swing.JFrame {
         }
     }
 
-    private void setEventHandler() {
-        //======================================================================
-        // User control option
-        //======================================================================        
+    /**
+     * User control option event handling.
+     */
+    private void setEventHandlingControlOption() {
         button_OpenFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 JOptionPane.showMessageDialog(null, "Not support yet!");
-
-                /*
-                JFileChooser fileChooser = new JFileChooser();
-                FileNameExtensionFilter fileNameFilter = new FileNameExtensionFilter(
-                        "PNG Images",
-                        "png"
-                );
-                int returnedValue = fileChooser.showOpenDialog(null);
-
-                if (returnedValue == JFileChooser.APPROVE_OPTION) {
-                    //System.out.println("You chose to open this file: " +
-                    //chooser.getSelectedFile().getName());
-                    try {
-                        Board.applyImageInput();
-                        
-                        // Create a buffer image.
-                        BufferedImage myNewPNGFile = ImageIO.read(
-                                new File(fileChooser
-                                        .getSelectedFile()
-                                        .getAbsolutePath()
-                                )
-                        );
-                        
-                        
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-                 */
             }
         });
 
@@ -254,34 +274,42 @@ public class Paint extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Not support yet!");
             }
         });
+    }
 
-        //======================================================================
-        // User visual option
-        //======================================================================
+    /**
+     * User visual option event handling.
+     */
+    private void setEventHandlingVisualOption() {
         checkBox_showGridlines.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                showGrid_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                boolean showGrid_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                ((Panel_DrawingArea) panel_DrawingArea).setShowGridLinesFlag(showGrid_Flag);
             }
         });
 
         checkBox_showCoordinate.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                boolean showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                ((Panel_DrawingArea) panel_DrawingArea).setShowCoordinateFlag(showCoordinate_Flag);
             }
         });
 
         checkBox_showStatusBar.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                showStatusBar_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                boolean showStatusBar_Flag = (event.getStateChange() == ItemEvent.SELECTED);
+                showStatusBar(showStatusBar_Flag);
             }
         });
 
-        //======================================================================
-        // User format option
-        //======================================================================
+    }
+
+    /**
+     * User format option event handling.
+     */
+    private void setEventHandlingFormatOption() {
         comboBox_StyleLine.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -302,9 +330,12 @@ public class Paint extends javax.swing.JFrame {
             }
         });
 
-        //======================================================================
-        // User tool option
-        //====================================================================== 
+    }
+
+    /**
+     * User tool option event handling.
+     */
+    private void setEventHandlingToolOption() {
         button_ColorPicker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -347,27 +378,32 @@ public class Paint extends javax.swing.JFrame {
             }
         });
 
-        //======================================================================
-        // User color option
-        //====================================================================== 
+    }
+
+    /**
+     * User color option event handling.
+     */
+    private void setEventHandlingColorOption() {
         button_ColorChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 JOptionPane.showMessageDialog(null, "Not support yet!");
             }
         });
+    }
 
-        //======================================================================
-        // User drawing option
-        //====================================================================== 
-        Button_2DMode.addActionListener(new ActionListener() {
+    /**
+     * User drawing option event handling.
+     */
+    private void setEventHandlingDrawingOption() {
+        button_2DMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                
             }
         });
 
-        Button_3DMode.addActionListener(new ActionListener() {
+        button_3DMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 JOptionPane.showMessageDialog(null, "Not support yet!");
@@ -419,9 +455,178 @@ public class Paint extends javax.swing.JFrame {
         });
 
         //======================================================================
+        // MenuItem inside popup menu
         //======================================================================
-        panel_DrawingArea.addMouseMotionListener(new CustomMouseMotionHandling());
-        panel_DrawingArea.addMouseListener(new CustomMouseClickHandling());
+        menuItem_Segment.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonLine = LineDrawingToolMode.SEGMENT.ordinal();
+
+                button_Line.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/segment32px.png"))
+                );
+
+                selectedButton = button_Line;
+            }
+        });
+
+        menuItem_Line.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonLine = LineDrawingToolMode.STRAIGHT_LINE.ordinal();
+
+                button_Line.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/straightLine32px.png"))
+                );
+
+                selectedButton = button_Line;
+            }
+        });
+
+        menuItem_FreeDrawing.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonLine = LineDrawingToolMode.FREE_LINE.ordinal();
+
+                button_Line.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/freeDrawing32px.png"))
+                );
+
+                selectedButton = button_Line;
+            }
+        });
+
+        menuItem_FreePolygon.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.FREE_POLYGON.ordinal();
+
+                button_Polygon.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/polygon32px.png"))
+                );
+
+                selectedButton = button_Polygon;
+            }
+        });
+
+        menuItem_Triangle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.TRIANGLE.ordinal();
+
+                button_Polygon.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/triangle32px.png"))
+                );
+
+                selectedButton = button_Polygon;
+            }
+        });
+
+        menuItem_Rectangle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.RECTANGLE.ordinal();
+
+                button_Polygon.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/rectangle32px.png"))
+                );
+
+                selectedButton = button_Polygon;
+            }
+        });
+
+        menuItem_Circle.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.CIRCLE.ordinal();
+
+                button_Polygon.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/circle32px.png"))
+                );
+
+                selectedButton = button_Polygon;
+            }
+        });
+
+        menuItem_Star.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.START.ordinal();
+
+                button_Shape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/star32px.png"))
+                );
+
+                selectedButton = button_Shape;
+            }
+        });
+
+        menuItem_Diamond.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.DIAMOND.ordinal();
+
+                button_Shape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/diamond32px.png"))
+                );
+
+                selectedButton = button_Shape;
+            }
+        });
+
+        menuItem_Arrow.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.ARROW.ordinal();
+
+                button_Shape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/arrow32px.png"))
+                );
+
+                selectedButton = button_Shape;
+            }
+        });
+
+        menuItem_Rotation.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = TransformDrawingToolMode.ROTATION.ordinal();
+
+                button_Transform.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/rotation32px.png"))
+                );
+
+                selectedButton = button_Transform;
+            }
+        });
+
+        menuItem_Symmetry.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                selectedIndexOfButtonPolygon = TransformDrawingToolMode.SYMMETRY.ordinal();
+
+                button_Transform.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/symmetry32px.png"))
+                );
+
+                selectedButton = button_Transform;
+            }
+        });
+
+        //======================================================================
+        // Drawing panel
+        //======================================================================
+//        panel_DrawingArea.addMouseMotionListener(new CustomMouseMotionHandling());
+//        panel_DrawingArea.addMouseListener(new CustomMouseClickHandling());
+    }
+
+    private void setAllEventHandler() {
+        setEventHandlingControlOption();
+        setEventHandlingVisualOption();
+        setEventHandlingFormatOption();
+        setEventHandlingToolOption();
+        setEventHandlingColorOption();
+        setEventHandlingDrawingOption();
     }
 
     /**
@@ -471,13 +676,13 @@ public class Paint extends javax.swing.JFrame {
         panel_Drawing = new javax.swing.JPanel();
         panel_DrawingTool = new javax.swing.JPanel();
         panel_SelectCoordinate = new javax.swing.JPanel();
-        Button_2DMode = new javax.swing.JRadioButton();
-        Button_3DMode = new javax.swing.JRadioButton();
+        button_2DMode = new javax.swing.JRadioButton();
+        button_3DMode = new javax.swing.JRadioButton();
         button_Line = new javax.swing.JButton();
         button_Transform = new javax.swing.JButton();
         button_Shape = new javax.swing.JButton();
         button_Polygon = new javax.swing.JButton();
-        panel_DrawingArea = new javax.swing.JPanel();
+        panel_DrawingArea = new Panel_DrawingArea();
         panel_StatusBar = new javax.swing.JPanel();
         label_CoordIcon = new javax.swing.JLabel();
         label_CoordXValue = new javax.swing.JLabel();
@@ -818,37 +1023,37 @@ public class Paint extends javax.swing.JFrame {
                     .addComponent(panel_Format, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel_Tool, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel_View, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panel_Color, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(panel_Color, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_SelectCoordinate.setBorder(javax.swing.BorderFactory.createTitledBorder("Coordinate"));
         panel_SelectCoordinate.setToolTipText("Choose drawing coordinate");
 
-        Button_2DMode.setText("2D");
+        button_2DMode.setText("2D");
 
-        Button_3DMode.setText("3D");
+        button_3DMode.setText("3D");
 
         javax.swing.GroupLayout panel_SelectCoordinateLayout = new javax.swing.GroupLayout(panel_SelectCoordinate);
         panel_SelectCoordinate.setLayout(panel_SelectCoordinateLayout);
         panel_SelectCoordinateLayout.setHorizontalGroup(
             panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_SelectCoordinateLayout.createSequentialGroup()
-                .addComponent(Button_2DMode)
+                .addComponent(button_2DMode)
                 .addGap(18, 18, 18)
-                .addComponent(Button_3DMode))
+                .addComponent(button_3DMode))
         );
         panel_SelectCoordinateLayout.setVerticalGroup(
             panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_SelectCoordinateLayout.createSequentialGroup()
                 .addContainerGap(13, Short.MAX_VALUE)
                 .addGroup(panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Button_2DMode)
-                    .addComponent(Button_3DMode))
+                    .addComponent(button_2DMode)
+                    .addComponent(button_3DMode))
                 .addContainerGap())
         );
 
-        button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/straightLine32px.png"))); // NOI18N
+        button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/segment32px.png"))); // NOI18N
         button_Line.setText("Line");
         button_Line.setFocusable(false);
         button_Line.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1005,17 +1210,17 @@ public class Paint extends javax.swing.JFrame {
     }//GEN-LAST:event_panel_DrawingAreaMouseMoved
 
     // Button event handling
-    public void actionPerformed(ActionEvent actionEvent) {
-        Object affectedComponent = actionEvent.getSource();
-
-        if (!animationPlaying_Flag) {
-            // If animation is not played, get affected component and continue.
-
-        } else {
-            // Otherwise, force to select animation button to turn off.
-
-        }
-    }
+//    public void actionPerformed(ActionEvent actionEvent) {
+//        Object affectedComponent = actionEvent.getSource();
+//
+//        if (!animationPlaying_Flag) {
+//            // If animation is not played, get affected component and continue.
+//
+//        } else {
+//            // Otherwise, force to select animation button to turn off.
+//
+//        }
+//    }
 
     public class CustomMouseClickHandling implements MouseListener {
 
@@ -1110,14 +1315,18 @@ public class Paint extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Paint().setVisible(true);
+                try {
+                    new Paint().setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JRadioButton Button_2DMode;
-    private javax.swing.JRadioButton Button_3DMode;
+    private javax.swing.JRadioButton button_2DMode;
+    private javax.swing.JRadioButton button_3DMode;
     private javax.swing.JButton button_Animation;
     private javax.swing.JButton button_ClearAll;
     private javax.swing.JButton button_ColorChooser;

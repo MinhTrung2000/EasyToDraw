@@ -67,9 +67,9 @@ public class Point2D {
     /**
      * Check if two points are collided.
      * @param other
-     * @return true if collide, false otherwise.
+     * @return true if equal, false otherwise.
      */
-    public boolean collide(Point2D other) {
+    public boolean equal(Point2D other) {
         return (this.coordX == other.coordX && this.coordY == other.coordY);
     }
     
