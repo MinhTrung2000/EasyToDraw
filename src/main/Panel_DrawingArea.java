@@ -3,6 +3,8 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Stack;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Panel_DrawingArea extends JPanel {
@@ -34,27 +36,28 @@ public class Panel_DrawingArea extends JPanel {
     private static Stack<String[][]> stack_RedoCoordOfBoard;
     private static Stack<Color[][]> stack_RedoColorOfBoard;
 
-    // Variable to save the recently drawn shape.
-    private Shape recentlyDrawnShape;
-
     // Visual option
     private boolean showGrid_Flag;
     private boolean showCoordinate_Flag;
 
     private Point2D startDrawingPoint;
     private Point2D endDrawingPoint;
-    public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
 
-    // Set 2D as default coordinated system.
+    // Coordinated system.
     private Settings.CoordinateMode coordinateMode;
 
     // Color of board, includes grid color and background color and coordinate color
     private Color gridColor;
     private Color backgroundColor;
     private Color coordinateColor;
-    public static final Color DEFAULT_GRID_COLOR = Color.WHITE;
-    public static final Color DEFAULT_BACKGROUND_COLOR = new Color(235, 235, 235);
-    public static final Color DEFAULT_COORDINATE_COLOR = new Color(128, 128, 128);
+
+    /**
+     * Selected option by user.
+     */
+    private Settings.DrawingToolMode selectedToolMode;
+    private Color selectedColor;
+    private Settings.LineStyle selectedLineStyle;
+    private Integer selectedLineSize;
 
     public Panel_DrawingArea() {
         widthOfScreen = Settings.WIDTH_DRAW_AREA;
@@ -78,29 +81,61 @@ public class Panel_DrawingArea extends JPanel {
 
         coordinateMode = Settings.CoordinateMode.MODE_2D;
 
-        backgroundColor = DEFAULT_BACKGROUND_COLOR;
-        gridColor = DEFAULT_GRID_COLOR;
-        coordinateColor = DEFAULT_COORDINATE_COLOR;
+        backgroundColor = Settings.DEFAULT_DRAWING_BACKGROUND_COLOR;
+        gridColor = Settings.DEFAULT_DRAWING_GRID_COLOR;
+        coordinateColor = Settings.DEFAULT_DRAWING_COORDINATE_COLOR;
 
-        startDrawingPoint = DEFAULT_UNUSED_POINT;
-        endDrawingPoint = DEFAULT_UNUSED_POINT;
+        startDrawingPoint = Settings.DEFAULT_UNUSED_POINT;
+        endDrawingPoint = Settings.DEFAULT_UNUSED_POINT;
         
-        resetChangedColorArray();
-        resetChangedColorArray();
-        resetChangedCoordArray();
-        
-        clearBoard();
+        selectedToolMode = null;
+        selectedColor = Settings.DEFAULT_FILL_COLOR;
+        selectedLineStyle = Settings.LineStyle.DEFAULT;
+        selectedLineSize = Settings.DEFAULT_LINE_SIZE;
+
+        resetChangedPropertyArray();
+        resetSavedPropertyArray();
     }
 
-    public void setCoordinateMode(Settings.CoordinateMode mode) {
-        if (this.coordinateMode == mode) return;
-        
-        // Clear old coordinate system before changing coordinate mode flag
-        
-        
-        this.coordinateMode = mode;
+    public void setSelectedButtonMode(Settings.DrawingToolMode selectedToolMode) {
+        this.selectedToolMode = selectedToolMode;
     }
     
+    public Settings.DrawingToolMode getSelectedButton() {
+        return this.selectedToolMode;
+    }
+    
+    public void setSelectedLineSize(int lineSize) {
+        selectedLineSize = lineSize;
+    }
+    
+    public void setSelectedLineStyle(Settings.LineStyle lineStyle) {
+        selectedLineStyle = lineStyle;
+    }
+    
+    public void setSelectedColor(Color selectedColor) {
+        this.selectedColor = selectedColor;
+    }
+    
+    /**
+     * Change coordinate system for the board. <br>
+     * Release all buffered memory and clear the board.
+     *
+     * @param mode
+     */
+    public void setCoordinateMode(Settings.CoordinateMode mode) {
+        // Clear old coordinate system before changing coordinate mode flag
+        this.coordinateMode = mode;
+
+        resetSavedPropertyArray();
+        disposeStack();
+
+        showGrid_Flag = Settings.DEFAULT_VISUAL_SHOW_GRID;
+        showCoordinate_Flag = Settings.DEFAULT_VISUAL_SHOW_COORDINATE;
+
+        this.repaint();
+    }
+
     /**
      * Release all resource in undo, redo stack.
      */
@@ -110,11 +145,14 @@ public class Panel_DrawingArea extends JPanel {
         stack_UndoColorOfBoard.clear();
         stack_UndoCoordOfBoard.clear();
     }
-    
+
     /**
-     * Clear all drawn object in board.
+     * Clear all drawn object in board by setting its default color and
+     * coordinate value. <br>
+     * This method doesn't release memory in stack. You can use disposeStack
+     * method for this purpose.
      */
-    public void clearBoard() {
+    public void resetSavedPropertyArray() {
         for (int i = 0; i < this.heightBoard; i++) {
             for (int j = 0; j < this.widthBoard; j++) {
                 colorOfBoard[i][j] = this.gridColor;
@@ -122,26 +160,15 @@ public class Panel_DrawingArea extends JPanel {
             }
         }
     }
-    
-    public void resetMarkedChangeArray() {
+
+    /**
+     * Clear all buffered drawn object in board. <br>
+     */
+    public void resetChangedPropertyArray() {
         for (int i = 0; i < this.heightBoard; i++) {
             for (int j = 0; j < this.widthBoard; j++) {
                 markedChangeOfBoard[i][j] = false;
-            }
-        }
-    }
-
-    public void resetChangedColorArray() {
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
                 changedColorOfBoard[i][j] = this.gridColor;
-            }
-        }
-    }
-
-    public void resetChangedCoordArray() {
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
                 changedCoordOfBoard[i][j] = null;
             }
         }
@@ -294,14 +321,12 @@ public class Panel_DrawingArea extends JPanel {
         copyCoordValue(coordOfBoard, changedCoordOfBoard);
 
         // Reset marked change array.
-        resetMarkedChangeArray();
-        resetChangedColorArray();
-        resetChangedCoordArray();
+        resetChangedPropertyArray();
     }
 
     private boolean isNotSelected() {
-        return (startDrawingPoint.equal(DEFAULT_UNUSED_POINT)
-                && endDrawingPoint.equal(DEFAULT_UNUSED_POINT));
+        return (startDrawingPoint.equal(Settings.DEFAULT_UNUSED_POINT)
+                && endDrawingPoint.equal(Settings.DEFAULT_UNUSED_POINT));
     }
 
     public void setSelected(Point2D startPoint, Point2D endPoint) {
@@ -309,33 +334,36 @@ public class Panel_DrawingArea extends JPanel {
         endDrawingPoint.setCoor(endPoint);
     }
 
+    /**
+     * Create grid-line in board by fill each pixels.
+     *
+     * @param graphic
+     */
     public void showGridLines(Graphics graphic) {
-        graphic.setColor(Color.WHITE);
+        graphic.setColor(this.backgroundColor);
         graphic.fillRect(0, 0, this.widthBoard, this.heightBoard);
 
-        if (showGrid_Flag) {
-            graphic.setColor(this.backgroundColor);
-            graphic.fillRect(0, 0, this.widthBoard, this.heightBoard);
-            graphic.setColor(this.gridColor);
-            for (int i = 0; i < this.heightBoard; i++) {
-                for (int j = 0; j < this.widthBoard; j++) {
-                    graphic.fillRect(
-                            i * (Settings.SPACE + Settings.SIZE) + 1,
-                            j * (Settings.SPACE + Settings.SIZE) + 1,
-                            Settings.SIZE,
-                            Settings.SIZE
-                    );
-                }
+        graphic.setColor(this.gridColor);
+        for (int i = 0; i < this.heightBoard; i++) {
+            for (int j = 0; j < this.widthBoard; j++) {
+                graphic.fillRect(
+                        i * (Settings.SPACE + Settings.SIZE) + 1,
+                        j * (Settings.SPACE + Settings.SIZE) + 1,
+                        Settings.SIZE,
+                        Settings.SIZE
+                );
             }
         }
     }
 
+    /**
+     * Show coordinate of the board.
+     *
+     * @param graphic
+     */
     public void showCoordinate(Graphics graphic) {
-        if (showCoordinate_Flag) {
-            graphic.setColor(this.coordinateColor);
-        } else {
-            graphic.setColor(DEFAULT_GRID_COLOR);
-        }
+        graphic.setColor(this.coordinateColor);
+
         if (coordinateMode == Settings.CoordinateMode.MODE_2D) {
             // Show coordinate in 2D
             // Ox axis 
@@ -344,6 +372,36 @@ public class Panel_DrawingArea extends JPanel {
             graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, this.heightBoard);
 
             // Coordinate of points
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
+                    String coordinateProperty = coordOfBoard[i][j];
+                    if (coordinateProperty != null) {
+                        if (coordinateProperty.equals(this.gridColor)) {
+                            graphic.setColor(Settings.DEFAULT_DRAWING_COLOR);
+                        } else {
+                            graphic.setColor(colorOfBoard[i][j]);
+                        }
+                        int rectSize = Settings.SPACE + Settings.SIZE;
+                        
+                        // 5 at end??
+                        int posX = i * rectSize + 5;
+                        int posY = j * rectSize - 3;
+
+                        // Why?
+                        if (posX + coordinateProperty.length() * 6 > (this.widthBoard + rectSize)) {
+                            posX = (this.widthBoard + rectSize) - coordinateProperty.length() * 6;
+                        }
+
+                        if (posY < 15) {
+                            posY = 15;
+                        }
+
+                        graphic.drawString(coordinateProperty, posX, posY);
+
+//                        System.out.println(posX + "   " + posY);
+                    }
+                }
+            }
             // ??
         } else {
             // Show coordinate in 3D
@@ -352,22 +410,51 @@ public class Panel_DrawingArea extends JPanel {
             // Oy
             graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, Settings.COORD_Y_O);
             // Oz
-            graphic.drawLine(
-                    Settings.COORD_X_O, 
-                    Settings.COORD_Y_O, 
-                    Settings.COORD_X_O, 
-                    1
-            );
+            graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, 1, Settings.COORD_X_O + Settings.COORD_Y_O);
         }
     }
 
-    @Override
-    public void paintComponent(Graphics graphic) {
-//        System.out.println("main.Panel_DrawingArea.paintComponent()");
+    public boolean getShowGridFlag() {
+        return showGrid_Flag;
+    }
 
-        super.paintComponent(graphic);
-        showGridLines(graphic);
+    public boolean getShowCoordinateFlag() {
+        return showCoordinate_Flag;
+    }
 
+    /**
+     * Return the current coordinate system.
+     *
+     * @return Settings.CoordinateMode
+     */
+    public Settings.CoordinateMode getCoordinateMode() {
+        return this.coordinateMode;
+    }
+
+    private void processVisualOption(Graphics graphic) {
+        graphic.setColor(Color.WHITE);
+        graphic.fillRect(0, 0, this.widthBoard, this.heightBoard);
+
+        if (showGrid_Flag == true) {
+            if (showCoordinate_Flag == true) {
+                showGridLines(graphic);
+                showCoordinate(graphic);
+            } else {
+                showGridLines(graphic);
+            }
+        } else {
+            if (showCoordinate_Flag == true) {
+                showCoordinate(graphic);
+            }
+        }
+    }
+
+    /**
+     * Show color property of drawn object.
+     *
+     * @param graphic
+     */
+    private void showObjectColor(Graphics graphic) {
         for (int i = 0; i < this.heightBoard; i++) {
             for (int j = 0; j < this.widthBoard; j++) {
                 if (markedChangeOfBoard[i][j] == true) {
@@ -383,13 +470,29 @@ public class Panel_DrawingArea extends JPanel {
                 );
             }
         }
+    }
 
-        showCoordinate(graphic);
-        //g.setColor(Color.yellow);
-        //Point2D point = new Point2D(-5,1);
-        //point=point.ConvertToPixelCoord(point, OX, OY);
-        //g.fillRect(point.X, point.Y, size, size);
-//        createLine(g, 0, 0, 20, 20);
+    /**
+     * Show eraser by small rectangle.
+     *
+     * @param graphic
+     */
+    public void showEraserTool(Graphics graphic) {
+    }
+
+    /**
+     * Show selection tool.
+     * @param graphic 
+     */
+    public void showSelectTool(Graphics graphic) {
+        
+    }
+    
+    @Override
+    public void paintComponent(Graphics graphic) {
+        super.paintComponent(graphic);
+        showObjectColor(graphic);
+        processVisualOption(graphic);
     }
 
 //    private int getNewX(int x) {
@@ -402,6 +505,7 @@ public class Panel_DrawingArea extends JPanel {
 //    public static void putPixel(Graphics graphic, int x, int y) {
 //        graphic.fillRect(getNewX(x), getNewY(y), this.size, this.size);
 //    }
+    
     /**
      * Merge color of this board with another in pixel having position marked in
      * permittedPoint array.

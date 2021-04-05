@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -11,7 +14,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -25,21 +28,10 @@ import javax.swing.event.ChangeListener;
 
 public class Paint extends javax.swing.JFrame {
 
-    // Visual option
+    /**
+     * Show status-bar or not.
+     */
     private boolean showStatusBar_Flag;
-
-    // Selected option by user.
-    private JButton selectedButton;
-    private Color selectedColor;
-    private LineStyle selectedLineStyle;
-    private Integer selectedLineSize = 1;
-
-    // Animation playing flag
-    private boolean animationPlaying_Flag;
-
-    // Mouse coordinate
-    private Point2D previousCoordMouse;
-    private Point2D currentCoordMouse;
 
     private ButtonGroup buttonGroup_CoordMode;
 
@@ -48,29 +40,31 @@ public class Paint extends javax.swing.JFrame {
     private JMenuItem menuItem_Segment;
     private JMenuItem menuItem_Line;
     private JMenuItem menuItem_FreeDrawing;
-    // User selected option of line tool button.
-    private int selectedIndexOfButtonLine;
 
     private JPopupMenu popMenu_Polygon;
     private JMenuItem menuItem_FreePolygon;
     private JMenuItem menuItem_Triangle;
     private JMenuItem menuItem_Rectangle;
     private JMenuItem menuItem_Circle;
-    // User selected option of polygon tool button.
-    private int selectedIndexOfButtonPolygon;
 
     private JPopupMenu popMenu_Shape;
     private JMenuItem menuItem_Arrow;
     private JMenuItem menuItem_Star;
     private JMenuItem menuItem_Diamond;
-    // User selected option of shape tool button.
-    private int selectedIndexOfButtonShape;
 
     private JPopupMenu popMenu_Transform;
     private JMenuItem menuItem_Rotation;
     private JMenuItem menuItem_Symmetry;
-    // User selected option of transformation tool button.
-    private int selectedIndexOfButtonTransform;
+
+    private Settings.DrawingToolMode savedLineMode;
+    private Settings.DrawingToolMode savedPolygonMode;
+    private Settings.DrawingToolMode savedShapeMode;
+    private Settings.DrawingToolMode savedTransformMode;
+
+    /**
+     * Number of saved color.
+     */
+    private int savedColorNumber;
 
     public Paint() {
         customizeComponents();
@@ -85,20 +79,20 @@ public class Paint extends javax.swing.JFrame {
     private void customizeComponents() {
         initComponents();
 
-        spinner_SizeLize.setModel(new SpinnerNumberModel(
-                MIN_LINE_SIZE,
-                MIN_LINE_SIZE,
-                MAX_LINE_SIZE,
-                STEP_LINE_SIZE)
-        );
+        setDefaultVisualOption();
+        setDefaultFormatOption();
+        setDefaultColorOption();
+        setDefaultDrawingToolOption();
+    }
 
+    private void setDefaultDrawingToolOption() {
         // Make a group of 2 button mode 2D and 3D
         buttonGroup_CoordMode = new ButtonGroup();
         buttonGroup_CoordMode.add(button_2DMode);
         buttonGroup_CoordMode.add(button_3DMode);
 
         buttonGroup_CoordMode.setSelected(button_2DMode.getModel(), true);
-        
+
         // Create menu pop up for drawing tools.
         popMenu_Line = new JPopupMenu();
         popMenu_Polygon = new JPopupMenu();
@@ -107,109 +101,137 @@ public class Paint extends javax.swing.JFrame {
 
         // Segment
         menuItem_Segment = new JMenuItem(
-                LineDrawingToolMode.SEGMENT.toString(),
+                DrawingToolMode.DRAWING_LINE_SEGMENT.toString(),
                 new ImageIcon(getClass().getResource("/img/segment24px.png"))
         );
         popMenu_Line.add(menuItem_Segment);
 
         // Straight line
         menuItem_Line = new JMenuItem(
-                LineDrawingToolMode.STRAIGHT_LINE.toString(),
+                DrawingToolMode.DRAWING_LINE_STRAIGHT.toString(),
                 new ImageIcon(getClass().getResource("/img/straightLine24px.png"))
         );
         popMenu_Line.add(menuItem_Line);
 
         // Free drawing
         menuItem_FreeDrawing = new JMenuItem(
-                LineDrawingToolMode.FREE_LINE.toString(),
+                DrawingToolMode.DRAWING_LINE_FREE.toString(),
                 new ImageIcon(getClass().getResource("/img/freeDrawing24px.png"))
         );
         popMenu_Line.add(menuItem_FreeDrawing);
 
         // Free polygon
         menuItem_FreePolygon = new JMenuItem(
-                PolygonDrawingToolMode.FREE_POLYGON.toString(),
+                DrawingToolMode.DRAWING_POLYGON_FREE.toString(),
                 new ImageIcon(getClass().getResource("/img/polygon24px.png"))
         );
         popMenu_Polygon.add(menuItem_FreePolygon);
 
         // Triangle
         menuItem_Triangle = new JMenuItem(
-                PolygonDrawingToolMode.TRIANGLE.toString(),
+                DrawingToolMode.DRAWING_POLYGON_TRIANGLE.toString(),
                 new ImageIcon(getClass().getResource("/img/triangle24px.png"))
         );
         popMenu_Polygon.add(menuItem_Triangle);
 
         // Rectangle
         menuItem_Rectangle = new JMenuItem(
-                PolygonDrawingToolMode.RECTANGLE.toString(),
+                DrawingToolMode.DRAWING_POLYGON_RECTANGLE.toString(),
                 new ImageIcon(getClass().getResource("/img/rectangle24px.png"))
         );
         popMenu_Polygon.add(menuItem_Rectangle);
 
         // Circle
         menuItem_Circle = new JMenuItem(
-                PolygonDrawingToolMode.CIRCLE.toString(),
+                DrawingToolMode.DRAWING_POLYGON_CIRCLE.toString(),
                 new ImageIcon(getClass().getResource("/img/circle24px.png"))
         );
         popMenu_Polygon.add(menuItem_Circle);
 
         // Star
         menuItem_Star = new JMenuItem(
-                ShapeDrawingToolMode.START.toString(),
+                DrawingToolMode.DRAWING_SHAPE_STAR.toString(),
                 new ImageIcon(getClass().getResource("/img/star24px.png"))
         );
         popMenu_Shape.add(menuItem_Star);
 
         // Diamond
         menuItem_Diamond = new JMenuItem(
-                ShapeDrawingToolMode.DIAMOND.toString(),
+                DrawingToolMode.DRAWING_SHAPE_DIAMOND.toString(),
                 new ImageIcon(getClass().getResource("/img/diamond24px.png"))
         );
         popMenu_Shape.add(menuItem_Diamond);
 
         // Arrow
         menuItem_Arrow = new JMenuItem(
-                ShapeDrawingToolMode.ARROW.toString(),
+                DrawingToolMode.DRAWING_SHAPE_ARROW.toString(),
                 new ImageIcon(getClass().getResource("/img/arrow24px.png"))
         );
         popMenu_Shape.add(menuItem_Arrow);
 
         // Rotation
         menuItem_Rotation = new JMenuItem(
-                TransformDrawingToolMode.ROTATION.toString(),
+                DrawingToolMode.DRAWING_TRANSFORM_ROTATION.toString(),
                 new ImageIcon(getClass().getResource("/img/rotation24px.png"))
         );
         popMenu_Transform.add(menuItem_Rotation);
 
         // Symmetry
         menuItem_Symmetry = new JMenuItem(
-                TransformDrawingToolMode.SYMMETRY.toString(),
+                DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY.toString(),
                 new ImageIcon(getClass().getResource("/img/symmetry24px.png"))
         );
         popMenu_Transform.add(menuItem_Symmetry);
 
-        selectedIndexOfButtonLine = LineDrawingToolMode.SEGMENT.ordinal();
-        selectedIndexOfButtonPolygon = PolygonDrawingToolMode.FREE_POLYGON.ordinal();
-        selectedIndexOfButtonShape = ShapeDrawingToolMode.START.ordinal();
-        selectedIndexOfButtonTransform = TransformDrawingToolMode.ROTATION.ordinal();
+        savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_SEGMENT;
+        savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_FREE;
+        savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_STAR;
+        savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
+    }
 
-        // Set default values
-        showStatusBar_Flag = true;
+    private void setDefaultFormatOption() {
+        spinner_SizeLize.setModel(new SpinnerNumberModel(
+                MIN_LINE_SIZE,
+                MIN_LINE_SIZE,
+                MAX_LINE_SIZE,
+                STEP_LINE_SIZE)
+        );
+    }
 
-        selectedButton = null;
-        selectedColor = Color.BLACK;
-        selectedLineStyle = LineStyle.DEFAULT;
-        selectedLineSize = 1;
-        animationPlaying_Flag = false;
-        
+    private void setDefaultVisualOption() {
         checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
         checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
         checkBox_showStatusBar.setSelected(Settings.DEFAULT_VISUAL_SHOW_STATUSBAR);
+        this.showStatusBar_Flag = Settings.DEFAULT_VISUAL_SHOW_STATUSBAR;
+    }
+
+    private void setDefaultColorOption() {
+        savedColorNumber = 0;
+        button_ColorSave_1.setBackground(Settings.DEFAULT_COLOR_SAVE_1);
+        button_ColorSave_2.setBackground(Settings.DEFAULT_COLOR_SAVE_2);
+        button_ColorSave_3.setBackground(Settings.DEFAULT_COLOR_SAVE_3);
+        button_ColorSave_4.setBackground(Settings.DEFAULT_COLOR_SAVE_4);
+        button_ColorSave_5.setBackground(Settings.DEFAULT_COLOR_SAVE_5);
+        button_ColorSave_6.setBackground(Settings.DEFAULT_COLOR_SAVE_6);
+        button_ColorSave_7.setBackground(Settings.DEFAULT_COLOR_SAVE_7);
+        button_ColorSave_8.setBackground(Settings.DEFAULT_COLOR_SAVE_8);
+    }
+
+    /**
+     * The dialog shown for temporarily change. <br>
+     * Cases for applying: <br>
+     * + Choose between coordinate. <br>
+     * + Choose clear board button. <br>
+     * + Choose create new file button.
+     *
+     * @return integer
+     */
+    public int showConfirmSaveFileDiaglog() {
+        return JOptionPane.showConfirmDialog(this, "Save your current file?");
     }
 
     public void showStatusBar(boolean flag) {
-        JOptionPane.showMessageDialog(this, "Imple. show status bar");
+        JOptionPane.showMessageDialog(this, "Not support yet");
     }
 
     /**
@@ -316,7 +338,7 @@ public class Paint extends javax.swing.JFrame {
                 int selectedIndex = comboBox_StyleLine.getSelectedIndex();
                 for (LineStyle ls : LineStyle.values()) {
                     if (selectedIndex == ls.ordinal()) {
-                        selectedLineStyle = ls;
+                        ((Panel_DrawingArea) panel_DrawingArea).setSelectedLineStyle(ls);
                         break;
                     }
                 }
@@ -326,10 +348,27 @@ public class Paint extends javax.swing.JFrame {
         spinner_SizeLize.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent event) {
-                selectedLineSize = (Integer) ((JSpinner) event.getSource()).getValue();
+                int selectedLineSize = (Integer) ((JSpinner) event.getSource()).getValue();
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedLineSize(selectedLineSize);
             }
         });
 
+    }
+
+    /**
+     * Set selected tool mode from user.
+     *
+     * @param toolMode
+     */
+    private void setSelectedToolMode(Settings.DrawingToolMode toolMode) {
+        Settings.DrawingToolMode selectedButtonMode
+                = ((Panel_DrawingArea) panel_DrawingArea).getSelectedButton();
+
+        if (selectedButtonMode == toolMode) {
+            return;
+        }
+
+        ((Panel_DrawingArea) panel_DrawingArea).setSelectedButtonMode(toolMode);
     }
 
     /**
@@ -339,45 +378,44 @@ public class Paint extends javax.swing.JFrame {
         button_ColorPicker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_COLOR_PICKER);
             }
         });
 
         button_FillColor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_COLOR_FILLER);
             }
         });
 
         button_ClearAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_CLEAR_ALL);
             }
         });
 
         button_Eraser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_ERASER);
             }
         });
 
         button_Select.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_SELECT);
             }
         });
 
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                setSelectedToolMode(Settings.DrawingToolMode.TOOL_ANIMATION);
             }
         });
-
     }
 
     /**
@@ -387,7 +425,28 @@ public class Paint extends javax.swing.JFrame {
         button_ColorChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                Color selectedColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
+
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(selectedColor);
+
+                // Add new saved color if it's not found in list
+                if (savedColorNumber < 4) {
+                    if (savedColorNumber == 0) {
+                        button_ColorSave_5.setBackground(selectedColor);
+                    } else if (savedColorNumber == 1) {
+                        button_ColorSave_6.setBackground(selectedColor);
+                    } else if (savedColorNumber == 2) {
+                        button_ColorSave_7.setBackground(selectedColor);
+                    } else if (savedColorNumber == 3) {
+                        button_ColorSave_8.setBackground(selectedColor);
+                    }
+                    savedColorNumber++;
+                } else {
+                    button_ColorSave_5.setBackground(button_ColorSave_6.getBackground());
+                    button_ColorSave_6.setBackground(button_ColorSave_7.getBackground());
+                    button_ColorSave_7.setBackground(button_ColorSave_8.getBackground());
+                    button_ColorSave_8.setBackground(selectedColor);
+                }
             }
         });
     }
@@ -396,17 +455,63 @@ public class Paint extends javax.swing.JFrame {
      * User drawing option event handling.
      */
     private void setEventHandlingDrawingOption() {
+        /* 
+        NOTE: PROCESS BUTTON MODE.
+        Button coordinate mode khi được chọn sẽ xem xét các yếu tố sau:
+            +   Giá trị của cờ show_Gridlines và show_Coordinate là gì?
+            +   Mode hiện thời là 2D hay 3D?
+        
+        Chú ý: Nếu chuyển hệ tọa độ, phải:
+            1.  Đặt lại mặc định cho các cờ show_Gridlines, show_Coordinate 
+                theo class Settings và checkbox tương ứng.
+            2.  Gọi hàm setCoordinateMode của panel_DrawingArea (xem chi tiết
+                tại class Panel_DrawingArea).
+         */
+
         button_2DMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                
+                Settings.CoordinateMode currentDrawingMode
+                        = ((Panel_DrawingArea) panel_DrawingArea).getCoordinateMode();
+
+                // If user click the same mode, do nothing
+                if (currentDrawingMode == Settings.CoordinateMode.MODE_2D) {
+                    return;
+                }
+
+                /*
+                Change coordinate system to 3D mode.
+                 */
+                checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
+                checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
+
+                ((Panel_DrawingArea) panel_DrawingArea).setCoordinateMode(
+                        Settings.CoordinateMode.MODE_2D
+                );
             }
         });
 
         button_3DMode.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                Settings.CoordinateMode currentDrawingMode
+                        = ((Panel_DrawingArea) panel_DrawingArea).getCoordinateMode();
+                System.out.println("3d event: " + currentDrawingMode);
+
+                // If user click the same mode, do nothing
+                if (currentDrawingMode == Settings.CoordinateMode.MODE_3D) {
+                    return;
+                }
+
+                /*
+                Change coordinate system to 2D mode.
+                 */
+                checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
+                checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
+
+                ((Panel_DrawingArea) panel_DrawingArea).setCoordinateMode(
+                        Settings.CoordinateMode.MODE_3D
+                );
             }
         });
 
@@ -414,7 +519,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent event) {
                 if (SwingUtilities.isLeftMouseButton(event)) {
-
+                    setSelectedToolMode(savedLineMode);
                 } else if (SwingUtilities.isRightMouseButton(event)) {
                     Ultility.showPopMenuOfButton(button_Line, popMenu_Line);
                 }
@@ -425,7 +530,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent event) {
                 if (SwingUtilities.isLeftMouseButton(event)) {
-
+                    setSelectedToolMode(savedPolygonMode);
                 } else if (SwingUtilities.isRightMouseButton(event)) {
                     Ultility.showPopMenuOfButton(button_Polygon, popMenu_Polygon);
                 }
@@ -436,7 +541,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent event) {
                 if (SwingUtilities.isLeftMouseButton(event)) {
-
+                    setSelectedToolMode(savedShapeMode);
                 } else if (SwingUtilities.isRightMouseButton(event)) {
                     Ultility.showPopMenuOfButton(button_Shape, popMenu_Shape);
                 }
@@ -447,7 +552,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void mouseClicked(MouseEvent event) {
                 if (SwingUtilities.isLeftMouseButton(event)) {
-
+                    setSelectedToolMode(savedTransformMode);
                 } else if (SwingUtilities.isRightMouseButton(event)) {
                     Ultility.showPopMenuOfButton(button_Transform, popMenu_Transform);
                 }
@@ -460,164 +565,176 @@ public class Paint extends javax.swing.JFrame {
         menuItem_Segment.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonLine = LineDrawingToolMode.SEGMENT.ordinal();
+                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_SEGMENT;
 
                 button_Line.setIcon(new ImageIcon(getClass()
                         .getResource("/img/segment32px.png"))
                 );
 
-                selectedButton = button_Line;
+                setSelectedToolMode(savedLineMode);
+                button_Line.repaint();
             }
         });
 
         menuItem_Line.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonLine = LineDrawingToolMode.STRAIGHT_LINE.ordinal();
+                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_STRAIGHT;
 
                 button_Line.setIcon(new ImageIcon(getClass()
                         .getResource("/img/straightLine32px.png"))
                 );
 
-                selectedButton = button_Line;
+                setSelectedToolMode(savedLineMode);
+                button_Line.repaint();
             }
         });
 
         menuItem_FreeDrawing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonLine = LineDrawingToolMode.FREE_LINE.ordinal();
+                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_FREE;
 
                 button_Line.setIcon(new ImageIcon(getClass()
                         .getResource("/img/freeDrawing32px.png"))
                 );
 
-                selectedButton = button_Line;
+                setSelectedToolMode(savedLineMode);
+                button_Line.repaint();
             }
         });
 
         menuItem_FreePolygon.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.FREE_POLYGON.ordinal();
+                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_FREE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
                         .getResource("/img/polygon32px.png"))
                 );
 
-                selectedButton = button_Polygon;
+                setSelectedToolMode(savedPolygonMode);
+                button_Polygon.repaint();
             }
         });
 
         menuItem_Triangle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.TRIANGLE.ordinal();
+                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_TRIANGLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
                         .getResource("/img/triangle32px.png"))
                 );
 
-                selectedButton = button_Polygon;
+                setSelectedToolMode(savedPolygonMode);
+                button_Polygon.repaint();
             }
         });
 
         menuItem_Rectangle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.RECTANGLE.ordinal();
+                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_RECTANGLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
                         .getResource("/img/rectangle32px.png"))
                 );
 
-                selectedButton = button_Polygon;
+                setSelectedToolMode(savedPolygonMode);
+                button_Polygon.repaint();
             }
         });
 
         menuItem_Circle.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = PolygonDrawingToolMode.CIRCLE.ordinal();
+                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_CIRCLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
                         .getResource("/img/circle32px.png"))
                 );
 
-                selectedButton = button_Polygon;
+                setSelectedToolMode(savedPolygonMode);
+                button_Polygon.repaint();
             }
         });
 
         menuItem_Star.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.START.ordinal();
+                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_STAR;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
                         .getResource("/img/star32px.png"))
                 );
 
-                selectedButton = button_Shape;
+                setSelectedToolMode(savedShapeMode);
+                button_Shape.repaint();
             }
         });
 
         menuItem_Diamond.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.DIAMOND.ordinal();
+                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_DIAMOND;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
                         .getResource("/img/diamond32px.png"))
                 );
 
-                selectedButton = button_Shape;
+                setSelectedToolMode(savedShapeMode);
+                button_Shape.repaint();
             }
         });
 
         menuItem_Arrow.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = ShapeDrawingToolMode.ARROW.ordinal();
+                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_ARROW;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
                         .getResource("/img/arrow32px.png"))
                 );
 
-                selectedButton = button_Shape;
+                setSelectedToolMode(savedShapeMode);
+                button_Shape.repaint();
             }
         });
 
         menuItem_Rotation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = TransformDrawingToolMode.ROTATION.ordinal();
-
+                savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
+                
                 button_Transform.setIcon(new ImageIcon(getClass()
                         .getResource("/img/rotation32px.png"))
                 );
 
-                selectedButton = button_Transform;
+                setSelectedToolMode(savedTransformMode);
+                button_Transform.repaint();
             }
         });
 
         menuItem_Symmetry.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                selectedIndexOfButtonPolygon = TransformDrawingToolMode.SYMMETRY.ordinal();
+                savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY;
 
                 button_Transform.setIcon(new ImageIcon(getClass()
                         .getResource("/img/symmetry32px.png"))
                 );
 
-                selectedButton = button_Transform;
+                setSelectedToolMode(savedTransformMode);
+                button_Transform.repaint();
             }
         });
 
         //======================================================================
         // Drawing panel
         //======================================================================
-//        panel_DrawingArea.addMouseMotionListener(new CustomMouseMotionHandling());
-//        panel_DrawingArea.addMouseListener(new CustomMouseClickHandling());
+        panel_DrawingArea.addMouseMotionListener(new CustomMouseMotionHandling());
+        panel_DrawingArea.addMouseListener(new CustomMouseClickHandling());
     }
 
     private void setAllEventHandler() {
@@ -1023,8 +1140,8 @@ public class Paint extends javax.swing.JFrame {
                     .addComponent(panel_Format, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel_Tool, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panel_View, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panel_Color, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panel_Color, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         panel_SelectCoordinate.setBorder(javax.swing.BorderFactory.createTitledBorder("Coordinate"));
@@ -1109,12 +1226,8 @@ public class Paint extends javax.swing.JFrame {
 
         panel_DrawingArea.setBackground(new java.awt.Color(248, 248, 248));
         panel_DrawingArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        panel_DrawingArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         panel_DrawingArea.setMinimumSize(new java.awt.Dimension(1055, 656));
-        panel_DrawingArea.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                panel_DrawingAreaMouseMoved(evt);
-            }
-        });
 
         javax.swing.GroupLayout panel_DrawingAreaLayout = new javax.swing.GroupLayout(panel_DrawingArea);
         panel_DrawingArea.setLayout(panel_DrawingAreaLayout);
@@ -1201,37 +1314,17 @@ public class Paint extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-
-    private void panel_DrawingAreaMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panel_DrawingAreaMouseMoved
-        // TODO add your handling code here:
-
-//        Label_XCoord.setText("X: " + ((evt.getX() - (width / 2 - 1)) / (space + size)));
-//        Label_YCoord.setText("Y: " + (-(evt.getY() - (height / 2 + 1)) / (space + size)));
-    }//GEN-LAST:event_panel_DrawingAreaMouseMoved
-
-    // Button event handling
-//    public void actionPerformed(ActionEvent actionEvent) {
-//        Object affectedComponent = actionEvent.getSource();
-//
-//        if (!animationPlaying_Flag) {
-//            // If animation is not played, get affected component and continue.
-//
-//        } else {
-//            // Otherwise, force to select animation button to turn off.
-//
-//        }
-//    }
-
     public class CustomMouseClickHandling implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent event) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if (SwingUtilities.isLeftMouseButton(event)) {
+
+            }
         }
 
         @Override
         public void mousePressed(MouseEvent event) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             if (SwingUtilities.isLeftMouseButton(event)) {
 
             }
@@ -1239,7 +1332,6 @@ public class Paint extends javax.swing.JFrame {
 
         @Override
         public void mouseReleased(MouseEvent event) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             if (SwingUtilities.isLeftMouseButton(event)) {
 
             }
@@ -1247,12 +1339,18 @@ public class Paint extends javax.swing.JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            if (selectedButton == button_ColorPicker) {
+//                panel_DrawingArea.setCursor(toolkit.createCustomCursor(
+//                        toolkit.getImage("/img/pencil.png"),
+//                        new Point(0, 0),
+//                        "img")
+//                );
+//            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//            setCursor(Cursor.getDefaultCursor());
         }
 
     }

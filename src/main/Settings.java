@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 public class Settings {
 
     public enum CoordinateMode {
-        MODE_3D,
         MODE_2D,
+        MODE_3D,
     }
 
     public enum LineStyle {
@@ -40,72 +41,69 @@ public class Settings {
         },
     }
 
-    public enum LineDrawingToolMode {
-        SEGMENT {
+    public enum DrawingToolMode {
+        TOOL_COLOR_PICKER,
+        TOOL_COLOR_FILLER,
+        TOOL_CLEAR_ALL,
+        TOOL_ERASER,
+        TOOL_SELECT,
+        TOOL_ANIMATION,
+        DRAWING_LINE_SEGMENT {
             public String toString() {
                 return "Segment";
             }
         },
-        FREE_LINE {
-            public String toString() {
-                return "Line";
-            }
-        },
-        STRAIGHT_LINE {
+        DRAWING_LINE_STRAIGHT {
             public String toString() {
                 return "Straight line";
             }
         },
-    }
-
-    public enum PolygonDrawingToolMode {
-        FREE_POLYGON {
+        DRAWING_LINE_FREE {
+            public String toString() {
+                return "Free drawing";
+            }
+        },
+        DRAWING_POLYGON_FREE {
             public String toString() {
                 return "Polygon";
             }
         },
-        TRIANGLE {
+        DRAWING_POLYGON_TRIANGLE {
             public String toString() {
                 return "Triangle";
             }
         },
-        RECTANGLE {
+        DRAWING_POLYGON_RECTANGLE {
             public String toString() {
                 return "Rectangle";
             }
         },
-        CIRCLE {
+        DRAWING_POLYGON_CIRCLE {
             public String toString() {
                 return "Circle";
             }
         },
-    }
-
-    public enum ShapeDrawingToolMode {
-        START {
+        DRAWING_SHAPE_STAR {
             public String toString() {
-                return "Start";
+                return "Star";
             }
         },
-        ARROW {
-            public String toString() {
-                return "Arrow";
-            }
-        },
-        DIAMOND {
+        DRAWING_SHAPE_DIAMOND {
             public String toString() {
                 return "Diamond";
             }
         },
-    }
-
-    public enum TransformDrawingToolMode {
-        ROTATION {
+        DRAWING_SHAPE_ARROW {
+            public String toString() {
+                return "Arrow";
+            }
+        },
+        DRAWING_TRANSFORM_ROTATION {
             public String toString() {
                 return "Rotation";
             }
         },
-        SYMMETRY {
+        DRAWING_TRANSFORM_SYMMETRY {
             public String toString() {
                 return "Symmetry";
             }
@@ -138,16 +136,36 @@ public class Settings {
     /**
      * X coordinate part of O point.
      */
-    public static final int COORD_X_O = WIDTH_DRAW_AREA / 2 - 1;
+    public static final int COORD_X_O = WIDTH_DRAW_AREA / 2 - 2;
 //    public static final int COORD_X_O = SPACE + WIDTH_DRAW_AREA / 2 * SIZE + (SIZE - SPACE) / 2;
-    
+
     /**
      * Y coordinate part of O point.
      */
     public static final int COORD_Y_O = HEIGHT_DRAW_AREA / 2 + 1;
 //    public static final int COORD_Y_O = SPACE + HEIGHT_DRAW_AREA / 2 * SIZE + (SIZE - SPACE) / 2;
-    
+
+    public static final int DEFAULT_LINE_SIZE = 1;
+
     public static final boolean DEFAULT_VISUAL_SHOW_GRID = true;
     public static final boolean DEFAULT_VISUAL_SHOW_COORDINATE = true;
     public static final boolean DEFAULT_VISUAL_SHOW_STATUSBAR = true;
+
+    public static final Color DEFAULT_COLOR_SAVE_1 = new Color(0, 0, 0);
+    public static final Color DEFAULT_COLOR_SAVE_2 = new Color(255, 255, 255);
+    public static final Color DEFAULT_COLOR_SAVE_3 = new Color(127, 127, 127);
+    public static final Color DEFAULT_COLOR_SAVE_4 = new Color(195, 195, 195);
+    public static final Color DEFAULT_COLOR_SAVE_5 = new Color(240, 240, 240);
+    public static final Color DEFAULT_COLOR_SAVE_6 = new Color(240, 240, 240);
+    public static final Color DEFAULT_COLOR_SAVE_7 = new Color(240, 240, 240);
+    public static final Color DEFAULT_COLOR_SAVE_8 = new Color(240, 240, 240);
+
+    public static final Color DEFAULT_DRAWING_GRID_COLOR = Color.WHITE;
+    public static final Color DEFAULT_DRAWING_BACKGROUND_COLOR = new Color(235, 235, 235);
+    public static final Color DEFAULT_DRAWING_COORDINATE_COLOR = new Color(128, 128, 128);
+
+    public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
+
+    public static final Color DEFAULT_DRAWING_COLOR = Color.BLACK;
+    public static final Color DEFAULT_FILL_COLOR = Color.BLACK;
 }
