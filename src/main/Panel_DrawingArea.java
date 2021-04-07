@@ -1,5 +1,12 @@
 package main;
 
+import model.shape2d.Triangle;
+import model.shape2d.Shape;
+import model.shape2d.Arrow2D;
+import model.shape2d.Point2D;
+import model.shape2d.Circle;
+import model.shape2d.Rectangle;
+import model.shape2d.Segment2D;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Event;
@@ -611,7 +618,7 @@ public class Panel_DrawingArea extends JPanel {
     }
 
     public boolean checkStartingPointAvailable() {
-        return (startDrawingPoint.coordX != -1 && startDrawingPoint.coordY != -1);
+        return (startDrawingPoint.getCoordX() != -1 && startDrawingPoint.getCoordY() != -1);
     }
 
     public class CustomMouseClickHandling implements MouseListener {
@@ -653,8 +660,8 @@ public class Panel_DrawingArea extends JPanel {
             switch(selectedTool) {
                 case DRAWING_LINE_FREE: {
                     setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
-                    markedChangeOfBoard[startDrawingPoint.coordX][startDrawingPoint.coordY] = true;
-                    changedColorOfBoard[startDrawingPoint.coordX][startDrawingPoint.coordY] = selectedColor;
+                    markedChangeOfBoard[startDrawingPoint.getCoordX()][startDrawingPoint.getCoordY()] = true;
+                    changedColorOfBoard[startDrawingPoint.getCoordX()][startDrawingPoint.getCoordY()] = selectedColor;
                     startDrawingPoint.saveCoord(coordOfBoard);
                     repaint();
                     break;

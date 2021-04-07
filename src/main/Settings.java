@@ -1,5 +1,6 @@
 package main;
 
+import model.shape2d.Point2D;
 import java.awt.Color;
 import java.util.ArrayList;
 

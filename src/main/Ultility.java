@@ -1,5 +1,6 @@
 package main;
 
+import model.shape2d.Point2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -91,8 +92,8 @@ public class Ultility {
      * @param choosedColor 
      */
     public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, Point2D point, Color choosedColor) {
-        int coordX = point.coordX;
-        int coordY = point.coordY;
+        int coordX = point.getCoordX();
+        int coordY = point.getCoordY();
 
         Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
