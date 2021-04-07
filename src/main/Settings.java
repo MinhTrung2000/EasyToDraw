@@ -37,7 +37,7 @@ public class Settings {
         },
         ARROW {
             public String toString() {
-                return "────────────→";
+                return "───────────→";
             }
         },
     }
@@ -125,7 +125,7 @@ public class Settings {
     public static final int HEIGHT_DRAW_AREA = 656;
 
     // Khoảng cách 2 pixel.
-    public static final int SPACE = 2 * PIXEL_UNIT;
+    public static final int SPACE = 1 * PIXEL_UNIT;
     // Kích thước 1 pixel.
     public static final int SIZE = 5 * PIXEL_UNIT;
 
@@ -137,14 +137,12 @@ public class Settings {
     /**
      * X coordinate part of O point.
      */
-    public static final int COORD_X_O = WIDTH_DRAW_AREA / 2 - 2;
-//    public static final int COORD_X_O = SPACE + WIDTH_DRAW_AREA / 2 * SIZE + (SIZE - SPACE) / 2;
+    public static final int COORD_X_O = (int) (WIDTH_DRAW_AREA / 2) + 1;
 
     /**
      * Y coordinate part of O point.
      */
-    public static final int COORD_Y_O = HEIGHT_DRAW_AREA / 2 + 1;
-//    public static final int COORD_Y_O = SPACE + HEIGHT_DRAW_AREA / 2 * SIZE + (SIZE - SPACE) / 2;
+    public static final int COORD_Y_O = (int) (HEIGHT_DRAW_AREA / 2) + 2;
 
     public static final int DEFAULT_LINE_SIZE = 1;
 

@@ -1,82 +1,47 @@
 package main;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.ArrayList;
-import static main.Settings.*;
+public class Line2D  {
 
-public class Line2D extends Shape {
+    private double coefficientA;
+    private double coefficientB;
+    private double coefficientC;
 
-    public Line2D(boolean[][] nextDrawing, Color[][] nextPoint, Color color) {
-        super(nextDrawing, nextPoint, color);
+    public double getCoefficientA() {
+        return coefficientA;
+    }
+
+    public double getCoefficientB() {
+        return coefficientB;
+    }
+
+    public double getCoefficientC() {
+        return coefficientC;
     }
 
     /**
-     * The line drawing method implemented by Bresenham algorithm.
+     * Return a point of intersection of two points. This method will return a
+     * point at coordinate (-1, -1) if two line are parallel or coincident.
      *
-     * @param startPoint
-     * @param endPoint
-     * @param lineStyle
+     * @param other
+     * @return
      */
-    @Override
-    public void draw() {
-        drawSegment(sourcePoint, destinationPoint, lineStyle);
-    }
+    public Point2D intersect(Line2D other) {
+        Vector2D vectorA12 = new Vector2D(this.coefficientA, other.coefficientA);
+        Vector2D vectorB12 = new Vector2D(this.coefficientB, other.coefficientB);
+        Vector2D vectorC12 = new Vector2D(this.coefficientC, other.coefficientC);
 
-    @Override
-    public void rotate(Point2D basePoint, double angle) {
-        double totalAngle = angle + this.rotatedAngle;
+        Vector2D p = Vector2D.getVectorOfLinearEquation(vectorA12, vectorB12, vectorC12);
 
-        Point2D rotatedStartPoint = sourcePoint.rotate(basePoint, totalAngle);
-        Point2D rotatedEndPoint = destinationPoint.rotate(basePoint, totalAngle);
+        // If two lines are parallel.
+        if (Double.isNaN(p.getCoordX())) {
+            return new Point2D(-1, -1);
+        }
 
-        drawSegment(rotatedStartPoint, rotatedEndPoint, this.lineStyle);
-    }
+        // If two lines are coincident.
+        if (Double.isInfinite(p.getCoordX())) {
+            return new Point2D(-1, -1);
+        }
 
-    /**
-     * Line rotation in its center point.
-     * @param angle 
-     */
-    public void rotateInPlace(double angle) {
-        double totalAngle = angle + this.rotatedAngle;
-
-        Point2D rotatedStartPoint = sourcePoint.rotate(centerPoint, totalAngle);
-        Point2D rotatedEndPoint = destinationPoint.rotate(centerPoint, totalAngle);
-
-        drawSegment(rotatedStartPoint, rotatedEndPoint, this.lineStyle);
-    }
-
-    public void setProperty(Point2D sourcePoint, Point2D destinationPoint, LineStyle lineStyle) {
-        this.sourcePoint = sourcePoint;
-        this.destinationPoint = destinationPoint;
-        this.lineStyle = lineStyle;
-
-        this.centerPoint = new Point2D(
-                (int) (sourcePoint.coordX + destinationPoint.coordX) / 2,
-                (int) (sourcePoint.coordY + destinationPoint.coordY) / 2
-        );
-    }
-    
-    /**
-     * Update rotation angle after rotating it.
-     * @param angle 
-     */
-    public void applyRotation(double angle) {
-        this.rotatedAngle += angle;
-    }
-    
-    /**
-     * Move the line and change in place.
-     * @param vector 
-     */
-    @Override
-    public void move(Vector2D vector) {
-        sourcePoint = sourcePoint.getMovePoint(vector);
-        destinationPoint = destinationPoint.getMovePoint(vector);
-        draw();
-    }
-    
-    public void drawSymmetricOY() {
-        
+        return new Point2D((int) p.getCoordX(), (int) p.getCoordY());
     }
 }

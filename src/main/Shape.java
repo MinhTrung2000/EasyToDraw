@@ -6,29 +6,31 @@ import static java.lang.Math.abs;
 import java.util.ArrayList;
 
 public class Shape {
-
+    
+    /**
+     * Default initial angle of shape.
+     */
     public static final double DEFAULT_ANGLE = 0.0;
+
+    /**
+     * Default line style for drawing.
+     */
     public static final Settings.LineStyle DEFAULT_LINE_STYLE = Settings.LineStyle.DEFAULT;
 
     /**
-     * This array is used to mark the points are in this shape.
+     * This references to the marked coordinates of drawing board.
      */
-    protected boolean[][] markedPointsOfShape;
+    protected boolean[][] markedChangeOfBoard;
 
     /**
-     * This array is used to save color of points in this shape.
+     * This references to the color value of points of drawing board.
      */
-    protected Color[][] colorPointsOfShape;
+    protected Color[][] changedColorOfBoard;
 
     /**
-     * The list of coordinate of points in this shape.
+     * This references to the coordinate property of points of drawing board.
      */
-    protected ArrayList<Point2D> listOfPoints;
-
-    /**
-     * The list of color of points in this shape.
-     */
-    protected ArrayList<Color> listOfCoordinates;
+    protected String[][] changedCoordOfBoard;
 
     /**
      * The total angle of this shape after rotation.
@@ -50,48 +52,38 @@ public class Shape {
      */
     protected Point2D centerPoint;
 
-    /**
-     * The starting point of shape.
-     */
-    protected Point2D sourcePoint;
+    public Shape(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
+            String[][] changedCoordOfBoard) {
+        this.markedChangeOfBoard = markedChangeOfBoard;
+        this.changedColorOfBoard = changedColorOfBoard;
+        this.changedCoordOfBoard = changedCoordOfBoard;
 
-    /**
-     * The ending point of shape.
-     */
-    protected Point2D destinationPoint;
-
-    public Shape(boolean[][] markedPointsOfShape, Color[][] colorPointsOfShape, Color color) {
-        this.markedPointsOfShape = markedPointsOfShape;
-        this.colorPointsOfShape = colorPointsOfShape;
-        this.filledColor = color;
-
-        listOfPoints = new ArrayList<>();
-        listOfCoordinates = new ArrayList<>();
+        this.filledColor = Color.BLACK;
 
         rotatedAngle = DEFAULT_ANGLE;
         lineStyle = DEFAULT_LINE_STYLE;
 
-        sourcePoint = new Point2D();
-        destinationPoint = new Point2D();
-        centerPoint = new Point2D();
+        centerPoint = new Point2D(0, 0);
     }
 
-    public void setProperty(Point2D sourcePoint, Point2D destinationPoint, Settings.LineStyle lineStyle) {
-        this.sourcePoint = sourcePoint;
-        this.destinationPoint = destinationPoint;
+    public void setLineStyle(Settings.LineStyle lineStyle) {
         this.lineStyle = lineStyle;
     }
-    
+
+    public void setFilledColor(Color filledColor) {
+        this.filledColor = filledColor;
+    }
+
     /**
      * Draw a segment from startPoint to endPoint by using Bresenham algorithm.
-     * 
+     *
      * @param startPoint
      * @param endPoint
-     * @param lineStyle 
+     * @param lineStyle
      */
     public void drawSegment(Point2D startPoint, Point2D endPoint, Settings.LineStyle lineStyle) {
-        savePoint(startPoint.coordX, startPoint.coordY);
-        
+        savePointCoordinate(startPoint.coordX, startPoint.coordY);
+
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
@@ -122,6 +114,7 @@ public class Shape {
 
             while (x != endPoint.coordX) {
                 savePointWithLineStyleCheck(x, y, lineStyle);
+//                savePointCoordinate(x, y);
                 if (balance >= 0) {
                     y += incy;
                     balance -= dx;
@@ -130,6 +123,7 @@ public class Shape {
                 x += incx;
             }
             savePointWithLineStyleCheck(x, y, lineStyle);
+//            savePointCoordinate(x, y);
         } else {
             dx <<= 1;
             balance = dx - dy;
@@ -137,6 +131,7 @@ public class Shape {
 
             while (y != endPoint.coordY) {
                 savePointWithLineStyleCheck(x, y, lineStyle);
+//                savePointCoordinate(x, y);
                 if (balance >= 0) {
                     x += incx;
                     balance -= dy;
@@ -145,70 +140,88 @@ public class Shape {
                 y += incy;
             }
             savePointWithLineStyleCheck(x, y, lineStyle);
+//            savePointCoordinate(x, y);
         }
-        
+
         if (lineStyle == Settings.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
             if (vector.getLength() != 0) {
+                
+                System.out.println("lineStyle == Settings.LineStyle.ARROW");
                 // An extra length is used for drawing the head of arrow.
-                int extraLength = 5;
+                int extraLength = 3;
                 Point2D headArrowPoint = vector.getKTimesUnitPoint(endPoint, extraLength);
                 double angleSegmentWithOx = vector.getAngleWithOx();
-                
-                Point2D upPoint = new Point2D(headArrowPoint.coordX, headArrowPoint.coordY - extraLength);
-                Point2D downPoint = new Point2D(headArrowPoint.coordX, headArrowPoint.coordY + extraLength);
-                
-                this.drawSegment(endPoint, upPoint.rotate(headArrowPoint, angleSegmentWithOx), lineStyle);
-                this.drawSegment(endPoint, downPoint.rotate(headArrowPoint, angleSegmentWithOx), lineStyle);
+
+                Point2D upPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY - extraLength);
+                Point2D downPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY + extraLength);
+
+                this.drawSegment(endPoint, upPoint.createRotationPoint(headArrowPoint, angleSegmentWithOx), Settings.LineStyle.DEFAULT);
+                this.drawSegment(endPoint, downPoint.createRotationPoint(headArrowPoint, angleSegmentWithOx), Settings.LineStyle.DEFAULT);
             }
         }
+        System.out.println("main.Shape.drawSegment()");
     }
 
-    public void draw() {
+    public void drawSegment(Point2D startPoint, Point2D endPoint) {
+        drawSegment(startPoint, endPoint, this.lineStyle);
     }
 
+    /**
+     * Drawing for a complex shape.
+     *
+     * @param pointList
+     */
     public void drawZigZag(ArrayList<Point2D> pointList) {
         int pointNumber = pointList.size();
-        
+
         for (int i = 0; i < pointNumber - 1; i++) {
             drawSegment(pointList.get(i), pointList.get(i + 1), this.lineStyle);
         }
     }
-    
-    /**
-     * Mark the point in marked array and color array.
-     *
-     * @param coordX
-     * @param coordY
-     */
-    public void savePoint(int coordX, int coordY) {
-        if (Ultility.checkValidPoint(colorPointsOfShape, coordX, coordY)) {
-            markedPointsOfShape[coordX][coordY] = true;
-            colorPointsOfShape[coordX][coordY] = filledColor;
-        }
+
+    public void drawOutline() {
+
+    }
+
+    public void draw() {
+        drawOutline();
+//        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint, this.filledColor);
     }
 
     /**
-     * Mark the point in marked array and color array if it can put in the board
-     * when using a specific line style.
+     * Mark the point coordinates in marked array and color array if they are in
+     * bound.
      *
      * @param coordX
      * @param coordY
      */
-    public void savePointWithLineStyleCheck(int coordX, int coordY, Settings.LineStyle lineStyle) {
-        if (Ultility.checkValidPoint(colorPointsOfShape, coordX, coordY)
-                && Ultility.checkPixelPut(coordX, lineStyle)) {
-            markedPointsOfShape[coordX][coordY] = true;
-            colorPointsOfShape[coordX][coordY] = filledColor;
+    protected void savePointCoordinate(int coordX, int coordY) {
+        if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
+//            System.out.println("main.Shape.savePointCoordinate(" + coordX + ", " + coordY +")");
+            markedChangeOfBoard[coordX][coordY] = true;
+            changedColorOfBoard[coordX][coordY] = filledColor;
         }
     }
-    
+
+    public void saveCoordinates() {
+
+    }
+
     /**
-     * Save the coordinate information of point.
-     * @param coordOfBoard 
+     * Mark the point in marked array and color array if it can be put in the
+     * board when using a specific line style.
+     *
+     * @param coordX
+     * @param coordY
+     * @param lineStyle
      */
-    public void saveCoordinateOfPoint(String[][] coordOfBoard) {
-        
+    public void savePointWithLineStyleCheck(int coordX, int coordY, Settings.LineStyle lineStyle) {
+        if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
+                && Ultility.checkPixelPut(coordX, lineStyle)) {
+            markedChangeOfBoard[coordX][coordY] = true;
+            changedColorOfBoard[coordX][coordY] = filledColor;
+        }
     }
 
     /**
@@ -220,44 +233,41 @@ public class Shape {
      * @param yd
      */
     public void putEightSymmetricPoints(int x, int y, int xd, int yd) {
-        savePoint(x + xd, y + yd);
-        savePoint(-x + xd, y + yd);
-        savePoint(x + xd, -y + yd);
-        savePoint(-x + xd, -y + yd);
-        savePoint(y + xd, x + yd);
-        savePoint(-y + xd, x + yd);
-        savePoint(y + xd, -x + yd);
-        savePoint(-y + xd, -x + yd);
+        savePointCoordinate(x + xd, y + yd);
+        savePointCoordinate(-x + xd, y + yd);
+        savePointCoordinate(x + xd, -y + yd);
+        savePointCoordinate(-x + xd, -y + yd);
+        savePointCoordinate(y + xd, x + yd);
+        savePointCoordinate(-y + xd, x + yd);
+        savePointCoordinate(y + xd, -x + yd);
+        savePointCoordinate(-y + xd, -x + yd);
     }
 
-    /**
-     * Rotate this shape by angle.
-     *
-     * @param basePoint
-     * @param angle
-     */
-    public void rotate(Point2D basePoint, double angle) {
+    public void drawVirtualRotation(double angle) {
 
     }
-    
-    /**
-     * Rotation in place of its center point.
-     * @param angle 
-     */
-    public void rotate(double angle) {
-        
+
+    public void drawVirtualMove(Vector2D vector) {
+
     }
-    
+
     public void applyRotation(double angle) {
         this.rotatedAngle += angle;
     }
-    
-    /**
-     * Move this shape follow the vector.
-     * @param vector 
-     */
-    public void move(Vector2D vector) {
-        
+
+    public void applyMove(Vector2D vector) {
+
     }
-    
+
+    public void drawOXSymmetry() {
+
+    }
+
+    public void drawOYSymmetry() {
+
+    }
+
+    public void drawPointSymmetry(Point2D basePoint) {
+
+    }
 }

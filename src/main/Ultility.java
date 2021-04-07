@@ -64,6 +64,7 @@ public class Ultility {
      * @return
      */
     public static boolean checkPixelPut(int coordX, Settings.LineStyle lineStyle) {
+        System.out.println("main.Ultility.checkPixelPut()");
         switch (lineStyle) {
             case DEFAULT:
                 return true;
@@ -71,10 +72,10 @@ public class Ultility {
                 return (coordX % 5 != 0);
             }
             case DASH_DOT: {
-                return (coordX % 5 != 3 && coordX % 5 != 0);
+                return (coordX % 6 != 4 && coordX % 6 != 0);
             }
             case DASH_DOT_DOT: {
-                return (coordX % 7 != 3 && coordX % 7 != 5 && coordX % 7 != 0);
+                return (coordX % 8 != 4 && coordX % 8 != 6 && coordX % 8 != 0);
             }
             case ARROW: {
                 return true;

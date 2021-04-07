@@ -71,6 +71,28 @@ public class Paint extends javax.swing.JFrame {
         setIconFrame();
         setOptionLineStyle();
         setAllEventHandler();
+
+        panel_DrawingArea.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent event) {
+                showCursorCoordinate(event);
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent event) {
+                showCursorCoordinate(event);
+            }
+        });
+
+    }
+
+    public void showCursorCoordinate(MouseEvent event) {
+        label_CoordXValue.setText(
+                "X: " + (event.getX() / (SIZE + SPACE) - COORD_X_O / (SIZE + SPACE))
+        );
+        label_CoordYValue.setText(
+                "Y: " + (-(event.getY() / (SIZE + SPACE) - COORD_Y_O / (SIZE + SPACE)))
+        );
     }
 
     /**
@@ -279,14 +301,20 @@ public class Paint extends javax.swing.JFrame {
         button_Undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                ((Panel_DrawingArea) panel_DrawingArea).undo();
+                button_Undo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableUndo());
+                button_Redo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableRedo());
+                repaint();
             }
         });
 
         button_Redo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                ((Panel_DrawingArea) panel_DrawingArea).redo();
+                button_Undo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableUndo());
+                button_Redo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableRedo());
+                repaint();
             }
         });
 
@@ -362,7 +390,7 @@ public class Paint extends javax.swing.JFrame {
      */
     private void setSelectedToolMode(Settings.DrawingToolMode toolMode) {
         Settings.DrawingToolMode selectedButtonMode
-                = ((Panel_DrawingArea) panel_DrawingArea).getSelectedButton();
+                = ((Panel_DrawingArea) panel_DrawingArea).getSelectedToolMode();
 
         if (selectedButtonMode == toolMode) {
             return;
@@ -705,7 +733,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
-                
+
                 button_Transform.setIcon(new ImageIcon(getClass()
                         .getResource("/img/rotation32px.png"))
                 );
@@ -729,11 +757,6 @@ public class Paint extends javax.swing.JFrame {
             }
         });
 
-        //======================================================================
-        // Drawing panel
-        //======================================================================
-        panel_DrawingArea.addMouseMotionListener(new CustomMouseMotionHandling());
-        panel_DrawingArea.addMouseListener(new CustomMouseClickHandling());
     }
 
     private void setAllEventHandler() {
@@ -807,21 +830,33 @@ public class Paint extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SketchPoint");
         setBackground(new java.awt.Color(12, 240, 240));
+        setFocusable(false);
         setResizable(false);
 
         button_OpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/openFile.png"))); // NOI18N
         button_OpenFile.setToolTipText("Open file");
+        button_OpenFile.setFocusable(false);
+        button_OpenFile.setRequestFocusEnabled(false);
+        button_OpenFile.setRolloverEnabled(false);
 
         button_CreateNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/createNew.png"))); // NOI18N
         button_CreateNewFile.setToolTipText("Create a new file");
+        button_CreateNewFile.setFocusable(false);
+        button_CreateNewFile.setRequestFocusEnabled(false);
+        button_CreateNewFile.setRolloverEnabled(false);
 
         button_SaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         button_SaveFile.setToolTipText("Save file");
+        button_SaveFile.setFocusable(false);
+        button_SaveFile.setRequestFocusEnabled(false);
+        button_SaveFile.setRolloverEnabled(false);
 
         button_Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/undo.png"))); // NOI18N
         button_Undo.setToolTipText("Undo");
         button_Undo.setDisabledIcon(null);
+        button_Undo.setFocusable(false);
         button_Undo.setOpaque(false);
+        button_Undo.setRequestFocusEnabled(false);
         button_Undo.setRolloverEnabled(false);
         button_Undo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -829,12 +864,15 @@ public class Paint extends javax.swing.JFrame {
         button_Redo.setToolTipText("Redo");
         button_Redo.setBorderPainted(false);
         button_Redo.setDisabledIcon(null);
+        button_Redo.setFocusable(false);
         button_Redo.setOpaque(false);
+        button_Redo.setRequestFocusEnabled(false);
         button_Redo.setRolloverEnabled(false);
         button_Redo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Helper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/helper.png"))); // NOI18N
         button_Helper.setToolTipText("Helper");
+        button_Helper.setFocusable(false);
 
         javax.swing.GroupLayout panel_OperationLayout = new javax.swing.GroupLayout(panel_Operation);
         panel_Operation.setLayout(panel_OperationLayout);
@@ -869,6 +907,7 @@ public class Paint extends javax.swing.JFrame {
 
         panel_Control.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         panel_Control.setMinimumSize(new java.awt.Dimension(994, 182));
+        panel_Control.setRequestFocusEnabled(false);
 
         panel_View.setBorder(javax.swing.BorderFactory.createTitledBorder("Visual"));
 
@@ -1147,8 +1186,14 @@ public class Paint extends javax.swing.JFrame {
         panel_SelectCoordinate.setToolTipText("Choose drawing coordinate");
 
         button_2DMode.setText("2D");
+        button_2DMode.setFocusable(false);
+        button_2DMode.setRequestFocusEnabled(false);
+        button_2DMode.setRolloverEnabled(false);
 
         button_3DMode.setText("3D");
+        button_3DMode.setFocusable(false);
+        button_3DMode.setRequestFocusEnabled(false);
+        button_3DMode.setRolloverEnabled(false);
 
         javax.swing.GroupLayout panel_SelectCoordinateLayout = new javax.swing.GroupLayout(panel_SelectCoordinate);
         panel_SelectCoordinate.setLayout(panel_SelectCoordinateLayout);
@@ -1313,71 +1358,8 @@ public class Paint extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    public class CustomMouseClickHandling implements MouseListener {
-
-        @Override
-        public void mouseClicked(MouseEvent event) {
-            if (SwingUtilities.isLeftMouseButton(event)) {
-
-            }
-        }
-
-        @Override
-        public void mousePressed(MouseEvent event) {
-            if (SwingUtilities.isLeftMouseButton(event)) {
-
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent event) {
-            if (SwingUtilities.isLeftMouseButton(event)) {
-
-            }
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-//            if (selectedButton == button_ColorPicker) {
-//                panel_DrawingArea.setCursor(toolkit.createCustomCursor(
-//                        toolkit.getImage("/img/pencil.png"),
-//                        new Point(0, 0),
-//                        "img")
-//                );
-//            }
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-//            setCursor(Cursor.getDefaultCursor());
-        }
-
-    }
-
-    public class CustomMouseMotionHandling implements MouseMotionListener {
-
-        public void showCoordInformation(MouseEvent event) {
-            label_CoordXValue.setText(
-                    "X: " + (event.getX() / (SIZE + SPACE) - COORD_X_O / (SIZE + SPACE))
-            );
-            label_CoordYValue.setText(
-                    "Y: " + (-(event.getY() / (SIZE + SPACE) - COORD_Y_O / (SIZE + SPACE)))
-            );
-        }
-
-        @Override
-        public void mouseDragged(MouseEvent event) {
-            if (SwingUtilities.isLeftMouseButton(event)) {
-                showCoordInformation(event);
-                
-                
-            }
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent event) {
-            showCoordInformation(event);
-        }
+    private Panel_DrawingArea getDrawingPanel() {
+        return (Panel_DrawingArea) panel_DrawingArea;
     }
 
     /**

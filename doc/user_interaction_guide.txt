@@ -1,0 +1,53 @@
+================================================================================
+                    THIS IS A GUIDE FOR USER INTERACTION
+Reference: https://www.geogebra.org/calculator
+================================================================================
+
+1.  BASIC TOOL
+    + Point: one click
+    + Intersect: select intersect or click two objects
+
+2.  EDIT
+    + Select: click object or drag a rectangle to select multiple objects
+    + Move graphics: drag mouse on background
+    + Delete: click object to delete it
+    + Text: select position or existing point.
+
+3.  MEASURE
+    + Angle: select three points or two lines.
+    + Distance: select two points, a segment, polygon or circle.
+    + Area: select polygon, circle or conic
+
+4.  TRANSFORM
+    + Reflect about line: select object to reflect, then line of reflection
+    + Reflect about point: select object to reflect, then center point
+    + Translate by vector: select object to translate, then vector
+
+5. CONSTRUCT
+    + Midpoint (center): select two points, a segment, circle or conic
+    + Perpendicular line: select point and perpendicular line
+    + Perpendicular bisector: select two points or a segment
+    + Parallel line: select point and parallel line
+    + Angle bisector: select three points or two lines
+
+6. LINE:
+    + Segment: select two points
+    + Line: select two points
+    + Ray: select starting point, then point on ray
+    + Vector: select starting point, then end point
+
+7. CIRCLE:
+    + Circle with center: select center point and one point on circle.
+    + Circle with radius: select center point and enter radius.
+    + Circle through 3 points: select three points on circle.
+    + Semicircle: select two end points.
+
+8. POLYGON
+    + Polygon: select all vertices, then first vertex again
+    + Regular polygon: select two points, then enter the number of vertices
+
+9. CONICS
+    + Ellipse: select two foci, then end point on ellipse
+
+10. OTHERS
+    + Pencil: write or draw with selected color

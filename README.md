@@ -39,3 +39,6 @@ Cho phép người dùng chọn hệ tọa độ 2D, 3D và vẽ hệ tọa đ�
 - [ ] Vẽ các hình hợp từ các hình cơ sở (Bài tập 2, 3).
 - [ ] Kĩ thuật xử lý nhiều nét vẽ trên một hình (Bài tập 4).
 - [ ] Hoàn thiện các phép biến hình (Bài tập 5, 6).
+
+## Advanced
+- [ ] Best fit line.
