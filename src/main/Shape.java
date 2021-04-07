@@ -114,7 +114,6 @@ public class Shape {
 
             while (x != endPoint.coordX) {
                 savePointWithLineStyleCheck(x, y, lineStyle);
-//                savePointCoordinate(x, y);
                 if (balance >= 0) {
                     y += incy;
                     balance -= dx;
@@ -123,7 +122,6 @@ public class Shape {
                 x += incx;
             }
             savePointWithLineStyleCheck(x, y, lineStyle);
-//            savePointCoordinate(x, y);
         } else {
             dx <<= 1;
             balance = dx - dy;
@@ -131,7 +129,6 @@ public class Shape {
 
             while (y != endPoint.coordY) {
                 savePointWithLineStyleCheck(x, y, lineStyle);
-//                savePointCoordinate(x, y);
                 if (balance >= 0) {
                     x += incx;
                     balance -= dy;
@@ -140,27 +137,28 @@ public class Shape {
                 y += incy;
             }
             savePointWithLineStyleCheck(x, y, lineStyle);
-//            savePointCoordinate(x, y);
         }
 
         if (lineStyle == Settings.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
+            
             if (vector.getLength() != 0) {
                 
-                System.out.println("lineStyle == Settings.LineStyle.ARROW");
                 // An extra length is used for drawing the head of arrow.
                 int extraLength = 3;
-                Point2D headArrowPoint = vector.getKTimesUnitPoint(endPoint, extraLength);
+                
                 double angleSegmentWithOx = vector.getAngleWithOx();
-
+                
                 Point2D upPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY - extraLength);
                 Point2D downPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY + extraLength);
 
-                this.drawSegment(endPoint, upPoint.createRotationPoint(headArrowPoint, angleSegmentWithOx), Settings.LineStyle.DEFAULT);
-                this.drawSegment(endPoint, downPoint.createRotationPoint(headArrowPoint, angleSegmentWithOx), Settings.LineStyle.DEFAULT);
+                upPoint.rotate(endPoint, angleSegmentWithOx);
+                downPoint.rotate(endPoint, angleSegmentWithOx);
+                
+                this.drawSegment(endPoint, upPoint, Settings.LineStyle.DEFAULT);
+                this.drawSegment(endPoint, downPoint, Settings.LineStyle.DEFAULT);
             }
         }
-        System.out.println("main.Shape.drawSegment()");
     }
 
     public void drawSegment(Point2D startPoint, Point2D endPoint) {

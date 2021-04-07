@@ -43,11 +43,11 @@ public class Point2D {
     }
 
     public void saveCoord(String[][] coordOfBoard) {
-        String coordPointInformation
-                = "(" + (coordX - (Settings.COORD_X_O / Settings.SIZE + Settings.SPACE))
-                + ", " + (-(coordY - (Settings.COORD_Y_O / Settings.SIZE + Settings.SPACE))) + ")";
-
-        coordOfBoard[coordX][coordY] = coordPointInformation;
+        if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
+            int x = (int) (coordX - (Settings.COORD_X_O / Settings.RECT_SIZE) + 1);
+            int y = (int) (- (coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)) - 1);
+            coordOfBoard[coordX][coordY] = "(" + x + ", " + y + ")";
+        }
     }
 
     /**

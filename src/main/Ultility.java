@@ -64,7 +64,6 @@ public class Ultility {
      * @return
      */
     public static boolean checkPixelPut(int coordX, Settings.LineStyle lineStyle) {
-        System.out.println("main.Ultility.checkPixelPut()");
         switch (lineStyle) {
             case DEFAULT:
                 return true;

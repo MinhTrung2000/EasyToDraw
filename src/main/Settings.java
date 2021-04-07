@@ -129,6 +129,8 @@ public class Settings {
     // Kích thước 1 pixel.
     public static final int SIZE = 5 * PIXEL_UNIT;
 
+    public static final int RECT_SIZE = SPACE + SIZE;
+    
     // Line size option
     public static final int MIN_LINE_SIZE = 1;
     public static final int MAX_LINE_SIZE = 5;
@@ -159,9 +161,10 @@ public class Settings {
     public static final Color DEFAULT_COLOR_SAVE_7 = new Color(240, 240, 240);
     public static final Color DEFAULT_COLOR_SAVE_8 = new Color(240, 240, 240);
 
-    public static final Color DEFAULT_DRAWING_GRID_COLOR = Color.WHITE;
-    public static final Color DEFAULT_DRAWING_BACKGROUND_COLOR = new Color(235, 235, 235);
-    public static final Color DEFAULT_DRAWING_COORDINATE_COLOR = new Color(128, 128, 128);
+    public static final Color DEFAULT_PIXEL_COLOR = Color.WHITE;
+    public static final Color DEFAULT_EMPTY_BACKGROUND_COLOR = Color.WHITE;
+    public static final Color DEFAULT_GRID_BACKGROUND_COLOR = new Color(235, 235, 235);
+    public static final Color DEFAULT_COORDINATE_COLOR = new Color(128, 128, 128);
 
     public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
 
