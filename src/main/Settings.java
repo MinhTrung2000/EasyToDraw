@@ -122,7 +122,7 @@ public class Settings {
 
     // The size of drawing area (fixed version).
     // TODO: remove if find out the way to make drawing area resizeable.
-    public static final int WIDTH_DRAW_AREA = 1055;
+    public static final int WIDTH_DRAW_AREA = 1173;
     public static final int HEIGHT_DRAW_AREA = 656;
 
     // Khoảng cách 2 pixel.
