@@ -4,7 +4,7 @@ import java.awt.Color;
 import main.Ultility;
 import static java.lang.Math.abs;
 
-public class Circle extends Shape {
+public class Circle extends Shape2D {
     
     private double radius;
     

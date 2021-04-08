@@ -1,7 +1,7 @@
 package main;
 
 import model.shape2d.Triangle;
-import model.shape2d.Shape;
+import model.shape2d.Shape2D;
 import model.shape2d.Arrow2D;
 import model.shape2d.Point2D;
 import model.shape2d.Circle;
@@ -75,7 +75,7 @@ public class Panel_DrawingArea extends JPanel {
     private Settings.LineStyle selectedLineStyle;
     private Integer selectedLineSize;
 
-    private Shape genericShape;
+    private Shape2D genericShape;
 
     public Panel_DrawingArea() {
         widthOfScreen = Settings.WIDTH_DRAW_AREA;
@@ -108,7 +108,7 @@ public class Panel_DrawingArea extends JPanel {
         selectedLineStyle = Settings.LineStyle.DEFAULT;
         selectedLineSize = Settings.DEFAULT_LINE_SIZE;
 
-        genericShape = new Shape(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+        genericShape = new Shape2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
 
         resetChangedPropertyArray();
         resetSavedPropertyArray();

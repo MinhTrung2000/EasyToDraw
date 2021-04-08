@@ -60,22 +60,22 @@ public class Ultility {
     /**
      * Check if pixel having coordinate x can be put or not.
      *
-     * @param coordX
+     * @param pixelCounter
      * @param lineStyle
      * @return
      */
-    public static boolean checkPixelPut(int coordX, Settings.LineStyle lineStyle) {
+    public static boolean checkPixelPut(int pixelCounter, Settings.LineStyle lineStyle) {
         switch (lineStyle) {
             case DEFAULT:
                 return true;
             case DASH: {
-                return (coordX % 5 != 0);
+                return (pixelCounter % 5 != 0);
             }
             case DASH_DOT: {
-                return (coordX % 6 != 4 && coordX % 6 != 0);
+                return (pixelCounter % 6 != 4 && pixelCounter % 6 != 0);
             }
             case DASH_DOT_DOT: {
-                return (coordX % 8 != 4 && coordX % 8 != 6 && coordX % 8 != 0);
+                return (pixelCounter % 8 != 4 && pixelCounter % 8 != 6 && pixelCounter % 8 != 0);
             }
             case ARROW: {
                 return true;

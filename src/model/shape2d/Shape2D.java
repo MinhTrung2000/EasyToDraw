@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import main.Settings;
 import main.Ultility;
 
-public class Shape {
+public class Shape2D {
     
     /**
      * Default initial angle of shape.
@@ -54,7 +54,7 @@ public class Shape {
      */
     protected Point2D centerPoint;
 
-    public Shape(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
+    public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard) {
         this.markedChangeOfBoard = markedChangeOfBoard;
         this.changedColorOfBoard = changedColorOfBoard;
@@ -89,6 +89,7 @@ public class Shape {
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
+        int pixelCounter = 0;
 
         if (endPoint.coordX >= startPoint.coordX) {
             dx = endPoint.coordX - startPoint.coordX;
@@ -115,7 +116,8 @@ public class Shape {
             dx <<= 1;
 
             while (x != endPoint.coordX) {
-                savePointWithLineStyleCheck(x, y, lineStyle);
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
                     y += incy;
                     balance -= dx;
@@ -123,14 +125,16 @@ public class Shape {
                 balance += dy;
                 x += incx;
             }
-            savePointWithLineStyleCheck(x, y, lineStyle);
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
         } else {
             dx <<= 1;
             balance = dx - dy;
             dy <<= 1;
 
             while (y != endPoint.coordY) {
-                savePointWithLineStyleCheck(x, y, lineStyle);
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
                     x += incx;
                     balance -= dy;
@@ -138,7 +142,8 @@ public class Shape {
                 balance += dx;
                 y += incy;
             }
-            savePointWithLineStyleCheck(x, y, lineStyle);
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
         }
 
         if (lineStyle == Settings.LineStyle.ARROW) {
@@ -198,7 +203,7 @@ public class Shape {
      */
     protected void savePointCoordinate(int coordX, int coordY) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
-//            System.out.println("main.Shape.savePointCoordinate(" + coordX + ", " + coordY +")");
+//            System.out.println("main.Shape2D.savePointCoordinate(" + coordX + ", " + coordY +")");
             markedChangeOfBoard[coordX][coordY] = true;
             changedColorOfBoard[coordX][coordY] = filledColor;
         }
@@ -216,9 +221,9 @@ public class Shape {
      * @param coordY
      * @param lineStyle
      */
-    public void savePointWithLineStyleCheck(int coordX, int coordY, Settings.LineStyle lineStyle) {
+    public void savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, Settings.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
-                && Ultility.checkPixelPut(coordX, lineStyle)) {
+                && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordX][coordY] = true;
             changedColorOfBoard[coordX][coordY] = filledColor;
         }

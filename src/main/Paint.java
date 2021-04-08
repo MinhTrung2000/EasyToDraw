@@ -33,29 +33,6 @@ public class Paint extends javax.swing.JFrame {
      */
     private boolean showStatusBar_Flag;
 
-    private ButtonGroup buttonGroup_CoordMode;
-
-    // Popup Menu and its menu items.
-    private JPopupMenu popMenu_Line;
-    private JMenuItem menuItem_Segment;
-    private JMenuItem menuItem_Line;
-    private JMenuItem menuItem_FreeDrawing;
-
-    private JPopupMenu popMenu_Polygon;
-    private JMenuItem menuItem_FreePolygon;
-    private JMenuItem menuItem_Triangle;
-    private JMenuItem menuItem_Rectangle;
-    private JMenuItem menuItem_Circle;
-
-    private JPopupMenu popMenu_Shape;
-    private JMenuItem menuItem_Arrow;
-    private JMenuItem menuItem_Star;
-    private JMenuItem menuItem_Diamond;
-
-    private JPopupMenu popMenu_Transform;
-    private JMenuItem menuItem_Rotation;
-    private JMenuItem menuItem_Symmetry;
-
     private Settings.DrawingToolMode savedLineMode;
     private Settings.DrawingToolMode savedPolygonMode;
     private Settings.DrawingToolMode savedShapeMode;
@@ -593,7 +570,7 @@ public class Paint extends javax.swing.JFrame {
                 savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_SEGMENT;
 
                 button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/segment32px.png"))
+                        .getResource("/img/Line_Segment.png"))
                 );
 
                 setSelectedToolMode(savedLineMode);
@@ -607,7 +584,7 @@ public class Paint extends javax.swing.JFrame {
                 savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_STRAIGHT;
 
                 button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/straightLine32px.png"))
+                        .getResource("/img/Line_StraightLine.png"))
                 );
 
                 setSelectedToolMode(savedLineMode);
@@ -621,7 +598,7 @@ public class Paint extends javax.swing.JFrame {
                 savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_FREE;
 
                 button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/freeDrawing32px.png"))
+                        .getResource("/img/Line_FreeDrawing.png"))
                 );
 
                 setSelectedToolMode(savedLineMode);
@@ -635,7 +612,7 @@ public class Paint extends javax.swing.JFrame {
                 savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_FREE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/polygon32px.png"))
+                        .getResource("/img/Polygon_Polygon.png"))
                 );
 
                 setSelectedToolMode(savedPolygonMode);
@@ -649,7 +626,7 @@ public class Paint extends javax.swing.JFrame {
                 savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_TRIANGLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/triangle32px.png"))
+                        .getResource("/img/Polygon_Triangle.png"))
                 );
 
                 setSelectedToolMode(savedPolygonMode);
@@ -663,7 +640,7 @@ public class Paint extends javax.swing.JFrame {
                 savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_RECTANGLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/rectangle32px.png"))
+                        .getResource("/img/Poligon_Rectangle.png"))
                 );
 
                 setSelectedToolMode(savedPolygonMode);
@@ -677,7 +654,7 @@ public class Paint extends javax.swing.JFrame {
                 savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_CIRCLE;
 
                 button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/circle32px.png"))
+                        .getResource("/img/Polygon_Circle.png"))
                 );
 
                 setSelectedToolMode(savedPolygonMode);
@@ -691,7 +668,7 @@ public class Paint extends javax.swing.JFrame {
                 savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_STAR;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/star32px.png"))
+                        .getResource("/img/Shape_Star.png"))
                 );
 
                 setSelectedToolMode(savedShapeMode);
@@ -705,7 +682,7 @@ public class Paint extends javax.swing.JFrame {
                 savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_DIAMOND;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/diamond32px.png"))
+                        .getResource("/img/Shape_Diamond.png"))
                 );
 
                 setSelectedToolMode(savedShapeMode);
@@ -719,7 +696,7 @@ public class Paint extends javax.swing.JFrame {
                 savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_ARROW;
 
                 button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/arrow32px.png"))
+                        .getResource("/img/Shape_Arrow.png"))
                 );
 
                 setSelectedToolMode(savedShapeMode);
@@ -733,7 +710,7 @@ public class Paint extends javax.swing.JFrame {
                 savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
 
                 button_Transform.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/rotation32px.png"))
+                        .getResource("/img/Transform_Rotation.png"))
                 );
 
                 setSelectedToolMode(savedTransformMode);
@@ -747,7 +724,7 @@ public class Paint extends javax.swing.JFrame {
                 savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY;
 
                 button_Transform.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/symmetry32px.png"))
+                        .getResource("/img/Transform_Symmetry.png"))
                 );
 
                 setSelectedToolMode(savedTransformMode);
@@ -776,6 +753,23 @@ public class Paint extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
+        buttonGroup_CoordMode = new javax.swing.ButtonGroup();
+        popMenu_Line = new javax.swing.JPopupMenu();
+        menuItem_Segment = new javax.swing.JMenuItem();
+        menuItem_Line = new javax.swing.JMenuItem();
+        menuItem_FreeDrawing = new javax.swing.JMenuItem();
+        popMenu_Polygon = new javax.swing.JPopupMenu();
+        menuItem_FreePolygon = new javax.swing.JMenuItem();
+        menuItem_Triangle = new javax.swing.JMenuItem();
+        menuItem_Rectangle = new javax.swing.JMenuItem();
+        menuItem_Circle = new javax.swing.JMenuItem();
+        popMenu_Shape = new javax.swing.JPopupMenu();
+        menuItem_Star = new javax.swing.JMenuItem();
+        menuItem_Diamond = new javax.swing.JMenuItem();
+        menuItem_Arrow = new javax.swing.JMenuItem();
+        popMenu_Transform = new javax.swing.JPopupMenu();
+        menuItem_Rotation = new javax.swing.JMenuItem();
+        menuItem_Symmetry = new javax.swing.JMenuItem();
         panel_Operation = new javax.swing.JPanel();
         button_OpenFile = new javax.swing.JButton();
         jSeparator4 = new javax.swing.JSeparator();
@@ -836,6 +830,42 @@ public class Paint extends javax.swing.JFrame {
         jSeparator8 = new javax.swing.JSeparator();
         label_ToolTip = new javax.swing.JLabel();
 
+        menuItem_Segment.setText("jMenuItem1");
+        popMenu_Line.add(menuItem_Segment);
+
+        menuItem_Line.setText("jMenuItem1");
+        popMenu_Line.add(menuItem_Line);
+
+        menuItem_FreeDrawing.setText("jMenuItem1");
+        popMenu_Line.add(menuItem_FreeDrawing);
+
+        menuItem_FreePolygon.setText("jMenuItem1");
+        popMenu_Polygon.add(menuItem_FreePolygon);
+
+        menuItem_Triangle.setText("jMenuItem1");
+        popMenu_Polygon.add(menuItem_Triangle);
+
+        menuItem_Rectangle.setText("jMenuItem1");
+        popMenu_Polygon.add(menuItem_Rectangle);
+
+        menuItem_Circle.setText("jMenuItem1");
+        popMenu_Polygon.add(menuItem_Circle);
+
+        menuItem_Star.setText("jMenuItem1");
+        popMenu_Shape.add(menuItem_Star);
+
+        menuItem_Diamond.setText("jMenuItem1");
+        popMenu_Shape.add(menuItem_Diamond);
+
+        menuItem_Arrow.setText("jMenuItem1");
+        popMenu_Shape.add(menuItem_Arrow);
+
+        menuItem_Rotation.setText("jMenuItem1");
+        popMenu_Transform.add(menuItem_Rotation);
+
+        menuItem_Symmetry.setText("jMenuItem1");
+        popMenu_Transform.add(menuItem_Symmetry);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SketchPoint");
         setBackground(new java.awt.Color(12, 240, 240));
@@ -845,6 +875,7 @@ public class Paint extends javax.swing.JFrame {
         button_OpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/openFile.png"))); // NOI18N
         button_OpenFile.setToolTipText("Open file");
         button_OpenFile.setContentAreaFilled(false);
+        button_OpenFile.setEnabled(false);
         button_OpenFile.setFocusable(false);
         button_OpenFile.setRequestFocusEnabled(false);
         button_OpenFile.setRolloverEnabled(false);
@@ -854,6 +885,7 @@ public class Paint extends javax.swing.JFrame {
         button_CreateNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/createNew.png"))); // NOI18N
         button_CreateNewFile.setToolTipText("Create a new file");
         button_CreateNewFile.setContentAreaFilled(false);
+        button_CreateNewFile.setEnabled(false);
         button_CreateNewFile.setFocusable(false);
         button_CreateNewFile.setRequestFocusEnabled(false);
         button_CreateNewFile.setRolloverEnabled(false);
@@ -863,6 +895,7 @@ public class Paint extends javax.swing.JFrame {
         button_SaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         button_SaveFile.setToolTipText("Save file");
         button_SaveFile.setContentAreaFilled(false);
+        button_SaveFile.setEnabled(false);
         button_SaveFile.setFocusable(false);
         button_SaveFile.setRequestFocusEnabled(false);
         button_SaveFile.setRolloverEnabled(false);
@@ -873,6 +906,7 @@ public class Paint extends javax.swing.JFrame {
         button_Undo.setToolTipText("Undo");
         button_Undo.setContentAreaFilled(false);
         button_Undo.setDisabledIcon(null);
+        button_Undo.setEnabled(false);
         button_Undo.setFocusable(false);
         button_Undo.setOpaque(false);
         button_Undo.setRequestFocusEnabled(false);
@@ -886,6 +920,7 @@ public class Paint extends javax.swing.JFrame {
         button_Redo.setBorderPainted(false);
         button_Redo.setContentAreaFilled(false);
         button_Redo.setDisabledIcon(null);
+        button_Redo.setEnabled(false);
         button_Redo.setFocusable(false);
         button_Redo.setOpaque(false);
         button_Redo.setRequestFocusEnabled(false);
@@ -896,6 +931,7 @@ public class Paint extends javax.swing.JFrame {
         button_Helper.setToolTipText("Helper");
         button_Helper.setBorder(null);
         button_Helper.setContentAreaFilled(false);
+        button_Helper.setEnabled(false);
         button_Helper.setFocusPainted(false);
         button_Helper.setFocusable(false);
         button_Helper.setOpaque(false);
@@ -960,6 +996,7 @@ public class Paint extends javax.swing.JFrame {
 
         checkBox_showStatusBar.setText("Show status bar");
         checkBox_showStatusBar.setToolTipText("Whether to show status bar below");
+        checkBox_showStatusBar.setEnabled(false);
 
         javax.swing.GroupLayout panel_ViewLayout = new javax.swing.GroupLayout(panel_View);
         panel_View.setLayout(panel_ViewLayout);
@@ -995,6 +1032,7 @@ public class Paint extends javax.swing.JFrame {
         label_SizeLine.setText("Size:");
 
         spinner_SizeLize.setToolTipText("Choose line size");
+        spinner_SizeLize.setEnabled(false);
 
         label_Pixel.setText("px");
 
@@ -1036,6 +1074,7 @@ public class Paint extends javax.swing.JFrame {
 
         button_ColorPicker.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorpicker.png"))); // NOI18N
         button_ColorPicker.setToolTipText("Color picker");
+        button_ColorPicker.setEnabled(false);
         button_ColorPicker.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button_ColorPickerActionPerformed(evt);
@@ -1044,18 +1083,23 @@ public class Paint extends javax.swing.JFrame {
 
         button_FillColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fillColor.png"))); // NOI18N
         button_FillColor.setToolTipText("Fill");
+        button_FillColor.setEnabled(false);
 
         button_ClearAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clearAll.png"))); // NOI18N
         button_ClearAll.setToolTipText("Clear");
+        button_ClearAll.setEnabled(false);
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
+        button_Eraser.setEnabled(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
         button_Select.setToolTipText("Select");
+        button_Select.setEnabled(false);
 
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N
         button_Animation.setToolTipText("Animations");
+        button_Animation.setEnabled(false);
 
         javax.swing.GroupLayout panel_ToolLayout = new javax.swing.GroupLayout(panel_Tool);
         panel_Tool.setLayout(panel_ToolLayout);
@@ -1272,11 +1316,13 @@ public class Paint extends javax.swing.JFrame {
         button_Polygon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Shape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Shape_Star.png"))); // NOI18N
+        button_Shape.setEnabled(false);
         button_Shape.setFocusable(false);
         button_Shape.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Shape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Transform_Rotation.png"))); // NOI18N
+        button_Transform.setEnabled(false);
         button_Transform.setFocusable(false);
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1500,6 +1546,7 @@ public class Paint extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Seperator;
+    private javax.swing.ButtonGroup buttonGroup_CoordMode;
     private javax.swing.JRadioButton button_2DMode;
     private javax.swing.JRadioButton button_3DMode;
     private javax.swing.JButton button_Animation;
@@ -1545,6 +1592,18 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
     private javax.swing.JLabel label_ToolTip;
+    private javax.swing.JMenuItem menuItem_Arrow;
+    private javax.swing.JMenuItem menuItem_Circle;
+    private javax.swing.JMenuItem menuItem_Diamond;
+    private javax.swing.JMenuItem menuItem_FreeDrawing;
+    private javax.swing.JMenuItem menuItem_FreePolygon;
+    private javax.swing.JMenuItem menuItem_Line;
+    private javax.swing.JMenuItem menuItem_Rectangle;
+    private javax.swing.JMenuItem menuItem_Rotation;
+    private javax.swing.JMenuItem menuItem_Segment;
+    private javax.swing.JMenuItem menuItem_Star;
+    private javax.swing.JMenuItem menuItem_Symmetry;
+    private javax.swing.JMenuItem menuItem_Triangle;
     private javax.swing.JPanel panel_Color;
     private javax.swing.JPanel panel_Control;
     private javax.swing.JPanel panel_CoordinateCursor;
@@ -1557,6 +1616,10 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JPanel panel_StatusBar;
     private javax.swing.JPanel panel_Tool;
     private javax.swing.JPanel panel_View;
+    private javax.swing.JPopupMenu popMenu_Line;
+    private javax.swing.JPopupMenu popMenu_Polygon;
+    private javax.swing.JPopupMenu popMenu_Shape;
+    private javax.swing.JPopupMenu popMenu_Transform;
     private javax.swing.JSpinner spinner_SizeLize;
     // End of variables declaration//GEN-END:variables
 }

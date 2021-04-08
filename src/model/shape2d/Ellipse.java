@@ -2,7 +2,7 @@ package model.shape2d;
 
 import java.awt.Color;
 
-public class Ellipse2D extends Shape {
+public class Ellipse extends Shape2D {
     
     private Point2D topPoint;
     private Point2D bottomPoint;
@@ -14,7 +14,7 @@ public class Ellipse2D extends Shape {
     
     private boolean isCircle;
     
-    public Ellipse2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, 
+    public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, 
             String[][] changedCoordOfBoard) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
         topPoint = new Point2D();

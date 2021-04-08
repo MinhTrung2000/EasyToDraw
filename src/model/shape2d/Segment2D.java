@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import static main.Settings.*;
 
-public class Segment2D extends Shape {
+public class Segment2D extends Shape2D {
 
     private Point2D startPoint;
     private Point2D endPoint;

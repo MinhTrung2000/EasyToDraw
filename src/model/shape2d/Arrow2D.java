@@ -41,7 +41,7 @@ center      = [top.x, top.y + (A.y - top.y) / 2]
 */
 
 
-public class Arrow2D extends Shape {
+public class Arrow2D extends Shape2D {
 
     private Point2D pointA;
     private Point2D pointB;

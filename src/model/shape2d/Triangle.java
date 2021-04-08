@@ -2,7 +2,7 @@ package model.shape2d;
 
 import java.awt.Color;
 
-public class Triangle extends Shape {
+public class Triangle extends Shape2D {
 
     private Point2D pointA;
     private Point2D pointB;

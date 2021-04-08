@@ -2,7 +2,7 @@ package model.shape2d;
 
 import java.awt.Color;
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape2D {
 
     private Point2D leftTopPoint;
     private Point2D rightTopPoint;
