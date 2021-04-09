@@ -198,7 +198,6 @@ public class Paint extends javax.swing.JFrame {
     private void setDefaultVisualOption() {
         checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
         checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
-        checkBox_showStatusBar.setSelected(Settings.DEFAULT_VISUAL_SHOW_STATUSBAR);
         this.showStatusBar_Flag = Settings.DEFAULT_VISUAL_SHOW_STATUSBAR;
     }
 
@@ -318,14 +317,6 @@ public class Paint extends javax.swing.JFrame {
             public void itemStateChanged(ItemEvent event) {
                 boolean showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
                 ((Panel_DrawingArea) panel_DrawingArea).setShowCoordinateFlag(showCoordinate_Flag);
-            }
-        });
-
-        checkBox_showStatusBar.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent event) {
-                boolean showStatusBar_Flag = (event.getStateChange() == ItemEvent.SELECTED);
-                showStatusBar(showStatusBar_Flag);
             }
         });
 
@@ -751,7 +742,6 @@ public class Paint extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         buttonGroup_CoordMode = new javax.swing.ButtonGroup();
         popMenu_Line = new javax.swing.JPopupMenu();
@@ -786,7 +776,6 @@ public class Paint extends javax.swing.JFrame {
         panel_View = new javax.swing.JPanel();
         checkBox_showGridlines = new javax.swing.JCheckBox();
         checkBox_showCoordinate = new javax.swing.JCheckBox();
-        checkBox_showStatusBar = new javax.swing.JCheckBox();
         panel_Format = new javax.swing.JPanel();
         label_StyleLine = new javax.swing.JLabel();
         comboBox_StyleLine = new javax.swing.JComboBox<>();
@@ -908,7 +897,6 @@ public class Paint extends javax.swing.JFrame {
         button_Undo.setDisabledIcon(null);
         button_Undo.setEnabled(false);
         button_Undo.setFocusable(false);
-        button_Undo.setOpaque(false);
         button_Undo.setRequestFocusEnabled(false);
         button_Undo.setRolloverEnabled(false);
         button_Undo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -922,7 +910,6 @@ public class Paint extends javax.swing.JFrame {
         button_Redo.setDisabledIcon(null);
         button_Redo.setEnabled(false);
         button_Redo.setFocusable(false);
-        button_Redo.setOpaque(false);
         button_Redo.setRequestFocusEnabled(false);
         button_Redo.setRolloverEnabled(false);
         button_Redo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -934,7 +921,6 @@ public class Paint extends javax.swing.JFrame {
         button_Helper.setEnabled(false);
         button_Helper.setFocusPainted(false);
         button_Helper.setFocusable(false);
-        button_Helper.setOpaque(false);
         button_Helper.setRequestFocusEnabled(false);
         button_Helper.setRolloverEnabled(false);
 
@@ -994,10 +980,6 @@ public class Paint extends javax.swing.JFrame {
         checkBox_showCoordinate.setText("Show coordinate");
         checkBox_showCoordinate.setToolTipText("Whether to show coordinate");
 
-        checkBox_showStatusBar.setText("Show status bar");
-        checkBox_showStatusBar.setToolTipText("Whether to show status bar below");
-        checkBox_showStatusBar.setEnabled(false);
-
         javax.swing.GroupLayout panel_ViewLayout = new javax.swing.GroupLayout(panel_View);
         panel_View.setLayout(panel_ViewLayout);
         panel_ViewLayout.setHorizontalGroup(
@@ -1006,8 +988,7 @@ public class Paint extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panel_ViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(checkBox_showGridlines)
-                    .addComponent(checkBox_showCoordinate)
-                    .addComponent(checkBox_showStatusBar))
+                    .addComponent(checkBox_showCoordinate))
                 .addContainerGap())
         );
         panel_ViewLayout.setVerticalGroup(
@@ -1017,9 +998,7 @@ public class Paint extends javax.swing.JFrame {
                 .addComponent(checkBox_showGridlines)
                 .addGap(18, 18, 18)
                 .addComponent(checkBox_showCoordinate)
-                .addGap(18, 18, 18)
-                .addComponent(checkBox_showStatusBar)
-                .addContainerGap())
+                .addGap(52, 52, 52))
         );
 
         panel_Format.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Format", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 15))); // NOI18N
@@ -1151,6 +1130,11 @@ public class Paint extends javax.swing.JFrame {
         button_ColorSave_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_2.setContentAreaFilled(false);
         button_ColorSave_2.setOpaque(true);
+        button_ColorSave_2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_ColorSave_2ActionPerformed(evt);
+            }
+        });
 
         button_ColorSave_3.setBackground(new java.awt.Color(0, 0, 0));
         button_ColorSave_3.setToolTipText("Recent color");
@@ -1230,7 +1214,7 @@ public class Paint extends javax.swing.JFrame {
                             .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(button_ColorSave_3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(button_ColorSave_4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGap(13, 13, 13)
                             .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1454,9 +1438,7 @@ public class Paint extends javax.swing.JFrame {
             panel_StatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(panel_StatusBarLayout.createSequentialGroup()
-                .addComponent(label_ToolTip)
-                .addGap(0, 0, 0))
+            .addComponent(label_ToolTip)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1496,6 +1478,10 @@ public class Paint extends javax.swing.JFrame {
     private void button_ColorPickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ColorPickerActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_button_ColorPickerActionPerformed
+
+    private void button_ColorSave_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ColorSave_2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_ColorSave_2ActionPerformed
 
     private Panel_DrawingArea getDrawingPanel() {
         return (Panel_DrawingArea) panel_DrawingArea;
@@ -1576,7 +1562,6 @@ public class Paint extends javax.swing.JFrame {
     private javax.swing.JButton button_Undo;
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
-    private javax.swing.JCheckBox checkBox_showStatusBar;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

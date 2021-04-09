@@ -275,7 +275,6 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="opaque" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -299,7 +298,6 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="opaque" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
@@ -318,7 +316,6 @@
             <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
-            <Property name="opaque" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
           </Properties>
@@ -391,7 +388,6 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="checkBox_showGridlines" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="checkBox_showCoordinate" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="checkBox_showStatusBar" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -404,9 +400,7 @@
                       <Component id="checkBox_showGridlines" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="checkBox_showCoordinate" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="checkBox_showStatusBar" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -422,13 +416,6 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Show coordinate"/>
                 <Property name="toolTipText" type="java.lang.String" value="Whether to show coordinate"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JCheckBox" name="checkBox_showStatusBar">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Show status bar"/>
-                <Property name="toolTipText" type="java.lang.String" value="Whether to show status bar below"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -691,7 +678,7 @@
                                       <Component id="button_ColorSave_3" alignment="1" min="-2" pref="44" max="-2" attributes="0"/>
                                       <Component id="button_ColorSave_4" alignment="1" min="-2" pref="44" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="button_ColorSave_7" min="-2" pref="44" max="-2" attributes="0"/>
                                       <Component id="button_ColorSave_8" min="-2" pref="44" max="-2" attributes="0"/>
@@ -745,6 +732,9 @@
                 <Property name="contentAreaFilled" type="boolean" value="false"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_ColorSave_2ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="button_ColorSave_3">
               <Properties>
@@ -1089,10 +1079,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Component id="panel_CoordinateCursor" max="-2" attributes="0"/>
               <Component id="jSeparator8" alignment="1" max="32767" attributes="0"/>
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="label_ToolTip" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              </Group>
+              <Component id="label_ToolTip" alignment="0" min="-2" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
