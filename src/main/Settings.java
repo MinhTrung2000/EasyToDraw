@@ -62,7 +62,7 @@ public class Settings {
         },
         DRAWING_LINE_FREE {
             public String toString() {
-                return "Free drawing";
+                return "Pencil";
             }
         },
         DRAWING_POLYGON_FREE {
@@ -140,12 +140,12 @@ public class Settings {
     /**
      * X coordinate part of O point.
      */
-    public static final int COORD_X_O = (int) (WIDTH_DRAW_AREA / 2) + 1;
+    public static final int COORD_X_O = (int) (WIDTH_DRAW_AREA / 2) - 1;
 
     /**
      * Y coordinate part of O point.
      */
-    public static final int COORD_Y_O = (int) (HEIGHT_DRAW_AREA / 2) + 2;
+    public static final int COORD_Y_O = (int) (HEIGHT_DRAW_AREA / 2) - 1;
 
     public static final int DEFAULT_LINE_SIZE = 1;
 

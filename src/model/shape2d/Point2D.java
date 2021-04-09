@@ -46,8 +46,8 @@ public class Point2D {
 
     public void saveCoord(String[][] coordOfBoard) {
         if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
-            int x = (int) (coordX - (Settings.COORD_X_O / Settings.RECT_SIZE) + 1);
-            int y = (int) (- (coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)) - 1);
+            int x = (int) (coordX - (Settings.COORD_X_O / Settings.RECT_SIZE));
+            int y = (int) (- (coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)));
             coordOfBoard[coordX][coordY] = "(" + x + ", " + y + ")";
         }
     }

@@ -1434,7 +1434,7 @@ public class Paint extends javax.swing.JFrame {
 
         label_ToolTip.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         label_ToolTip.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tooltip.png"))); // NOI18N
-        label_ToolTip.setText("Let me say something!");
+        label_ToolTip.setText("Show tool tip here!");
         label_ToolTip.setFocusable(false);
         label_ToolTip.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
