@@ -23,12 +23,12 @@ public class Settings {
         DASH {
             public String toString() {
 //                return "---------------------";
-                return "──── ──── ────";
+                return "─── ─── ─── ───";
             }
         },
         DASH_DOT {
             public String toString() {
-                return "── ∙ ── ∙ ── ∙ ── ∙ ";
+                return "── ∙ ── ∙ ── ∙ ──";
             }
         },
         DASH_DOT_DOT {
@@ -151,7 +151,6 @@ public class Settings {
 
     public static final boolean DEFAULT_VISUAL_SHOW_GRID = true;
     public static final boolean DEFAULT_VISUAL_SHOW_COORDINATE = true;
-    public static final boolean DEFAULT_VISUAL_SHOW_STATUSBAR = true;
 
     public static final Color DEFAULT_COLOR_SAVE_1 = new Color(0, 0, 0);
     public static final Color DEFAULT_COLOR_SAVE_2 = new Color(255, 255, 255);

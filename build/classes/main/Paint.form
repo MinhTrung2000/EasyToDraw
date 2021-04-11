@@ -216,7 +216,6 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Open file"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -234,7 +233,6 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Create a new file"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -252,7 +250,6 @@
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Save file"/>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -273,7 +270,6 @@
             <Property name="disabledIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="0" name="null"/>
             </Property>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -296,7 +292,6 @@
             <Property name="disabledIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="0" name="null"/>
             </Property>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -313,7 +308,6 @@
               <Border info="null"/>
             </Property>
             <Property name="contentAreaFilled" type="boolean" value="false"/>
-            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
@@ -572,11 +566,7 @@
                   <Image iconType="3" name="/img/colorpicker.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Color picker"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_ColorPickerActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="button_FillColor">
               <Properties>
@@ -584,7 +574,6 @@
                   <Image iconType="3" name="/img/fillColor.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Fill"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="button_ClearAll">
@@ -593,7 +582,6 @@
                   <Image iconType="3" name="/img/clearAll.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Clear"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="button_Eraser">
@@ -602,7 +590,6 @@
                   <Image iconType="3" name="/img/eraser.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Eraser"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="button_Select">
@@ -611,7 +598,6 @@
                   <Image iconType="3" name="/img/select.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Select"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="button_Animation">
@@ -620,7 +606,6 @@
                   <Image iconType="3" name="/img/animation.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Animations"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -732,9 +717,6 @@
                 <Property name="contentAreaFilled" type="boolean" value="false"/>
                 <Property name="opaque" type="boolean" value="true"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="button_ColorSave_2ActionPerformed"/>
-              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="button_ColorSave_3">
               <Properties>
@@ -1001,7 +983,6 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/Shape_Star.png"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>
@@ -1012,7 +993,6 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/img/Transform_Rotation.png"/>
                 </Property>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="verticalTextPosition" type="int" value="3"/>

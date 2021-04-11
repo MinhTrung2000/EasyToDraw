@@ -1,16 +1,12 @@
 package main;
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -27,11 +23,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class Paint extends javax.swing.JFrame {
-
-    /**
-     * Show status-bar or not.
-     */
-    private boolean showStatusBar_Flag;
 
     private Settings.DrawingToolMode savedLineMode;
     private Settings.DrawingToolMode savedPolygonMode;
@@ -60,7 +51,6 @@ public class Paint extends javax.swing.JFrame {
                 showCursorCoordinate(event);
             }
         });
-
     }
 
     public void showCursorCoordinate(MouseEvent event) {
@@ -198,7 +188,6 @@ public class Paint extends javax.swing.JFrame {
     private void setDefaultVisualOption() {
         checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
         checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
-        this.showStatusBar_Flag = Settings.DEFAULT_VISUAL_SHOW_STATUSBAR;
     }
 
     private void setDefaultColorOption() {
@@ -864,7 +853,6 @@ public class Paint extends javax.swing.JFrame {
         button_OpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/openFile.png"))); // NOI18N
         button_OpenFile.setToolTipText("Open file");
         button_OpenFile.setContentAreaFilled(false);
-        button_OpenFile.setEnabled(false);
         button_OpenFile.setFocusable(false);
         button_OpenFile.setRequestFocusEnabled(false);
         button_OpenFile.setRolloverEnabled(false);
@@ -874,7 +862,6 @@ public class Paint extends javax.swing.JFrame {
         button_CreateNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/createNew.png"))); // NOI18N
         button_CreateNewFile.setToolTipText("Create a new file");
         button_CreateNewFile.setContentAreaFilled(false);
-        button_CreateNewFile.setEnabled(false);
         button_CreateNewFile.setFocusable(false);
         button_CreateNewFile.setRequestFocusEnabled(false);
         button_CreateNewFile.setRolloverEnabled(false);
@@ -884,7 +871,6 @@ public class Paint extends javax.swing.JFrame {
         button_SaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         button_SaveFile.setToolTipText("Save file");
         button_SaveFile.setContentAreaFilled(false);
-        button_SaveFile.setEnabled(false);
         button_SaveFile.setFocusable(false);
         button_SaveFile.setRequestFocusEnabled(false);
         button_SaveFile.setRolloverEnabled(false);
@@ -895,7 +881,6 @@ public class Paint extends javax.swing.JFrame {
         button_Undo.setToolTipText("Undo");
         button_Undo.setContentAreaFilled(false);
         button_Undo.setDisabledIcon(null);
-        button_Undo.setEnabled(false);
         button_Undo.setFocusable(false);
         button_Undo.setRequestFocusEnabled(false);
         button_Undo.setRolloverEnabled(false);
@@ -908,7 +893,6 @@ public class Paint extends javax.swing.JFrame {
         button_Redo.setBorderPainted(false);
         button_Redo.setContentAreaFilled(false);
         button_Redo.setDisabledIcon(null);
-        button_Redo.setEnabled(false);
         button_Redo.setFocusable(false);
         button_Redo.setRequestFocusEnabled(false);
         button_Redo.setRolloverEnabled(false);
@@ -918,7 +902,6 @@ public class Paint extends javax.swing.JFrame {
         button_Helper.setToolTipText("Helper");
         button_Helper.setBorder(null);
         button_Helper.setContentAreaFilled(false);
-        button_Helper.setEnabled(false);
         button_Helper.setFocusPainted(false);
         button_Helper.setFocusable(false);
         button_Helper.setRequestFocusEnabled(false);
@@ -1053,32 +1036,21 @@ public class Paint extends javax.swing.JFrame {
 
         button_ColorPicker.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorpicker.png"))); // NOI18N
         button_ColorPicker.setToolTipText("Color picker");
-        button_ColorPicker.setEnabled(false);
-        button_ColorPicker.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_ColorPickerActionPerformed(evt);
-            }
-        });
 
         button_FillColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fillColor.png"))); // NOI18N
         button_FillColor.setToolTipText("Fill");
-        button_FillColor.setEnabled(false);
 
         button_ClearAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clearAll.png"))); // NOI18N
         button_ClearAll.setToolTipText("Clear");
-        button_ClearAll.setEnabled(false);
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
-        button_Eraser.setEnabled(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
         button_Select.setToolTipText("Select");
-        button_Select.setEnabled(false);
 
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N
         button_Animation.setToolTipText("Animations");
-        button_Animation.setEnabled(false);
 
         javax.swing.GroupLayout panel_ToolLayout = new javax.swing.GroupLayout(panel_Tool);
         panel_Tool.setLayout(panel_ToolLayout);
@@ -1130,11 +1102,6 @@ public class Paint extends javax.swing.JFrame {
         button_ColorSave_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_2.setContentAreaFilled(false);
         button_ColorSave_2.setOpaque(true);
-        button_ColorSave_2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button_ColorSave_2ActionPerformed(evt);
-            }
-        });
 
         button_ColorSave_3.setBackground(new java.awt.Color(0, 0, 0));
         button_ColorSave_3.setToolTipText("Recent color");
@@ -1300,13 +1267,11 @@ public class Paint extends javax.swing.JFrame {
         button_Polygon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Shape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Shape_Star.png"))); // NOI18N
-        button_Shape.setEnabled(false);
         button_Shape.setFocusable(false);
         button_Shape.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Shape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Transform_Rotation.png"))); // NOI18N
-        button_Transform.setEnabled(false);
         button_Transform.setFocusable(false);
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1474,14 +1439,6 @@ public class Paint extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void button_ColorPickerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ColorPickerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button_ColorPickerActionPerformed
-
-    private void button_ColorSave_2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_ColorSave_2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_button_ColorSave_2ActionPerformed
 
     private Panel_DrawingArea getDrawingPanel() {
         return (Panel_DrawingArea) panel_DrawingArea;

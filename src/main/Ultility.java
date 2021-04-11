@@ -29,15 +29,6 @@ public class Ultility {
         );
     }
 
-    public static void assertSameSizeOfArray(Object[][] array_from, Object[][] array_to) {
-        int rowNum_from = array_from.length;
-        int colNum_from = array_from[0].length;
-        int rowNum_to = array_to.length;
-        int colNum_to = array_to[0].length;
-
-        assert (rowNum_from == rowNum_to && colNum_from == colNum_to);
-    }
-
     /**
      * Check if point is in bound of array.
      *
