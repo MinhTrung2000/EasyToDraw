@@ -44,4 +44,4 @@
 
 ### Tool tip showing
 
-- [ ] Create a small tool tip at bottom status bar for helping.
+- [x] Create a small tool tip at bottom status bar for helping. (by Minh Trung)
