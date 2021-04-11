@@ -8,7 +8,7 @@
 ### Undo/Redo
 
 - [ ] Undo/Redo action.
-- Ensure they work correctly.
+- [ ] Ensure they work correctly.
 
 ### Format
 
