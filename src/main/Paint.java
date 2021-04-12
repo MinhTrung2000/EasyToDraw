@@ -7,9 +7,12 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -28,6 +31,8 @@ public class Paint extends javax.swing.JFrame {
     private Settings.DrawingToolMode savedPolygonMode;
     private Settings.DrawingToolMode savedShapeMode;
     private Settings.DrawingToolMode savedTransformMode;
+
+    private JButton[] savedColorButtonList;
 
     /**
      * Number of saved color.
@@ -191,7 +196,18 @@ public class Paint extends javax.swing.JFrame {
     }
 
     private void setDefaultColorOption() {
+        savedColorButtonList = new JButton[]{
+            button_ColorSave_1,
+            button_ColorSave_2,
+            button_ColorSave_3,
+            button_ColorSave_4,
+            button_ColorSave_5,
+            button_ColorSave_6,
+            button_ColorSave_7,
+            button_ColorSave_8,};
+
         savedColorNumber = 0;
+
         button_ColorSave_1.setBackground(Settings.DEFAULT_COLOR_SAVE_1);
         button_ColorSave_2.setBackground(Settings.DEFAULT_COLOR_SAVE_2);
         button_ColorSave_3.setBackground(Settings.DEFAULT_COLOR_SAVE_3);
@@ -213,10 +229,6 @@ public class Paint extends javax.swing.JFrame {
      */
     public int showConfirmSaveFileDiaglog() {
         return JOptionPane.showConfirmDialog(this, "Save your current file?");
-    }
-
-    public void showStatusBar(boolean flag) {
-        JOptionPane.showMessageDialog(this, "Not support yet");
     }
 
     /**
@@ -265,8 +277,8 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 ((Panel_DrawingArea) panel_DrawingArea).undo();
-                button_Undo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableUndo());
-                button_Redo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableRedo());
+                button_Undo.setEnabled(getDrawingPanel().ableUndo());
+                button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 repaint();
             }
         });
@@ -275,8 +287,8 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 ((Panel_DrawingArea) panel_DrawingArea).redo();
-                button_Undo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableUndo());
-                button_Redo.setEnabled(((Panel_DrawingArea) panel_DrawingArea).ableRedo());
+                button_Undo.setEnabled(getDrawingPanel().ableUndo());
+                button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 repaint();
             }
         });
@@ -410,25 +422,19 @@ public class Paint extends javax.swing.JFrame {
             public void actionPerformed(ActionEvent event) {
                 Color selectedColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
 
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(selectedColor);
+                getDrawingPanel().setSelectedColor(selectedColor);
 
                 // Add new saved color if it's not found in list
                 if (savedColorNumber < 4) {
-                    if (savedColorNumber == 0) {
-                        button_ColorSave_5.setBackground(selectedColor);
-                    } else if (savedColorNumber == 1) {
-                        button_ColorSave_6.setBackground(selectedColor);
-                    } else if (savedColorNumber == 2) {
-                        button_ColorSave_7.setBackground(selectedColor);
-                    } else if (savedColorNumber == 3) {
-                        button_ColorSave_8.setBackground(selectedColor);
-                    }
+                    savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
                     savedColorNumber++;
                 } else {
-                    button_ColorSave_5.setBackground(button_ColorSave_6.getBackground());
-                    button_ColorSave_6.setBackground(button_ColorSave_7.getBackground());
-                    button_ColorSave_7.setBackground(button_ColorSave_8.getBackground());
-                    button_ColorSave_8.setBackground(selectedColor);
+                    int startingColorSavedButtonIndex = Settings.DEFAULT_SAVED_COLOR_NUMBER / 2;
+
+                    for (int i = startingColorSavedButtonIndex; i < Settings.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+                        savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
+                    }
+                    savedColorButtonList[Settings.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
             }
         });
@@ -440,6 +446,7 @@ public class Paint extends javax.swing.JFrame {
     private void setEventHandlingDrawingOption() {
         /* 
         NOTE: PROCESS BUTTON MODE.
+        
         Button coordinate mode khi được chọn sẽ xem xét các yếu tố sau:
             +   Giá trị của cờ show_Gridlines và show_Coordinate là gì?
             +   Mode hiện thời là 2D hay 3D?
@@ -451,269 +458,111 @@ public class Paint extends javax.swing.JFrame {
                 tại class Panel_DrawingArea).
          */
 
-        button_2DMode.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                Settings.CoordinateMode currentDrawingMode
-                        = ((Panel_DrawingArea) panel_DrawingArea).getCoordinateMode();
+        button_2DMode.addActionListener(new CustomChangeCoordSystemAction(CoordinateMode.MODE_2D));
+        button_3DMode.addActionListener(new CustomChangeCoordSystemAction(CoordinateMode.MODE_3D));
 
-                // If user click the same mode, do nothing
-                if (currentDrawingMode == Settings.CoordinateMode.MODE_2D) {
-                    return;
-                }
+        //======================================================================
+        // Button drawing tool
+        //======================================================================
+        button_Line.addMouseListener(new CustomMouseAtButtonDrawingTool(savedLineMode, button_Line, popMenu_Line));
 
-                /*
-                Change coordinate system to 3D mode.
-                 */
-                checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
-                checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
+        button_Polygon.addMouseListener(new CustomMouseAtButtonDrawingTool(savedPolygonMode, button_Polygon, popMenu_Polygon));
 
-                ((Panel_DrawingArea) panel_DrawingArea).setCoordinateMode(
-                        Settings.CoordinateMode.MODE_2D
-                );
-            }
-        });
+        button_Shape.addMouseListener(new CustomMouseAtButtonDrawingTool(savedShapeMode, button_Shape, popMenu_Shape));
 
-        button_3DMode.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                Settings.CoordinateMode currentDrawingMode
-                        = ((Panel_DrawingArea) panel_DrawingArea).getCoordinateMode();
-
-                // If user click the same mode, do nothing
-                if (currentDrawingMode == Settings.CoordinateMode.MODE_3D) {
-                    return;
-                }
-
-                /*
-                Change coordinate system to 2D mode.
-                 */
-                checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
-                checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
-
-                ((Panel_DrawingArea) panel_DrawingArea).setCoordinateMode(
-                        Settings.CoordinateMode.MODE_3D
-                );
-            }
-        });
-
-        button_Line.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (SwingUtilities.isLeftMouseButton(event)) {
-                    setSelectedToolMode(savedLineMode);
-                } else if (SwingUtilities.isRightMouseButton(event)) {
-                    Ultility.showPopMenuOfButton(button_Line, popMenu_Line);
-                }
-            }
-        });
-
-        button_Polygon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (SwingUtilities.isLeftMouseButton(event)) {
-                    setSelectedToolMode(savedPolygonMode);
-                } else if (SwingUtilities.isRightMouseButton(event)) {
-                    Ultility.showPopMenuOfButton(button_Polygon, popMenu_Polygon);
-                }
-            }
-        });
-
-        button_Shape.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (SwingUtilities.isLeftMouseButton(event)) {
-                    setSelectedToolMode(savedShapeMode);
-                } else if (SwingUtilities.isRightMouseButton(event)) {
-                    Ultility.showPopMenuOfButton(button_Shape, popMenu_Shape);
-                }
-            }
-        });
-
-        button_Transform.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (SwingUtilities.isLeftMouseButton(event)) {
-                    setSelectedToolMode(savedTransformMode);
-                } else if (SwingUtilities.isRightMouseButton(event)) {
-                    Ultility.showPopMenuOfButton(button_Transform, popMenu_Transform);
-                }
-            }
-        });
+        button_Transform.addMouseListener(new CustomMouseAtButtonDrawingTool(savedTransformMode, button_Transform, popMenu_Transform));
 
         //======================================================================
         // MenuItem inside popup menu
         //======================================================================
-        menuItem_Segment.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_SEGMENT;
+        menuItem_Segment.addActionListener(new CustomMenuItemChooseAction(
+                savedLineMode,
+                Settings.DrawingToolMode.DRAWING_LINE_SEGMENT,
+                "/img/Line_Segment.png",
+                button_Line)
+        );
 
-                button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Line_Segment.png"))
-                );
+        menuItem_Line.addActionListener(new CustomMenuItemChooseAction(
+                savedLineMode,
+                Settings.DrawingToolMode.DRAWING_LINE_STRAIGHT,
+                "/img/Line_StraightLine.png",
+                button_Line)
+        );
 
-                setSelectedToolMode(savedLineMode);
-                button_Line.repaint();
-            }
-        });
+        menuItem_FreeDrawing.addActionListener(new CustomMenuItemChooseAction(
+                savedLineMode,
+                Settings.DrawingToolMode.DRAWING_LINE_FREE,
+                "/img/Line_FreeDrawing.png",
+                button_Line)
+        );
 
-        menuItem_Line.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_STRAIGHT;
+        menuItem_FreePolygon.addActionListener(new CustomMenuItemChooseAction(
+                savedPolygonMode,
+                Settings.DrawingToolMode.DRAWING_POLYGON_FREE,
+                "/img/Polygon_Polygon.png",
+                button_Polygon)
+        );
 
-                button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Line_StraightLine.png"))
-                );
+        menuItem_Triangle.addActionListener(new CustomMenuItemChooseAction(
+                savedPolygonMode,
+                Settings.DrawingToolMode.DRAWING_POLYGON_TRIANGLE,
+                "/img/Polygon_Triangle.png",
+                button_Polygon)
+        );
 
-                setSelectedToolMode(savedLineMode);
-                button_Line.repaint();
-            }
-        });
+        menuItem_Rectangle.addActionListener(new CustomMenuItemChooseAction(
+                savedPolygonMode,
+                Settings.DrawingToolMode.DRAWING_POLYGON_RECTANGLE,
+                "/img/Poligon_Rectangle.png",
+                button_Polygon)
+        );
 
-        menuItem_FreeDrawing.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_FREE;
+        menuItem_Circle.addActionListener(new CustomMenuItemChooseAction(
+                savedPolygonMode,
+                Settings.DrawingToolMode.DRAWING_POLYGON_CIRCLE,
+                "/img/Polygon_Circle.png",
+                button_Polygon)
+        );
 
-                button_Line.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Line_FreeDrawing.png"))
-                );
+        menuItem_Star.addActionListener(new CustomMenuItemChooseAction(
+                savedShapeMode,
+                Settings.DrawingToolMode.DRAWING_SHAPE_STAR,
+                "/img/Shape_Star.png",
+                button_Shape)
+        );
 
-                setSelectedToolMode(savedLineMode);
-                button_Line.repaint();
-            }
-        });
+        menuItem_Diamond.addActionListener(new CustomMenuItemChooseAction(
+                savedShapeMode,
+                Settings.DrawingToolMode.DRAWING_SHAPE_DIAMOND,
+                "/img/Shape_Diamond.png",
+                button_Shape)
+        );
 
-        menuItem_FreePolygon.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_FREE;
+        menuItem_Arrow.addActionListener(new CustomMenuItemChooseAction(
+                savedShapeMode,
+                Settings.DrawingToolMode.DRAWING_SHAPE_ARROW,
+                "/img/Shape_Arrow.png",
+                button_Shape)
+        );
 
-                button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Polygon_Polygon.png"))
-                );
+        menuItem_Rotation.addActionListener(new CustomMenuItemChooseAction(
+                savedTransformMode,
+                Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION,
+                "/img/Transform_Rotation.png",
+                button_Transform)
+        );
 
-                setSelectedToolMode(savedPolygonMode);
-                button_Polygon.repaint();
-            }
-        });
-
-        menuItem_Triangle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_TRIANGLE;
-
-                button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Polygon_Triangle.png"))
-                );
-
-                setSelectedToolMode(savedPolygonMode);
-                button_Polygon.repaint();
-            }
-        });
-
-        menuItem_Rectangle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_RECTANGLE;
-
-                button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Poligon_Rectangle.png"))
-                );
-
-                setSelectedToolMode(savedPolygonMode);
-                button_Polygon.repaint();
-            }
-        });
-
-        menuItem_Circle.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_CIRCLE;
-
-                button_Polygon.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Polygon_Circle.png"))
-                );
-
-                setSelectedToolMode(savedPolygonMode);
-                button_Polygon.repaint();
-            }
-        });
-
-        menuItem_Star.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_STAR;
-
-                button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Shape_Star.png"))
-                );
-
-                setSelectedToolMode(savedShapeMode);
-                button_Shape.repaint();
-            }
-        });
-
-        menuItem_Diamond.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_DIAMOND;
-
-                button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Shape_Diamond.png"))
-                );
-
-                setSelectedToolMode(savedShapeMode);
-                button_Shape.repaint();
-            }
-        });
-
-        menuItem_Arrow.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_ARROW;
-
-                button_Shape.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Shape_Arrow.png"))
-                );
-
-                setSelectedToolMode(savedShapeMode);
-                button_Shape.repaint();
-            }
-        });
-
-        menuItem_Rotation.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
-
-                button_Transform.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Transform_Rotation.png"))
-                );
-
-                setSelectedToolMode(savedTransformMode);
-                button_Transform.repaint();
-            }
-        });
-
-        menuItem_Symmetry.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY;
-
-                button_Transform.setIcon(new ImageIcon(getClass()
-                        .getResource("/img/Transform_Symmetry.png"))
-                );
-
-                setSelectedToolMode(savedTransformMode);
-                button_Transform.repaint();
-            }
-        });
-
+        menuItem_Symmetry.addActionListener(new CustomMenuItemChooseAction(
+                savedTransformMode,
+                Settings.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY,
+                "/img/Transform_Symmetry.png",
+                button_Transform)
+        );
     }
 
+    /**
+     * Set up all event handling for frame.
+     */
     private void setAllEventHandler() {
         setEventHandlingControlOption();
         setEventHandlingVisualOption();
@@ -994,7 +843,6 @@ public class Paint extends javax.swing.JFrame {
         label_SizeLine.setText("Size:");
 
         spinner_SizeLize.setToolTipText("Choose line size");
-        spinner_SizeLize.setEnabled(false);
 
         label_Pixel.setText("px");
 
@@ -1382,8 +1230,6 @@ public class Paint extends javax.swing.JFrame {
         jSeparator8.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         label_ToolTip.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        label_ToolTip.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tooltip.png"))); // NOI18N
-        label_ToolTip.setText("Show tool tip here!");
         label_ToolTip.setFocusable(false);
         label_ToolTip.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
 
@@ -1442,6 +1288,153 @@ public class Paint extends javax.swing.JFrame {
 
     private Panel_DrawingArea getDrawingPanel() {
         return (Panel_DrawingArea) panel_DrawingArea;
+    }
+
+    /**
+     * Class handling mouse press at button drawing tool.
+     */
+    private class CustomMouseAtButtonDrawingTool implements MouseListener {
+
+        private boolean mousePressed;
+        private JButton button;
+        private JPopupMenu popMenu;
+        private Settings.DrawingToolMode savedMode;
+
+        public CustomMouseAtButtonDrawingTool(Settings.DrawingToolMode savedMode, JButton button, JPopupMenu popMenu) {
+            this.savedMode = savedMode;
+            this.button = button;
+            this.popMenu = popMenu;
+            this.mousePressed = false;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent event) {
+            if (SwingUtilities.isLeftMouseButton(event)) {
+                setSelectedToolMode(this.savedMode);
+            } else if (SwingUtilities.isRightMouseButton(event)) {
+                Ultility.showPopMenuOfButton(this.button, this.popMenu);
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    mousePressed = true;
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+
+                    if (mousePressed) {
+                        Ultility.showPopMenuOfButton(button, popMenu);
+                    }
+                }
+            }).start();
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            mousePressed = false;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            showTooltip("Click to select or pressing until menu shown up.");
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            hideTooltip();
+        }
+
+    }
+
+    /**
+     * Showing tool tip at status bar.
+     *
+     * @param toolTipText
+     */
+    private void showTooltip(String toolTipText) {
+        label_ToolTip.setIcon(new ImageIcon(getClass().getResource("/img/tooltip.png")));
+        label_ToolTip.setText(toolTipText);
+    }
+
+    /**
+     * Hide tool tip at status bar.
+     */
+    private void hideTooltip() {
+        label_ToolTip.setIcon(null);
+        label_ToolTip.setText("");
+    }
+
+    /**
+     * Class handling click at menu item at pop-up menu.
+     */
+    private class CustomMenuItemChooseAction implements ActionListener {
+
+        private Settings.DrawingToolMode savedMode;
+        private Settings.DrawingToolMode selectedMode;
+        private String icon32pxPath;
+        private JButton button;
+
+        public CustomMenuItemChooseAction(Settings.DrawingToolMode savedMode,
+                Settings.DrawingToolMode selectedMode, String icon32pxPath,
+                JButton button) {
+            this.savedMode = savedMode;
+            this.selectedMode = selectedMode;
+            this.icon32pxPath = icon32pxPath;
+            this.button = button;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            this.savedMode = this.selectedMode;
+
+            this.button.setIcon(new ImageIcon(getClass()
+                    .getResource(this.icon32pxPath))
+            );
+
+            setSelectedToolMode(this.savedMode);
+        }
+
+    }
+
+    /**
+     * Class handling coordinate system selection.
+     */
+    private class CustomChangeCoordSystemAction implements ActionListener {
+
+        private Settings.CoordinateMode selectedCoordMode;
+
+        public CustomChangeCoordSystemAction(Settings.CoordinateMode selectedCoordMode) {
+            this.selectedCoordMode = selectedCoordMode;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            Settings.CoordinateMode currentDrawingMode
+                    = getDrawingPanel().getCoordinateMode();
+
+            // If user click the same mode, do nothing
+            if (currentDrawingMode == this.selectedCoordMode) {
+                return;
+            }
+
+            /*
+                Reset visual option.
+             */
+            checkBox_showGridlines.setSelected(Settings.DEFAULT_VISUAL_SHOW_GRID);
+            checkBox_showCoordinate.setSelected(Settings.DEFAULT_VISUAL_SHOW_COORDINATE);
+
+            /*
+                Change coordinate system.
+             */
+            getDrawingPanel().setCoordinateMode(this.selectedCoordMode);
+        }
+
     }
 
     /**

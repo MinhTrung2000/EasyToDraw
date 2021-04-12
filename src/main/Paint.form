@@ -492,7 +492,6 @@
             <Component class="javax.swing.JSpinner" name="spinner_SizeLize">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Choose line size"/>
-                <Property name="enabled" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="label_Pixel">
@@ -1117,10 +1116,6 @@
         <Component class="javax.swing.JLabel" name="label_ToolTip">
           <Properties>
             <Property name="horizontalAlignment" type="int" value="4"/>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/img/tooltip.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Show tool tip here!"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="4"/>
           </Properties>

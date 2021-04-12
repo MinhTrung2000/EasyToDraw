@@ -152,6 +152,9 @@ public class Settings {
     public static final boolean DEFAULT_VISUAL_SHOW_GRID = true;
     public static final boolean DEFAULT_VISUAL_SHOW_COORDINATE = true;
 
+    
+    public static final int DEFAULT_SAVED_COLOR_NUMBER = 8;
+    
     public static final Color DEFAULT_COLOR_SAVE_1 = new Color(0, 0, 0);
     public static final Color DEFAULT_COLOR_SAVE_2 = new Color(255, 255, 255);
     public static final Color DEFAULT_COLOR_SAVE_3 = new Color(127, 127, 127);
@@ -164,7 +167,8 @@ public class Settings {
     public static final Color DEFAULT_PIXEL_COLOR = Color.WHITE;
     public static final Color DEFAULT_EMPTY_BACKGROUND_COLOR = Color.WHITE;
     public static final Color DEFAULT_GRID_BACKGROUND_COLOR = new Color(235, 235, 235);
-    public static final Color DEFAULT_COORDINATE_COLOR = new Color(128, 128, 128);
+    public static final Color DEFAULT_COORDINATE_AXIS_COLOR = new Color(128, 128, 128);
+    public static final Color DEFAULT_COORDINATE_POINT_COLOR = Color.RED;
 
     public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
 

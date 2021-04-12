@@ -7,40 +7,60 @@ import model.shape2d.Point2D;
 import model.shape2d.Circle;
 import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Event;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Stack;
-import javax.swing.Action;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import static main.Settings.COORD_X_O;
-import static main.Settings.COORD_Y_O;
-import static main.Settings.SIZE;
-import static main.Settings.SPACE;
 
+/**
+ * Class used for implementing drawing area.
+ */
 public class Panel_DrawingArea extends JPanel {
 
-    // The actual size of board
-    // The visual drawing part have these sizes in fixed version.
+    /**
+     * Customized pixel with added color and coordination property.
+     */
+    private class CustomPixel {
+        private Color pixelColor;
+        private String pixelCoord;
+
+        public CustomPixel(Color pixelColor, String pixelCoord) {
+            this.pixelColor = pixelColor;
+            this.pixelCoord = pixelCoord;
+        }
+        
+        public void setPixelCoordText(String pixelCoord) {
+            this.pixelCoord = pixelCoord;
+        }
+        
+        public void setPixelColor(Color pixelColor) {
+            this.pixelColor = pixelColor;
+        }
+    }
+    
+    /**
+     * The actual width of board.
+     */
     public final int widthBoard = Settings.WIDTH_DRAW_AREA;
+
+    /**
+     * The actual height of board.
+     */
     public final int heightBoard = Settings.HEIGHT_DRAW_AREA;
 
-    // The size of drawing panel can be resizable later.
-    // These variables are used to handle it.
-    private int widthOfScreen;
-    private int heightOfScreen;
-
     // Color and coord property of all points when any drawing action is applied
+    /**
+     * Color of each pixel after applying drawing action.
+     */
     private Color[][] colorOfBoard;
+
+    /**
+     * Coordination text of each pixel after applying drawing action.
+     */
     private String[][] coordOfBoard;
 
     // The color property of all points when a new drawing action is happened.
@@ -49,38 +69,61 @@ public class Panel_DrawingArea extends JPanel {
     // This array is used to mark the point is changed in an action.
     private boolean[][] markedChangeOfBoard;
 
-    // Undo, Redo container
-    // Each includes color and coordinate stack
+    /**
+     * Undo stack of coordinate
+     */
     private static Stack<String[][]> undoCoordOfBoardStack;
     private static Stack<Color[][]> undoColorOfBoardStack;
     private static Stack<String[][]> redoCoordOfBoardStack;
     private static Stack<Color[][]> redoColorOfBoardStack;
 
-    // Visual option
+    /**
+     * Showing grid lines flag.
+     */
     private boolean showGridFlag;
+
+    /**
+     * Showing coordinate flag.
+     */
     private boolean showCoordinateFlag;
 
-//    private Point2D mousePoint;
+    /**
+     * Starting point of drawn object.
+     */
     private Point2D startDrawingPoint;
+
+    /**
+     * Ending point of drawn object.
+     */
     private Point2D endDrawingPoint;
 
-    // Coordinated system.
+    /**
+     * User selected coordinate system.
+     */
     private Settings.CoordinateMode coordinateMode;
 
     /**
      * Selected option by user.
      */
     private Settings.DrawingToolMode selectedToolMode;
+
+    /**
+     * User selected color.
+     */
     private Color selectedColor;
+
+    /**
+     * User customized line style.
+     */
     private Settings.LineStyle selectedLineStyle;
+
+    /**
+     * User customized line size.
+     */
     private Integer selectedLineSize;
 
-    private Shape2D genericShape;
-
+//    private Shape2D genericShape;
     public Panel_DrawingArea() {
-        widthOfScreen = Settings.WIDTH_DRAW_AREA;
-        heightOfScreen = Settings.HEIGHT_DRAW_AREA;
-
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
 
@@ -99,7 +142,6 @@ public class Panel_DrawingArea extends JPanel {
 
         coordinateMode = Settings.CoordinateMode.MODE_2D;
 
-//        mousePoint = Settings.DEFAULT_UNUSED_POINT;
         startDrawingPoint = new Point2D(Settings.DEFAULT_UNUSED_POINT);
         endDrawingPoint = new Point2D(Settings.DEFAULT_UNUSED_POINT);
 
@@ -108,8 +150,7 @@ public class Panel_DrawingArea extends JPanel {
         selectedLineStyle = Settings.LineStyle.DEFAULT;
         selectedLineSize = Settings.DEFAULT_LINE_SIZE;
 
-        genericShape = new Shape2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
-
+//        genericShape = new Shape2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
         resetChangedPropertyArray();
         resetSavedPropertyArray();
 
@@ -218,11 +259,6 @@ public class Panel_DrawingArea extends JPanel {
     public void setShowCoordinateFlag(boolean flag) {
         showCoordinateFlag = flag;
         this.repaint();
-    }
-
-    public void updateCurrentSize() {
-        widthOfScreen = this.getWidth();
-        heightOfScreen = this.getHeight();
     }
 
     /**
@@ -416,31 +452,62 @@ public class Panel_DrawingArea extends JPanel {
     }
 
     /**
-     * Paint the board and show coordination.
+     * Show axis and points' coordination.
      *
      * @param graphic
      */
-    private void paintWithCoordination(Graphics graphic) {
-        if (showGridFlag) {
-            drawBackgroundBoard(graphic, Settings.DEFAULT_GRID_BACKGROUND_COLOR);
+    private void showBoardCoordination(Graphics graphic) {
+        /*
+            Show axis
+         */
+        graphic.setColor(Settings.DEFAULT_COORDINATE_AXIS_COLOR);
+
+        if (coordinateMode == Settings.CoordinateMode.MODE_2D) {
+            // Show coordinate in 2D
+            // Ox axis 
+            graphic.drawLine(1, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
+            // Oy axis
+            graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, this.heightBoard);
+
         } else {
-            drawBackgroundBoard(graphic, Settings.DEFAULT_EMPTY_BACKGROUND_COLOR);
+            // Show coordinate in 3D
+            // Ox
+            graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
+            // Oy
+            graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, Settings.COORD_Y_O);
+            // Oz
+            graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, 1, Settings.COORD_X_O + Settings.COORD_Y_O);
         }
 
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
-                if (markedChangeOfBoard[i][j] == true) {
-                    graphic.setColor(changedColorOfBoard[i][j]);
-                } else {
-                    graphic.setColor(colorOfBoard[i][j]);
-                }
+        /*
+            Show coordination of points.
+         */
+        graphic.setColor(Settings.DEFAULT_COORDINATE_POINT_COLOR);
+        
+        for (int i = 0; i < heightBoard; i++) {
+            for (int j = 0; j < widthBoard; j++) {
+                String coordinateProperty = coordOfBoard[i][j];
 
-                graphic.fillRect(
-                        i * Settings.RECT_SIZE + 1,
-                        j * Settings.RECT_SIZE + 1,
-                        Settings.SIZE,
-                        Settings.SIZE
-                );
+                if (coordinateProperty != null) {
+
+                    int posX = i * Settings.RECT_SIZE + Settings.RECT_SIZE;
+                    int posY = j * Settings.RECT_SIZE - 2;
+
+                    // Normalize
+                    if (posX <= 0) {
+                        posX = 1;
+                    } else if (posX >= widthBoard) {
+                        posX = widthBoard - coordinateProperty.length() * Settings.SIZE;
+                    }
+
+                    if (posY <= 0) {
+                        posY = 1;
+                    } else if (posY >= heightBoard) {
+                        posY = heightBoard - Settings.SIZE;
+                    }
+
+                    graphic.drawString(coordinateProperty, posX, posY);
+                }
             }
         }
     }
@@ -450,7 +517,7 @@ public class Panel_DrawingArea extends JPanel {
      *
      * @param graphic
      */
-    private void paintWithNoCoordination(Graphics graphic) {
+    private void paintBoardColor(Graphics graphic) {
         if (showGridFlag) {
             drawBackgroundBoard(graphic, Settings.DEFAULT_GRID_BACKGROUND_COLOR);
         } else {
@@ -478,67 +545,15 @@ public class Panel_DrawingArea extends JPanel {
     @Override
     public void paintComponent(Graphics graphic) {
         super.paintComponent(graphic);
-//        processCoordShowingOption(graphic);
-//        showDrawnObject(graphic);
+
+        paintBoardColor(graphic);
 
         if (showCoordinateFlag) {
-            paintWithCoordination(graphic);
-
-            graphic.setColor(Settings.DEFAULT_COORDINATE_COLOR);
-            if (coordinateMode == Settings.CoordinateMode.MODE_2D) {
-                // Show coordinate in 2D
-                // Ox axis 
-                graphic.drawLine(1, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
-                // Oy axis
-                graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, this.heightBoard);
-
-            } else {
-                // Show coordinate in 3D
-                // Ox
-                graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, this.widthBoard, Settings.COORD_Y_O);
-                // Oy
-                graphic.drawLine(Settings.COORD_X_O, 1, Settings.COORD_X_O, Settings.COORD_Y_O);
-                // Oz
-                graphic.drawLine(Settings.COORD_X_O, Settings.COORD_Y_O, 1, Settings.COORD_X_O + Settings.COORD_Y_O);
-            }
-
-            /*
-            Show coordination of points.
-             */
-            for (int i = 0; i < heightBoard; i++) {
-                for (int j = 0; j < widthBoard; j++) {
-                    String coordinateProperty = coordOfBoard[i][j];
-
-                    if (coordinateProperty != null) {
-//                    graphic.setColor(Settings.DEFAULT_COORDINATE_COLOR);
-                        graphic.setColor(Color.RED);
-
-                        int posX = i * Settings.RECT_SIZE + Settings.RECT_SIZE;
-                        int posY = j * Settings.RECT_SIZE - 2;
-
-                        // Normalize
-                        if (posX <= 0) {
-                            posX = 1;
-                        } else if (posX >= widthBoard) {
-                            posX = widthBoard - coordinateProperty.length() * Settings.SIZE;
-                        }
-                        
-                        if (posY <= 0) {
-                            posY = 1;
-                        } else if (posY >= heightBoard) {
-                            posY = heightBoard - Settings.SIZE;
-                        }
-                        
-                        graphic.drawString(coordinateProperty, posX, posY);
-                    }
-                }
-            }
-        } else {
-            paintWithNoCoordination(graphic);
+            showBoardCoordination(graphic);
         }
     }
 
-    private void selectionTool(Graphics graphic) {
+//    private void selectionTool(Graphics graphic) {
 //        if (!isNotSelected()) {
 //            graphic.setColor(Color.BLACK);
 //            //System.out.println("ccccccccc");
@@ -556,7 +571,7 @@ public class Panel_DrawingArea extends JPanel {
 //            recEnd.set(-1, -1);
 //
 //        }        
-    }
+//    }
 
     /**
      * Merge color of this board with another in pixel having position marked in
@@ -575,53 +590,52 @@ public class Panel_DrawingArea extends JPanel {
         }
     }
 
-    public void symOx() {
-        if (genericShape instanceof Segment2D) {
-            ((Segment2D) genericShape).drawOXSymmetry();
-        } else if (genericShape instanceof Rectangle) {
-            ((Rectangle) genericShape).drawOXSymmetry();
-        } else if (genericShape instanceof Circle) {
-            ((Circle) genericShape).drawOXSymmetry();
-        } else if (genericShape instanceof Triangle) {
-            ((Triangle) genericShape).drawOXSymmetry();
-        } else if (genericShape instanceof Arrow2D) {
-            ((Arrow2D) genericShape).drawOXSymmetry();
-        }
-    }
-
-    public void symOy() {
-        if (genericShape instanceof Segment2D) {
-            ((Segment2D) genericShape).drawOYSymmetry();
-        } else if (genericShape instanceof Rectangle) {
-            ((Rectangle) genericShape).drawOYSymmetry();
-        } else if (genericShape instanceof Circle) {
-            ((Circle) genericShape).drawOYSymmetry();
-        } else if (genericShape instanceof Triangle) {
-            ((Triangle) genericShape).drawOYSymmetry();
-        } else if (genericShape instanceof Arrow2D) {
-            ((Arrow2D) genericShape).drawOYSymmetry();
-        }
-    }
-
-    public void symPoint(Point2D basePoint) {
-        if (genericShape instanceof Segment2D) {
-            ((Segment2D) genericShape).drawPointSymmetry(basePoint);
-        } else if (genericShape instanceof Rectangle) {
-            ((Rectangle) genericShape).drawPointSymmetry(basePoint);
-        } else if (genericShape instanceof Circle) {
-            ((Circle) genericShape).drawPointSymmetry(basePoint);
-        } else if (genericShape instanceof Triangle) {
-            ((Triangle) genericShape).drawPointSymmetry(basePoint);
-        } else if (genericShape instanceof Arrow2D) {
-            ((Arrow2D) genericShape).drawPointSymmetry(basePoint);
-        }
-    }
-
+//    public void symOx() {
+//        if (genericShape instanceof Segment2D) {
+//            ((Segment2D) genericShape).drawOXSymmetry();
+//        } else if (genericShape instanceof Rectangle) {
+//            ((Rectangle) genericShape).drawOXSymmetry();
+//        } else if (genericShape instanceof Circle) {
+//            ((Circle) genericShape).drawOXSymmetry();
+//        } else if (genericShape instanceof Triangle) {
+//            ((Triangle) genericShape).drawOXSymmetry();
+//        } else if (genericShape instanceof Arrow2D) {
+//            ((Arrow2D) genericShape).drawOXSymmetry();
+//        }
+//    }
+//
+//    public void symOy() {
+//        if (genericShape instanceof Segment2D) {
+//            ((Segment2D) genericShape).drawOYSymmetry();
+//        } else if (genericShape instanceof Rectangle) {
+//            ((Rectangle) genericShape).drawOYSymmetry();
+//        } else if (genericShape instanceof Circle) {
+//            ((Circle) genericShape).drawOYSymmetry();
+//        } else if (genericShape instanceof Triangle) {
+//            ((Triangle) genericShape).drawOYSymmetry();
+//        } else if (genericShape instanceof Arrow2D) {
+//            ((Arrow2D) genericShape).drawOYSymmetry();
+//        }
+//    }
+//
+//    public void symPoint(Point2D basePoint) {
+//        if (genericShape instanceof Segment2D) {
+//            ((Segment2D) genericShape).drawPointSymmetry(basePoint);
+//        } else if (genericShape instanceof Rectangle) {
+//            ((Rectangle) genericShape).drawPointSymmetry(basePoint);
+//        } else if (genericShape instanceof Circle) {
+//            ((Circle) genericShape).drawPointSymmetry(basePoint);
+//        } else if (genericShape instanceof Triangle) {
+//            ((Triangle) genericShape).drawPointSymmetry(basePoint);
+//        } else if (genericShape instanceof Arrow2D) {
+//            ((Arrow2D) genericShape).drawPointSymmetry(basePoint);
+//        }
+//    }
     public boolean checkStartingPointAvailable() {
         return (startDrawingPoint.getCoordX() != -1 && startDrawingPoint.getCoordY() != -1);
     }
 
-    public class CustomMouseClickHandling implements MouseListener {
+    private class CustomMouseClickHandling implements MouseListener {
 
         @Override
         public void mouseClicked(MouseEvent event) {
@@ -651,13 +665,13 @@ public class Panel_DrawingArea extends JPanel {
             }
 
             resetChangedPropertyArray();
-            
+
             setStartDrawingPoint(event.getX() / Settings.RECT_SIZE,
                     event.getY() / Settings.RECT_SIZE);
-            
+
             Settings.DrawingToolMode selectedTool = getSelectedToolMode();
-            
-            switch(selectedTool) {
+
+            switch (selectedTool) {
                 case DRAWING_LINE_FREE: {
                     setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
                     markedChangeOfBoard[startDrawingPoint.getCoordX()][startDrawingPoint.getCoordY()] = true;
@@ -701,7 +715,7 @@ public class Panel_DrawingArea extends JPanel {
 
     }
 
-    public class CustomMouseMotionHandling implements MouseMotionListener {
+    private class CustomMouseMotionHandling implements MouseMotionListener {
 
         @Override
         public void mouseDragged(MouseEvent event) {
@@ -730,13 +744,13 @@ public class Panel_DrawingArea extends JPanel {
                 }
                 case DRAWING_LINE_FREE: {
                     resetChangedPropertyArray();
-                    
+
                 }
                 case DRAWING_POLYGON_RECTANGLE: {
                     resetChangedPropertyArray();
 
                     setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
-                    
+
                     if (checkStartingPointAvailable()) {
                         Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
                         rectangle.setProperty(startDrawingPoint, endDrawingPoint);
