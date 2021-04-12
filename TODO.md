@@ -8,7 +8,7 @@
 ### Undo/Redo
 
 - [ ] Undo/Redo action.
-- Ensure they work correctly.
+- [ ] Ensure they work correctly.
 
 ### Format
 
@@ -44,4 +44,4 @@
 
 ### Tool tip showing
 
-- [ ] Create a small tool tip at bottom status bar for helping.
+- [x] Create a small tool tip at bottom status bar for helping. (by Minh Trung)
