@@ -5,10 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -60,8 +58,8 @@ public class Paint extends javax.swing.JFrame {
 
     public void showCursorCoordinate(MouseEvent event) {
         label_CoordValue.setText(
-                "X: " + (event.getX() / Settings.RECT_SIZE - COORD_X_O / Settings.RECT_SIZE) + "   "
-                + "Y: " + (-(event.getY() / Settings.RECT_SIZE - COORD_Y_O / Settings.RECT_SIZE))
+                "X: " + ((event.getX() - COORD_X_O) / Settings.RECT_SIZE) + "   "
+                + "Y: " + (-((event.getY() - COORD_Y_O) / Settings.RECT_SIZE))
         );
     }
 
@@ -79,106 +77,49 @@ public class Paint extends javax.swing.JFrame {
 
     private void setDefaultDrawingToolOption() {
         // Make a group of 2 button mode 2D and 3D
-        buttonGroup_CoordMode = new ButtonGroup();
         buttonGroup_CoordMode.add(button_2DMode);
         buttonGroup_CoordMode.add(button_3DMode);
 
         buttonGroup_CoordMode.setSelected(button_2DMode.getModel(), true);
 
-        // Create menu pop up for drawing tools.
-        popMenu_Line = new JPopupMenu();
-        popMenu_Polygon = new JPopupMenu();
-        popMenu_Shape = new JPopupMenu();
-        popMenu_Transform = new JPopupMenu();
+        // Line modal
+        initMenuItem(popMenu_Line, menuItem_Segment, DrawingToolMode.DRAWING_LINE_SEGMENT, "/img/segment24px.png");
+        initMenuItem(popMenu_Line, menuItem_Line, DrawingToolMode.DRAWING_LINE_STRAIGHT, "/img/straightLine24px.png");
+        initMenuItem(popMenu_Line, menuItem_FreeDrawing, DrawingToolMode.DRAWING_LINE_FREE, "/img/freeDrawing24px.png");
 
-        // Segment
-        menuItem_Segment = new JMenuItem(
-                DrawingToolMode.DRAWING_LINE_SEGMENT.toString(),
-                new ImageIcon(getClass().getResource("/img/segment24px.png"))
-        );
-        popMenu_Line.add(menuItem_Segment);
+        // Polygon modal
+        initMenuItem(popMenu_Polygon, menuItem_FreePolygon, DrawingToolMode.DRAWING_POLYGON_FREE, "/img/polygon24px.png");
+        initMenuItem(popMenu_Polygon, menuItem_Triangle, DrawingToolMode.DRAWING_POLYGON_TRIANGLE, "/img/triangle24px.png");
+        initMenuItem(popMenu_Polygon, menuItem_Rectangle, DrawingToolMode.DRAWING_POLYGON_RECTANGLE, "/img/rectangle24px.png");
+        initMenuItem(popMenu_Polygon, menuItem_Circle, DrawingToolMode.DRAWING_POLYGON_CIRCLE, "/img/circle24px.png");
 
-        // Straight line
-        menuItem_Line = new JMenuItem(
-                DrawingToolMode.DRAWING_LINE_STRAIGHT.toString(),
-                new ImageIcon(getClass().getResource("/img/straightLine24px.png"))
-        );
-        popMenu_Line.add(menuItem_Line);
+        // Shape modal
+        initMenuItem(popMenu_Shape, menuItem_Star, DrawingToolMode.DRAWING_SHAPE_STAR, "/img/star24px.png");
+        initMenuItem(popMenu_Shape, menuItem_Diamond, DrawingToolMode.DRAWING_SHAPE_DIAMOND, "/img/diamond24px.png");
+        initMenuItem(popMenu_Shape, menuItem_Arrow, DrawingToolMode.DRAWING_SHAPE_ARROW, "/img/arrow24px.png");
 
-        // Free drawing
-        menuItem_FreeDrawing = new JMenuItem(
-                DrawingToolMode.DRAWING_LINE_FREE.toString(),
-                new ImageIcon(getClass().getResource("/img/freeDrawing24px.png"))
-        );
-        popMenu_Line.add(menuItem_FreeDrawing);
-
-        // Free polygon
-        menuItem_FreePolygon = new JMenuItem(
-                DrawingToolMode.DRAWING_POLYGON_FREE.toString(),
-                new ImageIcon(getClass().getResource("/img/polygon24px.png"))
-        );
-        popMenu_Polygon.add(menuItem_FreePolygon);
-
-        // Triangle
-        menuItem_Triangle = new JMenuItem(
-                DrawingToolMode.DRAWING_POLYGON_TRIANGLE.toString(),
-                new ImageIcon(getClass().getResource("/img/triangle24px.png"))
-        );
-        popMenu_Polygon.add(menuItem_Triangle);
-
-        // Rectangle
-        menuItem_Rectangle = new JMenuItem(
-                DrawingToolMode.DRAWING_POLYGON_RECTANGLE.toString(),
-                new ImageIcon(getClass().getResource("/img/rectangle24px.png"))
-        );
-        popMenu_Polygon.add(menuItem_Rectangle);
-
-        // Circle
-        menuItem_Circle = new JMenuItem(
-                DrawingToolMode.DRAWING_POLYGON_CIRCLE.toString(),
-                new ImageIcon(getClass().getResource("/img/circle24px.png"))
-        );
-        popMenu_Polygon.add(menuItem_Circle);
-
-        // Star
-        menuItem_Star = new JMenuItem(
-                DrawingToolMode.DRAWING_SHAPE_STAR.toString(),
-                new ImageIcon(getClass().getResource("/img/star24px.png"))
-        );
-        popMenu_Shape.add(menuItem_Star);
-
-        // Diamond
-        menuItem_Diamond = new JMenuItem(
-                DrawingToolMode.DRAWING_SHAPE_DIAMOND.toString(),
-                new ImageIcon(getClass().getResource("/img/diamond24px.png"))
-        );
-        popMenu_Shape.add(menuItem_Diamond);
-
-        // Arrow
-        menuItem_Arrow = new JMenuItem(
-                DrawingToolMode.DRAWING_SHAPE_ARROW.toString(),
-                new ImageIcon(getClass().getResource("/img/arrow24px.png"))
-        );
-        popMenu_Shape.add(menuItem_Arrow);
-
-        // Rotation
-        menuItem_Rotation = new JMenuItem(
-                DrawingToolMode.DRAWING_TRANSFORM_ROTATION.toString(),
-                new ImageIcon(getClass().getResource("/img/rotation24px.png"))
-        );
-        popMenu_Transform.add(menuItem_Rotation);
-
-        // Symmetry
-        menuItem_Symmetry = new JMenuItem(
-                DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY.toString(),
-                new ImageIcon(getClass().getResource("/img/symmetry24px.png"))
-        );
-        popMenu_Transform.add(menuItem_Symmetry);
+        // Transform modal
+        initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
+        initMenuItem(popMenu_Transform, menuItem_Symmetry, DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY, "/img/symmetry24px.png");
 
         savedLineMode = Settings.DrawingToolMode.DRAWING_LINE_SEGMENT;
         savedPolygonMode = Settings.DrawingToolMode.DRAWING_POLYGON_FREE;
         savedShapeMode = Settings.DrawingToolMode.DRAWING_SHAPE_STAR;
         savedTransformMode = Settings.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
+    }
+
+    /**
+     * Set up menu item to pop up menu.
+     *
+     * @param popMenu
+     * @param menuItem
+     * @param mode
+     * @param iconPath
+     */
+    private void initMenuItem(JPopupMenu popMenu, JMenuItem menuItem, DrawingToolMode mode, String iconPath) {
+        menuItem.setText(mode.toString());
+        menuItem.setIcon(new ImageIcon(getClass().getResource(iconPath)));
+        popMenu.add(menuItem);
     }
 
     private void setDefaultFormatOption() {
@@ -1148,13 +1089,13 @@ public class Paint extends javax.swing.JFrame {
             .addGroup(panel_DrawingToolLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
+                .addGap(159, 159, 159)
                 .addComponent(Seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1313,6 +1254,7 @@ public class Paint extends javax.swing.JFrame {
                 setSelectedToolMode(this.savedMode);
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
+                hideTooltip();
             }
         }
 
@@ -1330,6 +1272,7 @@ public class Paint extends javax.swing.JFrame {
 
                     if (mousePressed) {
                         Ultility.showPopMenuOfButton(button, popMenu);
+                        hideTooltip();
                     }
                 }
             }).start();
@@ -1342,14 +1285,15 @@ public class Paint extends javax.swing.JFrame {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            showTooltip("Click to select or pressing until menu shown up.");
+            if (!popMenu.isShowing()) {
+                showTooltip("Right click or press until menu shown up.");
+            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
             hideTooltip();
         }
-
     }
 
     /**
@@ -1360,6 +1304,7 @@ public class Paint extends javax.swing.JFrame {
     private void showTooltip(String toolTipText) {
         label_ToolTip.setIcon(new ImageIcon(getClass().getResource("/img/tooltip.png")));
         label_ToolTip.setText(toolTipText);
+        label_ToolTip.repaint();
     }
 
     /**
@@ -1368,6 +1313,7 @@ public class Paint extends javax.swing.JFrame {
     private void hideTooltip() {
         label_ToolTip.setIcon(null);
         label_ToolTip.setText("");
+        label_ToolTip.repaint();
     }
 
     /**

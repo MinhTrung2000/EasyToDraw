@@ -17,13 +17,13 @@ public class Settings {
     public enum LineStyle {
         DEFAULT {
             public String toString() {
-                return "─────────────";
+                return "────────────";
             }
         },
         DASH {
             public String toString() {
 //                return "---------------------";
-                return "─── ─── ─── ───";
+                return "─── ─── ─── ──";
             }
         },
         DASH_DOT {
