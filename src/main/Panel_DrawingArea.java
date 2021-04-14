@@ -643,7 +643,7 @@ public class Panel_DrawingArea extends JPanel {
                     setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
 
                     if (checkStartingPointAvailable()) {
-                        Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+                        Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         segment.setProperty(startDrawingPoint, endDrawingPoint);
                         segment.setLineStyle(selectedLineStyle);
                         segment.draw();
@@ -662,7 +662,7 @@ public class Panel_DrawingArea extends JPanel {
                     setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
 
                     if (checkStartingPointAvailable()) {
-                        Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+                        Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         rectangle.setProperty(startDrawingPoint, endDrawingPoint);
                         rectangle.draw();
                         rectangle.saveCoordinate();

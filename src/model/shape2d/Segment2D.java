@@ -10,8 +10,8 @@ public class Segment2D extends Shape2D {
     private Point2D startPoint;
     private Point2D endPoint;
 
-    public Segment2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+    public Segment2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
         startPoint = new Point2D(0, 0);
         endPoint = new Point2D(0, 0);

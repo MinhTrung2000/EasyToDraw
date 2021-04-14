@@ -55,12 +55,12 @@ public class Shape2D {
     protected Point2D centerPoint;
 
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
-            String[][] changedCoordOfBoard) {
+            String[][] changedCoordOfBoard, Color filledColor) {
         this.markedChangeOfBoard = markedChangeOfBoard;
         this.changedColorOfBoard = changedColorOfBoard;
         this.changedCoordOfBoard = changedCoordOfBoard;
 
-        this.filledColor = Color.BLACK;
+        this.filledColor = filledColor;
 
         rotatedAngle = DEFAULT_ANGLE;
         lineStyle = DEFAULT_LINE_STYLE;

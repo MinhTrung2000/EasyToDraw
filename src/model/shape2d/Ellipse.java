@@ -15,8 +15,8 @@ public class Ellipse extends Shape2D {
     private boolean isCircle;
     
     public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, 
-            String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+            String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         topPoint = new Point2D();
         bottomPoint = new Point2D();
         leftPoint = new Point2D();

@@ -8,8 +8,8 @@ public class Circle extends Shape2D {
     
     private double radius;
     
-    public Circle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+    public Circle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         
         this.radius = 0.0;
     }

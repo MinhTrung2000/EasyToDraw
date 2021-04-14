@@ -9,8 +9,8 @@ public class Rectangle extends Shape2D {
     private Point2D leftBottomPoint;
     private Point2D rightBottomPoint;
 
-    public Rectangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+    public Rectangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         
         leftTopPoint = new Point2D(0, 0);
         rightTopPoint = new Point2D(0, 0);

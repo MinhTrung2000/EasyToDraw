@@ -8,8 +8,8 @@ public class Triangle extends Shape2D {
     private Point2D pointB;
     private Point2D pointC;
 
-    public Triangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+    public Triangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         pointA = new Point2D();
         pointB = new Point2D();
         pointC = new Point2D();

@@ -379,6 +379,54 @@ public class Paint extends javax.swing.JFrame {
                 }
             }
         });
+        button_ColorSave_1.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_1.getBackground());
+            }
+        });
+        button_ColorSave_2.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_2.getBackground());
+            }
+        });
+        button_ColorSave_3.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_3.getBackground());
+            }
+        });
+        button_ColorSave_4.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_4.getBackground());
+            }
+        });
+        button_ColorSave_5.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_5.getBackground());
+            }
+        });
+        button_ColorSave_6.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_6.getBackground());
+            }
+        });
+        button_ColorSave_7.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_7.getBackground());
+            }
+        });
+        button_ColorSave_8.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent event){
+                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_8.getBackground());
+            }
+        });
     }
 
     /**

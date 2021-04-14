@@ -53,8 +53,8 @@ public class Arrow2D extends Shape2D {
 //    private Point2D startPoint;
 //    private Point2D endPoint;
 
-    public Arrow2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
+    public Arrow2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         
         pointA = new Point2D(0, 0);
         pointB = new Point2D(0, 0);
