@@ -38,6 +38,7 @@ public class Paint extends javax.swing.JFrame {
     private int savedColorNumber;
 
     public Paint() {
+        UIManager.put("PopupMenu.consumeEventOnClose", false);
         customizeComponents();
         setIconFrame();
         setOptionLineStyle();
@@ -1229,16 +1230,20 @@ public class Paint extends javax.swing.JFrame {
             .addGroup(panel_StatusBarLayout.createSequentialGroup()
                 .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_ToolTip, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         panel_StatusBarLayout.setVerticalGroup(
             panel_StatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jSeparator8, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(label_ToolTip)
+            .addGroup(panel_StatusBarLayout.createSequentialGroup()
+                .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(label_ToolTip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panel_StatusBarLayout.createSequentialGroup()
+                .addComponent(jSeparator8)
+                .addGap(3, 3, 3))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1313,7 +1318,7 @@ public class Paint extends javax.swing.JFrame {
                 public void run() {
                     mousePressed = true;
                     try {
-                        Thread.sleep(500);
+                        Thread.sleep(250);
                     } catch (InterruptedException ex) {
                         ex.printStackTrace();
                     }
