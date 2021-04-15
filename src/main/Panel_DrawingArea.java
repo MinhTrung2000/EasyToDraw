@@ -3,6 +3,7 @@ package main;
 import model.shape2d.Point2D;
 import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
+import model.shape2d.Triangle;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -669,6 +670,18 @@ public class Panel_DrawingArea extends JPanel {
                     }
                     repaint();
                     break;
+                }
+                case DRAWING_POLYGON_TRIANGLE: {
+                    resetChangedPropertyArray();
+                    
+                    setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
+                    if (checkStartingPointAvailable()) {
+                        Triangle triangle = new Triangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        triangle.setProperty(startDrawingPoint, endDrawingPoint);
+                        triangle.draw();
+                        triangle.saveCoordinate();
+                    }
+                    repaint();
                 }
             }
         }

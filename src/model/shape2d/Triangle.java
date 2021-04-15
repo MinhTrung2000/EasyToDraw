@@ -22,12 +22,10 @@ public class Triangle extends Shape2D {
      * @param pointB
      * @param pointC
      */
-    public void setProperty(Point2D pointA, Point2D pointB, Point2D pointC) {
-        this.pointA = pointA;
-        this.pointC = pointC;
-
-        pointB.setCoord(pointA.coordX - (pointC.coordX - pointA.coordX), pointC.coordY);
-
+    public void setProperty(Point2D startPoint, Point2D endPoint) {
+        pointA.setCoord((startPoint.getCoordX()+endPoint.getCoordX())/2, startPoint.getCoordY());
+        pointB.setCoord(startPoint.getCoordX(),endPoint.getCoordY());
+        pointC.setCoord(endPoint);
         centerPoint.setCoord(
                 pointA.coordX,
                 pointC.coordY + (int) ((2.0 / 3.0) * Math.abs(pointC.coordY - pointA.coordY))
