@@ -633,14 +633,17 @@ public class DrawingPanel extends JPanel {
                     // Work later
                     break;
                 }
+                
             }
         }
+       
 
         @Override
         public void mouseReleased(MouseEvent event) {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
+            
 
             apply();
             repaint();

@@ -54,7 +54,7 @@ public class Paint extends javax.swing.JFrame {
                 showCursorCoordinate(event);
             }
         });
-        
+
         // Set frame location.
         setLocationRelativeTo(null);
     }
@@ -331,7 +331,11 @@ public class Paint extends javax.swing.JFrame {
         button_ClearAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(Settings.DrawingToolMode.TOOL_CLEAR_ALL);
+                //   setSelectedToolMode(Settings.DrawingToolMode.TOOL_CLEAR_ALL);
+                ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
+                ((DrawingPanel) panel_DrawingArea).repaint();
+                setSelectedToolMode(((DrawingPanel) panel_DrawingArea).getSelectedToolMode());
+
             }
         });
 
@@ -382,7 +386,7 @@ public class Paint extends javax.swing.JFrame {
                 }
             }
         });
-        
+
         for (int i = 0; i < Settings.DEFAULT_SAVED_COLOR_NUMBER; i++) {
             savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
         }
@@ -1325,8 +1329,8 @@ public class Paint extends javax.swing.JFrame {
         label_ToolTip.setText("");
         label_ToolTip.repaint();
     }
-    
-        /**
+
+    /**
      * Class is used for handling user color choosing.
      */
     private class CustomSavedColorButtonEventHandling implements ActionListener {
