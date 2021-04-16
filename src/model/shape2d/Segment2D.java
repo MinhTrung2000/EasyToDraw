@@ -7,8 +7,8 @@ import static main.Settings.*;
 
 public class Segment2D extends Shape2D {
 
-    private Point2D startPoint;
-    private Point2D endPoint;
+    protected Point2D startPoint;
+    protected Point2D endPoint;
 
     public Segment2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
@@ -17,6 +17,14 @@ public class Segment2D extends Shape2D {
         endPoint = new Point2D(0, 0);
     }
 
+    public Point2D getStartPoint() {
+        return this.startPoint;
+    }
+    
+    public Point2D getEndPoint() {
+        return this.endPoint;
+    }
+    
     public void setProperty(Point2D startPoint, Point2D endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
@@ -96,5 +104,24 @@ public class Segment2D extends Shape2D {
     public void saveCoordinates() {
         this.startPoint.saveCoord(changedCoordOfBoard);
         this.endPoint.saveCoord(changedCoordOfBoard);
+    }
+    
+    public Point2D intersect(Segment2D other) {
+        Vector2D vec_a_b = new Vector2D(this.startPoint, this.endPoint);
+        Vector2D vec_c_d = new Vector2D(other.startPoint, other.endPoint);
+        Vector2D vec_c_a = new Vector2D(other.startPoint, this.endPoint);
+        
+        Vector2D r = Vector2D.getVectorOfLinearEquationRepr(vec_a_b, vec_c_d, vec_c_a);
+        
+        // Two segments are not collided if the root is not in range 0..1
+        if (Double.compare(r.getCoordX(), 0.0) > 0 && Double.compare(r.getCoordX(), 1.0) < 0 &&
+                Double.compare(r.getCoordY(), 0.0) > 0 && Double.compare(r.getCoordY(), 1.0) < 0) {
+            return null;
+}
+        
+        Point2D result = new Point2D(this.startPoint);
+        result.move(vec_a_b.scale(r.getCoordX()));
+        
+        return result;
     }
 }

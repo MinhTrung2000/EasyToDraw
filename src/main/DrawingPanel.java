@@ -12,11 +12,13 @@ import java.awt.event.MouseMotionListener;
 import java.util.Stack;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import model.shape2d.Ellipse;
+import model.shape2d.Shape2D;
 
 /**
  * Class used for implementing drawing area.
  */
-public class Panel_DrawingArea extends JPanel {
+public class DrawingPanel extends JPanel {
 
     /**
      * The actual width of board.
@@ -42,7 +44,7 @@ public class Panel_DrawingArea extends JPanel {
     // The color property of all points when a new drawing action is happened.
     private Color[][] changedColorOfBoard;
     private String[][] changedCoordOfBoard;
-    
+
     // This array is used to mark the point is changed in an action.
     private boolean[][] markedChangeOfBoard;
 
@@ -99,7 +101,7 @@ public class Panel_DrawingArea extends JPanel {
      */
     private Integer selectedLineSize;
 
-    public Panel_DrawingArea() {
+    public DrawingPanel() {
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
 
@@ -126,7 +128,6 @@ public class Panel_DrawingArea extends JPanel {
         selectedLineStyle = Settings.LineStyle.DEFAULT;
         selectedLineSize = Settings.DEFAULT_LINE_SIZE;
 
-//        genericShape = new Shape2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard);
         resetChangedPropertyArray();
         resetSavedPropertyArray();
 
@@ -142,26 +143,56 @@ public class Panel_DrawingArea extends JPanel {
         this.endDrawingPoint.setCoord(coordX, coordY);
     }
 
+    /**
+     * Check for undo action.
+     *
+     * @return
+     */
     public boolean ableUndo() {
         return !undoColorOfBoardStack.empty();
     }
 
+    /**
+     * Check for redo action.
+     *
+     * @return
+     */
     public boolean ableRedo() {
         return !redoColorOfBoardStack.empty();
     }
 
+    /**
+     * Set selected drawing tool button.
+     *
+     * @param selectedToolMode
+     */
     public void setSelectedButtonMode(Settings.DrawingToolMode selectedToolMode) {
         this.selectedToolMode = selectedToolMode;
     }
 
+    /**
+     * Get current drawing tool button.
+     *
+     * @return
+     */
     public Settings.DrawingToolMode getSelectedToolMode() {
         return this.selectedToolMode;
     }
 
+    /**
+     * Set selected line size.
+     *
+     * @param lineSize
+     */
     public void setSelectedLineSize(int lineSize) {
         selectedLineSize = lineSize;
     }
 
+    /**
+     * Set selected line style.
+     *
+     * @param lineStyle
+     */
     public void setSelectedLineStyle(Settings.LineStyle lineStyle) {
         selectedLineStyle = lineStyle;
     }
@@ -242,8 +273,8 @@ public class Panel_DrawingArea extends JPanel {
      * <code>color_board_to</code>. <br>
      * Require they have the same size.
      *
-     * @param color_board_from 
-     * @param color_board_to 
+     * @param color_board_from
+     * @param color_board_to
      */
     public static void copyColorValue(Color[][] color_board_from, Color[][] color_board_to) {
         int height = color_board_from.length;
@@ -261,8 +292,8 @@ public class Panel_DrawingArea extends JPanel {
      * <code>coord_board_to</code>. <br>
      * Require they have the same size.
      *
-     * @param coord_board_from 
-     * @param coord_board_to 
+     * @param coord_board_from
+     * @param coord_board_to
      */
     public static void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
         int height = coord_board_from.length;
@@ -368,7 +399,7 @@ public class Panel_DrawingArea extends JPanel {
 
         // Save the changed coordinate into board.
         copyCoordValue(changedCoordOfBoard, coordOfBoard);
-        
+
         // Reset marked change array.
         resetChangedPropertyArray();
     }
@@ -419,7 +450,7 @@ public class Panel_DrawingArea extends JPanel {
     private void showBoardCoordination(Graphics graphic) {
         /*
             Show axis coordination.
-        */
+         */
         graphic.setColor(Settings.DEFAULT_COORDINATE_AXIS_COLOR);
 
         if (coordinateMode == Settings.CoordinateMode.MODE_2D) {
@@ -441,14 +472,14 @@ public class Panel_DrawingArea extends JPanel {
             Show point coordination.
          */
         graphic.setColor(Settings.DEFAULT_COORDINATE_POINT_COLOR);
-        
+
         for (int i = 0; i < heightBoard; i++) {
             for (int j = 0; j < widthBoard; j++) {
                 String coordinateProperty = coordOfBoard[i][j];
 
                 if (coordinateProperty != null) {
 
-                    int posX = (i  + 1) * Settings.RECT_SIZE;
+                    int posX = (i + 1) * Settings.RECT_SIZE;
                     int posY = j * Settings.RECT_SIZE - 2;
 
                     // Normalize
@@ -491,8 +522,8 @@ public class Panel_DrawingArea extends JPanel {
                 }
 
                 graphic.fillRect(
-                        i * Settings.RECT_SIZE + 1,
                         j * Settings.RECT_SIZE + 1,
+                        i * Settings.RECT_SIZE + 1,
                         Settings.SIZE,
                         Settings.SIZE
                 );
@@ -500,28 +531,28 @@ public class Panel_DrawingArea extends JPanel {
         }
     }
 
-    private void paintRect(Graphics graphic, int topLeftX, int topLeftY, int width, int height) {
-        int bottomRightX = topLeftX + width;
-        int bottomRightY = topLeftY + height;
-        
-        for (int i = topLeftY; i < bottomRightY; i++) {
-            for (int j = topLeftX; j < bottomRightX; j++) {
-                if (markedChangeOfBoard[i][j] == true) {
-                    graphic.setColor(changedColorOfBoard[i][j]);
-                } else {
-                    graphic.setColor(colorOfBoard[i][j]);
-                }
+//    private void paintRect(Graphics graphic, int topLeftX, int topLeftY, int width, int height) {
+//        int bottomRightX = topLeftX + width;
+//        int bottomRightY = topLeftY + height;
+//
+//        for (int i = topLeftY; i < bottomRightY; i++) {
+//            for (int j = topLeftX; j < bottomRightX; j++) {
+//                if (markedChangeOfBoard[i][j] == true) {
+//                    graphic.setColor(changedColorOfBoard[i][j]);
+//                } else {
+//                    graphic.setColor(colorOfBoard[i][j]);
+//                }
+//
+//                graphic.fillRect(
+//                        i * Settings.RECT_SIZE + 1,
+//                        j * Settings.RECT_SIZE + 1,
+//                        Settings.SIZE,
+//                        Settings.SIZE
+//                );
+//            }
+//        }
+//    }
 
-                graphic.fillRect(
-                        i * Settings.RECT_SIZE + 1,
-                        j * Settings.RECT_SIZE + 1,
-                        Settings.SIZE,
-                        Settings.SIZE
-                );
-            }
-        }
-    }
-    
     @Override
     public void paintComponent(Graphics graphic) {
         super.paintComponent(graphic);
@@ -585,16 +616,15 @@ public class Panel_DrawingArea extends JPanel {
 
             resetChangedPropertyArray();
 
-            setStartDrawingPoint(event.getX() / Settings.RECT_SIZE,
-                    event.getY() / Settings.RECT_SIZE);
+            setStartDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
 
             Settings.DrawingToolMode selectedTool = getSelectedToolMode();
 
             switch (selectedTool) {
                 case DRAWING_LINE_FREE: {
                     setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
-                    markedChangeOfBoard[startDrawingPoint.getCoordX()][startDrawingPoint.getCoordY()] = true;
-                    changedColorOfBoard[startDrawingPoint.getCoordX()][startDrawingPoint.getCoordY()] = selectedColor;
+                    markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
+                    changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
                     startDrawingPoint.saveCoord(coordOfBoard);
                     repaint();
                     break;
@@ -637,12 +667,12 @@ public class Panel_DrawingArea extends JPanel {
 
             Settings.DrawingToolMode selectedTool = getSelectedToolMode();
 
+            resetChangedPropertyArray();
+
+            setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
+            
             switch (selectedTool) {
                 case DRAWING_LINE_SEGMENT: {
-                    resetChangedPropertyArray();
-
-                    setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
-
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         segment.setProperty(startDrawingPoint, endDrawingPoint);
@@ -654,14 +684,9 @@ public class Panel_DrawingArea extends JPanel {
                     break;
                 }
                 case DRAWING_LINE_FREE: {
-                    resetChangedPropertyArray();
-
+                    break;
                 }
                 case DRAWING_POLYGON_RECTANGLE: {
-                    resetChangedPropertyArray();
-
-                    setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
-
                     if (checkStartingPointAvailable()) {
                         Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         rectangle.setProperty(startDrawingPoint, endDrawingPoint);
@@ -672,9 +697,6 @@ public class Panel_DrawingArea extends JPanel {
                     break;
                 }
                 case DRAWING_POLYGON_TRIANGLE: {
-                    resetChangedPropertyArray();
-                    
-                    setEndDrawingPoint(event.getX() / (Settings.SIZE + Settings.SPACE), event.getY() / (Settings.SIZE + Settings.SPACE));
                     if (checkStartingPointAvailable()) {
                         Triangle triangle = new Triangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         triangle.setProperty(startDrawingPoint, endDrawingPoint);
@@ -682,6 +704,23 @@ public class Panel_DrawingArea extends JPanel {
                         triangle.saveCoordinate();
                     }
                     repaint();
+                }
+                case DRAWING_POLYGON_CIRCLE: {
+                    if (checkStartingPointAvailable()) {
+                        Ellipse ellipse = new Ellipse(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+
+                        if (event.isShiftDown()) {
+                            ellipse.setProperty(startDrawingPoint, endDrawingPoint, Ellipse.Modal.CIRLCE);
+                        } else {
+                            ellipse.setProperty(startDrawingPoint, endDrawingPoint, Ellipse.Modal.ELLIPSE);
+                        }
+
+                        ellipse.setLineStyle(selectedLineStyle);
+                        ellipse.draw();
+                        ellipse.saveCoordinates();
+                    }
+                    repaint();
+                    break;
                 }
             }
         }

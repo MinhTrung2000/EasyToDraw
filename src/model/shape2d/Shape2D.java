@@ -53,7 +53,12 @@ public class Shape2D {
      * Center point of shape.
      */
     protected Point2D centerPoint;
-
+    
+    /**
+     * The total of pixel number.
+     */
+    protected int pixelCounter;
+    
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         this.markedChangeOfBoard = markedChangeOfBoard;
@@ -66,6 +71,8 @@ public class Shape2D {
         lineStyle = DEFAULT_LINE_STYLE;
 
         centerPoint = new Point2D(0, 0);
+
+        pixelCounter = 0;
     }
 
     public void setLineStyle(Settings.LineStyle lineStyle) {
@@ -84,12 +91,13 @@ public class Shape2D {
      * @param lineStyle
      */
     public void drawSegment(Point2D startPoint, Point2D endPoint, Settings.LineStyle lineStyle) {
-        savePointCoordinate(startPoint.coordX, startPoint.coordY);
+        pixelCounter = 1;
+        
+        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
 
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
-        int pixelCounter = 0;
 
         if (endPoint.coordX >= startPoint.coordX) {
             dx = endPoint.coordX - startPoint.coordX;
@@ -204,8 +212,8 @@ public class Shape2D {
     protected void savePointCoordinate(int coordX, int coordY) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
 //            System.out.println("main.Shape2D.savePointCoordinate(" + coordX + ", " + coordY +")");
-            markedChangeOfBoard[coordX][coordY] = true;
-            changedColorOfBoard[coordX][coordY] = filledColor;
+            markedChangeOfBoard[coordY][coordX] = true;
+            changedColorOfBoard[coordY][coordX] = filledColor;
         }
     }
 
@@ -224,8 +232,8 @@ public class Shape2D {
     public void savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, Settings.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
-            markedChangeOfBoard[coordX][coordY] = true;
-            changedColorOfBoard[coordX][coordY] = filledColor;
+            markedChangeOfBoard[coordY][coordX] = true;
+            changedColorOfBoard[coordY][coordX] = filledColor;
         }
     }
 

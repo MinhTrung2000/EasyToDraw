@@ -11,21 +11,35 @@ public class Point2D {
     protected int coordX;
     protected int coordY;
 
+    /**
+     * One point has only one shape as it's parent.
+     */
+    protected Shape2D parentShape;
+
     public Point2D() {
         coordX = 0;
         coordY = 0;
+        parentShape = null;
+    }
+
+    public Point2D(int coordX, int coordY, Shape2D parentShape) {
+        this.coordX = coordX;
+        this.coordY = coordY;
+        this.parentShape = parentShape;
     }
 
     public Point2D(int coordX, int coordY) {
-        this.coordX = coordX;
-        this.coordY = coordY;
+        this(coordX, coordY, null);
     }
 
     public Point2D(Point2D other) {
-        this.coordX = other.coordX;
-        this.coordY = other.coordY;
+        this(other.coordX, other.coordY, other.parentShape);
     }
-    
+
+    public void setParent(Shape2D parentShape) {
+        this.parentShape = parentShape;
+    }
+
     public void setCoord(int coordX, int coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
@@ -47,7 +61,7 @@ public class Point2D {
     public void saveCoord(String[][] coordOfBoard) {
         if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
             int x = (int) (coordX - (Settings.COORD_X_O / Settings.RECT_SIZE));
-            int y = (int) (- (coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)));
+            int y = (int) (-(coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)));
             coordOfBoard[coordX][coordY] = "(" + x + ", " + y + ")";
         }
     }
@@ -180,7 +194,8 @@ public class Point2D {
     public Point2D createMovingPoint(Vector2D vector) {
         return new Point2D(
                 this.coordX + (int) vector.getCoordX(),
-                this.coordY + (int) vector.getCoordY()
+                this.coordY + (int) vector.getCoordY(),
+                this.parentShape
         );
     }
 
@@ -235,5 +250,13 @@ public class Point2D {
         int newCoordY = 2 * basePoint.coordY - this.coordY;
         setCoord(newCoordX, newCoordY);
         return this;
+    }
+
+    public String toString() {
+        int x = (int) (coordX - (Settings.COORD_X_O / Settings.RECT_SIZE));
+        int y = (int) (-(coordY - (Settings.COORD_Y_O / Settings.RECT_SIZE)));
+
+        String result = "(" + x + ", " + y + ")";
+        return result;
     }
 }

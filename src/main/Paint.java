@@ -8,7 +8,6 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -55,6 +54,9 @@ public class Paint extends javax.swing.JFrame {
                 showCursorCoordinate(event);
             }
         });
+        
+        // Set frame location.
+        setLocationRelativeTo(null);
     }
 
     public void showCursorCoordinate(MouseEvent event) {
@@ -218,7 +220,7 @@ public class Paint extends javax.swing.JFrame {
         button_Undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ((Panel_DrawingArea) panel_DrawingArea).undo();
+                ((DrawingPanel) panel_DrawingArea).undo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 repaint();
@@ -228,7 +230,7 @@ public class Paint extends javax.swing.JFrame {
         button_Redo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ((Panel_DrawingArea) panel_DrawingArea).redo();
+                ((DrawingPanel) panel_DrawingArea).redo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 repaint();
@@ -251,7 +253,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 boolean showGrid_Flag = (event.getStateChange() == ItemEvent.SELECTED);
-                ((Panel_DrawingArea) panel_DrawingArea).setShowGridLinesFlag(showGrid_Flag);
+                ((DrawingPanel) panel_DrawingArea).setShowGridLinesFlag(showGrid_Flag);
             }
         });
 
@@ -259,7 +261,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 boolean showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
-                ((Panel_DrawingArea) panel_DrawingArea).setShowCoordinateFlag(showCoordinate_Flag);
+                ((DrawingPanel) panel_DrawingArea).setShowCoordinateFlag(showCoordinate_Flag);
             }
         });
 
@@ -275,7 +277,7 @@ public class Paint extends javax.swing.JFrame {
                 int selectedIndex = comboBox_StyleLine.getSelectedIndex();
                 for (LineStyle ls : LineStyle.values()) {
                     if (selectedIndex == ls.ordinal()) {
-                        ((Panel_DrawingArea) panel_DrawingArea).setSelectedLineStyle(ls);
+                        ((DrawingPanel) panel_DrawingArea).setSelectedLineStyle(ls);
                         break;
                     }
                 }
@@ -286,7 +288,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void stateChanged(ChangeEvent event) {
                 int selectedLineSize = (Integer) ((JSpinner) event.getSource()).getValue();
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedLineSize(selectedLineSize);
+                ((DrawingPanel) panel_DrawingArea).setSelectedLineSize(selectedLineSize);
             }
         });
 
@@ -299,13 +301,13 @@ public class Paint extends javax.swing.JFrame {
      */
     private void setSelectedToolMode(Settings.DrawingToolMode toolMode) {
         Settings.DrawingToolMode selectedButtonMode
-                = ((Panel_DrawingArea) panel_DrawingArea).getSelectedToolMode();
+                = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
         if (selectedButtonMode == toolMode) {
             return;
         }
 
-        ((Panel_DrawingArea) panel_DrawingArea).setSelectedButtonMode(toolMode);
+        ((DrawingPanel) panel_DrawingArea).setSelectedButtonMode(toolMode);
     }
 
     /**
@@ -380,54 +382,10 @@ public class Paint extends javax.swing.JFrame {
                 }
             }
         });
-        button_ColorSave_1.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_1.getBackground());
-            }
-        });
-        button_ColorSave_2.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_2.getBackground());
-            }
-        });
-        button_ColorSave_3.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_3.getBackground());
-            }
-        });
-        button_ColorSave_4.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_4.getBackground());
-            }
-        });
-        button_ColorSave_5.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_5.getBackground());
-            }
-        });
-        button_ColorSave_6.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_6.getBackground());
-            }
-        });
-        button_ColorSave_7.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_7.getBackground());
-            }
-        });
-        button_ColorSave_8.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent event){
-                ((Panel_DrawingArea) panel_DrawingArea).setSelectedColor(button_ColorSave_8.getBackground());
-            }
-        });
+        
+        for (int i = 0; i < Settings.DEFAULT_SAVED_COLOR_NUMBER; i++) {
+            savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
+        }
     }
 
     /**
@@ -445,7 +403,7 @@ public class Paint extends javax.swing.JFrame {
             1.  Đặt lại mặc định cho các cờ show_Gridlines, show_Coordinate 
                 theo class Settings và checkbox tương ứng.
             2.  Gọi hàm setCoordinateMode của panel_DrawingArea (xem chi tiết
-                tại class Panel_DrawingArea).
+                tại class DrawingPanel).
          */
 
         button_2DMode.addActionListener(new CustomChangeCoordSystemAction(CoordinateMode.MODE_2D));
@@ -638,7 +596,7 @@ public class Paint extends javax.swing.JFrame {
         button_Shape = new javax.swing.JButton();
         button_Transform = new javax.swing.JButton();
         Seperator = new javax.swing.JSeparator();
-        panel_DrawingArea = new Panel_DrawingArea();
+        panel_DrawingArea = new DrawingPanel();
         jSeparator3 = new javax.swing.JSeparator();
         panel_StatusBar = new javax.swing.JPanel();
         panel_CoordinateCursor = new javax.swing.JPanel();
@@ -1280,8 +1238,8 @@ public class Paint extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private Panel_DrawingArea getDrawingPanel() {
-        return (Panel_DrawingArea) panel_DrawingArea;
+    private DrawingPanel getDrawingPanel() {
+        return (DrawingPanel) panel_DrawingArea;
     }
 
     /**
@@ -1367,6 +1325,23 @@ public class Paint extends javax.swing.JFrame {
         label_ToolTip.setIcon(null);
         label_ToolTip.setText("");
         label_ToolTip.repaint();
+    }
+    
+        /**
+     * Class is used for handling user color choosing.
+     */
+    private class CustomSavedColorButtonEventHandling implements ActionListener {
+
+        JButton button;
+
+        public CustomSavedColorButtonEventHandling(JButton button) {
+            this.button = button;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ((DrawingPanel) panel_DrawingArea).setSelectedColor(button.getBackground());
+        }
     }
 
     /**

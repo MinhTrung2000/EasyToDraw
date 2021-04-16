@@ -2,21 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Shape2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Rectangle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/main/Input3D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Arrow2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Point2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/main/Paint.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/main/Ultility.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/main/Settings.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Circle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Ellipse.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Triangle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/main/Panel_DrawingArea.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

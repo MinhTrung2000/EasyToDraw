@@ -11,8 +11,8 @@ import javax.swing.JPopupMenu;
 
 public class Ultility {
     
-    public static int D_X[] = {-1, 0, 0, 1};
-    public static int D_Y[] = {0, -1, 1, 0};
+    private static final int D_X[] = {-1, 0, 0, 1};
+    private static final int D_Y[] = {0, -1, 1, 0};
 
     public Ultility() {
     }
@@ -22,7 +22,6 @@ public class Ultility {
     }
 
     public static void showPopMenuOfButton(JButton button, JPopupMenu popMenu) {
-        assert (button != null && popMenu != null);
         popMenu.show(button,
                 (int) button.getAlignmentX() + button.getWidth(),
                 (int) button.getAlignmentY()
