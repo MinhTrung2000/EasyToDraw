@@ -704,6 +704,7 @@ public class DrawingPanel extends JPanel {
                         triangle.saveCoordinate();
                     }
                     repaint();
+                    break;
                 }
                 case DRAWING_POLYGON_CIRCLE: {
                     if (checkStartingPointAvailable()) {
