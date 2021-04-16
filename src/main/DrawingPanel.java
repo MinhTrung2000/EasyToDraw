@@ -513,8 +513,8 @@ public class DrawingPanel extends JPanel {
             drawBackgroundBoard(graphic, Settings.DEFAULT_EMPTY_BACKGROUND_COLOR);
         }
 
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
+        for (int i = 0; i < this.heightBoard / Settings.RECT_SIZE; i++) {
+            for (int j = 0; j < this.widthBoard / Settings.RECT_SIZE; j++) {
                 if (markedChangeOfBoard[i][j] == true) {
                     graphic.setColor(changedColorOfBoard[i][j]);
                 } else {

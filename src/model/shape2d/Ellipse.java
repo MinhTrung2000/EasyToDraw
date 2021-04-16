@@ -8,44 +8,46 @@ import java.awt.Color;
 
     Ellipse equation: x^2 / a^2 + y^2 / b^2 = 1
     => y = b * sqrt(1 - (x^2 / a^2))
+
+    Note that:
+    + Center point is a start point.
  */
 public class Ellipse extends Shape2D {
-    
+
     public enum Modal {
         ELLIPSE,
         CIRLCE,
     }
-    
+
     private double a;
     private double b;
-    private double c;
-    
+
     private Modal modal;
-    
-    public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, 
+
+    public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        a = b = c = 1.0;
+        a = b = 1.0;
         modal = Modal.ELLIPSE;
     }
 
     public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        if (modal == Modal.ELLIPSE) {
-            a = Math.abs(startPoint.coordX - endPoint.coordX) / 2.0;
-            b = Math.abs(startPoint.coordY - endPoint.coordY) / 2.0;
+        double half_x = Math.abs(endPoint.coordX - startPoint.coordX) / 2.0;
+        double half_y = Math.abs(endPoint.coordY - startPoint.coordY) / 2.0;
         
-            double max = Math.max(a, b);
-            if (a != max) {
-                b = a;
-                a = max;
-    }
-//
-//            c = Math.sqrt(a * a - b * b);
+        if (modal == Modal.ELLIPSE) {
+            a = half_x;
+            b = half_y;
+
         } else {
-            a = b = Math.abs(startPoint.coordX - endPoint.coordX) / 2.0;
+            a = Math.max(half_x, half_y);
+            b = a;
         }
-    
-        centerPoint.setCoord((int) (startPoint.coordX + endPoint.coordX) / 2, (int) (startPoint.coordY + endPoint.coordY) / 2);
+
+        centerPoint.setCoord(
+                (int) Math.round(startPoint.coordX + endPoint.coordX) / 2, 
+                (int) Math.round(startPoint.coordY + endPoint.coordY) / 2
+        );
 
         this.modal = modal;
     }
@@ -54,72 +56,64 @@ public class Ellipse extends Shape2D {
     public void savePointCoordinate(int coordX, int coordY) {
         centerPoint.saveCoord(changedCoordOfBoard);
     }
-    
-    private void put(double x, double y) {
-        pixelCounter++;
-        savePointWithLineStyleCheck((int) (centerPoint.coordX + x), (int) (centerPoint.coordY - y), pixelCounter, lineStyle);
-        savePointWithLineStyleCheck((int) (centerPoint.coordX + x), (int) (centerPoint.coordY + y), pixelCounter, lineStyle);
-        savePointWithLineStyleCheck((int) (centerPoint.coordX - x), (int) (centerPoint.coordY + y), pixelCounter, lineStyle);
-        savePointWithLineStyleCheck((int) (centerPoint.coordX - x), (int) (centerPoint.coordY - y), pixelCounter, lineStyle);
-    }
-    
+
     public void drawOutlineEllipse() {
-        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, pixelCounter, lineStyle);
-        
-//        System.out.println("=================================================");
+        // Save center point coordination
+        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
+
         double x = 0.0;
         double y = b;
-        
-        put(x, y);
-            
+
+        double fx = 0;
+        double fy = 2 * a * a * y;
+
+        pixelCounter = 1;
+        putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+
         double p = b * b - a * a * b + a * a * 0.25;
 
-        while (x <= b) {
-            put(x, y);
+        while (fx < fy) {
+            x++;
+            fx += 2 * b * b;
             if (p < 0) {
-//                System.out.println("x <= b: p < 0");
                 p += b * b * (2 * x + 3);
             } else {
-//                System.out.println("x <= b: p >= 0");
                 p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
                 y--;
+                fy -= 2 * a * a;
             }
-            x++;
+            pixelCounter++;
+            putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
 
         while (y >= 0) {
-            put(x, y);
+            y--;
             if (p < 0) {
-//                System.out.println("y >= 0: p < 0");
                 p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
                 x++;
             } else {
-//                System.out.println("y >= 0: p >= 0");
                 p += a * a * (3 - 2 * y);
-    }
-            y--;
-}
+            }
+            pixelCounter++;
+            putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+        }
     }
 
     public void drawOutlineCircle() {
-        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, pixelCounter, lineStyle);
+        // Save center point coordination
+        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
 
-        pixelCounter++;
-//        savePointWithLineStyleCheck((int) (centerPoint.coordX + a), (int) (centerPoint.coordY + a), pixelCounter, lineStyle);
-//        savePointWithLineStyleCheck((int) (centerPoint.coordX + a), (int) (centerPoint.coordY - a), pixelCounter, lineStyle);
-//        savePointWithLineStyleCheck((int) (centerPoint.coordX - a), (int) (centerPoint.coordY + a), pixelCounter, lineStyle);
-//        savePointWithLineStyleCheck((int) (centerPoint.coordX - a), (int) (centerPoint.coordY - a), pixelCounter, lineStyle);
+        double x = 0;
+        double y = a;
 
-        int x = 0;
-        int y = (int) a;
+        pixelCounter = 1;
+        putEightSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+        
+        double p = 5 / 4.0 - a;
 
-        put(x, y);
-
-        double p = 5.0 / 4 - a;
-
-        while (x <= a) {
+        while (x < y) {
             if (p < 0) {
                 p += 2 * x + 3;
             } else {
@@ -128,9 +122,7 @@ public class Ellipse extends Shape2D {
             }
             x++;
             pixelCounter++;
-//            putEightSymmetricPoints(x, y, centerPoint.coordX, centerPoint.coordY);
-//            put(x, y);
-            savePointWithLineStyleCheck((int) (centerPoint.coordX + x), (int) (centerPoint.coordY - y), pixelCounter, lineStyle);
+            putEightSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
         }
     }
 

@@ -8,7 +8,7 @@ import main.Settings;
 import main.Ultility;
 
 public class Shape2D {
-    
+
     /**
      * Default initial angle of shape.
      */
@@ -53,12 +53,12 @@ public class Shape2D {
      * Center point of shape.
      */
     protected Point2D centerPoint;
-    
+
     /**
      * The total of pixel number.
      */
     protected int pixelCounter;
-    
+
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         this.markedChangeOfBoard = markedChangeOfBoard;
@@ -92,7 +92,7 @@ public class Shape2D {
      */
     public void drawSegment(Point2D startPoint, Point2D endPoint, Settings.LineStyle lineStyle) {
         pixelCounter = 1;
-        
+
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
 
         int dx = 0, dy = 0;
@@ -156,20 +156,20 @@ public class Shape2D {
 
         if (lineStyle == Settings.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
-            
+
             if (vector.getLength() != 0) {
-                
+
                 // An extra length is used for drawing the head of arrow.
                 int extraLength = 3;
-                
+
                 double angleSegmentWithOx = vector.getAngleWithOx();
-                
+
                 Point2D upPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY - extraLength);
                 Point2D downPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY + extraLength);
 
                 upPoint.rotate(endPoint, angleSegmentWithOx);
                 downPoint.rotate(endPoint, angleSegmentWithOx);
-                
+
                 this.drawSegment(endPoint, upPoint, Settings.LineStyle.DEFAULT);
                 this.drawSegment(endPoint, downPoint, Settings.LineStyle.DEFAULT);
             }
@@ -222,8 +222,8 @@ public class Shape2D {
     }
 
     /**
-     * Mark the point in marked array and color array if it can be put in the
-     * board when using a specific line style.
+     * Mark the point in array and it's color if it can be put at the board with
+     * defined line style.
      *
      * @param coordX
      * @param coordY
@@ -237,23 +237,31 @@ public class Shape2D {
         }
     }
 
+    public void putFourSymmetricPoints(int x, int y, int center_x, int center_y) {
+        savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
+    }
+
     /**
-     * Put eight points symmetrically.
+     * Put eight points symmetrically through center point having
+     * <code>center_x</code> and <code>center_y</code> coordination.
      *
      * @param x
      * @param y
-     * @param xd
-     * @param yd
+     * @param center_x
+     * @param center_y
      */
-    public void putEightSymmetricPoints(int x, int y, int xd, int yd) {
-        savePointCoordinate(x + xd, y + yd);
-        savePointCoordinate(-x + xd, y + yd);
-        savePointCoordinate(x + xd, -y + yd);
-        savePointCoordinate(-x + xd, -y + yd);
-        savePointCoordinate(y + xd, x + yd);
-        savePointCoordinate(-y + xd, x + yd);
-        savePointCoordinate(y + xd, -x + yd);
-        savePointCoordinate(-y + xd, -x + yd);
+    public void putEightSymmetricPoints(int x, int y, int center_x, int center_y) {
+        savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
     }
 
     public void drawVirtualRotation(double angle) {

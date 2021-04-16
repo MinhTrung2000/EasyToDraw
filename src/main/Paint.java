@@ -596,7 +596,7 @@ public class Paint extends javax.swing.JFrame {
         button_Shape = new javax.swing.JButton();
         button_Transform = new javax.swing.JButton();
         Seperator = new javax.swing.JSeparator();
-        panel_DrawingArea = new DrawingPanel();
+        panel_DrawingArea = new main.DrawingPanel();
         jSeparator3 = new javax.swing.JSeparator();
         panel_StatusBar = new javax.swing.JPanel();
         panel_CoordinateCursor = new javax.swing.JPanel();
@@ -1082,12 +1082,11 @@ public class Paint extends javax.swing.JFrame {
                     .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(Seperator)
                     .addGroup(panel_DrawingToolLayout.createSequentialGroup()
-                        .addGroup(panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGroup(panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );

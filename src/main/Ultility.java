@@ -48,7 +48,7 @@ public class Ultility {
     }
 
     /**
-     * Check if pixel having coordinate x can be put or not.
+     * Check if pixel can be put or not.
      *
      * @param pixelCounter
      * @param lineStyle
