@@ -135,6 +135,10 @@ public class DrawingPanel extends JPanel {
         this.addMouseListener(new CustomMouseClickHandling());
     }
 
+    public Color[][] getColorOfBoard(){
+        return this.colorOfBoard;
+    }
+    
     public void setStartDrawingPoint(int coordX, int coordY) {
         this.startDrawingPoint.setCoord(coordX, coordY);
     }

@@ -1,6 +1,9 @@
 package main;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.HeadlessException;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -8,9 +11,15 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -21,6 +30,7 @@ import static main.Settings.*;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Paint extends javax.swing.JFrame {
 
@@ -213,7 +223,43 @@ public class Paint extends javax.swing.JFrame {
         button_SaveFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                JFileChooser chooser = new JFileChooser() {
+                    @Override
+                    protected JDialog createDialog(Component parent) throws HeadlessException {
+                        JDialog dialog = super.createDialog(parent);
+                        ImageIcon img = new ImageIcon(getClass().getResource("/img/save.png"));
+                        dialog.setIconImage(img.getImage());
+                        return dialog;
+                    }
+                };
+
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+                chooser.setFileFilter(filter);
+                int reVal = chooser.showSaveDialog(null);
+                if (reVal == JFileChooser.APPROVE_OPTION) {
+                    String filename = chooser.getSelectedFile().getAbsolutePath();
+                    if (!filename.toLowerCase().endsWith(".png")) {
+                        filename += ".png";
+                    }
+                    File newFile = new File(filename);
+                    BufferedImage bufferedImage = new BufferedImage(getDrawingPanel().widthBoard, getDrawingPanel().heightBoard, BufferedImage.TYPE_INT_RGB);
+                    for (int i = 0; i < getDrawingPanel().widthBoard; i++) {
+                        for (int j = 0; j < getDrawingPanel().heightBoard; j++) {
+                            for (int tempI = -1; tempI < RECT_SIZE; tempI++) {
+                                for (int tempJ = -1; tempJ < RECT_SIZE; tempJ++) {
+                                    if (Ultility.checkValidPoint(getDrawingPanel().getColorOfBoard(), j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1)) {
+                                        bufferedImage.setRGB(j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1, getDrawingPanel().getColorOfBoard()[i][j].getRGB());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    try {
+                        ImageIO.write(bufferedImage, "PNG", newFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         });
 
@@ -331,11 +377,8 @@ public class Paint extends javax.swing.JFrame {
         button_ClearAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //   setSelectedToolMode(Settings.DrawingToolMode.TOOL_CLEAR_ALL);
                 ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
                 ((DrawingPanel) panel_DrawingArea).repaint();
-                setSelectedToolMode(((DrawingPanel) panel_DrawingArea).getSelectedToolMode());
-
             }
         });
 
