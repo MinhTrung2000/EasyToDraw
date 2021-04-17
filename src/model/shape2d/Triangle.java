@@ -8,11 +8,20 @@ public class Triangle extends Shape2D {
     private Point2D pointB;
     private Point2D pointC;
 
+    
+    public enum Modal {
+        COMMON_TRIANGLE,
+        EQUILATERAL_TRIANGLE,
+    }
+    public enum UnchangedPoint{
+        HEAD_POINT,
+        FEET_POINT
+    }
     public Triangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        pointA = new Point2D();
-        pointB = new Point2D();
-        pointC = new Point2D();
+        pointA = new Point2D(-1,-1);
+        pointB = new Point2D(-1,-1);
+        pointC = new Point2D(-1,-1);
     }
 
     /**
@@ -22,14 +31,67 @@ public class Triangle extends Shape2D {
      * @param pointB
      * @param pointC
      */
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
-        pointA.setCoord((startPoint.getCoordX()+endPoint.getCoordX())/2, startPoint.getCoordY());
-        pointB.setCoord(startPoint.getCoordX(),endPoint.getCoordY());
-        pointC.setCoord(endPoint);
+    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
+         int width = endPoint.getCoordX()-startPoint.getCoordX();
+            int height = endPoint.getCoordY()-startPoint.getCoordY();
+            int widthDirection;//true = dương, false = âm
+            
+            if(width < 0)
+                widthDirection=-1;
+            else widthDirection=1;
+            
+            Point2D feetPoint = new Point2D();
+            Point2D headPoint = new Point2D();
+            UnchangedPoint unchangedPoint = UnchangedPoint.HEAD_POINT; 
+            
+            if(width>0 && height >0 || width<0 && height > 0){//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
+                feetPoint.setCoord(endPoint);
+                headPoint.setCoord(startPoint);
+                unchangedPoint = UnchangedPoint.HEAD_POINT;
+            }else if(width<0 && height <0 || width > 0 && height < 0){//chéo lên, từ phải qua hoặc... chéo lên, từ trái qua
+                feetPoint.setCoord(startPoint);
+                headPoint.setCoord(endPoint);
+                unchangedPoint = UnchangedPoint.FEET_POINT;
+            }
+            
+        if(modal == Modal.COMMON_TRIANGLE){
+            pointA.setCoord((feetPoint.coordX+headPoint.coordX)/2,headPoint.coordY);
+            pointB.setCoord(headPoint.getCoordX(),feetPoint.getCoordY());
+            pointC.setCoord(feetPoint);
+             
+        }else{
+            
+            
+            int widthValue = Math.abs(width);
+            int heightValue = Math.abs(height);
+            
+            int preferedLength;
+            if (widthValue >= heightValue){
+                preferedLength = heightValue;
+            }else {
+                preferedLength = widthValue;
+            }
+                    if(preferedLength > 0){
+                        if(unchangedPoint==UnchangedPoint.HEAD_POINT){
+                        System.out.println("preferedLength: " + preferedLength);
+                        pointA.setCoord(headPoint.getCoordX()+widthDirection*preferedLength/2,headPoint.getCoordY());
+                        pointB.setCoord(headPoint.getCoordX(), headPoint.getCoordY()+preferedLength);
+                        pointC.setCoord(headPoint.getCoordX()+widthDirection*preferedLength+(-widthDirection), headPoint.getCoordY()+preferedLength);
+                    }else{
+                        pointA.setCoord(feetPoint.getCoordX()+widthDirection*preferedLength/2,headPoint.getCoordY());
+                        pointB.setCoord(feetPoint.getCoordX(),feetPoint.getCoordY());
+                        pointC.setCoord(feetPoint.getCoordX()+widthDirection*preferedLength+(-widthDirection), feetPoint.getCoordY());
+                    }
+                    //  +widthDirection*preferedLength = set điểm quan tâm đến hướng theo phương ngang (dựa vào hướng kéo chuột từ trái hay từ phải qua)
+                    //  +preferedLength = chỉ quan tâm đến giá trị cộng vào, hướng luôn theo phương dọc, do vẽ tam giác mặc định luôn hướng từ trên xuống
+                    //  +(-widthDirection) dịch 1 pixel có hướng theo phương ngang để căn chỉnh lại hình
+                    } 
+        }
+                    
         centerPoint.setCoord(
-                pointA.coordX,
-                pointC.coordY + (int) ((2.0 / 3.0) * Math.abs(pointC.coordY - pointA.coordY))
-        );
+        pointA.coordX,
+        pointC.coordY + (int) ((2.0 / 3.0) * Math.abs(pointC.coordY - pointA.coordY))
+     );
     }
 
     public void saveCoordinate() {

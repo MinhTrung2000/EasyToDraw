@@ -706,7 +706,12 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_POLYGON_TRIANGLE: {
                     if (checkStartingPointAvailable()) {
                         Triangle triangle = new Triangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        triangle.setProperty(startDrawingPoint, endDrawingPoint);
+                        if (event.isShiftDown()) {
+                            triangle.setProperty(startDrawingPoint, endDrawingPoint,Triangle.Modal.EQUILATERAL_TRIANGLE);
+                        }else {
+                            triangle.setProperty(startDrawingPoint, endDrawingPoint,Triangle.Modal.COMMON_TRIANGLE);
+                        }
+                        triangle.setLineStyle(selectedLineStyle);
                         triangle.draw();
                         triangle.saveCoordinate();
                     }
