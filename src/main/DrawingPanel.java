@@ -682,7 +682,11 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_LINE_SEGMENT: {
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        segment.setProperty(startDrawingPoint, endDrawingPoint);
+                        if (event.isShiftDown()){
+                            segment.setProperty(startDrawingPoint, endDrawingPoint,Segment2D.Modal.LINE_45_90_DEGREE);
+                        }else {
+                            segment.setProperty(startDrawingPoint, endDrawingPoint,Segment2D.Modal.STRAIGHT_LINE);
+                        }
                         segment.setLineStyle(selectedLineStyle);
                         segment.draw();
                         segment.saveCoordinates();
@@ -696,7 +700,12 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_POLYGON_RECTANGLE: {
                     if (checkStartingPointAvailable()) {
                         Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        rectangle.setProperty(startDrawingPoint, endDrawingPoint);
+                        if (event.isShiftDown()){
+                            rectangle.setProperty(startDrawingPoint, endDrawingPoint,Rectangle.Modal.SQUARE);
+                        }else { 
+                            rectangle.setProperty(startDrawingPoint, endDrawingPoint,Rectangle.Modal.RECTANGLE);
+                        }
+                        rectangle.setLineStyle(selectedLineStyle);
                         rectangle.draw();
                         rectangle.saveCoordinate();
                     }

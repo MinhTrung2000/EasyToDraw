@@ -9,7 +9,14 @@ public class Segment2D extends Shape2D {
 
     protected Point2D startPoint;
     protected Point2D endPoint;
-
+    public enum Modal {
+        LINE_45_90_DEGREE,
+        STRAIGHT_LINE
+    }
+    public enum UnchangedPoint{
+        HEAD_POINT,
+        FEET_POINT
+    }
     public Segment2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
@@ -25,9 +32,51 @@ public class Segment2D extends Shape2D {
         return this.endPoint;
     }
     
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;
+    public void setProperty (Point2D startPoint, Point2D endPoint,Modal modal) {
+        if(modal==Modal.STRAIGHT_LINE){
+            this.startPoint = startPoint;
+            this.endPoint = endPoint;
+        }else {
+            Point2D feetPoint = new Point2D();
+            Point2D headPoint = new Point2D();
+            int width = endPoint.getCoordX()-startPoint.getCoordX();
+            int height = endPoint.getCoordY()-startPoint.getCoordY();
+            int widthValue = Math.abs(width);
+            int heightValue = Math.abs(height);
+            
+
+            int heightDirection;
+            int widthDirection;
+            
+            if(width<=0) widthDirection=-1;
+            else widthDirection=1;
+            
+            if(height<=0) heightDirection=-1;
+            else heightDirection=1;
+            
+            int preferedLength;
+            if (widthValue >= heightValue){
+                preferedLength = widthValue;
+            }else {
+                preferedLength = heightValue;
+            }
+            
+            this.startPoint = startPoint;
+            
+            double ratio = (double)widthValue/(double)heightValue;
+            if (ratio <=0.3){
+                this.endPoint.setCoord(this.startPoint.getCoordX(),this.startPoint.getCoordY()+heightDirection*preferedLength);
+            }else if (ratio >0.3 && ratio<=1.5){
+                this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
+            }else {
+                this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY());
+            }
+                
+                
+            
+ 
+        }
+        
         this.centerPoint.setCoord(
                 (startPoint.coordX + endPoint.coordX) / 2,
                 (startPoint.coordY + endPoint.coordY) / 2

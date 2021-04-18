@@ -18,7 +18,10 @@ public class Ellipse extends Shape2D {
         ELLIPSE,
         CIRLCE,
     }
-
+    
+    
+    Point2D startPoint;
+    Point2D endPoint;
     private double a;
     private double b;
 
@@ -29,25 +32,58 @@ public class Ellipse extends Shape2D {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         a = b = 1.0;
         modal = Modal.ELLIPSE;
+        startPoint = new Point2D();
+        endPoint = new Point2D();
     }
 
     public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        double half_x = Math.abs(endPoint.coordX - startPoint.coordX) / 2.0;
-        double half_y = Math.abs(endPoint.coordY - startPoint.coordY) / 2.0;
+        int width = endPoint.coordX - startPoint.coordX;
+        int height = endPoint.coordY - startPoint.coordY;
+        double half_x = Math.abs(width) / 2.0;
+        double half_y = Math.abs(height) / 2.0;
+        
         
         if (modal == Modal.ELLIPSE) {
+            this.startPoint=startPoint;
+            this.endPoint=endPoint;
             a = half_x;
             b = half_y;
 
         } else {
-            a = Math.max(half_x, half_y);
-            b = a;
+            int heightValue = Math.abs(height);
+            int widthValue = Math.abs(width);
+            int preferedLength;
+            if(heightValue >= widthValue){
+                preferedLength= widthValue;
+            }else{
+                preferedLength=heightValue;
+            }
+            int widthDirection;
+            if(width<0){
+                widthDirection=-1;
+            }else{
+                widthDirection=1;
+            }
+            
+            int heightDirection;
+            if(height<0){
+                heightDirection=-1;
+            }else{
+                heightDirection=1;
+            }
+            this.startPoint = startPoint;
+            this.endPoint.setCoord(startPoint.getCoordX()+widthDirection*preferedLength,startPoint.getCoordY()+heightDirection*preferedLength);
+            a=preferedLength/2;
+            b=a;
+//            System.out.println("start X: "+ this.startPoint.getCoordX()+ " start Y: "+ startPoint.getCoordY());
+//            System.out.println("end X: "+ this.endPoint.getCoordY()+" end Y: "+endPoint.getCoordY());
         }
 
         centerPoint.setCoord(
-                (int) Math.round(startPoint.coordX + endPoint.coordX) / 2, 
-                (int) Math.round(startPoint.coordY + endPoint.coordY) / 2
+                (int) Math.round(this.startPoint.coordX + this.endPoint.coordX) / 2, 
+                (int) Math.round(this.startPoint.coordY + this.endPoint.coordY) / 2
         );
+//        System.out.println("center X: "+ centerPoint.getCoordY()+" center Y: "+centerPoint.getCoordY());
 
         this.modal = modal;
     }
@@ -60,7 +96,7 @@ public class Ellipse extends Shape2D {
     public void drawOutlineEllipse() {
         // Save center point coordination
         savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
-
+        
         double x = 0.0;
         double y = b;
 
@@ -104,7 +140,7 @@ public class Ellipse extends Shape2D {
     public void drawOutlineCircle() {
         // Save center point coordination
         savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
-
+        
         double x = 0;
         double y = a;
 

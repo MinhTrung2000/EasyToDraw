@@ -3,7 +3,15 @@ package model.shape2d;
 import java.awt.Color;
 
 public class Rectangle extends Shape2D {
-
+    
+    public enum Modal {
+        RECTANGLE,
+        SQUARE
+    }
+    public enum UnchangedPoint{
+        HEAD_POINT,
+        FEET_POINT
+    }
     private Point2D leftTopPoint;
     private Point2D rightTopPoint;
     private Point2D leftBottomPoint;
@@ -12,10 +20,10 @@ public class Rectangle extends Shape2D {
     public Rectangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         
-        leftTopPoint = new Point2D(0, 0);
-        rightTopPoint = new Point2D(0, 0);
-        leftBottomPoint = new Point2D(0, 0);
-        rightBottomPoint = new Point2D(0, 0);
+        leftTopPoint = new Point2D(-1, -1);
+        rightTopPoint = new Point2D(-1, -1);
+        leftBottomPoint = new Point2D(-1, -1);
+        rightBottomPoint = new Point2D(-1, -1);
     }
 
 
@@ -26,16 +34,67 @@ public class Rectangle extends Shape2D {
         rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
-        leftTopPoint.setCoord(startPoint);
-        rightBottomPoint.setCoord(endPoint);
+    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
+        if(modal== Modal.RECTANGLE){
+            leftTopPoint.setCoord(startPoint);
+            rightBottomPoint.setCoord(endPoint);
 
-        leftBottomPoint.setCoord(leftTopPoint.coordX, rightBottomPoint.coordY);
-        rightTopPoint.setCoord(rightBottomPoint.coordX, leftTopPoint.coordY);
+            leftBottomPoint.setCoord(leftTopPoint.coordX, rightBottomPoint.coordY);
+            rightTopPoint.setCoord(rightBottomPoint.coordX, leftTopPoint.coordY);
 
+            
+         
+        }else{
+            Point2D feetPoint = new Point2D();
+            Point2D headPoint = new Point2D();
+            UnchangedPoint unchangedPoint = UnchangedPoint.HEAD_POINT; 
+            int width = endPoint.getCoordX()-startPoint.getCoordX();
+            int height = endPoint.getCoordY()-startPoint.getCoordY();
+            int widthDirection;
+            
+            if(width <=0) 
+                widthDirection=-1;
+            else widthDirection=1;
+            
+            int widthValue = Math.abs(width);
+            int heightValue = Math.abs(height);
+            
+            if(width>0 && height >0 || width<0 && height > 0 || width ==0 || height ==0){//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
+                feetPoint.setCoord(endPoint);                  //trường hợp width hoặc height =0 thì để chỗ nào cũng dc
+                headPoint.setCoord(startPoint);                // nó sẽ vẽ một đoạn thẳng nằm ngang
+                unchangedPoint = UnchangedPoint.HEAD_POINT;
+            }else if(width<0 && height <0 || width > 0 && height < 0){//chéo lên, từ phải qua hoặc... chéo lên, từ trái qua
+                feetPoint.setCoord(startPoint);
+                headPoint.setCoord(endPoint);
+                unchangedPoint = UnchangedPoint.FEET_POINT;
+            }
+            
+            int preferedLength;
+            if (widthValue >= heightValue){
+                preferedLength = heightValue;
+            }else {
+                preferedLength = widthValue;
+            }
+            if (preferedLength >0){
+                if (unchangedPoint == UnchangedPoint.HEAD_POINT){
+                    leftTopPoint.setCoord(headPoint);
+                    leftBottomPoint.setCoord(headPoint.getCoordX(),headPoint.getCoordY()+preferedLength);
+                    rightTopPoint.setCoord(headPoint.getCoordX()+widthDirection*preferedLength,headPoint.getCoordY());
+                    rightBottomPoint.setCoord(headPoint.getCoordX()+widthDirection*preferedLength,headPoint.getCoordY()+preferedLength);
+                }else{
+                    rightBottomPoint.setCoord(feetPoint);
+                    rightTopPoint.setCoord(feetPoint.getCoordX(), feetPoint.getCoordY()-preferedLength);
+                    leftBottomPoint.setCoord(feetPoint.getCoordX()+(widthDirection*preferedLength), feetPoint.getCoordY());
+                    leftTopPoint.setCoord(feetPoint.getCoordX()+(widthDirection*preferedLength),feetPoint.getCoordY()-preferedLength);
+                }
+                
+            }
+            
+            
+        }
         centerPoint.setCoord(
-                (int) (leftTopPoint.coordX + rightTopPoint.coordX) / 2,
-                (int) (leftTopPoint.coordY + leftBottomPoint.coordY) / 2
+            (int) (leftTopPoint.coordX + rightTopPoint.coordX) / 2,
+            (int) (leftTopPoint.coordY + leftBottomPoint.coordY) / 2
         );
     }
 

@@ -25,15 +25,15 @@ public class Triangle extends Shape2D {
     }
 
     /**
-     * Set 3 points of triangle.
-     *
-     * @param pointA
-     * @param pointB
-     * @param pointC
+     * Set 3 points of triangle by using startPoint and endPoint
+     * The type of triangle is either common or equilateral depending on Modal
+     * @param startPoint
+     * @param endPoint
      */
     public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-         int width = endPoint.getCoordX()-startPoint.getCoordX();
+            int width = endPoint.getCoordX()-startPoint.getCoordX();
             int height = endPoint.getCoordY()-startPoint.getCoordY();
+            
             int widthDirection;//true = dương, false = âm
             
             if(width < 0)
@@ -44,9 +44,9 @@ public class Triangle extends Shape2D {
             Point2D headPoint = new Point2D();
             UnchangedPoint unchangedPoint = UnchangedPoint.HEAD_POINT; 
             
-            if(width>0 && height >0 || width<0 && height > 0){//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
-                feetPoint.setCoord(endPoint);
-                headPoint.setCoord(startPoint);
+            if(width>0 && height >0 || width<0 && height > 0 || width ==0 || height ==0){//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
+                feetPoint.setCoord(endPoint);                  //trường hợp width hoặc height =0 thì để chỗ nào cũng dc
+                headPoint.setCoord(startPoint);                // nó sẽ vẽ một đoạn thẳng nằm ngang
                 unchangedPoint = UnchangedPoint.HEAD_POINT;
             }else if(width<0 && height <0 || width > 0 && height < 0){//chéo lên, từ phải qua hoặc... chéo lên, từ trái qua
                 feetPoint.setCoord(startPoint);
@@ -73,12 +73,11 @@ public class Triangle extends Shape2D {
             }
                     if(preferedLength > 0){
                         if(unchangedPoint==UnchangedPoint.HEAD_POINT){
-                        System.out.println("preferedLength: " + preferedLength);
                         pointA.setCoord(headPoint.getCoordX()+widthDirection*preferedLength/2,headPoint.getCoordY());
                         pointB.setCoord(headPoint.getCoordX(), headPoint.getCoordY()+preferedLength);
                         pointC.setCoord(headPoint.getCoordX()+widthDirection*preferedLength+(-widthDirection), headPoint.getCoordY()+preferedLength);
                     }else{
-                        pointA.setCoord(feetPoint.getCoordX()+widthDirection*preferedLength/2,headPoint.getCoordY());
+                        pointA.setCoord(feetPoint.getCoordX()+widthDirection*preferedLength/2,feetPoint.getCoordY()-preferedLength);
                         pointB.setCoord(feetPoint.getCoordX(),feetPoint.getCoordY());
                         pointC.setCoord(feetPoint.getCoordX()+widthDirection*preferedLength+(-widthDirection), feetPoint.getCoordY());
                     }
