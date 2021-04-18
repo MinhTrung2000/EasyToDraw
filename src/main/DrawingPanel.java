@@ -626,7 +626,8 @@ public class DrawingPanel extends JPanel {
 
             switch (selectedTool) {
                 case DRAWING_LINE_FREE: {
-                    setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
+                 //   setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
+                //    setStartDrawingPoint(endDrawingPoint.getCoordX(), endDrawingPoint.getCoordY());
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
                     startDrawingPoint.saveCoord(coordOfBoard);
@@ -673,8 +674,10 @@ public class DrawingPanel extends JPanel {
             }
 
             Settings.DrawingToolMode selectedTool = getSelectedToolMode();
-
-            resetChangedPropertyArray();
+            
+            if(selectedTool!=Settings.DrawingToolMode.DRAWING_LINE_FREE){
+                resetChangedPropertyArray();
+            }
 
             setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
             
@@ -695,6 +698,20 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_LINE_FREE: {
+                    if (checkStartingPointAvailable()){
+                        Segment2D pixel = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                        System.out.println("start X: "+startDrawingPoint.getCoordX()+" start Y: "+startDrawingPoint.getCoordY());
+//                        System.out.println("end X: "+endDrawingPoint.getCoordX()+" end Y: "+endDrawingPoint.getCoordY());
+                        pixel.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
+                        //=========NẾU CÙNG ĐỂ STARTDRAWINGPOINT HOẶC ENDDRAWING POINT THÌ PIXEL SẼ BỊ THƯA (DÙ TỌA CỦA START VÀ END LÀ NHƯ NHAU)======
+                        pixel.draw();
+//                          markedChangeOfBoard[event.getY()/Settings.RECT_SIZE][event.getX()/Settings.RECT_SIZE] = true;
+//                          changedColorOfBoard[event.getY()/Settings.RECT_SIZE][event.getX()/Settings.RECT_SIZE] = selectedColor;
+//                        ========  CÁCH NÀY CŨNG LÀM PIXEL BỊ THƯA!!!===========
+                    }
+                    setStartDrawingPoint(event.getX()/Settings.RECT_SIZE, event.getY()/Settings.RECT_SIZE);
+                    
+                    repaint();
                     break;
                 }
                 case DRAWING_POLYGON_RECTANGLE: {
