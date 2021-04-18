@@ -8,10 +8,7 @@ public class Rectangle extends Shape2D {
         RECTANGLE,
         SQUARE
     }
-    public enum UnchangedPoint{
-        HEAD_POINT,
-        FEET_POINT
-    }
+ 
     private Point2D leftTopPoint;
     private Point2D rightTopPoint;
     private Point2D leftBottomPoint;
@@ -45,29 +42,20 @@ public class Rectangle extends Shape2D {
             
          
         }else{
-            Point2D feetPoint = new Point2D();
-            Point2D headPoint = new Point2D();
-            UnchangedPoint unchangedPoint = UnchangedPoint.HEAD_POINT; 
             int width = endPoint.getCoordX()-startPoint.getCoordX();
             int height = endPoint.getCoordY()-startPoint.getCoordY();
             int widthDirection;
-            
+            int heightDirection;
             if(width <=0) 
                 widthDirection=-1;
             else widthDirection=1;
             
+            if(height <=0)
+                heightDirection=-1;
+            else heightDirection=1;
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
             
-            if(width>0 && height >0 || width<0 && height > 0 || width ==0 || height ==0){//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
-                feetPoint.setCoord(endPoint);                  //trường hợp width hoặc height =0 thì để chỗ nào cũng dc
-                headPoint.setCoord(startPoint);                // nó sẽ vẽ một đoạn thẳng nằm ngang
-                unchangedPoint = UnchangedPoint.HEAD_POINT;
-            }else if(width<0 && height <0 || width > 0 && height < 0){//chéo lên, từ phải qua hoặc... chéo lên, từ trái qua
-                feetPoint.setCoord(startPoint);
-                headPoint.setCoord(endPoint);
-                unchangedPoint = UnchangedPoint.FEET_POINT;
-            }
             
             int preferedLength;
             if (widthValue >= heightValue){
@@ -76,21 +64,13 @@ public class Rectangle extends Shape2D {
                 preferedLength = widthValue;
             }
             if (preferedLength >0){
-                if (unchangedPoint == UnchangedPoint.HEAD_POINT){
-                    leftTopPoint.setCoord(headPoint);
-                    leftBottomPoint.setCoord(headPoint.getCoordX(),headPoint.getCoordY()+preferedLength);
-                    rightTopPoint.setCoord(headPoint.getCoordX()+widthDirection*preferedLength,headPoint.getCoordY());
-                    rightBottomPoint.setCoord(headPoint.getCoordX()+widthDirection*preferedLength,headPoint.getCoordY()+preferedLength);
-                }else{
-                    rightBottomPoint.setCoord(feetPoint);
-                    rightTopPoint.setCoord(feetPoint.getCoordX(), feetPoint.getCoordY()-preferedLength);
-                    leftBottomPoint.setCoord(feetPoint.getCoordX()+(widthDirection*preferedLength), feetPoint.getCoordY());
-                    leftTopPoint.setCoord(feetPoint.getCoordX()+(widthDirection*preferedLength),feetPoint.getCoordY()-preferedLength);
-                }
+                    leftTopPoint.setCoord(startPoint);
+                    leftBottomPoint.setCoord(startPoint.getCoordX(),startPoint.getCoordY()+heightDirection*preferedLength);
+                    rightTopPoint.setCoord(startPoint.getCoordX()+widthDirection*preferedLength,startPoint.getCoordY());
+                    rightBottomPoint.setCoord(startPoint.getCoordX()+widthDirection*preferedLength,startPoint.getCoordY()+heightDirection*preferedLength);
+                
                 
             }
-            
-            
         }
         centerPoint.setCoord(
             (int) (leftTopPoint.coordX + rightTopPoint.coordX) / 2,
