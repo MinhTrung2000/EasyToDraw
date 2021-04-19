@@ -1323,7 +1323,7 @@ public class Paint extends javax.swing.JFrame {
                     setSelectedToolMode(savedLineMode);
                     break;
             }
-                
+          //  setSelectedToolMode(savedMode);    
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
                 hideTooltip();
