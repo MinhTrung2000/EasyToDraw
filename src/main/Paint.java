@@ -1308,7 +1308,22 @@ public class Paint extends javax.swing.JFrame {
         @Override
         public void mouseClicked(MouseEvent event) {
             if (SwingUtilities.isLeftMouseButton(event)) {
-                setSelectedToolMode(this.savedMode);
+                String type = this.savedMode.name().substring(8, 11);
+            switch (type){
+                case "POL":
+                    setSelectedToolMode(savedPolygonMode);
+                    break;
+                case "SHA":
+                    setSelectedToolMode(savedShapeMode);
+                    break;
+                case "TRA":
+                    setSelectedToolMode(savedTransformMode);
+                    break;
+                case "LIN":
+                    setSelectedToolMode(savedLineMode);
+                    break;
+            }
+                
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
                 hideTooltip();
@@ -1395,7 +1410,7 @@ public class Paint extends javax.swing.JFrame {
      */
     private class CustomMenuItemChooseAction implements ActionListener {
 
-        private Settings.DrawingToolMode savedMode;
+     //   private Settings.DrawingToolMode savedMode;
         private Settings.DrawingToolMode selectedMode;
         private String icon32pxPath;
         private JButton button;
@@ -1403,7 +1418,7 @@ public class Paint extends javax.swing.JFrame {
         public CustomMenuItemChooseAction(Settings.DrawingToolMode savedMode,
                 Settings.DrawingToolMode selectedMode, String icon32pxPath,
                 JButton button) {
-            this.savedMode = savedMode;
+        //    this.savedMode = savedMode;
             this.selectedMode = selectedMode;
             this.icon32pxPath = icon32pxPath;
             this.button = button;
@@ -1411,13 +1426,27 @@ public class Paint extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            this.savedMode = this.selectedMode;
-
+       //     this.savedMode = this.selectedMode;
+            String type = this.selectedMode.name().substring(8, 11);
+            switch (type){
+                case "POL":
+                    savedPolygonMode = this.selectedMode;
+                    break;
+                case "SHA":
+                    savedShapeMode = this.selectedMode;
+                    break;
+                case "TRA":
+                    savedTransformMode = this.selectedMode;
+                    break;
+                case "LIN":
+                    savedLineMode = this.selectedMode;
+                    break;
+            }
             this.button.setIcon(new ImageIcon(getClass()
                     .getResource(this.icon32pxPath))
             );
-
-            setSelectedToolMode(this.savedMode);
+//          setSelectedToolMode(this.savedMode);       
+            setSelectedToolMode(this.selectedMode);
         }
 
     }
