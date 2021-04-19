@@ -14,6 +14,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -209,7 +211,44 @@ public class Paint extends javax.swing.JFrame {
         button_OpenFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                JFileChooser chooser = new JFileChooser() {
+                    @Override
+                    protected JDialog createDialog(Component parent) throws HeadlessException {
+                        JDialog dialog = super.createDialog(parent);
+                        ImageIcon img = new ImageIcon(getClass().getResource("/img/openFile.png"));
+                        dialog.setIconImage(img.getImage());
+                        return dialog;
+                    }
+                };
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+                chooser.setFileFilter(filter);
+                chooser.setFileFilter(filter);
+                int reVal = chooser.showOpenDialog(null);
+
+                if (reVal == JFileChooser.APPROVE_OPTION) {
+                    try {
+                        ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
+                        ((DrawingPanel) panel_DrawingArea).repaint();
+                        BufferedImage myFile = ImageIO.read(new File(chooser.getSelectedFile().getAbsolutePath()));
+                        if (myFile.getHeight() == getDrawingPanel().heightBoard && myFile.getWidth() == getDrawingPanel().widthBoard) {
+                            for (int i = 0; i < getDrawingPanel().widthBoard / RECT_SIZE; i++) {
+                                for (int j = 0; j < getDrawingPanel().heightBoard / RECT_SIZE; j++) {
+                                    if (Ultility.checkValidPoint(getDrawingPanel().getColorOfBoard(), i * RECT_SIZE + 1, j * RECT_SIZE + 1)) {
+                                        Color c = new Color(myFile.getRGB(i * RECT_SIZE + 1, j * RECT_SIZE + 1), true);
+                                        getDrawingPanel().getColorOfBoard()[j][i] = c;
+                                    }
+                                }
+                            }
+                            repaint();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Wrong Image");
+
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(Paint.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
             }
         });
 
@@ -1309,21 +1348,21 @@ public class Paint extends javax.swing.JFrame {
         public void mouseClicked(MouseEvent event) {
             if (SwingUtilities.isLeftMouseButton(event)) {
                 String type = this.savedMode.name().substring(8, 11);
-            switch (type){
-                case "POL":
-                    setSelectedToolMode(savedPolygonMode);
-                    break;
-                case "SHA":
-                    setSelectedToolMode(savedShapeMode);
-                    break;
-                case "TRA":
-                    setSelectedToolMode(savedTransformMode);
-                    break;
-                case "LIN":
-                    setSelectedToolMode(savedLineMode);
-                    break;
-            }
-          //  setSelectedToolMode(savedMode);    
+                switch (type) {
+                    case "POL":
+                        setSelectedToolMode(savedPolygonMode);
+                        break;
+                    case "SHA":
+                        setSelectedToolMode(savedShapeMode);
+                        break;
+                    case "TRA":
+                        setSelectedToolMode(savedTransformMode);
+                        break;
+                    case "LIN":
+                        setSelectedToolMode(savedLineMode);
+                        break;
+                }
+                //  setSelectedToolMode(savedMode);    
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
                 hideTooltip();
@@ -1410,7 +1449,7 @@ public class Paint extends javax.swing.JFrame {
      */
     private class CustomMenuItemChooseAction implements ActionListener {
 
-     //   private Settings.DrawingToolMode savedMode;
+        //   private Settings.DrawingToolMode savedMode;
         private Settings.DrawingToolMode selectedMode;
         private String icon32pxPath;
         private JButton button;
@@ -1418,7 +1457,7 @@ public class Paint extends javax.swing.JFrame {
         public CustomMenuItemChooseAction(Settings.DrawingToolMode savedMode,
                 Settings.DrawingToolMode selectedMode, String icon32pxPath,
                 JButton button) {
-        //    this.savedMode = savedMode;
+            //  this.savedMode = savedMode;
             this.selectedMode = selectedMode;
             this.icon32pxPath = icon32pxPath;
             this.button = button;
@@ -1426,9 +1465,9 @@ public class Paint extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-       //     this.savedMode = this.selectedMode;
+            //     this.savedMode = this.selectedMode;
             String type = this.selectedMode.name().substring(8, 11);
-            switch (type){
+            switch (type) {
                 case "POL":
                     savedPolygonMode = this.selectedMode;
                     break;
