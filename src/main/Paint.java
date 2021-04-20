@@ -265,7 +265,7 @@ public class Paint extends javax.swing.JFrame {
                                 tempCoor[i] = Integer.parseInt(text2[i]);
                             }
                             for (k = 0; k < tempCoor.length; k += 2) {
-                                System.out.println(tempCoor[k] + " " + tempCoor[k + 1]);
+//                                System.out.println(tempCoor[k] + " " + tempCoor[k + 1]);
                                 Point2D A = new Point2D(tempCoor[k] + (Settings.COORD_X_O / Settings.RECT_SIZE), -tempCoor[k + 1] + (Settings.COORD_Y_O / Settings.RECT_SIZE));
                                 A.saveCoord(getDrawingPanel().getCoordOfBoard());
                             }
