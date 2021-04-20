@@ -1,5 +1,6 @@
 package main;
 
+import com.formdev.flatlaf.FlatLightLaf;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.HeadlessException;
