@@ -1,3 +1,8 @@
+/**
+ * SketchPoint Application.
+ * 
+ */
+
 package view;
 
 import java.awt.Color;
@@ -36,7 +41,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.shape2d.Point2D;
 
-public class Paint extends javax.swing.JFrame {
+public class SketchPointFrame extends javax.swing.JFrame {
 
     private SketchPointConstants.DrawingToolMode savedLineMode;
     private SketchPointConstants.DrawingToolMode savedPolygonMode;
@@ -50,7 +55,7 @@ public class Paint extends javax.swing.JFrame {
      */
     private int savedColorNumber;
 
-    public Paint() {
+    public SketchPointFrame() {
         UIManager.put("PopupMenu.consumeEventOnClose", false);
         customizeComponents();
         setIconFrame();
@@ -274,7 +279,7 @@ public class Paint extends javax.swing.JFrame {
 
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(Paint.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SketchPointFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -341,7 +346,7 @@ public class Paint extends javax.swing.JFrame {
                         }
                         fw.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(Paint.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(SketchPointFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     try {
@@ -1580,29 +1585,25 @@ public class Paint extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+        
         try {
             // Set windows style
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Paint.class
+            java.util.logging.Logger.getLogger(SketchPointFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Paint.class
+            java.util.logging.Logger.getLogger(SketchPointFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Paint.class
+            java.util.logging.Logger.getLogger(SketchPointFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Paint.class
+            java.util.logging.Logger.getLogger(SketchPointFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
@@ -1611,7 +1612,7 @@ public class Paint extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new Paint().setVisible(true);
+                    new SketchPointFrame().setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

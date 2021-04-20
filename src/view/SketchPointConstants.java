@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface SketchPointConstants {
 
     /*
-    Sketch Point version
+    Sketch Point version.
     Don't change the format of the VERSION_STRING (or comment out).
     Because it is read by the build system and update automatically
     by building task.
@@ -26,6 +26,11 @@ public interface SketchPointConstants {
     /** Update download link */
     public static final String DOWNLOAD_PACKAGE_WINDOWS = 
             "https://github.com/MinhTrung2000/SketchPoint/releases";
+    
+    /*
+    Splash screen.
+    */
+    public static final int SPLASH_DIALOG_DELAY = 1000;
     
     enum CoordinateMode {
         MODE_2D,
