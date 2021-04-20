@@ -138,6 +138,10 @@ public class DrawingPanel extends JPanel {
     public Color[][] getColorOfBoard(){
         return this.colorOfBoard;
     }
+    public String[][] getCoordOfBoard(){
+        return this.coordOfBoard;
+    }
+    
     
     public void setStartDrawingPoint(int coordX, int coordY) {
         this.startDrawingPoint.setCoord(coordX, coordY);

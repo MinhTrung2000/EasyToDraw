@@ -13,6 +13,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,6 +35,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import model.shape2d.Point2D;
 
 public class Paint extends javax.swing.JFrame {
 
@@ -220,6 +223,9 @@ public class Paint extends javax.swing.JFrame {
                         return dialog;
                     }
                 };
+                int i, j;
+                int count = 0;
+                getDrawingPanel().resetSavedPropertyArray();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
                 chooser.setFileFilter(filter);
                 chooser.setFileFilter(filter);
@@ -229,16 +235,40 @@ public class Paint extends javax.swing.JFrame {
                     try {
                         ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
                         ((DrawingPanel) panel_DrawingArea).repaint();
-                        BufferedImage myFile = ImageIO.read(new File(chooser.getSelectedFile().getAbsolutePath()));
+
+                        String filename = chooser.getSelectedFile().getAbsolutePath();
+                        String filenameSavedCoor = chooser.getSelectedFile().getAbsolutePath().substring(0, filename.length() - 4) + ".dat";
+                        BufferedImage myFile = ImageIO.read(new File(filename));
+
                         if (myFile.getHeight() == getDrawingPanel().heightBoard && myFile.getWidth() == getDrawingPanel().widthBoard) {
-                            for (int i = 0; i < getDrawingPanel().widthBoard / RECT_SIZE; i++) {
-                                for (int j = 0; j < getDrawingPanel().heightBoard / RECT_SIZE; j++) {
+                            for (i = 0; i < getDrawingPanel().widthBoard / RECT_SIZE; i++) {
+                                for (j = 0; j < getDrawingPanel().heightBoard / RECT_SIZE; j++) {
                                     if (Ultility.checkValidPoint(getDrawingPanel().getColorOfBoard(), i * RECT_SIZE + 1, j * RECT_SIZE + 1)) {
                                         Color c = new Color(myFile.getRGB(i * RECT_SIZE + 1, j * RECT_SIZE + 1), true);
                                         getDrawingPanel().getColorOfBoard()[j][i] = c;
                                     }
                                 }
                             }
+                            FileReader fr = new FileReader(filenameSavedCoor);
+                            String text = "";
+                            String[] text2;
+                            int k;
+                            while ((k = fr.read()) != -1) {
+                                text = text + (char) k;
+                            }
+                            fr.close();
+                            text = text.trim();
+                            text2 = text.split(" ");
+                            int[] tempCoor = new int[text2.length];
+                            for (i = 0; i < text2.length; i++) {
+                                tempCoor[i] = Integer.parseInt(text2[i]);
+                            }
+                            for (k = 0; k < tempCoor.length; k += 2) {
+                                System.out.println(tempCoor[k] + " " + tempCoor[k + 1]);
+                                Point2D A = new Point2D(tempCoor[k] + (Settings.COORD_X_O / Settings.RECT_SIZE), -tempCoor[k + 1] + (Settings.COORD_Y_O / Settings.RECT_SIZE));
+                                A.saveCoord(getDrawingPanel().getCoordOfBoard());
+                            }
+
                             repaint();
                         } else {
                             JOptionPane.showMessageDialog(null, "Wrong Image");
@@ -277,9 +307,11 @@ public class Paint extends javax.swing.JFrame {
                 int reVal = chooser.showSaveDialog(null);
                 if (reVal == JFileChooser.APPROVE_OPTION) {
                     String filename = chooser.getSelectedFile().getAbsolutePath();
+
                     if (!filename.toLowerCase().endsWith(".png")) {
                         filename += ".png";
                     }
+                    String filenameSavedCoor = filename.substring(0, filename.length() - 4) + ".dat";
                     File newFile = new File(filename);
                     BufferedImage bufferedImage = new BufferedImage(getDrawingPanel().widthBoard, getDrawingPanel().heightBoard, BufferedImage.TYPE_INT_RGB);
                     for (int i = 0; i < getDrawingPanel().widthBoard; i++) {
@@ -293,6 +325,26 @@ public class Paint extends javax.swing.JFrame {
                             }
                         }
                     }
+                    FileWriter fw;
+                    String temp = "";
+                    try {
+                        fw = new FileWriter(filenameSavedCoor);
+                        for (int i = 0; i < getDrawingPanel().heightBoard; i++) {
+                            for (int j = 0; j < getDrawingPanel().widthBoard; j++) {
+                                if (getDrawingPanel().getCoordOfBoard()[i][j] != null) {
+                                    String[] k = getDrawingPanel().getCoordOfBoard()[i][j].split(", ");
+                                    String temp1 = k[0].substring(1, k[0].length());
+                                    String temp2 = k[1].substring(0, k[1].length() - 1);
+                                    temp = temp1 + " " + temp2 + " ";
+                                    fw.write(temp);
+                                }
+                            }
+                        }
+                        fw.close();
+                    } catch (IOException ex) {
+                        Logger.getLogger(Paint.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
                     try {
                         ImageIO.write(bufferedImage, "PNG", newFile);
                     } catch (IOException e) {
