@@ -418,7 +418,7 @@ public class DrawingPanel extends JPanel {
         copyCoordValue(changedCoordOfBoard, coordOfBoard);
 
         // Reset marked change array.
-        resetChangedPropertyArray();
+       // resetChangedPropertyArray();
     }
 
     private boolean isNotSelected() {
@@ -635,12 +635,13 @@ public class DrawingPanel extends JPanel {
             setStartDrawingPoint(event.getX() / SketchPointConstants.RECT_SIZE, event.getY() / SketchPointConstants.RECT_SIZE);
 
             SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();     
-
+            
+            resetChangedPropertyArray();
             switch (selectedTool) {
                 case DRAWING_LINE_FREE: {
                  //   setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
                 //    setStartDrawingPoint(endDrawingPoint.getCoordX(), endDrawingPoint.getCoordY());
-                    resetChangedPropertyArray();
+                    
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
                     startDrawingPoint.saveCoord(coordOfBoard);
@@ -721,14 +722,17 @@ public class DrawingPanel extends JPanel {
 
             SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();
             
-            if(selectedTool!=SketchPointConstants.DrawingToolMode.DRAWING_LINE_FREE){
-                resetChangedPropertyArray();
-            }
+//            if(selectedTool!=SketchPointConstants.DrawingToolMode.DRAWING_LINE_FREE){
+//                resetChangedPropertyArray();
+//            }
+            //Đặt resetChangedPropertyArray(); trong từng phần để dễ kiểm soát hơn
+            //VD: Tô màu bị lỗi do nó vô tình chạy mouse Dragged khi pressed quá nhanh (thành Dragged) => Gọi dragged=> chạy sai
 
             setEndDrawingPoint(event.getX() / SketchPointConstants.RECT_SIZE, event.getY() / SketchPointConstants.RECT_SIZE);
             
             switch (selectedTool) {
                 case DRAWING_LINE_SEGMENT: {
+                    resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         if (event.isShiftDown()){
@@ -761,6 +765,7 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_POLYGON_RECTANGLE: {
+                    resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         if (event.isShiftDown()){
@@ -776,6 +781,7 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_POLYGON_TRIANGLE: {
+                    resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Triangle triangle = new Triangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         if (event.isShiftDown()) {
@@ -791,6 +797,7 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_POLYGON_CIRCLE: {
+                    resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Ellipse ellipse = new Ellipse(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 

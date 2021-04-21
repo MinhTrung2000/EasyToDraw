@@ -78,10 +78,12 @@ public class SketchPointFrame extends javax.swing.JFrame {
     }
 
     public void showCursorCoordinate(MouseEvent event) {
+        //Để mẫu số riêng để tọa độ trùng khớp với tọa độ put pixel vào, do đặt mẫu chung sẽ bị sai lệch kết quả trong quá trình
+        //khử phần thập phân!
         label_CoordValue.setText(
-                "X: " + ((event.getX() - COORD_X_O) / SketchPointConstants.RECT_SIZE) + "   "
-                + "Y: " + (-((event.getY() - COORD_Y_O) / SketchPointConstants.RECT_SIZE))
-        );
+                "X: " + ((event.getX()/SketchPointConstants.RECT_SIZE) - (COORD_X_O / SketchPointConstants.RECT_SIZE)) + "   "
+                + "Y: " + (-((event.getY()/SketchPointConstants.RECT_SIZE) - (COORD_Y_O / SketchPointConstants.RECT_SIZE)
+        )));
     }
 
     /**
