@@ -1,8 +1,7 @@
 /**
  * SketchPoint Application.
- * 
+ *
  */
-
 package view;
 
 import java.awt.Color;
@@ -289,7 +288,8 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_CreateNewFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
+                dispose();
+                new SketchPointFrame().setVisible(true);
             }
         });
 
@@ -1585,7 +1585,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         try {
             // Set windows style
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
