@@ -67,96 +67,112 @@ public interface SketchPointConstants {
     }
 
     public enum DrawingToolMode {
-        TOOL_COLOR_PICKER {
+        TOOL_COLOR_PICKER("") {
             public String toString(){
                 return "COLOR PICKER";
-            }
+            }    
         },
-        TOOL_COLOR_FILLER {
+        TOOL_COLOR_FILLER("") {
             public String toString(){
                 return "COLOR FILLER";
-            }
+            } 
         },
-        TOOL_CLEAR_ALL {
+        TOOL_CLEAR_ALL("") {
             public String toString(){
                 return "CLEAR ALL";
             }
         },
-        TOOL_ERASER {
+        TOOL_ERASER("") {
             public String toString(){
                 return "ERASER";
-            }
+            } 
         },
-        TOOL_SELECT {
+        TOOL_SELECT("") {
             public String toString(){
                 return "SELECT";
-            }
+            }   
         },
-        TOOL_ANIMATION {
+        TOOL_ANIMATION("") {
             public String toString(){
                 return "ANIMATION";
-            }
+            }  
         },
-        DRAWING_LINE_SEGMENT {
+        DRAWING_LINE_SEGMENT("Press SHIFT to draw Straight Line Segment") {
             public String toString() {
-                return "SEGMENT";
-            }
+                return "LINE SEGMENT";
+            }   
         },
-        DRAWING_LINE_STRAIGHT {
+        DRAWING_LINE_STRAIGHT (""){
             public String toString() {
                 return "STRAIGHT LINE";
-            }
+            }  
         },
-        DRAWING_LINE_FREE {
+        DRAWING_LINE_FREE(""){
             public String toString() {
                 return "PENCIL";
-            }
+            }    
         },
-        DRAWING_POLYGON_FREE {
+        DRAWING_POLYGON_FREE("") {
             public String toString() {
                 return "POLYGON";
             }
         },
-        DRAWING_POLYGON_TRIANGLE {
+        DRAWING_POLYGON_TRIANGLE("Press SHIFT to draw Equilateral Triangle") {
             public String toString() {
                 return "TRIANGLE";
             }
+            
         },
-        DRAWING_POLYGON_RECTANGLE {
+        DRAWING_POLYGON_RECTANGLE("Press SHIFT to draw Square") {
             public String toString() {
                 return "RECTANGLE";
             }
+            
         },
-        DRAWING_POLYGON_CIRCLE {
+        DRAWING_POLYGON_CIRCLE("Press SHIFT to draw Ellipse") {
             public String toString() {
-                return "CIRCLE";
+                return "ELLIPSE";
             }
+            
         },
-        DRAWING_SHAPE_STAR {
+        DRAWING_SHAPE_STAR("") {
             public String toString() {
                 return "STAR";
             }
+           
         },
-        DRAWING_SHAPE_DIAMOND {
+        DRAWING_SHAPE_DIAMOND("") {
             public String toString() {
                 return "DIAMOND";
             }
+            
         },
-        DRAWING_SHAPE_ARROW {
+        DRAWING_SHAPE_ARROW("") {
             public String toString() {
                 return "ARROW";
             }
+            
+            
         },
-        DRAWING_TRANSFORM_ROTATION {
+        DRAWING_TRANSFORM_ROTATION("") {
             public String toString() {
                 return "ROATATION";
             }
+            
         },
-        DRAWING_TRANSFORM_SYMMETRY {
+        DRAWING_TRANSFORM_SYMMETRY("") {
             public String toString() {
                 return "SYMMETRY";
             }
-        },
+            
+        };
+        public final String toolTip;
+        private DrawingToolMode (String toolTip){
+            this.toolTip=toolTip;
+        }
+        
+                
+        
     }
 
     // Note: Don't remove this, I want to have something to help anyone who 

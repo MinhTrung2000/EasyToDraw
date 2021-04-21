@@ -71,6 +71,11 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent event) {
                 showCursorCoordinate(event);
+                if(getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_LINE_SEGMENT
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_RECTANGLE
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_TRIANGLE)
+            hideTooltip();
             }
         });
         panel_DrawingArea.addMouseListener(new MouseAdapter() {
@@ -172,7 +177,9 @@ public class SketchPointFrame extends javax.swing.JFrame {
      * @param iconPath
      */
     private void initMenuItem(JPopupMenu popMenu, JMenuItem menuItem, DrawingToolMode mode, String iconPath) {
-        menuItem.setText(mode.toString());
+        String text = mode.toString().toLowerCase();
+        text = String.valueOf(text.charAt(0)).toUpperCase()+text.substring(1,text.length());       
+        menuItem.setText(text);
         menuItem.setIcon(new ImageIcon(getClass().getResource(iconPath)));
         popMenu.add(menuItem);
     }
@@ -476,6 +483,10 @@ public class SketchPointFrame extends javax.swing.JFrame {
      */
     private void setSelectedToolMode(SketchPointConstants.DrawingToolMode toolMode) {
         label_ToolMode.setText(toolMode.toString());
+        if(toolMode.toolTip.compareTo("")!=0){
+            showTooltip(toolMode.toolTip);
+        }
+        
         SketchPointConstants.DrawingToolMode selectedButtonMode
                 = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
@@ -1544,7 +1555,14 @@ public class SketchPointFrame extends javax.swing.JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
+            if(getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_LINE_SEGMENT
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_RECTANGLE
+                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_TRIANGLE)
             hideTooltip();
+            else{
+                showTooltip(getDrawingPanel().getSelectedToolMode().toolTip);
+            }
         }
     }
 
