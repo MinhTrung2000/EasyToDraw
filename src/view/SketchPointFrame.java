@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -72,6 +73,36 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 showCursorCoordinate(event);
             }
         });
+        panel_DrawingArea.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event){
+                if(getDrawingPanel().getSelectedToolMode()==SketchPointConstants.DrawingToolMode.TOOL_COLOR_PICKER){
+                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE];
+                    getDrawingPanel().setSelectedColor(selectedColor);
+                    
+                    //Check if it's already in the list
+                    for(int i=0;i<DEFAULT_SAVED_COLOR_NUMBER;i++){
+                    if(savedColorButtonList[i].getBackground().equals(selectedColor)){
+                        return;
+                    }
+                }
+                    //Add new saved color if it's not found in list
+                    if (savedColorNumber < 4) {
+                    savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
+                    savedColorNumber++;
+                } else {
+                    int startingColorSavedButtonIndex = SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
+
+                    for (int i = startingColorSavedButtonIndex; i < SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+                        savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
+                    }
+                    savedColorButtonList[SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
+                }
+                }
+                
+                
+            }
+});
 
         // Set frame location.
         setLocationRelativeTo(null);
@@ -511,7 +542,13 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 Color selectedColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
 
                 getDrawingPanel().setSelectedColor(selectedColor);
-
+                
+                //Check if it's already in the list
+                for(int i=0;i<DEFAULT_SAVED_COLOR_NUMBER;i++){
+                    if(savedColorButtonList[i].getBackground().equals(selectedColor)){
+                        return;
+                    }
+                }
                 // Add new saved color if it's not found in list
                 if (savedColorNumber < 4) {
                     savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
@@ -692,15 +729,19 @@ public class SketchPointFrame extends javax.swing.JFrame {
         menuItem_Symmetry = new javax.swing.JMenuItem();
         panel_Operation = new javax.swing.JPanel();
         button_OpenFile = new javax.swing.JButton();
-        jSeparator4 = new javax.swing.JSeparator();
         button_CreateNewFile = new javax.swing.JButton();
-        jSeparator5 = new javax.swing.JSeparator();
         button_SaveFile = new javax.swing.JButton();
-        jSeparator6 = new javax.swing.JSeparator();
         button_Undo = new javax.swing.JButton();
-        jSeparator7 = new javax.swing.JSeparator();
         button_Redo = new javax.swing.JButton();
         button_Helper = new javax.swing.JButton();
+        jSeparator9 = new javax.swing.JSeparator();
+        jSeparator10 = new javax.swing.JSeparator();
+        jSeparator11 = new javax.swing.JSeparator();
+        jSeparator12 = new javax.swing.JSeparator();
+        jSeparator13 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jSeparator14 = new javax.swing.JSeparator();
+        jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panel_Control = new javax.swing.JPanel();
         panel_View = new javax.swing.JPanel();
@@ -798,8 +839,6 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_OpenFile.setRequestFocusEnabled(false);
         button_OpenFile.setRolloverEnabled(false);
 
-        jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
         button_CreateNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/createNew.png"))); // NOI18N
         button_CreateNewFile.setToolTipText("Create a new file");
         button_CreateNewFile.setContentAreaFilled(false);
@@ -807,16 +846,12 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_CreateNewFile.setRequestFocusEnabled(false);
         button_CreateNewFile.setRolloverEnabled(false);
 
-        jSeparator5.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
         button_SaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         button_SaveFile.setToolTipText("Save file");
         button_SaveFile.setContentAreaFilled(false);
         button_SaveFile.setFocusable(false);
         button_SaveFile.setRequestFocusEnabled(false);
         button_SaveFile.setRolloverEnabled(false);
-
-        jSeparator6.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         button_Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/undo.png"))); // NOI18N
         button_Undo.setToolTipText("Undo");
@@ -826,8 +861,6 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_Undo.setRequestFocusEnabled(false);
         button_Undo.setRolloverEnabled(false);
         button_Undo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-
-        jSeparator7.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         button_Redo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/redo.png"))); // NOI18N
         button_Redo.setToolTipText("Redo");
@@ -848,48 +881,84 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_Helper.setRequestFocusEnabled(false);
         button_Helper.setRolloverEnabled(false);
 
+        jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator11.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator12.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jSeparator13.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(160, 160, 160));
+        jLabel1.setText("Current tool:");
+
+        jSeparator14.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout panel_OperationLayout = new javax.swing.GroupLayout(panel_Operation);
         panel_Operation.setLayout(panel_OperationLayout);
         panel_OperationLayout.setHorizontalGroup(
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_OperationLayout.createSequentialGroup()
-                .addComponent(button_OpenFile)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(button_CreateNewFile)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(button_SaveFile)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(button_Undo)
-                .addGap(0, 0, 0)
-                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(button_Redo)
-                .addGap(961, 961, 961)
+                .addComponent(button_OpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button_CreateNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(button_SaveFile, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jSeparator12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button_Undo, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(button_Redo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(218, 218, 218)
+                .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
                 .addComponent(button_Helper, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panel_OperationLayout.setVerticalGroup(
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator4)
-            .addComponent(jSeparator5)
             .addGroup(panel_OperationLayout.createSequentialGroup()
-                .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(button_OpenFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_CreateNewFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_SaveFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Undo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Redo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(button_OpenFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_SaveFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_Undo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(1, 1, 1))
+            .addComponent(button_Redo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(button_CreateNewFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_OperationLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator9)
+                    .addComponent(jSeparator10)
+                    .addComponent(jSeparator11, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator12)
+                    .addComponent(jSeparator13, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_OperationLayout.createSequentialGroup()
-                        .addGap(7, 7, 7)
-                        .addComponent(button_Helper))
-                    .addComponent(jSeparator6)
-                    .addComponent(jSeparator7))
-                .addGap(0, 1, Short.MAX_VALUE))
+                        .addComponent(button_Helper)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSeparator14)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         panel_Control.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -1149,7 +1218,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 .addComponent(panel_Tool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_Color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(299, Short.MAX_VALUE))
         );
         panel_ControlLayout.setVerticalGroup(
             panel_ControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1352,13 +1421,15 @@ public class SketchPointFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(panel_StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addComponent(panel_Operation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panel_Drawing, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(panel_Control, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(panel_Drawing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator2)
             .addComponent(jSeparator1)
             .addComponent(jSeparator3)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_Control, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_Operation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1655,14 +1726,18 @@ public class SketchPointFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator10;
+    private javax.swing.JSeparator jSeparator11;
+    private javax.swing.JSeparator jSeparator12;
+    private javax.swing.JSeparator jSeparator13;
+    private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator4;
-    private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JSeparator jSeparator6;
-    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JSeparator jSeparator8;
+    private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel label_CoordIcon;
     private javax.swing.JLabel label_CoordValue;
     private javax.swing.JLabel label_Pixel;

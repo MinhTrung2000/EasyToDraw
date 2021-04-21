@@ -34,7 +34,7 @@ public class DrawingPanel extends JPanel {
     /**
      * Color of each pixel after applying drawing action.
      */
-    private Color[][] colorOfBoard;
+    public Color[][] colorOfBoard;
 
     /**
      * Coordination text of each pixel after applying drawing action.
@@ -622,6 +622,10 @@ public class DrawingPanel extends JPanel {
                 }
                 case DRAWING_TRANSFORM_SYMMETRY: {
                     break;
+                }
+                case TOOL_COLOR_PICKER: {
+                    Point2D currentMousePos = new Point2D();
+                   // setSelectedColor(colorOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE]);
                 }
             }
         }
