@@ -1,2 +1,4 @@
-/dist/*
-!/dist/*.jar
+# Match /build anywhere
+**/build
+
+build/
