@@ -91,7 +91,7 @@ public class Ultility {
             return;
         }
 
-        Color oldColor = colorOfBoard[point.getCoordX()][point.getCoordY()];
+        Color oldColor = colorOfBoard[point.getCoordY()][point.getCoordX()];
         
         if (!oldColor.equals(chosenColor)) {
            // markedArray[point.getCoordY()][point.getCoordX()] = true;
