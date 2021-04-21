@@ -104,6 +104,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             }
 });
 
+        setSelectedToolMode(DrawingToolMode.DRAWING_LINE_SEGMENT);
         // Set frame location.
         setLocationRelativeTo(null);
     }
@@ -474,6 +475,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
      * @param toolMode
      */
     private void setSelectedToolMode(SketchPointConstants.DrawingToolMode toolMode) {
+        label_ToolMode.setText(toolMode.toString());
         SketchPointConstants.DrawingToolMode selectedButtonMode
                 = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
@@ -492,6 +494,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_COLOR_PICKER);
+               
             }
         });
 
@@ -499,6 +502,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_COLOR_FILLER);
+             
             }
         });
 
@@ -514,6 +518,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_ERASER);
+             
             }
         });
 
@@ -521,6 +526,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_SELECT);
+            
             }
         });
 
@@ -528,6 +534,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_ANIMATION);
+              
             }
         });
     }
@@ -739,9 +746,9 @@ public class SketchPointFrame extends javax.swing.JFrame {
         jSeparator11 = new javax.swing.JSeparator();
         jSeparator12 = new javax.swing.JSeparator();
         jSeparator13 = new javax.swing.JSeparator();
-        jLabel1 = new javax.swing.JLabel();
+        label_CurrentTool = new javax.swing.JLabel();
         jSeparator14 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
+        label_ToolMode = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panel_Control = new javax.swing.JPanel();
         panel_View = new javax.swing.JPanel();
@@ -891,15 +898,15 @@ public class SketchPointFrame extends javax.swing.JFrame {
 
         jSeparator13.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(160, 160, 160));
-        jLabel1.setText("Current tool:");
+        label_CurrentTool.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        label_CurrentTool.setForeground(new java.awt.Color(160, 160, 160));
+        label_CurrentTool.setText("Current tool:");
 
         jSeparator14.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 0, 0));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_ToolMode.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
+        label_ToolMode.setForeground(new java.awt.Color(255, 0, 0));
+        label_ToolMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout panel_OperationLayout = new javax.swing.GroupLayout(panel_Operation);
         panel_Operation.setLayout(panel_OperationLayout);
@@ -926,12 +933,12 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 .addGap(218, 218, 218)
                 .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jLabel1)
+                .addComponent(label_CurrentTool)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(label_ToolMode, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 435, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(button_Helper, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         panel_OperationLayout.setVerticalGroup(
@@ -944,20 +951,20 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 .addGap(1, 1, 1))
             .addComponent(button_Redo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(button_CreateNewFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_OperationLayout.createSequentialGroup()
+            .addGroup(panel_OperationLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator9)
-                    .addComponent(jSeparator10)
-                    .addComponent(jSeparator11, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator12)
-                    .addComponent(jSeparator13, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_OperationLayout.createSequentialGroup()
+                .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_OperationLayout.createSequentialGroup()
                         .addComponent(button_Helper)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSeparator14)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator11)
+                    .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jSeparator13)
+                    .addComponent(jSeparator14, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(label_CurrentTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_ToolMode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1426,10 +1433,11 @@ public class SketchPointFrame extends javax.swing.JFrame {
             .addComponent(jSeparator1)
             .addComponent(jSeparator3)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel_Control, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(panel_Operation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panel_Control, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panel_Operation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1480,15 +1488,19 @@ public class SketchPointFrame extends javax.swing.JFrame {
                 switch (type) {
                     case "POL":
                         setSelectedToolMode(savedPolygonMode);
+                       
                         break;
                     case "SHA":
                         setSelectedToolMode(savedShapeMode);
+                     
                         break;
                     case "TRA":
                         setSelectedToolMode(savedTransformMode);
+                      
                         break;
                     case "LIN":
                         setSelectedToolMode(savedLineMode);
+                     
                         break;
                 }
                 //  setSelectedToolMode(savedMode);    
@@ -1615,6 +1627,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             );
 //          setSelectedToolMode(this.savedMode);       
             setSelectedToolMode(this.selectedMode);
+          
         }
 
     }
@@ -1726,8 +1739,6 @@ public class SketchPointFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -1740,9 +1751,11 @@ public class SketchPointFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator9;
     private javax.swing.JLabel label_CoordIcon;
     private javax.swing.JLabel label_CoordValue;
+    private javax.swing.JLabel label_CurrentTool;
     private javax.swing.JLabel label_Pixel;
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
+    private javax.swing.JLabel label_ToolMode;
     private javax.swing.JLabel label_ToolTip;
     private javax.swing.JMenuItem menuItem_Arrow;
     private javax.swing.JMenuItem menuItem_Circle;

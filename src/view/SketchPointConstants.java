@@ -67,70 +67,94 @@ public interface SketchPointConstants {
     }
 
     public enum DrawingToolMode {
-        TOOL_COLOR_PICKER,
-        TOOL_COLOR_FILLER,
-        TOOL_CLEAR_ALL,
-        TOOL_ERASER,
-        TOOL_SELECT,
-        TOOL_ANIMATION,
+        TOOL_COLOR_PICKER {
+            public String toString(){
+                return "COLOR PICKER";
+            }
+        },
+        TOOL_COLOR_FILLER {
+            public String toString(){
+                return "COLOR FILLER";
+            }
+        },
+        TOOL_CLEAR_ALL {
+            public String toString(){
+                return "CLEAR ALL";
+            }
+        },
+        TOOL_ERASER {
+            public String toString(){
+                return "ERASER";
+            }
+        },
+        TOOL_SELECT {
+            public String toString(){
+                return "SELECT";
+            }
+        },
+        TOOL_ANIMATION {
+            public String toString(){
+                return "ANIMATION";
+            }
+        },
         DRAWING_LINE_SEGMENT {
             public String toString() {
-                return "Segment";
+                return "SEGMENT";
             }
         },
         DRAWING_LINE_STRAIGHT {
             public String toString() {
-                return "Straight line";
+                return "STRAIGHT LINE";
             }
         },
         DRAWING_LINE_FREE {
             public String toString() {
-                return "Pencil";
+                return "PENCIL";
             }
         },
         DRAWING_POLYGON_FREE {
             public String toString() {
-                return "Polygon";
+                return "POLYGON";
             }
         },
         DRAWING_POLYGON_TRIANGLE {
             public String toString() {
-                return "Triangle";
+                return "TRIANGLE";
             }
         },
         DRAWING_POLYGON_RECTANGLE {
             public String toString() {
-                return "Rectangle";
+                return "RECTANGLE";
             }
         },
         DRAWING_POLYGON_CIRCLE {
             public String toString() {
-                return "Circle";
+                return "CIRCLE";
             }
         },
         DRAWING_SHAPE_STAR {
             public String toString() {
-                return "Star";
+                return "STAR";
             }
         },
         DRAWING_SHAPE_DIAMOND {
             public String toString() {
-                return "Diamond";
+                return "DIAMOND";
             }
         },
         DRAWING_SHAPE_ARROW {
             public String toString() {
-                return "Arrow";
+                return "ARROW";
             }
         },
         DRAWING_TRANSFORM_ROTATION {
             public String toString() {
-                return "Rotation";
+                return "ROATATION";
             }
         },
         DRAWING_TRANSFORM_SYMMETRY {
             public String toString() {
-                return "Symmetry";
+                return "SYMMETRY";
             }
         },
     }
