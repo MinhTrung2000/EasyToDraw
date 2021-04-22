@@ -144,6 +144,22 @@ public class DrawingPanel extends JPanel {
         return this.coordOfBoard;
     }
     
+    public boolean isEmpty() {
+        boolean result = true;
+        for (int i = 0; i < heightBoard; i++) {
+            for (int j = 0; j < widthBoard; j++) {
+                if (!colorOfBoard[i][j].equals(SettingConstants.DEFAULT_PIXEL_COLOR)) {
+                    result = false;
+                    break;
+                }
+            }
+            if (!result) {
+                break;
+            }
+        }
+        return result;
+    }
+    
     
     public void setStartDrawingPoint(int coordX, int coordY) {
         this.startDrawingPoint.setCoord(coordX, coordY);

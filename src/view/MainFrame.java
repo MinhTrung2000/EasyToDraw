@@ -37,6 +37,7 @@ import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import static control.SettingConstants.*;
+import control.io.FileHandle;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -73,43 +74,43 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent event) {
                 showCursorCoordinate(event);
-                if(getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_LINE_SEGMENT
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_CIRCLE
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_RECTANGLE
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_TRIANGLE)
-            hideTooltip();
+                if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
+                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
+                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
+                    hideTooltip();
+                }
             }
         });
         panel_DrawingArea.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent event){
-                if(getDrawingPanel().getSelectedToolMode()==SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER){
-                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE];
+            public void mouseClicked(MouseEvent event) {
+                if (getDrawingPanel().getSelectedToolMode() == SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER) {
+                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY() / SettingConstants.RECT_SIZE][event.getX() / SettingConstants.RECT_SIZE];
                     getDrawingPanel().setSelectedColor(selectedColor);
-                    
+
                     //Check if it's already in the list
-                    for(int i=0;i<DEFAULT_SAVED_COLOR_NUMBER;i++){
-                    if(savedColorButtonList[i].getBackground().equals(selectedColor)){
-                        return;
+                    for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
+                        if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
+                            return;
+                        }
                     }
-                }
                     //Add new saved color if it's not found in list
                     if (savedColorNumber < 4) {
-                    savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
-                    savedColorNumber++;
-                } else {
-                    int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
+                        savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
+                        savedColorNumber++;
+                    } else {
+                        int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
 
-                    for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
-                        savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
+                        for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+                            savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
+                        }
+                        savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                     }
-                    savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
-                }
-                
-                
+
             }
-});
+        });
 
         setSelectedToolMode(DrawingToolMode.DRAWING_LINE_SEGMENT);
         // Set frame location.
@@ -120,9 +121,8 @@ public class MainFrame extends javax.swing.JFrame {
         //Để mẫu số riêng để tọa độ trùng khớp với tọa độ put pixel vào, do đặt mẫu chung sẽ bị sai lệch kết quả trong quá trình
         //khử phần thập phân!
         label_CoordValue.setText(
-                "X: " + ((event.getX()/SettingConstants.RECT_SIZE) - (COORD_X_O / SettingConstants.RECT_SIZE)) + "   "
-                + "Y: " + (-((event.getY()/SettingConstants.RECT_SIZE) - (COORD_Y_O / SettingConstants.RECT_SIZE)
-        )));
+                "X: " + ((event.getX() / SettingConstants.RECT_SIZE) - (COORD_X_O / SettingConstants.RECT_SIZE)) + "   "
+                + "Y: " + (-((event.getY() / SettingConstants.RECT_SIZE) - (COORD_Y_O / SettingConstants.RECT_SIZE))));
     }
 
     /**
@@ -180,7 +180,7 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private void initMenuItem(JPopupMenu popMenu, JMenuItem menuItem, DrawingToolMode mode, String iconPath) {
         String text = mode.toString().toLowerCase();
-        text = String.valueOf(text.charAt(0)).toUpperCase()+text.substring(1,text.length());       
+        text = String.valueOf(text.charAt(0)).toUpperCase() + text.substring(1, text.length());
         menuItem.setText(text);
         menuItem.setIcon(new ImageIcon(getClass().getResource(iconPath)));
         popMenu.add(menuItem);
@@ -260,6 +260,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_OpenFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+
                 JFileChooser chooser = new JFileChooser() {
                     @Override
                     protected JDialog createDialog(Component parent) throws HeadlessException {
@@ -269,61 +270,26 @@ public class MainFrame extends javax.swing.JFrame {
                         return dialog;
                     }
                 };
+
                 int i, j;
                 int count = 0;
+
                 getDrawingPanel().resetSavedPropertyArray();
+
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+
                 chooser.setFileFilter(filter);
-                chooser.setFileFilter(filter);
+
                 int reVal = chooser.showOpenDialog(null);
 
                 if (reVal == JFileChooser.APPROVE_OPTION) {
-                    try {
-                        ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
-                        ((DrawingPanel) panel_DrawingArea).repaint();
-
-                        String filename = chooser.getSelectedFile().getAbsolutePath();
-                        String filenameSavedCoor = chooser.getSelectedFile().getAbsolutePath().substring(0, filename.length() - 4) + ".dat";
-                        BufferedImage myFile = ImageIO.read(new File(filename));
-
-                        if (myFile.getHeight() == getDrawingPanel().heightBoard && myFile.getWidth() == getDrawingPanel().widthBoard) {
-                            for (i = 0; i < getDrawingPanel().widthBoard / RECT_SIZE; i++) {
-                                for (j = 0; j < getDrawingPanel().heightBoard / RECT_SIZE; j++) {
-                                    if (Ultility.checkValidPoint(getDrawingPanel().getColorOfBoard(), i * RECT_SIZE + 1, j * RECT_SIZE + 1)) {
-                                        Color c = new Color(myFile.getRGB(i * RECT_SIZE + 1, j * RECT_SIZE + 1), true);
-                                        getDrawingPanel().getColorOfBoard()[j][i] = c;
-                                    }
-                                }
-                            }
-                            FileReader fr = new FileReader(filenameSavedCoor);
-                            String text = "";
-                            String[] text2;
-                            int k;
-                            while ((k = fr.read()) != -1) {
-                                text = text + (char) k;
-                            }
-                            fr.close();
-                            text = text.trim();
-                            text2 = text.split(" ");
-                            int[] tempCoor = new int[text2.length];
-                            for (i = 0; i < text2.length; i++) {
-                                tempCoor[i] = Integer.parseInt(text2[i]);
-                            }
-                            for (k = 0; k < tempCoor.length; k += 2) {
-//                                System.out.println(tempCoor[k] + " " + tempCoor[k + 1]);
-                                Point2D A = new Point2D(tempCoor[k] + (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE), -tempCoor[k + 1] + (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE));
-                                A.saveCoord(getDrawingPanel().getCoordOfBoard());
-                            }
-
-                            repaint();
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Wrong Image");
-
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
+                    getDrawingPanel().resetSavedPropertyArray();
+                    getDrawingPanel().repaint();
+                    String inputFileName = chooser.getSelectedFile().getAbsolutePath();
+                    
+                    FileHandle.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
+                    
+                    repaint();
                 }
             }
         });
@@ -339,6 +305,13 @@ public class MainFrame extends javax.swing.JFrame {
         button_SaveFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
+                // if the board is not drawn, do no thing
+                if (getDrawingPanel().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "The board is empty!", "Invalid Option", JOptionPane.INFORMATION_MESSAGE);
+
+                    return;
+                }
+
                 JFileChooser chooser = new JFileChooser() {
                     @Override
                     protected JDialog createDialog(Component parent) throws HeadlessException {
@@ -350,53 +323,15 @@ public class MainFrame extends javax.swing.JFrame {
                 };
 
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
+
                 chooser.setFileFilter(filter);
+
                 int reVal = chooser.showSaveDialog(null);
+
                 if (reVal == JFileChooser.APPROVE_OPTION) {
-                    String filename = chooser.getSelectedFile().getAbsolutePath();
+                    String outputFileName = chooser.getSelectedFile().getAbsolutePath();
 
-                    if (!filename.toLowerCase().endsWith(".png")) {
-                        filename += ".png";
-                    }
-                    String filenameSavedCoor = filename.substring(0, filename.length() - 4) + ".dat";
-                    File newFile = new File(filename);
-                    BufferedImage bufferedImage = new BufferedImage(getDrawingPanel().widthBoard, getDrawingPanel().heightBoard, BufferedImage.TYPE_INT_RGB);
-                    for (int i = 0; i < getDrawingPanel().widthBoard; i++) {
-                        for (int j = 0; j < getDrawingPanel().heightBoard; j++) {
-                            for (int tempI = -1; tempI < RECT_SIZE; tempI++) {
-                                for (int tempJ = -1; tempJ < RECT_SIZE; tempJ++) {
-                                    if (Ultility.checkValidPoint(getDrawingPanel().getColorOfBoard(), j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1)) {
-                                        bufferedImage.setRGB(j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1, getDrawingPanel().getColorOfBoard()[i][j].getRGB());
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    FileWriter fw;
-                    String temp = "";
-                    try {
-                        fw = new FileWriter(filenameSavedCoor);
-                        for (int i = 0; i < getDrawingPanel().heightBoard; i++) {
-                            for (int j = 0; j < getDrawingPanel().widthBoard; j++) {
-                                if (getDrawingPanel().getCoordOfBoard()[i][j] != null) {
-                                    String[] k = getDrawingPanel().getCoordOfBoard()[i][j].split(", ");
-                                    String temp1 = k[0].substring(1, k[0].length());
-                                    String temp2 = k[1].substring(0, k[1].length() - 1);
-                                    temp = temp1 + " " + temp2 + " ";
-                                    fw.write(temp);
-                                }
-                            }
-                        }
-                        fw.close();
-                    } catch (IOException ex) {
-                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                    try {
-                        ImageIO.write(bufferedImage, "PNG", newFile);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    FileHandle.saveFile(outputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
                 }
             }
         });
@@ -485,10 +420,10 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private void setSelectedToolMode(SettingConstants.DrawingToolMode toolMode) {
         label_ToolMode.setText(toolMode.toString());
-        if(toolMode.toolTip.compareTo("")!=0){
+        if (toolMode.toolTip.compareTo("") != 0) {
             showTooltip(toolMode.toolTip);
         }
-        
+
         SettingConstants.DrawingToolMode selectedButtonMode
                 = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
@@ -507,7 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER);
-               
+
             }
         });
 
@@ -515,7 +450,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_FILLER);
-             
+
             }
         });
 
@@ -531,7 +466,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ERASER);
-             
+
             }
         });
 
@@ -539,7 +474,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_SELECT);
-            
+
             }
         });
 
@@ -547,7 +482,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
-              
+
             }
         });
     }
@@ -562,10 +497,10 @@ public class MainFrame extends javax.swing.JFrame {
                 Color selectedColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
 
                 getDrawingPanel().setSelectedColor(selectedColor);
-                
+
                 //Check if it's already in the list
-                for(int i=0;i<DEFAULT_SAVED_COLOR_NUMBER;i++){
-                    if(savedColorButtonList[i].getBackground().equals(selectedColor)){
+                for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
+                    if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
                         return;
                     }
                 }
@@ -1474,7 +1409,7 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private DrawingPanel getDrawingPanel() {
+    public DrawingPanel getDrawingPanel() {
         return (DrawingPanel) panel_DrawingArea;
     }
 
@@ -1502,19 +1437,19 @@ public class MainFrame extends javax.swing.JFrame {
                 switch (type) {
                     case "POL":
                         setSelectedToolMode(savedPolygonMode);
-                       
+
                         break;
                     case "SHA":
                         setSelectedToolMode(savedShapeMode);
-                     
+
                         break;
                     case "TRA":
                         setSelectedToolMode(savedTransformMode);
-                      
+
                         break;
                     case "LIN":
                         setSelectedToolMode(savedLineMode);
-                     
+
                         break;
                 }
                 //  setSelectedToolMode(savedMode);    
@@ -1558,12 +1493,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if(getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_LINE_SEGMENT
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_CIRCLE
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_RECTANGLE
-                    &&getDrawingPanel().getSelectedToolMode()!= DrawingToolMode.DRAWING_POLYGON_TRIANGLE)
-            hideTooltip();
-            else{
+            if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
+                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
+                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
+                hideTooltip();
+            } else {
                 showTooltip(getDrawingPanel().getSelectedToolMode().toolTip);
             }
         }
@@ -1648,7 +1583,7 @@ public class MainFrame extends javax.swing.JFrame {
             );
 //          setSelectedToolMode(this.savedMode);       
             setSelectedToolMode(this.selectedMode);
-          
+
         }
 
     }
