@@ -68,6 +68,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent event) {
                 showCursorCoordinate(event);
+                
                 if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
                         && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_CIRCLE
                         && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
@@ -76,38 +77,9 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         });
-//        panel_DrawingArea.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent event) {
-//                if (getDrawingPanel().getSelectedToolMode() == SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER) {
-//                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY() / SettingConstants.RECT_SIZE][event.getX() / SettingConstants.RECT_SIZE];
-//                    button_ColorSave.setBackground(selectedColor);
-//                    getDrawingPanel().setSelectedColor(selectedColor);
-//
-//                    //Check if it's already in the list
-//                    for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
-//                        if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
-//                            return;
-//                }
-//            }
-//                    //Add new saved color if it's not found in list
-//                    if (savedColorNumber < 4) {
-//                        savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
-//                        savedColorNumber++;
-//                    } else {
-//                        int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
-//
-//                        for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
-//                            savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
-//                        }
-//                        savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
-//                    }
-//                }
-//
-//            }
-//        });
 
         setSelectedToolMode(DrawingToolMode.DRAWING_LINE_SEGMENT);
+        
         // Set frame location.
         setLocationRelativeTo(null);
     }
@@ -410,7 +382,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorPicker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-//                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER);
                 try {
                     JEyeDropper eyeDroper = new JEyeDropper(100);
                     eyeDroper.setVisible(true);
@@ -437,8 +408,9 @@ public class MainFrame extends javax.swing.JFrame {
         button_ClearAll.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ((DrawingPanel) panel_DrawingArea).resetSavedPropertyArray();
-                ((DrawingPanel) panel_DrawingArea).repaint();
+                getDrawingPanel().resetChangedPropertyArray();
+                getDrawingPanel().resetSavedPropertyArray();
+                getDrawingPanel().repaint();
             }
         });
 
@@ -446,7 +418,6 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ERASER);
-
             }
         });
 
