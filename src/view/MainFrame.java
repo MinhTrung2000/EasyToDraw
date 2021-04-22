@@ -355,13 +355,6 @@ public class MainFrame extends javax.swing.JFrame {
                 repaint();
             }
         });
-
-        button_Helper.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                JOptionPane.showMessageDialog(null, "Not support yet!");
-            }
-        });
     }
 
     /**
@@ -688,7 +681,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_SaveFile = new javax.swing.JButton();
         button_Undo = new javax.swing.JButton();
         button_Redo = new javax.swing.JButton();
-        button_Helper = new javax.swing.JButton();
         jSeparator9 = new javax.swing.JSeparator();
         jSeparator10 = new javax.swing.JSeparator();
         jSeparator11 = new javax.swing.JSeparator();
@@ -827,15 +819,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_Redo.setRolloverEnabled(false);
         button_Redo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
-        button_Helper.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/helper.png"))); // NOI18N
-        button_Helper.setToolTipText("Helper");
-        button_Helper.setBorder(null);
-        button_Helper.setContentAreaFilled(false);
-        button_Helper.setFocusPainted(false);
-        button_Helper.setFocusable(false);
-        button_Helper.setRequestFocusEnabled(false);
-        button_Helper.setRolloverEnabled(false);
-
         jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jSeparator10.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -887,8 +870,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(label_ToolMode, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(button_Helper, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_OperationLayout.setVerticalGroup(
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -903,16 +885,13 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(panel_OperationLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_OperationLayout.createSequentialGroup()
-                        .addComponent(button_Helper)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator11)
                     .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator13)
                     .addComponent(jSeparator14, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(label_CurrentTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(label_CurrentTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(label_ToolMode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1682,7 +1661,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_CreateNewFile;
     private javax.swing.JButton button_Eraser;
     private javax.swing.JButton button_FillColor;
-    private javax.swing.JButton button_Helper;
     private javax.swing.JButton button_Line;
     private javax.swing.JButton button_OpenFile;
     private javax.swing.JButton button_Polygon;
