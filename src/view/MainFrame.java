@@ -4,6 +4,7 @@
  */
 package view;
 
+import com.pump.swing.JEyeDropper;
 import control.SettingConstants;
 import control.util.Ultility;
 import java.awt.Color;
@@ -17,14 +18,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -38,11 +33,12 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import static control.SettingConstants.*;
 import control.io.FileHandle;
+import java.awt.AWTException;
+import javax.swing.BorderFactory;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import model.shape2d.Point2D;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -50,8 +46,6 @@ public class MainFrame extends javax.swing.JFrame {
     private SettingConstants.DrawingToolMode savedPolygonMode;
     private SettingConstants.DrawingToolMode savedShapeMode;
     private SettingConstants.DrawingToolMode savedTransformMode;
-
-    private JButton[] savedColorButtonList;
 
     /**
      * Number of saved color.
@@ -82,35 +76,36 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         });
-        panel_DrawingArea.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                if (getDrawingPanel().getSelectedToolMode() == SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER) {
-                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY() / SettingConstants.RECT_SIZE][event.getX() / SettingConstants.RECT_SIZE];
-                    getDrawingPanel().setSelectedColor(selectedColor);
-
-                    //Check if it's already in the list
-                    for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
-                        if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
-                            return;
-                        }
-                    }
-                    //Add new saved color if it's not found in list
-                    if (savedColorNumber < 4) {
-                        savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
-                        savedColorNumber++;
-                    } else {
-                        int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
-
-                        for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
-                            savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
-                        }
-                        savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
-                    }
-                }
-
-            }
-        });
+//        panel_DrawingArea.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent event) {
+//                if (getDrawingPanel().getSelectedToolMode() == SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER) {
+//                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY() / SettingConstants.RECT_SIZE][event.getX() / SettingConstants.RECT_SIZE];
+//                    button_ColorSave.setBackground(selectedColor);
+//                    getDrawingPanel().setSelectedColor(selectedColor);
+//
+//                    //Check if it's already in the list
+//                    for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
+//                        if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
+//                            return;
+//                }
+//            }
+//                    //Add new saved color if it's not found in list
+//                    if (savedColorNumber < 4) {
+//                        savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
+//                        savedColorNumber++;
+//                    } else {
+//                        int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
+//
+//                        for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+//                            savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
+//                        }
+//                        savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
+//                    }
+//                }
+//
+//            }
+//        });
 
         setSelectedToolMode(DrawingToolMode.DRAWING_LINE_SEGMENT);
         // Set frame location.
@@ -201,26 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void setDefaultColorOption() {
-        savedColorButtonList = new JButton[]{
-            button_ColorSave_1,
-            button_ColorSave_2,
-            button_ColorSave_3,
-            button_ColorSave_4,
-            button_ColorSave_5,
-            button_ColorSave_6,
-            button_ColorSave_7,
-            button_ColorSave_8,};
-
-        savedColorNumber = 0;
-
-        button_ColorSave_1.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_1);
-        button_ColorSave_2.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_2);
-        button_ColorSave_3.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_3);
-        button_ColorSave_4.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_4);
-        button_ColorSave_5.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_5);
-        button_ColorSave_6.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_6);
-        button_ColorSave_7.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_7);
-        button_ColorSave_8.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_8);
+        button_ColorSave.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_1);
     }
 
     /**
@@ -286,9 +262,9 @@ public class MainFrame extends javax.swing.JFrame {
                     getDrawingPanel().resetSavedPropertyArray();
                     getDrawingPanel().repaint();
                     String inputFileName = chooser.getSelectedFile().getAbsolutePath();
-                    
+
                     FileHandle.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
-                    
+
                     repaint();
                 }
             }
@@ -434,8 +410,20 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorPicker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER);
+//                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER);
+                try {
+                    JEyeDropper eyeDroper = new JEyeDropper(100);
+                    eyeDroper.setVisible(true);
 
+                    Color selectedColor = eyeDroper.getModel().getSelectedColor();
+                    getDrawingPanel().setSelectedColor(selectedColor);
+                    button_ColorSave.setBackground(selectedColor);
+                    
+                    button_ColorPicker.setSelected(false);
+                    button_ColorPicker.repaint();
+                } catch (AWTException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
 
@@ -443,7 +431,6 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_FILLER);
-
             }
         });
 
@@ -491,30 +478,9 @@ public class MainFrame extends javax.swing.JFrame {
 
                 getDrawingPanel().setSelectedColor(selectedColor);
 
-                //Check if it's already in the list
-                for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
-                    if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
-                        return;
-                    }
-                }
-                // Add new saved color if it's not found in list
-                if (savedColorNumber < 4) {
-                    savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
-                    savedColorNumber++;
-                } else {
-                    int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
-
-                    for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
-                        savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
-                    }
-                    savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
-                }
+                button_ColorSave.setBackground(selectedColor);
             }
         });
-
-        for (int i = 0; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
-            savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
-        }
     }
 
     /**
@@ -708,14 +674,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Select = new javax.swing.JButton();
         button_Animation = new javax.swing.JButton();
         panel_Color = new javax.swing.JPanel();
-        button_ColorSave_1 = new javax.swing.JButton();
-        button_ColorSave_2 = new javax.swing.JButton();
-        button_ColorSave_3 = new javax.swing.JButton();
-        button_ColorSave_4 = new javax.swing.JButton();
-        button_ColorSave_5 = new javax.swing.JButton();
-        button_ColorSave_6 = new javax.swing.JButton();
-        button_ColorSave_7 = new javax.swing.JButton();
-        button_ColorSave_8 = new javax.swing.JButton();
+        button_ColorSave = new javax.swing.JButton();
         button_ColorChooser = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JSeparator();
         panel_Drawing = new javax.swing.JPanel();
@@ -778,6 +737,8 @@ public class MainFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(12, 240, 240));
         setFocusable(false);
         setResizable(false);
+
+        panel_Operation.setFocusable(false);
 
         button_OpenFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/openFile.png"))); // NOI18N
         button_OpenFile.setToolTipText("Open file");
@@ -904,9 +865,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         checkBox_showGridlines.setText("Show gridlines");
         checkBox_showGridlines.setToolTipText("Whether to show grid");
+        checkBox_showGridlines.setFocusable(false);
 
         checkBox_showCoordinate.setText("Show coordinate");
         checkBox_showCoordinate.setToolTipText("Whether to show coordinate");
+        checkBox_showCoordinate.setFocusable(false);
 
         javax.swing.GroupLayout panel_ViewLayout = new javax.swing.GroupLayout(panel_View);
         panel_View.setLayout(panel_ViewLayout);
@@ -935,10 +898,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         comboBox_StyleLine.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         comboBox_StyleLine.setToolTipText("Choose line style");
+        comboBox_StyleLine.setFocusable(false);
 
         label_SizeLine.setText("Size:");
 
         spinner_SizeLize.setToolTipText("Choose line size");
+        spinner_SizeLize.setFocusable(false);
+        spinner_SizeLize.setRequestFocusEnabled(false);
 
         label_Pixel.setText("px");
 
@@ -980,21 +946,27 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_ColorPicker.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorpicker.png"))); // NOI18N
         button_ColorPicker.setToolTipText("Color picker");
+        button_ColorPicker.setFocusable(false);
 
         button_FillColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fillColor.png"))); // NOI18N
         button_FillColor.setToolTipText("Fill");
+        button_FillColor.setFocusable(false);
 
         button_ClearAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clearAll.png"))); // NOI18N
         button_ClearAll.setToolTipText("Clear");
+        button_ClearAll.setFocusable(false);
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
+        button_Eraser.setFocusable(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
         button_Select.setToolTipText("Select");
+        button_Select.setFocusable(false);
 
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N
         button_Animation.setToolTipText("Animations");
+        button_Animation.setFocusable(false);
 
         javax.swing.GroupLayout panel_ToolLayout = new javax.swing.GroupLayout(panel_Tool);
         panel_Tool.setLayout(panel_ToolLayout);
@@ -1035,57 +1007,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         panel_Color.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Color", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 15))); // NOI18N
 
-        button_ColorSave_1.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_1.setToolTipText("Recent color");
-        button_ColorSave_1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_1.setContentAreaFilled(false);
-        button_ColorSave_1.setOpaque(true);
-
-        button_ColorSave_2.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_2.setToolTipText("Recent color");
-        button_ColorSave_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_2.setContentAreaFilled(false);
-        button_ColorSave_2.setOpaque(true);
-
-        button_ColorSave_3.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_3.setToolTipText("Recent color");
-        button_ColorSave_3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_3.setContentAreaFilled(false);
-        button_ColorSave_3.setOpaque(true);
-
-        button_ColorSave_4.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_4.setToolTipText("Recent color");
-        button_ColorSave_4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_4.setContentAreaFilled(false);
-        button_ColorSave_4.setOpaque(true);
-
-        button_ColorSave_5.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_5.setToolTipText("Recent color");
-        button_ColorSave_5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_5.setContentAreaFilled(false);
-        button_ColorSave_5.setOpaque(true);
-
-        button_ColorSave_6.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_6.setToolTipText("Recent color");
-        button_ColorSave_6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_6.setContentAreaFilled(false);
-        button_ColorSave_6.setOpaque(true);
-
-        button_ColorSave_7.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_7.setToolTipText("Recent color");
-        button_ColorSave_7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_7.setContentAreaFilled(false);
-        button_ColorSave_7.setOpaque(true);
-
-        button_ColorSave_8.setBackground(new java.awt.Color(0, 0, 0));
-        button_ColorSave_8.setToolTipText("Recent color");
-        button_ColorSave_8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        button_ColorSave_8.setContentAreaFilled(false);
-        button_ColorSave_8.setOpaque(true);
+        button_ColorSave.setBackground(new java.awt.Color(0, 0, 0));
+        button_ColorSave.setToolTipText("Recent color");
+        button_ColorSave.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        button_ColorSave.setContentAreaFilled(false);
+        button_ColorSave.setFocusable(false);
+        button_ColorSave.setOpaque(true);
 
         button_ColorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorChooser.png"))); // NOI18N
-        button_ColorChooser.setText("Edit");
         button_ColorChooser.setToolTipText("Color chooser");
+        button_ColorChooser.setFocusable(false);
         button_ColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_ColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -1095,49 +1026,19 @@ public class MainFrame extends javax.swing.JFrame {
             panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_ColorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button_ColorSave_2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_ColorSave_6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button_ColorSave_3, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button_ColorSave_4, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(button_ColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE)
+                    .addComponent(button_ColorSave, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_ColorLayout.setVerticalGroup(
             panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_ColorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_ColorLayout.createSequentialGroup()
-                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(button_ColorSave_3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(13, 13, 13)
-                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_ColorLayout.createSequentialGroup()
-                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(button_ColorSave_2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(13, 13, 13)
-                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_6, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap())
+                .addComponent(button_ColorSave, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button_ColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout panel_ControlLayout = new javax.swing.GroupLayout(panel_Control);
@@ -1301,6 +1202,7 @@ public class MainFrame extends javax.swing.JFrame {
         label_CoordIcon.setVerifyInputWhenFocusTarget(false);
 
         label_CoordValue.setText("X: 100   Y: 100");
+        label_CoordValue.setFocusable(false);
 
         javax.swing.GroupLayout panel_CoordinateCursorLayout = new javax.swing.GroupLayout(panel_CoordinateCursor);
         panel_CoordinateCursor.setLayout(panel_CoordinateCursorLayout);
@@ -1650,14 +1552,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_ClearAll;
     private javax.swing.JButton button_ColorChooser;
     private javax.swing.JButton button_ColorPicker;
-    private javax.swing.JButton button_ColorSave_1;
-    private javax.swing.JButton button_ColorSave_2;
-    private javax.swing.JButton button_ColorSave_3;
-    private javax.swing.JButton button_ColorSave_4;
-    private javax.swing.JButton button_ColorSave_5;
-    private javax.swing.JButton button_ColorSave_6;
-    private javax.swing.JButton button_ColorSave_7;
-    private javax.swing.JButton button_ColorSave_8;
+    private javax.swing.JButton button_ColorSave;
     private javax.swing.JButton button_CreateNewFile;
     private javax.swing.JButton button_Eraser;
     private javax.swing.JButton button_FillColor;
