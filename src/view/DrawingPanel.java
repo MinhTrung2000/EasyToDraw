@@ -1,5 +1,7 @@
 package view;
 
+import control.SettingConstants;
+import control.util.Ultility;
 import model.shape2d.Point2D;
 import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
@@ -23,12 +25,12 @@ public class DrawingPanel extends JPanel {
     /**
      * The actual width of board.
      */
-    public final int widthBoard = SketchPointConstants.WIDTH_DRAW_AREA;
+    public final int widthBoard = SettingConstants.WIDTH_DRAW_AREA;
 
     /**
      * The actual height of board.
      */
-    public final int heightBoard = SketchPointConstants.HEIGHT_DRAW_AREA;
+    public final int heightBoard = SettingConstants.HEIGHT_DRAW_AREA;
 
     // Color and coord property of all points when any drawing action is applied
     /**
@@ -79,12 +81,12 @@ public class DrawingPanel extends JPanel {
     /**
      * User selected coordinate system.
      */
-    private SketchPointConstants.CoordinateMode coordinateMode;
+    private SettingConstants.CoordinateMode coordinateMode;
 
     /**
      * Selected option by user.
      */
-    private SketchPointConstants.DrawingToolMode selectedToolMode;
+    private SettingConstants.DrawingToolMode selectedToolMode;
 
     /**
      * User selected color.
@@ -94,7 +96,7 @@ public class DrawingPanel extends JPanel {
     /**
      * User customized line style.
      */
-    private SketchPointConstants.LineStyle selectedLineStyle;
+    private SettingConstants.LineStyle selectedLineStyle;
 
     /**
      * User customized line size.
@@ -115,18 +117,18 @@ public class DrawingPanel extends JPanel {
         redoCoordOfBoardStack = new Stack<>();
         redoColorOfBoardStack = new Stack<>();
 
-        showGridFlag = SketchPointConstants.DEFAULT_VISUAL_SHOW_GRID;
-        showCoordinateFlag = SketchPointConstants.DEFAULT_VISUAL_SHOW_COORDINATE;
+        showGridFlag = SettingConstants.DEFAULT_VISUAL_SHOW_GRID;
+        showCoordinateFlag = SettingConstants.DEFAULT_VISUAL_SHOW_COORDINATE;
 
-        coordinateMode = SketchPointConstants.CoordinateMode.MODE_2D;
+        coordinateMode = SettingConstants.CoordinateMode.MODE_2D;
 
-        startDrawingPoint = new Point2D(SketchPointConstants.DEFAULT_UNUSED_POINT);
-        endDrawingPoint = new Point2D(SketchPointConstants.DEFAULT_UNUSED_POINT);
+        startDrawingPoint = new Point2D(SettingConstants.DEFAULT_UNUSED_POINT);
+        endDrawingPoint = new Point2D(SettingConstants.DEFAULT_UNUSED_POINT);
 
-        selectedToolMode = SketchPointConstants.DrawingToolMode.DRAWING_LINE_SEGMENT;
-        selectedColor = SketchPointConstants.DEFAULT_FILL_COLOR;
-        selectedLineStyle = SketchPointConstants.LineStyle.DEFAULT;
-        selectedLineSize = SketchPointConstants.DEFAULT_LINE_SIZE;
+        selectedToolMode = SettingConstants.DrawingToolMode.DRAWING_LINE_SEGMENT;
+        selectedColor = SettingConstants.DEFAULT_FILL_COLOR;
+        selectedLineStyle = SettingConstants.LineStyle.DEFAULT;
+        selectedLineSize = SettingConstants.DEFAULT_LINE_SIZE;
 
         resetChangedPropertyArray();
         resetSavedPropertyArray();
@@ -174,7 +176,7 @@ public class DrawingPanel extends JPanel {
      *
      * @param selectedToolMode
      */
-    public void setSelectedButtonMode(SketchPointConstants.DrawingToolMode selectedToolMode) {
+    public void setSelectedButtonMode(SettingConstants.DrawingToolMode selectedToolMode) {
         this.selectedToolMode = selectedToolMode;
     }
 
@@ -183,7 +185,7 @@ public class DrawingPanel extends JPanel {
      *
      * @return
      */
-    public SketchPointConstants.DrawingToolMode getSelectedToolMode() {
+    public SettingConstants.DrawingToolMode getSelectedToolMode() {
         return this.selectedToolMode;
     }
 
@@ -201,7 +203,7 @@ public class DrawingPanel extends JPanel {
      *
      * @param lineStyle
      */
-    public void setSelectedLineStyle(SketchPointConstants.LineStyle lineStyle) {
+    public void setSelectedLineStyle(SettingConstants.LineStyle lineStyle) {
         selectedLineStyle = lineStyle;
     }
 
@@ -215,15 +217,15 @@ public class DrawingPanel extends JPanel {
      *
      * @param mode
      */
-    public void setCoordinateMode(SketchPointConstants.CoordinateMode mode) {
+    public void setCoordinateMode(SettingConstants.CoordinateMode mode) {
         // Clear old coordinate system before changing coordinate mode flag
         this.coordinateMode = mode;
 
         resetSavedPropertyArray();
         disposeStack();
 
-        showGridFlag = SketchPointConstants.DEFAULT_VISUAL_SHOW_GRID;
-        showCoordinateFlag = SketchPointConstants.DEFAULT_VISUAL_SHOW_COORDINATE;
+        showGridFlag = SettingConstants.DEFAULT_VISUAL_SHOW_GRID;
+        showCoordinateFlag = SettingConstants.DEFAULT_VISUAL_SHOW_COORDINATE;
 
         this.repaint();
     }
@@ -247,7 +249,7 @@ public class DrawingPanel extends JPanel {
     public void resetSavedPropertyArray() {
         for (int i = 0; i < this.heightBoard; i++) {
             for (int j = 0; j < this.widthBoard; j++) {
-                colorOfBoard[i][j] = SketchPointConstants.DEFAULT_PIXEL_COLOR;
+                colorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
                 coordOfBoard[i][j] = null;
             }
         }
@@ -260,7 +262,7 @@ public class DrawingPanel extends JPanel {
         for (int i = 0; i < this.heightBoard; i++) {
             for (int j = 0; j < this.widthBoard; j++) {
                 markedChangeOfBoard[i][j] = false;
-                changedColorOfBoard[i][j] = SketchPointConstants.DEFAULT_PIXEL_COLOR;
+                changedColorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
                 changedCoordOfBoard[i][j] = null;
             }
         }
@@ -422,8 +424,8 @@ public class DrawingPanel extends JPanel {
     }
 
     private boolean isNotSelected() {
-        return (startDrawingPoint.equal(SketchPointConstants.DEFAULT_UNUSED_POINT)
-                && endDrawingPoint.equal(SketchPointConstants.DEFAULT_UNUSED_POINT));
+        return (startDrawingPoint.equal(SettingConstants.DEFAULT_UNUSED_POINT)
+                && endDrawingPoint.equal(SettingConstants.DEFAULT_UNUSED_POINT));
     }
 
     public void setSelected(Point2D startPoint, Point2D endPoint) {
@@ -442,9 +444,9 @@ public class DrawingPanel extends JPanel {
     /**
      * Return the current coordinate system.
      *
-     * @return SketchPointConstants.CoordinateMode
+     * @return SettingConstants.CoordinateMode
      */
-    public SketchPointConstants.CoordinateMode getCoordinateMode() {
+    public SettingConstants.CoordinateMode getCoordinateMode() {
         return this.coordinateMode;
     }
 
@@ -468,27 +470,27 @@ public class DrawingPanel extends JPanel {
         /*
             Show axis coordination.
          */
-        graphic.setColor(SketchPointConstants.DEFAULT_COORDINATE_AXIS_COLOR);
+        graphic.setColor(SettingConstants.DEFAULT_COORDINATE_AXIS_COLOR);
 
-        if (coordinateMode == SketchPointConstants.CoordinateMode.MODE_2D) {
+        if (coordinateMode == SettingConstants.CoordinateMode.MODE_2D) {
             // Ox axis 
-            graphic.drawLine(1, SketchPointConstants.COORD_Y_O, this.widthBoard, SketchPointConstants.COORD_Y_O);
+            graphic.drawLine(1, SettingConstants.COORD_Y_O, this.widthBoard, SettingConstants.COORD_Y_O);
             // Oy axis
-            graphic.drawLine(SketchPointConstants.COORD_X_O, 1, SketchPointConstants.COORD_X_O, this.heightBoard);
+            graphic.drawLine(SettingConstants.COORD_X_O, 1, SettingConstants.COORD_X_O, this.heightBoard);
 
         } else {
             // Ox
-            graphic.drawLine(SketchPointConstants.COORD_X_O, SketchPointConstants.COORD_Y_O, this.widthBoard, SketchPointConstants.COORD_Y_O);
+            graphic.drawLine(SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O, this.widthBoard, SettingConstants.COORD_Y_O);
             // Oy
-            graphic.drawLine(SketchPointConstants.COORD_X_O, 1, SketchPointConstants.COORD_X_O, SketchPointConstants.COORD_Y_O);
+            graphic.drawLine(SettingConstants.COORD_X_O, 1, SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O);
             // Oz
-            graphic.drawLine(SketchPointConstants.COORD_X_O, SketchPointConstants.COORD_Y_O, 1, SketchPointConstants.COORD_X_O + SketchPointConstants.COORD_Y_O);
+            graphic.drawLine(SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O, 1, SettingConstants.COORD_X_O + SettingConstants.COORD_Y_O);
         }
 
         /*
             Show point coordination.
          */
-        graphic.setColor(SketchPointConstants.DEFAULT_COORDINATE_POINT_COLOR);
+        graphic.setColor(SettingConstants.DEFAULT_COORDINATE_POINT_COLOR);
 
         for (int i = 0; i < heightBoard; i++) {
             for (int j = 0; j < widthBoard; j++) {
@@ -496,20 +498,20 @@ public class DrawingPanel extends JPanel {
 
                 if (coordinateProperty != null) {
 
-                    int posX = (i + 1) * SketchPointConstants.RECT_SIZE;
-                    int posY = j * SketchPointConstants.RECT_SIZE - 2;
+                    int posX = (i + 1) * SettingConstants.RECT_SIZE;
+                    int posY = j * SettingConstants.RECT_SIZE - 2;
 
                     // Normalize
                     if (posX <= 0) {
                         posX = 1;
                     } else if (posX >= widthBoard) {
-                        posX = widthBoard - coordinateProperty.length() * SketchPointConstants.SIZE;
+                        posX = widthBoard - coordinateProperty.length() * SettingConstants.SIZE;
                     }
 
                     if (posY <= 0) {
                         posY = 1;
                     } else if (posY >= heightBoard) {
-                        posY = heightBoard - SketchPointConstants.SIZE;
+                        posY = heightBoard - SettingConstants.SIZE;
                     }
 
                     graphic.drawString(coordinateProperty, posX, posY);
@@ -525,23 +527,23 @@ public class DrawingPanel extends JPanel {
      */
     private void paintBoardColor(Graphics graphic) {
         if (showGridFlag) {
-            drawBackgroundBoard(graphic, SketchPointConstants.DEFAULT_GRID_BACKGROUND_COLOR);
+            drawBackgroundBoard(graphic, SettingConstants.DEFAULT_GRID_BACKGROUND_COLOR);
         } else {
-            drawBackgroundBoard(graphic, SketchPointConstants.DEFAULT_EMPTY_BACKGROUND_COLOR);
+            drawBackgroundBoard(graphic, SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR);
         }
 
-        for (int i = 0; i < this.heightBoard / SketchPointConstants.RECT_SIZE; i++) {
-            for (int j = 0; j < this.widthBoard / SketchPointConstants.RECT_SIZE; j++) {
+        for (int i = 0; i < this.heightBoard / SettingConstants.RECT_SIZE; i++) {
+            for (int j = 0; j < this.widthBoard / SettingConstants.RECT_SIZE; j++) {
                 if (markedChangeOfBoard[i][j] == true) {
                     graphic.setColor(changedColorOfBoard[i][j]);
                 } else {
                     graphic.setColor(colorOfBoard[i][j]);
                 }
 
-                graphic.fillRect(j * SketchPointConstants.RECT_SIZE + 1,
-                        i * SketchPointConstants.RECT_SIZE + 1,
-                        SketchPointConstants.SIZE,
-                        SketchPointConstants.SIZE
+                graphic.fillRect(j * SettingConstants.RECT_SIZE + 1,
+                        i * SettingConstants.RECT_SIZE + 1,
+                        SettingConstants.SIZE,
+                        SettingConstants.SIZE
                 );
             }
         }
@@ -560,10 +562,10 @@ public class DrawingPanel extends JPanel {
 //                }
 //
 //                graphic.fillRect(
-//                        i * SketchPointConstants.RECT_SIZE + 1,
-//                        j * SketchPointConstants.RECT_SIZE + 1,
-//                        SketchPointConstants.SIZE,
-//                        SketchPointConstants.SIZE
+//                        i * SettingConstants.RECT_SIZE + 1,
+//                        j * SettingConstants.RECT_SIZE + 1,
+//                        SettingConstants.SIZE,
+//                        SettingConstants.SIZE
 //                );
 //            }
 //        }
@@ -612,7 +614,7 @@ public class DrawingPanel extends JPanel {
             
             
 
-            SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();
+            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
             
                
             
@@ -625,7 +627,7 @@ public class DrawingPanel extends JPanel {
                 }
                 case TOOL_COLOR_PICKER: {
                     Point2D currentMousePos = new Point2D();
-                   // setSelectedColor(colorOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE]);
+                   // setSelectedColor(colorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE]);
                 }
             }
         }
@@ -636,9 +638,9 @@ public class DrawingPanel extends JPanel {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-            setStartDrawingPoint(event.getX() / SketchPointConstants.RECT_SIZE, event.getY() / SketchPointConstants.RECT_SIZE);
+            setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
 
-            SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();     
+            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();     
             
             resetChangedPropertyArray();
             switch (selectedTool) {
@@ -659,7 +661,7 @@ public class DrawingPanel extends JPanel {
                 case TOOL_COLOR_FILLER: {
                     copyColorValue(colorOfBoard, changedColorOfBoard,true);
                     Point2D currentMousePos = new Point2D();
-                    currentMousePos.setCoord(event.getX()/ SketchPointConstants.RECT_SIZE, event.getY()/SketchPointConstants.RECT_SIZE);
+                    currentMousePos.setCoord(event.getX()/ SettingConstants.RECT_SIZE, event.getY()/SettingConstants.RECT_SIZE);
                     
                     Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
                     repaint();
@@ -676,7 +678,7 @@ public class DrawingPanel extends JPanel {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-            SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();   
+            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();   
             switch(selectedTool){
                 case DRAWING_LINE_FREE: {
                     
@@ -724,15 +726,15 @@ public class DrawingPanel extends JPanel {
                 return;
             }
 
-            SketchPointConstants.DrawingToolMode selectedTool = getSelectedToolMode();
+            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
             
-//            if(selectedTool!=SketchPointConstants.DrawingToolMode.DRAWING_LINE_FREE){
+//            if(selectedTool!=SettingConstants.DrawingToolMode.DRAWING_LINE_FREE){
 //                resetChangedPropertyArray();
 //            }
             //Đặt resetChangedPropertyArray(); trong từng phần để dễ kiểm soát hơn
             //VD: Tô màu bị lỗi do nó vô tình chạy mouse Dragged khi pressed quá nhanh (thành Dragged) => Gọi dragged=> chạy sai
 
-            setEndDrawingPoint(event.getX() / SketchPointConstants.RECT_SIZE, event.getY() / SketchPointConstants.RECT_SIZE);
+            setEndDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
             
             switch (selectedTool) {
                 case DRAWING_LINE_SEGMENT: {
@@ -759,11 +761,11 @@ public class DrawingPanel extends JPanel {
                         pixel.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
                         //=========NẾU CÙNG ĐỂ STARTDRAWINGPOINT HOẶC ENDDRAWING POINT THÌ PIXEL SẼ BỊ THƯA (DÙ TỌA CỦA START VÀ END LÀ NHƯ NHAU)======
                         pixel.draw();
-//                          markedChangeOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE] = true;
-//                          changedColorOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE] = selectedColor;
+//                          markedChangeOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE] = true;
+//                          changedColorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE] = selectedColor;
 //                        ========  CÁCH NÀY CŨNG LÀM PIXEL BỊ THƯA!!!===========
                     }
-                    setStartDrawingPoint(event.getX()/SketchPointConstants.RECT_SIZE, event.getY()/SketchPointConstants.RECT_SIZE);
+                    setStartDrawingPoint(event.getX()/SettingConstants.RECT_SIZE, event.getY()/SettingConstants.RECT_SIZE);
                     
                     repaint();
                     break;

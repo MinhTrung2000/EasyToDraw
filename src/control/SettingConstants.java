@@ -1,4 +1,4 @@
-package view;
+package control;
 
 import model.shape2d.Point2D;
 import java.awt.Color;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Application-wide constants.
  */
-public interface SketchPointConstants {
+public interface SettingConstants {
 
     /*
     Sketch Point version.

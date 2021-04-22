@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import static java.lang.Math.abs;
 import java.util.ArrayList;
-import view.SketchPointConstants;
-import view.Ultility;
+import control.SettingConstants;
+import control.util.Ultility;
 
 public class Shape2D {
 
@@ -17,7 +17,7 @@ public class Shape2D {
     /**
      * Default line style for drawing.
      */
-    public static final SketchPointConstants.LineStyle DEFAULT_LINE_STYLE = SketchPointConstants.LineStyle.DEFAULT;
+    public static final SettingConstants.LineStyle DEFAULT_LINE_STYLE = SettingConstants.LineStyle.DEFAULT;
 
     /**
      * This references to the marked coordinates of drawing board.
@@ -42,7 +42,7 @@ public class Shape2D {
     /**
      * The line style of shape.
      */
-    protected SketchPointConstants.LineStyle lineStyle;
+    protected SettingConstants.LineStyle lineStyle;
 
     /**
      * Color filled in shape.
@@ -75,7 +75,7 @@ public class Shape2D {
         pixelCounter = 0;
     }
 
-    public void setLineStyle(SketchPointConstants.LineStyle lineStyle) {
+    public void setLineStyle(SettingConstants.LineStyle lineStyle) {
         this.lineStyle = lineStyle;
     }
 
@@ -90,7 +90,7 @@ public class Shape2D {
      * @param endPoint
      * @param lineStyle
      */
-    public void drawSegment(Point2D startPoint, Point2D endPoint, SketchPointConstants.LineStyle lineStyle) {
+    public void drawSegment(Point2D startPoint, Point2D endPoint, SettingConstants.LineStyle lineStyle) {
         pixelCounter = 1;
 
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
@@ -154,7 +154,7 @@ public class Shape2D {
             savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
         }
 
-        if (lineStyle == SketchPointConstants.LineStyle.ARROW) {
+        if (lineStyle == SettingConstants.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
 
             if (vector.getLength() != 0) {
@@ -170,8 +170,8 @@ public class Shape2D {
                 upPoint.rotate(endPoint, angleSegmentWithOx);
                 downPoint.rotate(endPoint, angleSegmentWithOx);
 
-                this.drawSegment(endPoint, upPoint, SketchPointConstants.LineStyle.DEFAULT);
-                this.drawSegment(endPoint, downPoint, SketchPointConstants.LineStyle.DEFAULT);
+                this.drawSegment(endPoint, upPoint, SettingConstants.LineStyle.DEFAULT);
+                this.drawSegment(endPoint, downPoint, SettingConstants.LineStyle.DEFAULT);
             }
         }
     }
@@ -229,7 +229,7 @@ public class Shape2D {
      * @param coordY
      * @param lineStyle
      */
-    public void savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SketchPointConstants.LineStyle lineStyle) {
+    public void savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordY][coordX] = true;

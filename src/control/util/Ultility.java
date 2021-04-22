@@ -1,4 +1,4 @@
-package view;
+package control.util;
 
 import model.shape2d.Point2D;
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.util.Queue;
 import javafx.util.Pair;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
+import control.SettingConstants;
 
 public class Ultility {
     
@@ -54,7 +55,7 @@ public class Ultility {
      * @param lineStyle
      * @return
      */
-    public static boolean checkPixelPut(int pixelCounter, SketchPointConstants.LineStyle lineStyle) {
+    public static boolean checkPixelPut(int pixelCounter, SettingConstants.LineStyle lineStyle) {
         switch (lineStyle) {
             case DEFAULT:
                 return true;

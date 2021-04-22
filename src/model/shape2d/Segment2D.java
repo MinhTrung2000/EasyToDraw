@@ -3,7 +3,7 @@ package model.shape2d;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import static view.SketchPointConstants.*;
+import static control.SettingConstants.*;
 
 public class Segment2D extends Shape2D {
 

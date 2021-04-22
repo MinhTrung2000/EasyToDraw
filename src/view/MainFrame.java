@@ -4,6 +4,8 @@
  */
 package view;
 
+import control.SettingConstants;
+import control.util.Ultility;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.HeadlessException;
@@ -34,19 +36,19 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import static view.SketchPointConstants.*;
+import static control.SettingConstants.*;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.shape2d.Point2D;
 
-public class SketchPointFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame {
 
-    private SketchPointConstants.DrawingToolMode savedLineMode;
-    private SketchPointConstants.DrawingToolMode savedPolygonMode;
-    private SketchPointConstants.DrawingToolMode savedShapeMode;
-    private SketchPointConstants.DrawingToolMode savedTransformMode;
+    private SettingConstants.DrawingToolMode savedLineMode;
+    private SettingConstants.DrawingToolMode savedPolygonMode;
+    private SettingConstants.DrawingToolMode savedShapeMode;
+    private SettingConstants.DrawingToolMode savedTransformMode;
 
     private JButton[] savedColorButtonList;
 
@@ -55,7 +57,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
      */
     private int savedColorNumber;
 
-    public SketchPointFrame() {
+    public MainFrame() {
         UIManager.put("PopupMenu.consumeEventOnClose", false);
         customizeComponents();
         setIconFrame();
@@ -81,8 +83,8 @@ public class SketchPointFrame extends javax.swing.JFrame {
         panel_DrawingArea.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent event){
-                if(getDrawingPanel().getSelectedToolMode()==SketchPointConstants.DrawingToolMode.TOOL_COLOR_PICKER){
-                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY()/SketchPointConstants.RECT_SIZE][event.getX()/SketchPointConstants.RECT_SIZE];
+                if(getDrawingPanel().getSelectedToolMode()==SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER){
+                    Color selectedColor = getDrawingPanel().colorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE];
                     getDrawingPanel().setSelectedColor(selectedColor);
                     
                     //Check if it's already in the list
@@ -96,12 +98,12 @@ public class SketchPointFrame extends javax.swing.JFrame {
                     savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
                     savedColorNumber++;
                 } else {
-                    int startingColorSavedButtonIndex = SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
+                    int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
 
-                    for (int i = startingColorSavedButtonIndex; i < SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+                    for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
                         savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
                     }
-                    savedColorButtonList[SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
+                    savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
                 }
                 
@@ -118,8 +120,8 @@ public class SketchPointFrame extends javax.swing.JFrame {
         //Để mẫu số riêng để tọa độ trùng khớp với tọa độ put pixel vào, do đặt mẫu chung sẽ bị sai lệch kết quả trong quá trình
         //khử phần thập phân!
         label_CoordValue.setText(
-                "X: " + ((event.getX()/SketchPointConstants.RECT_SIZE) - (COORD_X_O / SketchPointConstants.RECT_SIZE)) + "   "
-                + "Y: " + (-((event.getY()/SketchPointConstants.RECT_SIZE) - (COORD_Y_O / SketchPointConstants.RECT_SIZE)
+                "X: " + ((event.getX()/SettingConstants.RECT_SIZE) - (COORD_X_O / SettingConstants.RECT_SIZE)) + "   "
+                + "Y: " + (-((event.getY()/SettingConstants.RECT_SIZE) - (COORD_Y_O / SettingConstants.RECT_SIZE)
         )));
     }
 
@@ -162,10 +164,10 @@ public class SketchPointFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
         initMenuItem(popMenu_Transform, menuItem_Symmetry, DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY, "/img/symmetry24px.png");
 
-        savedLineMode = SketchPointConstants.DrawingToolMode.DRAWING_LINE_SEGMENT;
-        savedPolygonMode = SketchPointConstants.DrawingToolMode.DRAWING_POLYGON_FREE;
-        savedShapeMode = SketchPointConstants.DrawingToolMode.DRAWING_SHAPE_STAR;
-        savedTransformMode = SketchPointConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
+        savedLineMode = SettingConstants.DrawingToolMode.DRAWING_LINE_SEGMENT;
+        savedPolygonMode = SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE;
+        savedShapeMode = SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR;
+        savedTransformMode = SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
     }
 
     /**
@@ -194,8 +196,8 @@ public class SketchPointFrame extends javax.swing.JFrame {
     }
 
     private void setDefaultVisualOption() {
-        checkBox_showGridlines.setSelected(SketchPointConstants.DEFAULT_VISUAL_SHOW_GRID);
-        checkBox_showCoordinate.setSelected(SketchPointConstants.DEFAULT_VISUAL_SHOW_COORDINATE);
+        checkBox_showGridlines.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_GRID);
+        checkBox_showCoordinate.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_COORDINATE);
     }
 
     private void setDefaultColorOption() {
@@ -211,14 +213,14 @@ public class SketchPointFrame extends javax.swing.JFrame {
 
         savedColorNumber = 0;
 
-        button_ColorSave_1.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_1);
-        button_ColorSave_2.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_2);
-        button_ColorSave_3.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_3);
-        button_ColorSave_4.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_4);
-        button_ColorSave_5.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_5);
-        button_ColorSave_6.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_6);
-        button_ColorSave_7.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_7);
-        button_ColorSave_8.setBackground(SketchPointConstants.DEFAULT_COLOR_SAVE_8);
+        button_ColorSave_1.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_1);
+        button_ColorSave_2.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_2);
+        button_ColorSave_3.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_3);
+        button_ColorSave_4.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_4);
+        button_ColorSave_5.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_5);
+        button_ColorSave_6.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_6);
+        button_ColorSave_7.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_7);
+        button_ColorSave_8.setBackground(SettingConstants.DEFAULT_COLOR_SAVE_8);
     }
 
     /**
@@ -309,7 +311,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
                             }
                             for (k = 0; k < tempCoor.length; k += 2) {
 //                                System.out.println(tempCoor[k] + " " + tempCoor[k + 1]);
-                                Point2D A = new Point2D(tempCoor[k] + (SketchPointConstants.COORD_X_O / SketchPointConstants.RECT_SIZE), -tempCoor[k + 1] + (SketchPointConstants.COORD_Y_O / SketchPointConstants.RECT_SIZE));
+                                Point2D A = new Point2D(tempCoor[k] + (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE), -tempCoor[k + 1] + (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE));
                                 A.saveCoord(getDrawingPanel().getCoordOfBoard());
                             }
 
@@ -319,7 +321,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
 
                         }
                     } catch (IOException ex) {
-                        Logger.getLogger(SketchPointFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                 }
@@ -330,7 +332,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 dispose();
-                new SketchPointFrame().setVisible(true);
+                new MainFrame().setVisible(true);
             }
         });
 
@@ -387,7 +389,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
                         }
                         fw.close();
                     } catch (IOException ex) {
-                        Logger.getLogger(SketchPointFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
                     try {
@@ -481,13 +483,13 @@ public class SketchPointFrame extends javax.swing.JFrame {
      *
      * @param toolMode
      */
-    private void setSelectedToolMode(SketchPointConstants.DrawingToolMode toolMode) {
+    private void setSelectedToolMode(SettingConstants.DrawingToolMode toolMode) {
         label_ToolMode.setText(toolMode.toString());
         if(toolMode.toolTip.compareTo("")!=0){
             showTooltip(toolMode.toolTip);
         }
         
-        SketchPointConstants.DrawingToolMode selectedButtonMode
+        SettingConstants.DrawingToolMode selectedButtonMode
                 = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
         if (selectedButtonMode == toolMode) {
@@ -504,7 +506,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_ColorPicker.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_COLOR_PICKER);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_PICKER);
                
             }
         });
@@ -512,7 +514,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_FillColor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_COLOR_FILLER);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_COLOR_FILLER);
              
             }
         });
@@ -528,7 +530,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_Eraser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_ERASER);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ERASER);
              
             }
         });
@@ -536,7 +538,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_Select.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_SELECT);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_SELECT);
             
             }
         });
@@ -544,7 +546,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SketchPointConstants.DrawingToolMode.TOOL_ANIMATION);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
               
             }
         });
@@ -572,17 +574,17 @@ public class SketchPointFrame extends javax.swing.JFrame {
                     savedColorButtonList[4 + savedColorNumber].setBackground(selectedColor);
                     savedColorNumber++;
                 } else {
-                    int startingColorSavedButtonIndex = SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
+                    int startingColorSavedButtonIndex = SettingConstants.DEFAULT_SAVED_COLOR_NUMBER / 2;
 
-                    for (int i = startingColorSavedButtonIndex; i < SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
+                    for (int i = startingColorSavedButtonIndex; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1; i++) {
                         savedColorButtonList[i].setBackground(savedColorButtonList[i + 1].getBackground());
                     }
-                    savedColorButtonList[SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
+                    savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
             }
         });
 
-        for (int i = 0; i < SketchPointConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
+        for (int i = 0; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
             savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
         }
     }
@@ -600,7 +602,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
         
         Chú ý: Nếu chuyển hệ tọa độ, phải:
             1.  Đặt lại mặc định cho các cờ show_Gridlines, show_Coordinate 
-                theo class SketchPointConstants và checkbox tương ứng.
+                theo class SettingConstants và checkbox tương ứng.
             2.  Gọi hàm setCoordinateMode của panel_DrawingArea (xem chi tiết
                 tại class DrawingPanel).
          */
@@ -624,84 +626,84 @@ public class SketchPointFrame extends javax.swing.JFrame {
         //======================================================================
         menuItem_Segment.addActionListener(new CustomMenuItemChooseAction(
                 savedLineMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_LINE_SEGMENT,
+                SettingConstants.DrawingToolMode.DRAWING_LINE_SEGMENT,
                 "/img/Line_Segment.png",
                 button_Line)
         );
 
         menuItem_Line.addActionListener(new CustomMenuItemChooseAction(
                 savedLineMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_LINE_STRAIGHT,
+                SettingConstants.DrawingToolMode.DRAWING_LINE_STRAIGHT,
                 "/img/Line_StraightLine.png",
                 button_Line)
         );
 
         menuItem_FreeDrawing.addActionListener(new CustomMenuItemChooseAction(
                 savedLineMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_LINE_FREE,
+                SettingConstants.DrawingToolMode.DRAWING_LINE_FREE,
                 "/img/Line_FreeDrawing.png",
                 button_Line)
         );
 
         menuItem_FreePolygon.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_POLYGON_FREE,
+                SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE,
                 "/img/Polygon_Polygon.png",
                 button_Polygon)
         );
 
         menuItem_Triangle.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_POLYGON_TRIANGLE,
+                SettingConstants.DrawingToolMode.DRAWING_POLYGON_TRIANGLE,
                 "/img/Polygon_Triangle.png",
                 button_Polygon)
         );
 
         menuItem_Rectangle.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_POLYGON_RECTANGLE,
+                SettingConstants.DrawingToolMode.DRAWING_POLYGON_RECTANGLE,
                 "/img/Poligon_Rectangle.png",
                 button_Polygon)
         );
 
         menuItem_Circle.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_POLYGON_CIRCLE,
+                SettingConstants.DrawingToolMode.DRAWING_POLYGON_CIRCLE,
                 "/img/Polygon_Circle.png",
                 button_Polygon)
         );
 
         menuItem_Star.addActionListener(new CustomMenuItemChooseAction(
                 savedShapeMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_SHAPE_STAR,
+                SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR,
                 "/img/Shape_Star.png",
                 button_Shape)
         );
 
         menuItem_Diamond.addActionListener(new CustomMenuItemChooseAction(
                 savedShapeMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_SHAPE_DIAMOND,
+                SettingConstants.DrawingToolMode.DRAWING_SHAPE_DIAMOND,
                 "/img/Shape_Diamond.png",
                 button_Shape)
         );
 
         menuItem_Arrow.addActionListener(new CustomMenuItemChooseAction(
                 savedShapeMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_SHAPE_ARROW,
+                SettingConstants.DrawingToolMode.DRAWING_SHAPE_ARROW,
                 "/img/Shape_Arrow.png",
                 button_Shape)
         );
 
         menuItem_Rotation.addActionListener(new CustomMenuItemChooseAction(
                 savedTransformMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION,
+                SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION,
                 "/img/Transform_Rotation.png",
                 button_Transform)
         );
 
         menuItem_Symmetry.addActionListener(new CustomMenuItemChooseAction(
                 savedTransformMode,
-                SketchPointConstants.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY,
+                SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY,
                 "/img/Transform_Symmetry.png",
                 button_Transform)
         );
@@ -924,8 +926,9 @@ public class SketchPointFrame extends javax.swing.JFrame {
         panel_OperationLayout.setHorizontalGroup(
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_OperationLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(button_OpenFile, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button_CreateNewFile, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -956,9 +959,9 @@ public class SketchPointFrame extends javax.swing.JFrame {
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_OperationLayout.createSequentialGroup()
                 .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button_OpenFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_SaveFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Undo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(button_Undo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_OpenFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(1, 1, 1))
             .addComponent(button_Redo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(button_CreateNewFile, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1483,9 +1486,9 @@ public class SketchPointFrame extends javax.swing.JFrame {
         private boolean mousePressed;
         private JButton button;
         private JPopupMenu popMenu;
-        private SketchPointConstants.DrawingToolMode savedMode;
+        private SettingConstants.DrawingToolMode savedMode;
 
-        public CustomMouseAtButtonDrawingTool(SketchPointConstants.DrawingToolMode savedMode, JButton button, JPopupMenu popMenu) {
+        public CustomMouseAtButtonDrawingTool(SettingConstants.DrawingToolMode savedMode, JButton button, JPopupMenu popMenu) {
             this.savedMode = savedMode;
             this.button = button;
             this.popMenu = popMenu;
@@ -1608,13 +1611,13 @@ public class SketchPointFrame extends javax.swing.JFrame {
      */
     private class CustomMenuItemChooseAction implements ActionListener {
 
-        //   private SketchPointConstants.DrawingToolMode savedMode;
-        private SketchPointConstants.DrawingToolMode selectedMode;
+        //   private SettingConstants.DrawingToolMode savedMode;
+        private SettingConstants.DrawingToolMode selectedMode;
         private String icon32pxPath;
         private JButton button;
 
-        public CustomMenuItemChooseAction(SketchPointConstants.DrawingToolMode savedMode,
-                SketchPointConstants.DrawingToolMode selectedMode, String icon32pxPath,
+        public CustomMenuItemChooseAction(SettingConstants.DrawingToolMode savedMode,
+                SettingConstants.DrawingToolMode selectedMode, String icon32pxPath,
                 JButton button) {
             //  this.savedMode = savedMode;
             this.selectedMode = selectedMode;
@@ -1655,15 +1658,15 @@ public class SketchPointFrame extends javax.swing.JFrame {
      */
     private class CustomChangeCoordSystemAction implements ActionListener {
 
-        private SketchPointConstants.CoordinateMode selectedCoordMode;
+        private SettingConstants.CoordinateMode selectedCoordMode;
 
-        public CustomChangeCoordSystemAction(SketchPointConstants.CoordinateMode selectedCoordMode) {
+        public CustomChangeCoordSystemAction(SettingConstants.CoordinateMode selectedCoordMode) {
             this.selectedCoordMode = selectedCoordMode;
         }
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            SketchPointConstants.CoordinateMode currentDrawingMode
+            SettingConstants.CoordinateMode currentDrawingMode
                     = getDrawingPanel().getCoordinateMode();
 
             // If user click the same mode, do nothing
@@ -1674,8 +1677,8 @@ public class SketchPointFrame extends javax.swing.JFrame {
             /*
                 Reset visual option.
              */
-            checkBox_showGridlines.setSelected(SketchPointConstants.DEFAULT_VISUAL_SHOW_GRID);
-            checkBox_showCoordinate.setSelected(SketchPointConstants.DEFAULT_VISUAL_SHOW_COORDINATE);
+            checkBox_showGridlines.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_GRID);
+            checkBox_showCoordinate.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_COORDINATE);
 
             /*
                 Change coordinate system.
@@ -1695,19 +1698,19 @@ public class SketchPointFrame extends javax.swing.JFrame {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SketchPointFrame.class
+            java.util.logging.Logger.getLogger(MainFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SketchPointFrame.class
+            java.util.logging.Logger.getLogger(MainFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SketchPointFrame.class
+            java.util.logging.Logger.getLogger(MainFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SketchPointFrame.class
+            java.util.logging.Logger.getLogger(MainFrame.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
@@ -1716,7 +1719,7 @@ public class SketchPointFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new SketchPointFrame().setVisible(true);
+                    new MainFrame().setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

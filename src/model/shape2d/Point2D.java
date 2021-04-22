@@ -1,10 +1,10 @@
 package model.shape2d;
 
 import java.awt.Color;
-import view.Ultility;
+import control.util.Ultility;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
-import view.SketchPointConstants;
+import control.SettingConstants;
 
 public class Point2D {
 
@@ -60,8 +60,8 @@ public class Point2D {
 
     public void saveCoord(String[][] coordOfBoard) {
         if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
-            int x = (int) (coordX - (SketchPointConstants.COORD_X_O / SketchPointConstants.RECT_SIZE));
-            int y = (int) (-(coordY - (SketchPointConstants.COORD_Y_O / SketchPointConstants.RECT_SIZE)));
+            int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
+            int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
             coordOfBoard[coordX][coordY] = "(" + x + ", " + y + ")";
         }
     }
@@ -161,7 +161,7 @@ public class Point2D {
     public Point2D createOXSymmetryPoint() {
         Point2D result = new Point2D();
 
-        result.setCoord(-(this.coordX - SketchPointConstants.COORD_X_O),
+        result.setCoord(-(this.coordX - SettingConstants.COORD_X_O),
                 this.coordY
         );
 
@@ -177,7 +177,7 @@ public class Point2D {
         Point2D result = new Point2D();
 
         result.setCoord(this.coordX,
-                -(this.coordY - SketchPointConstants.COORD_Y_O)
+                -(this.coordY - SettingConstants.COORD_Y_O)
         );
 
         return result;
@@ -215,7 +215,7 @@ public class Point2D {
      * @return
      */
     public Point2D symOx() {
-        setCoord(-(this.coordX - SketchPointConstants.COORD_X_O),
+        setCoord(-(this.coordX - SettingConstants.COORD_X_O),
                 this.coordY
         );
 
@@ -229,7 +229,7 @@ public class Point2D {
      */
     public Point2D symOy() {
         setCoord(this.coordX,
-                -(this.coordY - SketchPointConstants.COORD_Y_O)
+                -(this.coordY - SettingConstants.COORD_Y_O)
         );
 
         return this;
@@ -249,8 +249,8 @@ public class Point2D {
     }
 
     public String toString() {
-        int x = (int) (coordX - (SketchPointConstants.COORD_X_O / SketchPointConstants.RECT_SIZE));
-        int y = (int) (-(coordY - (SketchPointConstants.COORD_Y_O / SketchPointConstants.RECT_SIZE)));
+        int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
+        int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
 
         String result = "(" + x + ", " + y + ")";
         return result;
