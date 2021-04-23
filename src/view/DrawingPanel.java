@@ -240,6 +240,7 @@ public class DrawingPanel extends JPanel {
         // Clear old coordinate system before changing coordinate mode flag
         this.coordinateMode = mode;
 
+        resetChangedPropertyArray();
         resetSavedPropertyArray();
         disposeStack();
 
