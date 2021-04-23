@@ -40,6 +40,7 @@ public class Arrow2D extends Shape2D {
         pointA = new Point2D();
         pointB = new Point2D();
         pointC = new Point2D();
+        pointD = new Point2D();
         pointE = new Point2D();
         pointF = new Point2D();
         pointG = new Point2D();
@@ -59,7 +60,7 @@ public class Arrow2D extends Shape2D {
         
         pointD.setCoord(pointC.coordX, pointA.coordY);
         
-        pointE.setCoord(endPoint.coordX, startPoint.coordY + 3 * dy);
+        pointE.setCoord(endPoint.coordX, startPoint.coordY + 2 * dy);
         
         pointF.setCoord(pointD.coordX, startPoint.coordY);
         

@@ -14,8 +14,11 @@ import java.awt.event.MouseMotionListener;
 import java.util.Stack;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import model.shape2d.Arrow2D;
+import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Shape2D;
+import model.shape2d.Star;
 
 /**
  * Class used for implementing drawing area.
@@ -802,15 +805,39 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_SHAPE_STAR: {
-                    // Work later
+                    resetChangedPropertyArray();
+                    if (checkStartingPointAvailable()) {
+                        Star star = new Star(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        star.setProperty(startDrawingPoint, endDrawingPoint);
+                        star.setLineStyle(selectedLineStyle);
+                        star.draw();
+                        star.saveCoordinates();
+                    }
+                    repaint();
                     break;
                 }
                 case DRAWING_SHAPE_DIAMOND: {
-                    // Work later
+                    resetChangedPropertyArray();
+                    if (checkStartingPointAvailable()) {
+                        Diamond diamond = new Diamond(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        diamond.setProperty(startDrawingPoint, endDrawingPoint);
+                        diamond.setLineStyle(selectedLineStyle);
+                        diamond.draw();
+                        diamond.saveCoordinates();
+                    }
+                    repaint();
                     break;
                 }
                 case DRAWING_SHAPE_ARROW: {
-                    // Work later
+                    resetChangedPropertyArray();
+                    if (checkStartingPointAvailable()) {
+                        Arrow2D arrow = new Arrow2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        arrow.setProperty(startDrawingPoint, endDrawingPoint);
+                        arrow.setLineStyle(selectedLineStyle);
+                        arrow.draw();
+                        arrow.saveCoordinates();
+                    }
+                    repaint();
                     break;
                 }
             }
