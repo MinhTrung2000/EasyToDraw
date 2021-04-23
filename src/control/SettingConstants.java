@@ -129,7 +129,7 @@ public interface SettingConstants {
             }
             
         },
-        DRAWING_POLYGON_CIRCLE("Press SHIFT to draw Ellipse") {
+        DRAWING_POLYGON_ELLIPSE("Press SHIFT to draw Ellipse") {
             public String toString() {
                 return "ELLIPSE";
             }

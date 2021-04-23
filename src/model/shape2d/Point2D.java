@@ -248,6 +248,21 @@ public class Point2D {
         return this;
     }
 
+    /**
+     * Get the middle point between two distinct points.
+     * @param pointA
+     * @param pointB
+     * @return 
+     */
+    public static Point2D midPoint(Point2D pointA, Point2D pointB) {
+        Point2D midPoint = new Point2D();
+        midPoint.setCoord(
+                (int) (pointA.coordX + pointB.coordX) / 2, 
+                (int) (pointA.coordY + pointB.coordY) / 2
+        );
+        return midPoint;
+    }
+    
     public String toString() {
         int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
         int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));

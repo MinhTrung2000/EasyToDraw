@@ -70,7 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
                 showCursorCoordinate(event);
                 
                 if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
-                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_ELLIPSE
                         && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
                         && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
                     hideTooltip();
@@ -120,7 +120,7 @@ public class MainFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Polygon, menuItem_FreePolygon, DrawingToolMode.DRAWING_POLYGON_FREE, "/img/polygon24px.png");
         initMenuItem(popMenu_Polygon, menuItem_Triangle, DrawingToolMode.DRAWING_POLYGON_TRIANGLE, "/img/triangle24px.png");
         initMenuItem(popMenu_Polygon, menuItem_Rectangle, DrawingToolMode.DRAWING_POLYGON_RECTANGLE, "/img/rectangle24px.png");
-        initMenuItem(popMenu_Polygon, menuItem_Circle, DrawingToolMode.DRAWING_POLYGON_CIRCLE, "/img/circle24px.png");
+        initMenuItem(popMenu_Polygon, menuItem_Circle, DrawingToolMode.DRAWING_POLYGON_ELLIPSE, "/img/circle24px.png");
 
         // Shape modal
         initMenuItem(popMenu_Shape, menuItem_Star, DrawingToolMode.DRAWING_SHAPE_STAR, "/img/star24px.png");
@@ -533,7 +533,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuItem_Circle.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
-                SettingConstants.DrawingToolMode.DRAWING_POLYGON_CIRCLE,
+                SettingConstants.DrawingToolMode.DRAWING_POLYGON_ELLIPSE,
                 "/img/Polygon_Circle.png",
                 button_Polygon)
         );
@@ -671,12 +671,14 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Line.add(menuItem_Segment);
 
         menuItem_Line.setText("jMenuItem1");
+        menuItem_Line.setEnabled(false);
         popMenu_Line.add(menuItem_Line);
 
         menuItem_FreeDrawing.setText("jMenuItem1");
         popMenu_Line.add(menuItem_FreeDrawing);
 
         menuItem_FreePolygon.setText("jMenuItem1");
+        menuItem_FreePolygon.setEnabled(false);
         popMenu_Polygon.add(menuItem_FreePolygon);
 
         menuItem_Triangle.setText("jMenuItem1");
@@ -1346,7 +1348,7 @@ public class MainFrame extends javax.swing.JFrame {
         @Override
         public void mouseExited(MouseEvent e) {
             if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
-                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_CIRCLE
+                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_ELLIPSE
                     && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
                     && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
                 hideTooltip();

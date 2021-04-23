@@ -137,13 +137,14 @@ public class DrawingPanel extends JPanel {
         this.addMouseListener(new CustomMouseClickHandling());
     }
 
-    public Color[][] getColorOfBoard(){
+    public Color[][] getColorOfBoard() {
         return this.colorOfBoard;
     }
-    public String[][] getCoordOfBoard(){
+
+    public String[][] getCoordOfBoard() {
         return this.coordOfBoard;
     }
-    
+
     public boolean isEmpty() {
         boolean result = true;
         for (int i = 0; i < heightBoard; i++) {
@@ -159,8 +160,7 @@ public class DrawingPanel extends JPanel {
         }
         return result;
     }
-    
-    
+
     public void setStartDrawingPoint(int coordX, int coordY) {
         this.startDrawingPoint.setCoord(coordX, coordY);
     }
@@ -302,24 +302,24 @@ public class DrawingPanel extends JPanel {
      * @param color_board_from
      * @param color_board_to
      */
-    public void copyColorValue(Color[][] color_board_from, Color[][] color_board_to,boolean fromColorOBToChangedCOB) {
+    public void copyColorValue(Color[][] color_board_from, Color[][] color_board_to, boolean fromColorOBToChangedCOB) {
         int height = color_board_from.length;
         int width = color_board_from[0].length;
-        if(!fromColorOBToChangedCOB){
+        if (!fromColorOBToChangedCOB) {
             for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
+                for (int col = 0; col < width; col++) {
+                    color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
+                }
+            }
+        } else {
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
+                    markedChangeOfBoard[row][col] = true;
+                    color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
+                }
             }
         }
-        }else{
-            for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                markedChangeOfBoard [row][col]=true;
-                color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
-            }
-        }
-        }
-        
+
     }
 
     /**
@@ -348,7 +348,7 @@ public class DrawingPanel extends JPanel {
      */
     private void saveCurrentColorBoardToUndoStack() {
         Color[][] tempBoard = new Color[heightBoard][widthBoard];
-        copyColorValue(colorOfBoard, tempBoard,false);
+        copyColorValue(colorOfBoard, tempBoard, false);
         undoColorOfBoardStack.push(tempBoard);
     }
 
@@ -366,7 +366,7 @@ public class DrawingPanel extends JPanel {
      */
     private void saveCurrentColorBoardToRedoStack() {
         Color[][] tempBoard = new Color[heightBoard][widthBoard];
-        copyColorValue(colorOfBoard, tempBoard,false);
+        copyColorValue(colorOfBoard, tempBoard, false);
         redoColorOfBoardStack.push(tempBoard);
     }
 
@@ -390,7 +390,7 @@ public class DrawingPanel extends JPanel {
     public void undo() {
         if (!undoColorOfBoardStack.empty()) {
             saveCurrentColorBoardToRedoStack();
-            copyColorValue(undoColorOfBoardStack.pop(), colorOfBoard,false);
+            copyColorValue(undoColorOfBoardStack.pop(), colorOfBoard, false);
         }
         if (!undoCoordOfBoardStack.empty()) {
             saveCurrentCoordBoardToRedoStack();
@@ -409,7 +409,7 @@ public class DrawingPanel extends JPanel {
     public void redo() {
         if (!redoColorOfBoardStack.empty()) {
             saveCurrentColorBoardToUndoStack();
-            copyColorValue(redoColorOfBoardStack.pop(), colorOfBoard,false);
+            copyColorValue(redoColorOfBoardStack.pop(), colorOfBoard, false);
         }
         if (!redoCoordOfBoardStack.empty()) {
             saveCurrentCoordBoardToUndoStack();
@@ -436,7 +436,7 @@ public class DrawingPanel extends JPanel {
         copyCoordValue(changedCoordOfBoard, coordOfBoard);
 
         // Reset marked change array.
-       // resetChangedPropertyArray();
+        // resetChangedPropertyArray();
     }
 
     private boolean isNotSelected() {
@@ -565,28 +565,6 @@ public class DrawingPanel extends JPanel {
         }
     }
 
-//    private void paintRect(Graphics graphic, int topLeftX, int topLeftY, int width, int height) {
-//        int bottomRightX = topLeftX + width;
-//        int bottomRightY = topLeftY + height;
-//
-//        for (int i = topLeftY; i < bottomRightY; i++) {
-//            for (int j = topLeftX; j < bottomRightX; j++) {
-//                if (markedChangeOfBoard[i][j] == true) {
-//                    graphic.setColor(changedColorOfBoard[i][j]);
-//                } else {
-//                    graphic.setColor(colorOfBoard[i][j]);
-//                }
-//
-//                graphic.fillRect(
-//                        i * SettingConstants.RECT_SIZE + 1,
-//                        j * SettingConstants.RECT_SIZE + 1,
-//                        SettingConstants.SIZE,
-//                        SettingConstants.SIZE
-//                );
-//            }
-//        }
-//    }
-
     @Override
     public void paintComponent(Graphics graphic) {
         super.paintComponent(graphic);
@@ -621,106 +599,101 @@ public class DrawingPanel extends JPanel {
 
     private class CustomMouseClickHandling implements MouseListener {
 
+        /*
+        Do later
+         */
         @Override
-       public void mouseClicked(MouseEvent event) {
+        public void mouseClicked(MouseEvent event) {
 
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-            
-            
 
             SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
-            
-               
-            
-            switch (selectedTool) {
-                case DRAWING_TRANSFORM_ROTATION: {
-                    break;
-                }
-                case DRAWING_TRANSFORM_SYMMETRY: {
-                    break;
-                }
-                case TOOL_COLOR_PICKER: {
-                    Point2D currentMousePos = new Point2D();
-                   // setSelectedColor(colorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE]);
-                }
-            }
         }
 
         @Override
-       public void mousePressed(MouseEvent event) {
-            
+        public void mousePressed(MouseEvent event) {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
+
             setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
 
-            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();     
-            
+//            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
             resetChangedPropertyArray();
-            switch (selectedTool) {
+
+            switch (selectedToolMode) {
                 case DRAWING_LINE_FREE: {
-                 //   setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
-                //    setStartDrawingPoint(endDrawingPoint.getCoordX(), endDrawingPoint.getCoordY());
-                    
+                    //   setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
+                    //    setStartDrawingPoint(endDrawingPoint.getCoordX(), endDrawingPoint.getCoordY());
+
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
+
                     startDrawingPoint.saveCoord(coordOfBoard);
+
                     repaint();
                     break;
                 }
-                case DRAWING_LINE_SEGMENT: {
-                    // Work later
-                    break;
-                }
                 case TOOL_COLOR_FILLER: {
-                    copyColorValue(colorOfBoard, changedColorOfBoard,true);
+                    copyColorValue(colorOfBoard, changedColorOfBoard, true);
+
                     Point2D currentMousePos = new Point2D();
-                    currentMousePos.setCoord(event.getX()/ SettingConstants.RECT_SIZE, event.getY()/SettingConstants.RECT_SIZE);
-                    
+
+                    currentMousePos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
+
                     Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
                     repaint();
                     break;
                 }
-                
+
             }
         }
-       
 
         @Override
         public void mouseReleased(MouseEvent event) {
-            
+
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();   
-            switch(selectedTool){
-                case DRAWING_LINE_FREE: {
-                    
-                }
-                case DRAWING_LINE_SEGMENT: {
-                    
-                }
-                case DRAWING_POLYGON_CIRCLE: {
-                    
-                }
-                case DRAWING_POLYGON_TRIANGLE: {
-                    
-                }
-                case DRAWING_POLYGON_RECTANGLE: {
-                    apply();
-                    repaint();
-                   
-                   
-                    break;
-                }
-                case TOOL_COLOR_FILLER: {
-                    apply();
-                    repaint();
-                    break;
-                }
-            }
+
+            apply();
+            repaint();
+//            switch (selectedToolMode) {
+//                case DRAWING_LINE_SEGMENT: {
+//                    apply();
+//                    repaint();
+//
+//                    break;
+//                }
+//                case DRAWING_LINE_STRAIGHT: {
+//                    break;
+//                }
+//                case DRAWING_POLYGON_ELLIPSE: {
+//                    apply();
+//                    repaint();
+//
+//                    break;
+//                }
+//                case DRAWING_POLYGON_TRIANGLE: {
+//                    apply();
+//                    repaint();
+//
+//                    break;
+//                }
+//                case DRAWING_POLYGON_RECTANGLE: {
+//                    apply();
+//                    repaint();
+//
+//                    break;
+//                }
+//                case TOOL_COLOR_FILLER: {
+//                    apply();
+//                    repaint();
+//                    break;
+//                }
+//            }
         }
 
         @Override
@@ -742,25 +715,17 @@ public class DrawingPanel extends JPanel {
                 return;
             }
 
-            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
-            
-//            if(selectedTool!=SettingConstants.DrawingToolMode.DRAWING_LINE_FREE){
-//                resetChangedPropertyArray();
-//            }
-            //Đặt resetChangedPropertyArray(); trong từng phần để dễ kiểm soát hơn
-            //VD: Tô màu bị lỗi do nó vô tình chạy mouse Dragged khi pressed quá nhanh (thành Dragged) => Gọi dragged=> chạy sai
-
             setEndDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
-            
-            switch (selectedTool) {
+
+            switch (selectedToolMode) {
                 case DRAWING_LINE_SEGMENT: {
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        if (event.isShiftDown()){
-                            segment.setProperty(startDrawingPoint, endDrawingPoint,Segment2D.Modal.LINE_45_90_DEGREE);
-                        }else {
-                            segment.setProperty(startDrawingPoint, endDrawingPoint,Segment2D.Modal.STRAIGHT_LINE);
+                        if (event.isShiftDown()) {
+                            segment.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.LINE_45_90_DEGREE);
+                        } else {
+                            segment.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
                         }
                         segment.setLineStyle(selectedLineStyle);
                         segment.draw();
@@ -769,47 +734,31 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
+                case DRAWING_LINE_STRAIGHT: {
+                    // Do no thing
+                    break;
+                }
                 case DRAWING_LINE_FREE: {
-                    if (checkStartingPointAvailable()){
+                    if (checkStartingPointAvailable()) {
                         Segment2D pixel = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        System.out.println("start X: "+startDrawingPoint.getCoordX()+" start Y: "+startDrawingPoint.getCoordY());
-//                        System.out.println("end X: "+endDrawingPoint.getCoordX()+" end Y: "+endDrawingPoint.getCoordY());
                         pixel.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
-                        //=========NẾU CÙNG ĐỂ STARTDRAWINGPOINT HOẶC ENDDRAWING POINT THÌ PIXEL SẼ BỊ THƯA (DÙ TỌA CỦA START VÀ END LÀ NHƯ NHAU)======
                         pixel.draw();
-//                          markedChangeOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE] = true;
-//                          changedColorOfBoard[event.getY()/SettingConstants.RECT_SIZE][event.getX()/SettingConstants.RECT_SIZE] = selectedColor;
-//                        ========  CÁCH NÀY CŨNG LÀM PIXEL BỊ THƯA!!!===========
                     }
-                    setStartDrawingPoint(event.getX()/SettingConstants.RECT_SIZE, event.getY()/SettingConstants.RECT_SIZE);
-                    
+                    setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                     repaint();
                     break;
                 }
-                case DRAWING_POLYGON_RECTANGLE: {
-                    resetChangedPropertyArray();
-                    if (checkStartingPointAvailable()) {
-                        Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        if (event.isShiftDown()){
-                            rectangle.setProperty(startDrawingPoint, endDrawingPoint,Rectangle.Modal.SQUARE);
-                        }else { 
-                            rectangle.setProperty(startDrawingPoint, endDrawingPoint,Rectangle.Modal.RECTANGLE);
-                        }
-                        rectangle.setLineStyle(selectedLineStyle);
-                        rectangle.draw();
-                        rectangle.saveCoordinate();
-                    }
-                    repaint();
-                    break;
+                case DRAWING_POLYGON_FREE: {
+                    // Work later
                 }
                 case DRAWING_POLYGON_TRIANGLE: {
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Triangle triangle = new Triangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         if (event.isShiftDown()) {
-                            triangle.setProperty(startDrawingPoint, endDrawingPoint,Triangle.Modal.EQUILATERAL_TRIANGLE);
-                        }else {
-                            triangle.setProperty(startDrawingPoint, endDrawingPoint,Triangle.Modal.COMMON_TRIANGLE);
+                            triangle.setProperty(startDrawingPoint, endDrawingPoint, Triangle.Modal.EQUILATERAL_TRIANGLE);
+                        } else {
+                            triangle.setProperty(startDrawingPoint, endDrawingPoint, Triangle.Modal.COMMON_TRIANGLE);
                         }
                         triangle.setLineStyle(selectedLineStyle);
                         triangle.draw();
@@ -818,7 +767,23 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
-                case DRAWING_POLYGON_CIRCLE: {
+                case DRAWING_POLYGON_RECTANGLE: {
+                    resetChangedPropertyArray();
+                    if (checkStartingPointAvailable()) {
+                        Rectangle rectangle = new Rectangle(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        if (event.isShiftDown()) {
+                            rectangle.setProperty(startDrawingPoint, endDrawingPoint, Rectangle.Modal.SQUARE);
+                        } else {
+                            rectangle.setProperty(startDrawingPoint, endDrawingPoint, Rectangle.Modal.RECTANGLE);
+                        }
+                        rectangle.setLineStyle(selectedLineStyle);
+                        rectangle.draw();
+                        rectangle.saveCoordinate();
+                    }
+                    repaint();
+                    break;
+                }
+                case DRAWING_POLYGON_ELLIPSE: {
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Ellipse ellipse = new Ellipse(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
@@ -834,6 +799,18 @@ public class DrawingPanel extends JPanel {
                         ellipse.saveCoordinates();
                     }
                     repaint();
+                    break;
+                }
+                case DRAWING_SHAPE_STAR: {
+                    // Work later
+                    break;
+                }
+                case DRAWING_SHAPE_DIAMOND: {
+                    // Work later
+                    break;
+                }
+                case DRAWING_SHAPE_ARROW: {
+                    // Work later
                     break;
                 }
             }

@@ -1,8 +1,6 @@
 package model.shape2d;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import static java.lang.Math.abs;
 import java.util.ArrayList;
 import control.SettingConstants;
 import control.util.Ultility;
