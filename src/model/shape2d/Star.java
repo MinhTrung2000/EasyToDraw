@@ -218,5 +218,10 @@ public class Star extends Shape2D {
 
     @Override
     public void saveCoordinates() {
+        pointA.saveCoord(changedCoordOfBoard);
+        pointB.saveCoord(changedCoordOfBoard);
+        pointC.saveCoord(changedCoordOfBoard);
+        pointD.saveCoord(changedCoordOfBoard);
+        pointE.saveCoord(changedCoordOfBoard);
     }
 }

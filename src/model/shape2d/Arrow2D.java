@@ -22,8 +22,7 @@ import java.awt.Point;
                           *----+
                           G   end
 
-*/
-
+ */
 public class Arrow2D extends Shape2D {
 
     private Point2D pointA;
@@ -36,7 +35,7 @@ public class Arrow2D extends Shape2D {
 
     public Arrow2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        
+
         pointA = new Point2D();
         pointB = new Point2D();
         pointC = new Point2D();
@@ -48,22 +47,22 @@ public class Arrow2D extends Shape2D {
 
     public void setProperty(Point2D startPoint, Point2D endPoint) {
         centerPoint = Point2D.midPoint(startPoint, endPoint);
-        
+
         int dx = (int) (endPoint.coordX - startPoint.coordX) / 5;
         int dy = (int) (endPoint.coordY - startPoint.coordY) / 4;
-        
+
         pointA.setCoord(startPoint.coordX, startPoint.coordY + dy);
-        
-        pointB.setCoord(startPoint.coordX,startPoint.coordY + 3 * dy);
-        
+
+        pointB.setCoord(startPoint.coordX, startPoint.coordY + 3 * dy);
+
         pointC.setCoord(endPoint.coordX - dx, pointB.coordY);
-        
+
         pointD.setCoord(pointC.coordX, pointA.coordY);
-        
+
         pointE.setCoord(endPoint.coordX, startPoint.coordY + 2 * dy);
-        
+
         pointF.setCoord(pointD.coordX, startPoint.coordY);
-        
+
         pointG.setCoord(pointC.coordX, endPoint.coordY);
     }
 
@@ -99,7 +98,7 @@ public class Arrow2D extends Shape2D {
         Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).symOx();
         Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).symOx();
         Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        
+
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
         drawSegment(tempPointC, tempPointG);
@@ -118,14 +117,14 @@ public class Arrow2D extends Shape2D {
         Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).symOy();
         Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).symOy();
         Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        
+
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
         drawSegment(tempPointC, tempPointG);
         drawSegment(tempPointG, tempPointE);
         drawSegment(tempPointE, tempPointF);
         drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);    
+        drawSegment(tempPointD, tempPointA);
     }
 
     @Override
@@ -137,14 +136,14 @@ public class Arrow2D extends Shape2D {
         Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
         Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
         Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-        
+
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
         drawSegment(tempPointC, tempPointG);
         drawSegment(tempPointG, tempPointE);
         drawSegment(tempPointE, tempPointF);
         drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);        
+        drawSegment(tempPointD, tempPointA);
     }
 
     @Override
@@ -156,20 +155,20 @@ public class Arrow2D extends Shape2D {
         Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).move(vector);
         Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).move(vector);
         Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-        
+
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
         drawSegment(tempPointC, tempPointG);
         drawSegment(tempPointG, tempPointE);
         drawSegment(tempPointE, tempPointF);
         drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);               
+        drawSegment(tempPointD, tempPointA);
     }
 
     @Override
     public void drawVirtualRotation(double angle) {
         double totalAngle = this.rotatedAngle + angle;
-        
+
         Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
         Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
         Point2D tempPointC = pointC.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
@@ -177,18 +176,18 @@ public class Arrow2D extends Shape2D {
         Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
         Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
         Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).rotate(centerPoint, totalAngle);
-        
+
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
         drawSegment(tempPointC, tempPointG);
         drawSegment(tempPointG, tempPointE);
         drawSegment(tempPointE, tempPointF);
         drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);         
+        drawSegment(tempPointD, tempPointA);
     }
 
     @Override
-    public void savePointCoordinate(int coordX, int coordY) {
+    public void saveCoordinates() {
         pointA.saveCoord(changedCoordOfBoard);
         pointB.saveCoord(changedCoordOfBoard);
         pointC.saveCoord(changedCoordOfBoard);
