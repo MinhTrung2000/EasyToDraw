@@ -1458,11 +1458,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            SettingConstants.CoordinateMode currentDrawingMode
+            SettingConstants.CoordinateMode currCoordMode
                     = getDrawingPanel().getCoordinateMode();
 
             // If user click the same mode, do nothing
-            if (currentDrawingMode == this.selectedCoordMode) {
+            if (currCoordMode == this.selectedCoordMode) {
                 return;
             }
 
