@@ -2,7 +2,7 @@
 
 ### File operation
 
-- [ ] Process open, create new and save file.
+- [x] Process open, create new and save file.
 - [ ] Create a strict checking if any invalid input.
 
 ### Undo/Redo
@@ -16,17 +16,12 @@
 
 ### Tools
 
-- [ ] Color picker
-- [ ] Color filler
-- [ ] Clear all board
+- [x] Color picker
+- [x] Color filler
+- [x] Clear all board
 - [ ] Erase
 - [ ] Rectangle selection
 - [ ] Do animation stuff
-
-### Color choosing
-
-- [ ] Optimation for algorithm.
-- [ ] Set color choosed by click at available squares.
 
 ### Coordinate mode
 
@@ -35,7 +30,7 @@
 
 ### Drawing
 
-- [ ] Drawing ability for each shape.
+- [x] Drawing ability for each shape.
 
 ### Transformation
 
@@ -44,4 +39,4 @@
 
 ### Tool tip showing
 
-- [x] Create a small tool tip at bottom status bar for helping. (by Minh Trung)
+- [x] Create a small tool tip at bottom status bar for helping.

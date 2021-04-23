@@ -876,6 +876,7 @@ public class MainFrame extends javax.swing.JFrame {
         label_SizeLine.setText("Size:");
 
         spinner_SizeLize.setToolTipText("Choose line size");
+        spinner_SizeLize.setEnabled(false);
         spinner_SizeLize.setFocusable(false);
         spinner_SizeLize.setRequestFocusEnabled(false);
 
@@ -931,10 +932,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
+        button_Eraser.setEnabled(false);
         button_Eraser.setFocusable(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
         button_Select.setToolTipText("Select");
+        button_Select.setEnabled(false);
         button_Select.setFocusable(false);
 
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N

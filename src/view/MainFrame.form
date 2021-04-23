@@ -534,6 +534,7 @@
             <Component class="javax.swing.JSpinner" name="spinner_SizeLize">
               <Properties>
                 <Property name="toolTipText" type="java.lang.String" value="Choose line size"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
                 <Property name="requestFocusEnabled" type="boolean" value="false"/>
               </Properties>
@@ -636,6 +637,7 @@
                   <Image iconType="3" name="/img/eraser.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Eraser"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -645,6 +647,7 @@
                   <Image iconType="3" name="/img/select.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Select"/>
+                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
