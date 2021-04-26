@@ -1089,6 +1089,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_8.setOpaque(true);
 
         button_ColorChooser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorChooser.png"))); // NOI18N
+        button_ColorChooser.setText("Edit");
         button_ColorChooser.setToolTipText("Color chooser");
         button_ColorChooser.setFocusable(false);
         button_ColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1222,6 +1223,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Shape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Transform_Rotation.png"))); // NOI18N
+        button_Transform.setEnabled(false);
         button_Transform.setFocusable(false);
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
