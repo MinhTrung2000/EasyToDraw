@@ -383,7 +383,7 @@ public class MainFrame extends javax.swing.JFrame {
      * @param toolMode
      */
     private void setSelectedToolMode(SettingConstants.DrawingToolMode toolMode) {
-        label_ToolMode.setText(toolMode.toString());
+     //   label_ToolMode.setText(toolMode.toString());
 
         if (toolMode.toolTip.compareTo("") != 0) {
             showTooltip(toolMode.toolTip);
@@ -412,6 +412,9 @@ public class MainFrame extends javax.swing.JFrame {
 
                     Color selectedColor = eyeDroper.getModel().getSelectedColor();
                     getDrawingPanel().setSelectedColor(selectedColor);
+                    
+                    button_CurrentColor.setBackground(selectedColor);
+                    
                     button_ColorSave_8.setBackground(selectedColor);
 
                     button_ColorPicker.setSelected(false);
@@ -466,13 +469,18 @@ public class MainFrame extends javax.swing.JFrame {
      * User color option event handling.
      */
     private void setEventHandlingColorOption() {
+        //khởi tạo
+        for (int j = 0; j < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; j++) {
+             savedColorButtonList[j].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[j]));
+        }
+        
         button_ColorChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 Color selectedColor = JColorChooser.showDialog(null, "Choose color", Color.BLACK);
 
                 getDrawingPanel().setSelectedColor(selectedColor);
-
+                button_CurrentColor.setBackground(selectedColor);
                 //Check if it's already in the list
                 for (int i = 0; i < DEFAULT_SAVED_COLOR_NUMBER; i++) {
                     if (savedColorButtonList[i].getBackground().equals(selectedColor)) {
@@ -698,10 +706,6 @@ public class MainFrame extends javax.swing.JFrame {
         jSeparator10 = new javax.swing.JSeparator();
         jSeparator11 = new javax.swing.JSeparator();
         jSeparator12 = new javax.swing.JSeparator();
-        jSeparator13 = new javax.swing.JSeparator();
-        label_CurrentTool = new javax.swing.JLabel();
-        jSeparator14 = new javax.swing.JSeparator();
-        label_ToolMode = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         panel_Control = new javax.swing.JPanel();
         panel_View = new javax.swing.JPanel();
@@ -730,6 +734,9 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_7 = new javax.swing.JButton();
         button_ColorSave_8 = new javax.swing.JButton();
         button_ColorChooser = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        button_CurrentColor = new javax.swing.JButton();
+        label_CurrentColor = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         panel_Drawing = new javax.swing.JPanel();
         panel_DrawingTool = new javax.swing.JPanel();
@@ -1059,18 +1066,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         jSeparator12.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
-        jSeparator13.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        label_CurrentTool.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
-        label_CurrentTool.setForeground(new java.awt.Color(160, 160, 160));
-        label_CurrentTool.setText("Current tool:");
-
-        jSeparator14.setOrientation(javax.swing.SwingConstants.VERTICAL);
-
-        label_ToolMode.setFont(new java.awt.Font("Tahoma", 1, 15)); // NOI18N
-        label_ToolMode.setForeground(new java.awt.Color(255, 0, 0));
-        label_ToolMode.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
         javax.swing.GroupLayout panel_OperationLayout = new javax.swing.GroupLayout(panel_Operation);
         panel_Operation.setLayout(panel_OperationLayout);
         panel_OperationLayout.setHorizontalGroup(
@@ -1094,21 +1089,13 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jSeparator11, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button_Redo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(218, 218, 218)
-                .addComponent(jSeparator13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(label_CurrentTool)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label_ToolMode, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator14, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_OperationLayout.setVerticalGroup(
             panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_OperationLayout.createSequentialGroup()
                 .addGroup(panel_OperationLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button_SaveFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(button_SaveFile, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                     .addComponent(button_Undo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_OpenFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(1, 1, 1))
@@ -1120,11 +1107,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jSeparator9, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator10, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jSeparator11)
-                    .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator13)
-                    .addComponent(jSeparator14, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(label_CurrentTool, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
-                    .addComponent(label_ToolMode, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jSeparator12, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -1218,29 +1201,29 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_ColorPicker.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/colorpicker.png"))); // NOI18N
         button_ColorPicker.setToolTipText("Color picker");
-        button_ColorPicker.setFocusable(false);
+        button_ColorPicker.setFocusPainted(false);
 
         button_FillColor.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fillColor.png"))); // NOI18N
         button_FillColor.setToolTipText("Fill");
-        button_FillColor.setFocusable(false);
+        button_FillColor.setFocusPainted(false);
 
         button_ClearAll.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clearAll.png"))); // NOI18N
         button_ClearAll.setToolTipText("Clear");
-        button_ClearAll.setFocusable(false);
+        button_ClearAll.setFocusPainted(false);
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
         button_Eraser.setEnabled(false);
-        button_Eraser.setFocusable(false);
+        button_Eraser.setFocusPainted(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
         button_Select.setToolTipText("Select");
         button_Select.setEnabled(false);
-        button_Select.setFocusable(false);
+        button_Select.setFocusPainted(false);
 
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N
         button_Animation.setToolTipText("Animations");
-        button_Animation.setFocusable(false);
+        button_Animation.setFocusPainted(false);
 
         javax.swing.GroupLayout panel_ToolLayout = new javax.swing.GroupLayout(panel_Tool);
         panel_Tool.setLayout(panel_ToolLayout);
@@ -1344,12 +1327,44 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorChooser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_ColorChooser.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        jPanel1.setBackground(new java.awt.Color(201, 224, 247));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(98, 162, 228)));
+
+        button_CurrentColor.setBackground(new java.awt.Color(0, 0, 0));
+        button_CurrentColor.setContentAreaFilled(false);
+        button_CurrentColor.setOpaque(true);
+
+        label_CurrentColor.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_CurrentColor.setText("Current color");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(label_CurrentColor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(button_CurrentColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(button_CurrentColor, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label_CurrentColor)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout panel_ColorLayout = new javax.swing.GroupLayout(panel_Color);
         panel_Color.setLayout(panel_ColorLayout);
         panel_ColorLayout.setHorizontalGroup(
             panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_ColorLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_ColorLayout.createSequentialGroup()
                         .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1367,7 +1382,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(button_ColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -1375,24 +1390,24 @@ public class MainFrame extends javax.swing.JFrame {
             panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_ColorLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panel_ColorLayout.createSequentialGroup()
-                        .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel_ColorLayout.createSequentialGroup()
-                        .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(button_ColorSave_4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(button_ColorSave_2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(button_ColorSave_2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_ColorSave_4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button_ColorSave_3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(button_ColorSave_6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panel_ColorLayout.createSequentialGroup()
+                        .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(15, 15, 15))
         );
 
@@ -1409,7 +1424,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(panel_Tool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_Color, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addContainerGap())
         );
         panel_ControlLayout.setVerticalGroup(
             panel_ControlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1456,23 +1471,23 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Line_Segment.png"))); // NOI18N
-        button_Line.setFocusable(false);
+        button_Line.setFocusPainted(false);
         button_Line.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Line.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Polygon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Polygon_Polygon.png"))); // NOI18N
         button_Polygon.setBorder(null);
-        button_Polygon.setFocusable(false);
+        button_Polygon.setFocusPainted(false);
         button_Polygon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Polygon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Shape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Shape_Star.png"))); // NOI18N
-        button_Shape.setFocusable(false);
+        button_Shape.setFocusPainted(false);
         button_Shape.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Shape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Transform_Rotation.png"))); // NOI18N
-        button_Transform.setFocusable(false);
+        button_Transform.setFocusPainted(false);
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
@@ -1691,6 +1706,7 @@ public class MainFrame extends javax.swing.JFrame {
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
                 hideTooltip();
+                this.button.requestFocus();
             }
         }
 
@@ -1773,6 +1789,7 @@ public class MainFrame extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             ((DrawingPanel) panel_DrawingArea).setSelectedColor(button.getBackground());
+            button_CurrentColor.setBackground(button.getBackground());
         }
     }
 
@@ -1814,7 +1831,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .getResource(this.icon32pxPath))
             );
             setSelectedToolMode(this.selectedMode);
-
+            this.button.requestFocus();
             promptTranformInput(selectedMode);
         }
     }
@@ -1955,6 +1972,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_ColorSave_7;
     private javax.swing.JButton button_ColorSave_8;
     private javax.swing.JButton button_CreateNewFile;
+    private javax.swing.JButton button_CurrentColor;
     private javax.swing.JButton button_Eraser;
     private javax.swing.JButton button_FillColor;
     private javax.swing.JButton button_Line;
@@ -1977,12 +1995,11 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
     private javax.swing.JSeparator jSeparator12;
-    private javax.swing.JSeparator jSeparator13;
-    private javax.swing.JSeparator jSeparator14;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator8;
@@ -1997,11 +2014,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel labelSymmetryInput;
     private javax.swing.JLabel label_CoordIcon;
     private javax.swing.JLabel label_CoordValue;
-    private javax.swing.JLabel label_CurrentTool;
+    private javax.swing.JLabel label_CurrentColor;
     private javax.swing.JLabel label_Pixel;
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
-    private javax.swing.JLabel label_ToolMode;
     private javax.swing.JLabel label_ToolTip;
     private javax.swing.JMenuItem menuItem_Arrow;
     private javax.swing.JMenuItem menuItem_Circle;
