@@ -33,6 +33,8 @@ import javax.swing.UIManager;
 import static control.SettingConstants.*;
 import control.io.FileHandle;
 import java.awt.AWTException;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -49,7 +51,7 @@ public class MainFrame extends javax.swing.JFrame {
      * Number of saved color.
      */
     private int savedColorNumber;
-    
+
     private JButton[] savedColorButtonList;
 
     public MainFrame() {
@@ -382,18 +384,19 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private void setSelectedToolMode(SettingConstants.DrawingToolMode toolMode) {
         label_ToolMode.setText(toolMode.toString());
+
         if (toolMode.toolTip.compareTo("") != 0) {
             showTooltip(toolMode.toolTip);
         }
 
-        SettingConstants.DrawingToolMode selectedButtonMode
+        SettingConstants.DrawingToolMode selectedDrawingToolMode
                 = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
 
-        if (selectedButtonMode == toolMode) {
+        if (selectedDrawingToolMode == toolMode) {
             return;
         }
 
-        ((DrawingPanel) panel_DrawingArea).setSelectedButtonMode(toolMode);
+        ((DrawingPanel) panel_DrawingArea).setSelectedToolMode(toolMode);
     }
 
     /**
@@ -614,6 +617,8 @@ public class MainFrame extends javax.swing.JFrame {
                 "/img/Transform_Symmetry.png",
                 button_Transform)
         );
+
+        customizeDialog();
     }
 
     /**
@@ -654,6 +659,35 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Transform = new javax.swing.JPopupMenu();
         menuItem_Rotation = new javax.swing.JMenuItem();
         menuItem_Symmetry = new javax.swing.JMenuItem();
+        dialogRotation2DInput = new javax.swing.JDialog();
+        labelCenterpointRotationINput = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        textfCenterPointCoordX = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        textfCenterPointCoordY = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        textfAngle = new javax.swing.JTextField();
+        btnRotationOK = new javax.swing.JButton();
+        btnRotationCancel = new javax.swing.JButton();
+        dialogSymmetry2DInput = new javax.swing.JDialog();
+        labelChooseObjectSymmetry = new javax.swing.JLabel();
+        combObjectSymmetry = new javax.swing.JComboBox<>();
+        panelInner = new javax.swing.JPanel();
+        innerPanelPointSymmetryInput = new javax.swing.JPanel();
+        labelPointSymmetryInputCoordX = new javax.swing.JLabel();
+        labelPointSymmetryInputCoordY = new javax.swing.JLabel();
+        textfPointSymmetryInputCoordX = new javax.swing.JTextField();
+        textfPointSymmetryInputCoordY = new javax.swing.JTextField();
+        innerPanelLineSymmetryInput = new javax.swing.JPanel();
+        labelLineSymmetryInputCoeffA = new javax.swing.JLabel();
+        textfLineSymmetryInputCoeffA = new javax.swing.JTextField();
+        labelLineSymmetryInputCoeffB = new javax.swing.JLabel();
+        textfLineSymmetryInputCoeffB = new javax.swing.JTextField();
+        labelLineSymmetryInputCoeffC = new javax.swing.JLabel();
+        textfLineSymmetryInputCoeffC = new javax.swing.JTextField();
+        labelSymmetryInput = new javax.swing.JLabel();
+        btnSymmetryOK = new javax.swing.JButton();
+        btnSymmetryCancel = new javax.swing.JButton();
         panel_Operation = new javax.swing.JPanel();
         button_OpenFile = new javax.swing.JButton();
         button_CreateNewFile = new javax.swing.JButton();
@@ -753,6 +787,221 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuItem_Symmetry.setText("jMenuItem1");
         popMenu_Transform.add(menuItem_Symmetry);
+
+        dialogRotation2DInput.setModal(true);
+        dialogRotation2DInput.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
+        dialogRotation2DInput.setResizable(false);
+
+        labelCenterpointRotationINput.setText("Center-point coordinate:");
+
+        jLabel2.setText("X:");
+
+        jLabel3.setText("Y:");
+
+        jLabel4.setText("Angle (decimal):");
+
+        btnRotationOK.setText("OK");
+
+        btnRotationCancel.setText("Cancel");
+
+        javax.swing.GroupLayout dialogRotation2DInputLayout = new javax.swing.GroupLayout(dialogRotation2DInput.getContentPane());
+        dialogRotation2DInput.getContentPane().setLayout(dialogRotation2DInputLayout);
+        dialogRotation2DInputLayout.setHorizontalGroup(
+            dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                        .addComponent(labelCenterpointRotationINput)
+                        .addGap(27, 27, 27)
+                        .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogRotation2DInputLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(42, 42, 42)
+                                .addComponent(textfCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogRotation2DInputLayout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(42, 42, 42)
+                                .addComponent(textfCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(textfAngle, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(114, 114, 114))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dialogRotation2DInputLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnRotationOK, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnRotationCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        dialogRotation2DInputLayout.setVerticalGroup(
+            dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                        .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(textfCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(textfCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(dialogRotation2DInputLayout.createSequentialGroup()
+                        .addComponent(labelCenterpointRotationINput)
+                        .addGap(63, 63, 63)
+                        .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4)
+                            .addComponent(textfAngle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialogRotation2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRotationCancel)
+                    .addComponent(btnRotationOK))
+                .addContainerGap())
+        );
+
+        dialogSymmetry2DInput.setResizable(false);
+
+        labelChooseObjectSymmetry.setText("Choose object:");
+
+        combObjectSymmetry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "O(0, 0)", "Ox", "Oy", "Point", "Line" }));
+
+        panelInner.setLayout(new java.awt.CardLayout());
+
+        labelPointSymmetryInputCoordX.setText("X coordinate:");
+
+        labelPointSymmetryInputCoordY.setText("Y coordinate:");
+
+        javax.swing.GroupLayout innerPanelPointSymmetryInputLayout = new javax.swing.GroupLayout(innerPanelPointSymmetryInput);
+        innerPanelPointSymmetryInput.setLayout(innerPanelPointSymmetryInputLayout);
+        innerPanelPointSymmetryInputLayout.setHorizontalGroup(
+            innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
+                .addGap(63, 63, 63)
+                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(labelPointSymmetryInputCoordX)
+                    .addComponent(labelPointSymmetryInputCoordY))
+                .addGap(38, 38, 38)
+                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(textfPointSymmetryInputCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textfPointSymmetryInputCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(194, Short.MAX_VALUE))
+        );
+        innerPanelPointSymmetryInputLayout.setVerticalGroup(
+            innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPointSymmetryInputCoordX)
+                    .addComponent(textfPointSymmetryInputCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelPointSymmetryInputCoordY)
+                    .addComponent(textfPointSymmetryInputCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
+        );
+
+        panelInner.add(innerPanelPointSymmetryInput, "card2");
+
+        innerPanelLineSymmetryInput.setPreferredSize(new java.awt.Dimension(441, 177));
+
+        labelLineSymmetryInputCoeffA.setText("A coefficient:");
+
+        labelLineSymmetryInputCoeffB.setText("B coefficient:");
+
+        labelLineSymmetryInputCoeffC.setText("C coefficient:");
+
+        labelSymmetryInput.setText("Line: Ax + By = C");
+
+        javax.swing.GroupLayout innerPanelLineSymmetryInputLayout = new javax.swing.GroupLayout(innerPanelLineSymmetryInput);
+        innerPanelLineSymmetryInput.setLayout(innerPanelLineSymmetryInputLayout);
+        innerPanelLineSymmetryInputLayout.setHorizontalGroup(
+            innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(labelSymmetryInput))
+                    .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                                .addComponent(labelLineSymmetryInputCoeffA)
+                                .addGap(35, 35, 35)
+                                .addComponent(textfLineSymmetryInputCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                                .addComponent(labelLineSymmetryInputCoeffB)
+                                .addGap(35, 35, 35)
+                                .addComponent(textfLineSymmetryInputCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                                .addComponent(labelLineSymmetryInputCoeffC)
+                                .addGap(35, 35, 35)
+                                .addComponent(textfLineSymmetryInputCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(179, Short.MAX_VALUE))
+        );
+        innerPanelLineSymmetryInputLayout.setVerticalGroup(
+            innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(labelSymmetryInput)
+                .addGap(18, 18, 18)
+                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelLineSymmetryInputCoeffA)
+                    .addComponent(textfLineSymmetryInputCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelLineSymmetryInputCoeffB)
+                    .addComponent(textfLineSymmetryInputCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelLineSymmetryInputCoeffC)
+                    .addComponent(textfLineSymmetryInputCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        panelInner.add(innerPanelLineSymmetryInput, "card3");
+
+        btnSymmetryOK.setText("Ok");
+
+        btnSymmetryCancel.setText("Cancel");
+
+        javax.swing.GroupLayout dialogSymmetry2DInputLayout = new javax.swing.GroupLayout(dialogSymmetry2DInput.getContentPane());
+        dialogSymmetry2DInput.getContentPane().setLayout(dialogSymmetry2DInputLayout);
+        dialogSymmetry2DInputLayout.setHorizontalGroup(
+            dialogSymmetry2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogSymmetry2DInputLayout.createSequentialGroup()
+                .addGroup(dialogSymmetry2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(dialogSymmetry2DInputLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(labelChooseObjectSymmetry)
+                        .addGap(29, 29, 29)
+                        .addComponent(combObjectSymmetry, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(dialogSymmetry2DInputLayout.createSequentialGroup()
+                        .addGap(296, 296, 296)
+                        .addComponent(btnSymmetryOK, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(38, 38, 38)
+                        .addComponent(btnSymmetryCancel))
+                    .addGroup(dialogSymmetry2DInputLayout.createSequentialGroup()
+                        .addGap(24, 24, 24)
+                        .addComponent(panelInner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(27, 27, 27))
+        );
+        dialogSymmetry2DInputLayout.setVerticalGroup(
+            dialogSymmetry2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialogSymmetry2DInputLayout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addGroup(dialogSymmetry2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(labelChooseObjectSymmetry)
+                    .addComponent(combObjectSymmetry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(panelInner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(dialogSymmetry2DInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSymmetryOK)
+                    .addComponent(btnSymmetryCancel))
+                .addContainerGap())
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SketchPoint");
@@ -1223,7 +1472,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_Shape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Transform.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Transform_Rotation.png"))); // NOI18N
-        button_Transform.setEnabled(false);
         button_Transform.setFocusable(false);
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -1440,7 +1688,6 @@ public class MainFrame extends javax.swing.JFrame {
 
                         break;
                 }
-                //  setSelectedToolMode(savedMode);    
             } else if (SwingUtilities.isRightMouseButton(event)) {
                 Ultility.showPopMenuOfButton(this.button, this.popMenu);
                 hideTooltip();
@@ -1534,7 +1781,6 @@ public class MainFrame extends javax.swing.JFrame {
      */
     private class CustomMenuItemChooseAction implements ActionListener {
 
-        //   private SettingConstants.DrawingToolMode savedMode;
         private SettingConstants.DrawingToolMode selectedMode;
         private String icon32pxPath;
         private JButton button;
@@ -1542,7 +1788,6 @@ public class MainFrame extends javax.swing.JFrame {
         public CustomMenuItemChooseAction(SettingConstants.DrawingToolMode savedMode,
                 SettingConstants.DrawingToolMode selectedMode, String icon32pxPath,
                 JButton button) {
-            //  this.savedMode = savedMode;
             this.selectedMode = selectedMode;
             this.icon32pxPath = icon32pxPath;
             this.button = button;
@@ -1550,9 +1795,11 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            //     this.savedMode = this.selectedMode;
             String type = this.selectedMode.name().substring(8, 11);
             switch (type) {
+                case "LIN":
+                    savedLineMode = this.selectedMode;
+                    break;
                 case "POL":
                     savedPolygonMode = this.selectedMode;
                     break;
@@ -1562,16 +1809,52 @@ public class MainFrame extends javax.swing.JFrame {
                 case "TRA":
                     savedTransformMode = this.selectedMode;
                     break;
-                case "LIN":
-                    savedLineMode = this.selectedMode;
-                    break;
             }
             this.button.setIcon(new ImageIcon(getClass()
                     .getResource(this.icon32pxPath))
             );
-//          setSelectedToolMode(this.savedMode);       
             setSelectedToolMode(this.selectedMode);
 
+            promptTranformInput(selectedMode);
+        }
+    }
+
+    public void promptTranformInput(DrawingToolMode toolMode) {
+        switch (toolMode) {
+            case DRAWING_TRANSFORM_ROTATION: {
+//                dialogRotation2DInput.setModal(true);
+                dialogRotation2DInput.setVisible(true);
+                break;
+            }
+            case DRAWING_TRANSFORM_SYMMETRY: {
+                dialogSymmetry2DInput.setVisible(true);
+                break;
+            }
+        }
+    }
+
+    private void customizeDialog() {
+        dialogRotation2DInput.setLocationRelativeTo(this);
+        dialogRotation2DInput.getContentPane().addPropertyChangeListener(new CustomDialogRotationInput());
+        
+        dialogSymmetry2DInput.setLocationRelativeTo(this);
+        dialogSymmetry2DInput.getContentPane().addPropertyChangeListener(new CustomDialogSymmetryInput());
+    }
+
+    private class CustomDialogRotationInput implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+//            dialogRotation2DInput.setVisible(true);
+        }
+
+    }
+
+    private class CustomDialogSymmetryInput implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+//            dialogSymmetry2DInput.setVisible(true);
         }
 
     }
@@ -1652,6 +1935,10 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSeparator Seperator;
+    private javax.swing.JButton btnRotationCancel;
+    private javax.swing.JButton btnRotationOK;
+    private javax.swing.JButton btnSymmetryCancel;
+    private javax.swing.JButton btnSymmetryOK;
     private javax.swing.ButtonGroup buttonGroup_CoordMode;
     private javax.swing.JRadioButton button_2DMode;
     private javax.swing.JRadioButton button_3DMode;
@@ -1681,7 +1968,15 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_Undo;
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
+    private javax.swing.JComboBox<String> combObjectSymmetry;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
+    private javax.swing.JDialog dialogRotation2DInput;
+    private javax.swing.JDialog dialogSymmetry2DInput;
+    private javax.swing.JPanel innerPanelLineSymmetryInput;
+    private javax.swing.JPanel innerPanelPointSymmetryInput;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
     private javax.swing.JSeparator jSeparator11;
@@ -1692,6 +1987,14 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JSeparator jSeparator9;
+    private javax.swing.JLabel labelCenterpointRotationINput;
+    private javax.swing.JLabel labelChooseObjectSymmetry;
+    private javax.swing.JLabel labelLineSymmetryInputCoeffA;
+    private javax.swing.JLabel labelLineSymmetryInputCoeffB;
+    private javax.swing.JLabel labelLineSymmetryInputCoeffC;
+    private javax.swing.JLabel labelPointSymmetryInputCoordX;
+    private javax.swing.JLabel labelPointSymmetryInputCoordY;
+    private javax.swing.JLabel labelSymmetryInput;
     private javax.swing.JLabel label_CoordIcon;
     private javax.swing.JLabel label_CoordValue;
     private javax.swing.JLabel label_CurrentTool;
@@ -1712,6 +2015,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItem_Star;
     private javax.swing.JMenuItem menuItem_Symmetry;
     private javax.swing.JMenuItem menuItem_Triangle;
+    private javax.swing.JPanel panelInner;
     private javax.swing.JPanel panel_Color;
     private javax.swing.JPanel panel_Control;
     private javax.swing.JPanel panel_CoordinateCursor;
@@ -1729,5 +2033,13 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popMenu_Shape;
     private javax.swing.JPopupMenu popMenu_Transform;
     private javax.swing.JSpinner spinner_SizeLize;
+    private javax.swing.JTextField textfAngle;
+    private javax.swing.JTextField textfCenterPointCoordX;
+    private javax.swing.JTextField textfCenterPointCoordY;
+    private javax.swing.JTextField textfLineSymmetryInputCoeffA;
+    private javax.swing.JTextField textfLineSymmetryInputCoeffB;
+    private javax.swing.JTextField textfLineSymmetryInputCoeffC;
+    private javax.swing.JTextField textfPointSymmetryInputCoordX;
+    private javax.swing.JTextField textfPointSymmetryInputCoordY;
     // End of variables declaration//GEN-END:variables
 }

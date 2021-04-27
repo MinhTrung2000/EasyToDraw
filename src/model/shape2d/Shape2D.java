@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import control.SettingConstants;
 import control.util.Ultility;
 
-public class Shape2D {
+public abstract class Shape2D {
 
     /**
      * Default initial angle of shape.
@@ -57,6 +57,11 @@ public class Shape2D {
      */
     protected int pixelCounter;
 
+    protected Point2D startPoint;
+    protected Point2D endPoint;
+
+//    protected ArrayList<Point2D> pointSet = new ArrayList<>();
+
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         this.markedChangeOfBoard = markedChangeOfBoard;
@@ -71,6 +76,26 @@ public class Shape2D {
         centerPoint = new Point2D(0, 0);
 
         pixelCounter = 0;
+
+        startPoint = new Point2D();
+        endPoint = new Point2D();
+    }
+
+    protected void normalizeStartEndPoint() {
+        int minX = Math.min(this.startPoint.coordX, this.endPoint.coordX);
+        int maxX = Math.max(this.startPoint.coordX, this.endPoint.coordX);
+        int minY = Math.min(this.startPoint.coordY, this.endPoint.coordY);
+        int maxY = Math.max(this.startPoint.coordY, this.endPoint.coordY);
+        this.startPoint.setCoord(minX, maxY);
+        this.endPoint.setCoord(maxX, minY);
+    }
+    
+    public Point2D getStartPoint() {
+        return this.startPoint;
+    }
+
+    public Point2D getEndPoint() {
+        return this.endPoint;
     }
 
     public void setLineStyle(SettingConstants.LineStyle lineStyle) {
@@ -80,6 +105,8 @@ public class Shape2D {
     public void setFilledColor(Color filledColor) {
         this.filledColor = filledColor;
     }
+
+    public abstract void setProperty(Point2D startPoint, Point2D endPoint);
 
     /**
      * Draw a segment from startPoint to endPoint by using Bresenham algorithm.
@@ -191,9 +218,7 @@ public class Shape2D {
         }
     }
 
-    public void drawOutline() {
-
-    }
+    public abstract void drawOutline();
 
     public void draw() {
         drawOutline();
@@ -209,15 +234,12 @@ public class Shape2D {
      */
     protected void savePointCoordinate(int coordX, int coordY) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
-//            System.out.println("main.Shape2D.savePointCoordinate(" + coordX + ", " + coordY +")");
             markedChangeOfBoard[coordY][coordX] = true;
             changedColorOfBoard[coordY][coordX] = filledColor;
         }
     }
 
-    public void saveCoordinates() {
-
-    }
+    public abstract void saveCoordinates();
 
     /**
      * Mark the point in array and it's color if it can be put at the board with
@@ -262,31 +284,25 @@ public class Shape2D {
         savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
     }
 
+    public abstract void drawVirtualRotation(Point2D centerPoint, double angle);
+
     public void drawVirtualRotation(double angle) {
-
+        drawVirtualRotation(this.centerPoint, angle);
     }
 
-    public void drawVirtualMove(Vector2D vector) {
-
-    }
+    public abstract void drawVirtualMove(Vector2D vector);
 
     public void applyRotation(double angle) {
         this.rotatedAngle += angle;
     }
 
-    public void applyMove(Vector2D vector) {
+    public abstract void applyMove(Vector2D vector);
 
-    }
+    public abstract void drawOXSymmetry();
 
-    public void drawOXSymmetry() {
+    public abstract void drawOYSymmetry();
 
-    }
-
-    public void drawOYSymmetry() {
-
-    }
-
-    public void drawPointSymmetry(Point2D basePoint) {
-
-    }
+    public abstract void drawPointSymmetry(Point2D basePoint);
+    
+    public abstract void drawLineSymmetry(double a, double b, double c);
 }

@@ -53,6 +53,9 @@ public class DrawingPanel extends JPanel {
     // This array is used to mark the point is changed in an action.
     private boolean[][] markedChangeOfBoard;
 
+    // Recent drawn shape 2d
+    private Shape2D recentShape;
+
     /**
      * Undo stack of coordinate
      */
@@ -133,6 +136,8 @@ public class DrawingPanel extends JPanel {
         selectedLineStyle = SettingConstants.LineStyle.DEFAULT;
         selectedLineSize = SettingConstants.DEFAULT_LINE_SIZE;
 
+        recentShape = null;
+
         resetChangedPropertyArray();
         resetSavedPropertyArray();
 
@@ -195,7 +200,7 @@ public class DrawingPanel extends JPanel {
      *
      * @param selectedToolMode
      */
-    public void setSelectedButtonMode(SettingConstants.DrawingToolMode selectedToolMode) {
+    public void setSelectedToolMode(SettingConstants.DrawingToolMode selectedToolMode) {
         this.selectedToolMode = selectedToolMode;
     }
 
@@ -601,6 +606,60 @@ public class DrawingPanel extends JPanel {
         return (startDrawingPoint.getCoordX() != -1 && startDrawingPoint.getCoordY() != -1);
     }
 
+    public void paintRotation(Point2D centerPoint, double angle) {
+        if (recentShape == null) {
+            return;
+        }
+
+        recentShape.drawVirtualRotation(centerPoint, angle);
+        apply();
+        repaint();
+    }
+
+    public void paintCenterOSymmetry() {
+        if (recentShape == null) {
+            return;
+        }
+
+        recentShape.drawPointSymmetry(new Point2D(0, 0));
+        apply();
+        repaint();
+    }
+
+    public void paintOXSymmetry() {
+        if (recentShape == null) {
+            return;
+        }
+
+        recentShape.drawOXSymmetry();
+        apply();
+        repaint();
+    }
+
+    public void paintOYSymmetry() {
+        if (recentShape == null) {
+            return;
+        }
+
+        recentShape.drawOYSymmetry();
+        apply();
+        repaint();
+    }
+
+    public void paintViaPointSymmetry(Point2D centerPoint) {
+        if (recentShape == null) {
+            return;
+        }
+
+        recentShape.drawPointSymmetry(centerPoint);
+        apply();
+        repaint();
+    }
+    
+    public void paintViaLineSymmetry(double a, double b, double c) {
+        
+    }
+
     private class CustomMouseClickHandling implements MouseListener {
 
         /*
@@ -624,29 +683,20 @@ public class DrawingPanel extends JPanel {
 
             setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
 
-//            SettingConstants.DrawingToolMode selectedTool = getSelectedToolMode();
             resetChangedPropertyArray();
 
             switch (selectedToolMode) {
                 case DRAWING_LINE_FREE: {
-                    //   setEndDrawingPoint(event.getX() / Settings.RECT_SIZE, event.getY() / Settings.RECT_SIZE);
-                    //    setStartDrawingPoint(endDrawingPoint.getCoordX(), endDrawingPoint.getCoordY());
-
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
-
                     startDrawingPoint.saveCoord(coordOfBoard);
-
                     repaint();
                     break;
                 }
                 case TOOL_COLOR_FILLER: {
                     copyColorValue(colorOfBoard, changedColorOfBoard, true);
-
                     Point2D currentMousePos = new Point2D();
-
                     currentMousePos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
-
                     Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
                     repaint();
                     break;
@@ -664,40 +714,6 @@ public class DrawingPanel extends JPanel {
 
             apply();
             repaint();
-//            switch (selectedToolMode) {
-//                case DRAWING_LINE_SEGMENT: {
-//                    apply();
-//                    repaint();
-//
-//                    break;
-//                }
-//                case DRAWING_LINE_STRAIGHT: {
-//                    break;
-//                }
-//                case DRAWING_POLYGON_ELLIPSE: {
-//                    apply();
-//                    repaint();
-//
-//                    break;
-//                }
-//                case DRAWING_POLYGON_TRIANGLE: {
-//                    apply();
-//                    repaint();
-//
-//                    break;
-//                }
-//                case DRAWING_POLYGON_RECTANGLE: {
-//                    apply();
-//                    repaint();
-//
-//                    break;
-//                }
-//                case TOOL_COLOR_FILLER: {
-//                    apply();
-//                    repaint();
-//                    break;
-//                }
-//            }
         }
 
         @Override
@@ -766,7 +782,7 @@ public class DrawingPanel extends JPanel {
                         }
                         triangle.setLineStyle(selectedLineStyle);
                         triangle.draw();
-                        triangle.saveCoordinate();
+                        triangle.saveCoordinates();
                     }
                     repaint();
                     break;
@@ -782,7 +798,7 @@ public class DrawingPanel extends JPanel {
                         }
                         rectangle.setLineStyle(selectedLineStyle);
                         rectangle.draw();
-                        rectangle.saveCoordinate();
+                        rectangle.saveCoordinates();
                     }
                     repaint();
                     break;

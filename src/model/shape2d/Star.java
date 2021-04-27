@@ -35,6 +35,9 @@ public class Star extends Shape2D {
     }
 
     public void setProperty(Point2D startPoint, Point2D endPoint) {
+        this.startPoint = startPoint;
+        this.endPoint = endPoint;
+
         centerPoint = Point2D.midPoint(startPoint, endPoint);
 
         pointA.setCoord(centerPoint.coordX, startPoint.coordY);
@@ -191,18 +194,18 @@ public class Star extends Shape2D {
     @Override
     public void drawVirtualRotation(double angle) {
         double totalAngle = this.rotatedAngle + angle;
-        
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempPointD = pointD.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
 
-        Point2D tempOpPointA = opPointA.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempOpPointB = opPointB.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempOpPointC = opPointC.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempOpPointD = opPointD.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
-        Point2D tempOpPointE = opPointE.createRotationPoint(centerPoint, rotatedAngle).rotate(totalAngle);
+        Point2D tempPointA = pointA.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempPointB = pointB.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempPointC = pointC.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempPointD = pointD.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempPointE = pointE.createRotationPoint(centerPoint, totalAngle);
+
+        Point2D tempOpPointA = opPointA.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempOpPointB = opPointB.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempOpPointC = opPointC.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempOpPointD = opPointD.createRotationPoint(centerPoint, totalAngle);
+        Point2D tempOpPointE = opPointE.createRotationPoint(centerPoint, totalAngle);
 
         drawSegment(tempPointA, tempOpPointD);
         drawSegment(tempOpPointD, tempPointB);
@@ -223,5 +226,61 @@ public class Star extends Shape2D {
         pointC.saveCoord(changedCoordOfBoard);
         pointD.saveCoord(changedCoordOfBoard);
         pointE.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void drawLineSymmetry(double a, double b, double c) {
+        Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempPointC = pointC.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempPointD = pointD.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+
+        Point2D tempOpPointA = opPointA.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempOpPointB = opPointB.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempOpPointC = opPointC.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempOpPointD = opPointD.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempOpPointE = opPointE.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+
+        drawSegment(tempPointA, tempOpPointD);
+        drawSegment(tempOpPointD, tempPointB);
+        drawSegment(tempPointB, tempOpPointE);
+        drawSegment(tempOpPointE, tempPointC);
+        drawSegment(tempPointC, tempOpPointA);
+        drawSegment(tempOpPointA, tempPointD);
+        drawSegment(tempPointD, tempOpPointB);
+        drawSegment(tempOpPointB, tempPointE);
+        drawSegment(tempPointE, tempOpPointC);
+        drawSegment(tempOpPointC, tempPointA);
+    }
+
+    @Override
+    public void drawVirtualRotation(Point2D centerPoint, double angle) {
+        Point2D tempCenterPoint = this.centerPoint.createRotationPoint(centerPoint, angle);
+
+        double totalAngle = this.rotatedAngle + angle;
+
+        Point2D tempPointA = pointA.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempPointB = pointB.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempPointC = pointC.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempPointD = pointD.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempPointE = pointE.createRotationPoint(tempCenterPoint, totalAngle);
+
+        Point2D tempOpPointA = opPointA.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempOpPointB = opPointB.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempOpPointC = opPointC.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempOpPointD = opPointD.createRotationPoint(tempCenterPoint, totalAngle);
+        Point2D tempOpPointE = opPointE.createRotationPoint(tempCenterPoint, totalAngle);
+
+        drawSegment(tempPointA, tempOpPointD);
+        drawSegment(tempOpPointD, tempPointB);
+        drawSegment(tempPointB, tempOpPointE);
+        drawSegment(tempOpPointE, tempPointC);
+        drawSegment(tempPointC, tempOpPointA);
+        drawSegment(tempOpPointA, tempPointD);
+        drawSegment(tempPointD, tempOpPointB);
+        drawSegment(tempOpPointB, tempPointE);
+        drawSegment(tempPointE, tempOpPointC);
+        drawSegment(tempOpPointC, tempPointA);
     }
 }

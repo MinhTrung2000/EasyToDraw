@@ -44,7 +44,7 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(double angle) {
+    public void drawVirtualRotation(Point2D centerPoint, double angle) {
         double totalAngle = this.rotatedAngle + angle;
 
         Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, totalAngle);
@@ -86,10 +86,10 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawOXSymmetry() {
-        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).createOXSymmetryPoint();
-        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).createOXSymmetryPoint();
-        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).createOXSymmetryPoint();
-        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).createOXSymmetryPoint();
+        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
+        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
+        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
+        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);
@@ -99,10 +99,10 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawOYSymmetry() {
-        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).createOYSymmetryPoint();
-        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).createOYSymmetryPoint();
-        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).createOYSymmetryPoint();
-        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).createOYSymmetryPoint();
+        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
+        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
+        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
+        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);
@@ -112,10 +112,23 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawPointSymmetry(Point2D basePoint) {
-        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).createSymmetryPoint(basePoint);
-        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).createSymmetryPoint(basePoint);
-        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).createSymmetryPoint(basePoint);
-        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).createSymmetryPoint(basePoint);
+        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
+        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
+        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
+        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
+
+        drawSegment(tempTopPoint, tempRightPoint);
+        drawSegment(tempRightPoint, tempBottomPoint);
+        drawSegment(tempBottomPoint, tempLeftPoint);
+        drawSegment(tempLeftPoint, tempTopPoint);
+    }
+
+    @Override
+    public void drawLineSymmetry(double a, double b, double c) {
+        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
+        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);

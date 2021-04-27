@@ -184,6 +184,25 @@ public class Point2D {
     }
 
     /**
+     * Create a copy symmetric point from Oy axis.
+     *
+     * @return
+     */
+    public Point2D createCenterOSymmetry() {
+        return new Point2D(-this.coordX, -this.coordY);
+    }
+
+    public Point2D createLineSymmetryPoint(double a, double b, double c) {
+        int intersectY = (int) ((-(b * this.coordX - a * this.coordY) * a - b * c) / (a * a + b * b));
+        int intersectX = (int) ((-b * intersectY - c) / a);
+
+        int newCoordX = 2 * intersectX - this.coordX;
+        int newCoordY = 2 * intersectY - this.coordY;
+
+        return new Point2D(newCoordX, newCoordY);
+    }
+
+    /**
      * Create a copy point moved by a vector.
      *
      * @param vector
@@ -236,6 +255,16 @@ public class Point2D {
     }
 
     /**
+     * Change this point symmetric through center O in place.
+     *
+     * @return
+     */
+    public Point2D symCenterO() {
+        setCoord(-this.coordX, -this.coordY);
+        return this;
+    }
+
+    /**
      * Change this point symmetric through another point in place.
      *
      * @param basePoint
@@ -249,25 +278,52 @@ public class Point2D {
     }
 
     /**
+     * Change this point symmetric through a line in place.
+     *
+     * @param a coefficient a
+     * @param b coefficient b
+     * @param c coefficient c
+     * @return
+     */
+    public Point2D symLine(double a, double b, double c) {
+        int intersectY = (int) ((-(b * this.coordX - a * this.coordY) * a - b * c) / (a * a + b * b));
+        int intersectX = (int) ((-b * intersectY - c) / a);
+
+        int newCoordX = 2 * intersectX - this.coordX;
+        int newCoordY = 2 * intersectY - this.coordY;
+        
+        setCoord(newCoordX, newCoordY);
+        return this;
+    }
+
+    /**
      * Get the middle point between two distinct points.
+     *
      * @param pointA
      * @param pointB
-     * @return 
+     * @return
      */
     public static Point2D midPoint(Point2D pointA, Point2D pointB) {
         Point2D midPoint = new Point2D();
         midPoint.setCoord(
-                (int) (pointA.coordX + pointB.coordX) / 2, 
+                (int) (pointA.coordX + pointB.coordX) / 2,
                 (int) (pointA.coordY + pointB.coordY) / 2
         );
         return midPoint;
     }
-    
+
     public String toString() {
         int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
         int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
 
         String result = "(" + x + ", " + y + ")";
         return result;
+    }
+    
+    public static void swap(Point2D pointA, Point2D pointB) {
+        Point2D temp = new Point2D();
+        temp.setCoord(pointA);
+        pointA.setCoord(pointB);
+        pointB.setCoord(temp);
     }
 }
