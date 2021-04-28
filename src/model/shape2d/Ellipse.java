@@ -35,27 +35,11 @@ public class Ellipse extends Shape2D {
             b = half_y;
 
         } else {
-            int heightValue = Math.abs(height);
-            int widthValue = Math.abs(width);
-            int preferedLength;
-            if (heightValue >= widthValue) {
-                preferedLength = widthValue;
-            } else {
-                preferedLength = heightValue;
-            }
-            int widthDirection;
-            if (width < 0) {
-                widthDirection = -1;
-            } else {
-                widthDirection = 1;
-            }
 
-            int heightDirection;
-            if (height < 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
+            int preferedLength = this.getPreferredLength(width, height);
+            int widthDirection = this.getWidthDirection(width);
+            int heightDirection = this.getHeightDirection(height);
+
             this.startPoint = startPoint;
             this.endPoint.setCoord(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
             a = preferedLength / 2;

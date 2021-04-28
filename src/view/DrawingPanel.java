@@ -863,7 +863,11 @@ public class DrawingPanel extends JPanel {
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Diamond diamond = new Diamond(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        diamond.setProperty(startDrawingPoint, endDrawingPoint);
+                        if(event.isShiftDown()){
+                            diamond.setProperty(startDrawingPoint, endDrawingPoint, Diamond.Modal.SQUARE_DIAMOND);
+                        } else {
+                            diamond.setProperty(startDrawingPoint, endDrawingPoint, Diamond.Modal.COMMON_DIAMOND);
+                        }
                         diamond.setLineStyle(selectedLineStyle);
                         diamond.draw();
                         diamond.saveCoordinates();

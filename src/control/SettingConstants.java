@@ -141,7 +141,7 @@ public interface SettingConstants {
             }
            
         },
-        DRAWING_SHAPE_DIAMOND("") {
+        DRAWING_SHAPE_DIAMOND("Press SHIFT to draw Square Diamond") {
             public String toString() {
                 return "DIAMOND";
             }

@@ -107,6 +107,33 @@ public abstract class Shape2D {
     }
 
     public abstract void setProperty(Point2D startPoint, Point2D endPoint);
+    
+    public int getWidthDirection(int width){
+        if (width < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+    
+    public int getHeightDirection(int height){
+        if (height < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+    
+    public int getPreferredLength(int width, int height){
+            int widthValue = Math.abs(width);
+            int heightValue = Math.abs(height);
+
+            if (widthValue >= heightValue) {
+                return heightValue;
+            } else {
+                return widthValue;
+            }
+    }
 
     /**
      * Draw a segment from startPoint to endPoint by using Bresenham algorithm.
