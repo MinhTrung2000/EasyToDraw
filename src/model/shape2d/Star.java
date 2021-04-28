@@ -37,10 +37,43 @@ public class Star extends Shape2D {
     public void setProperty(Point2D startPoint, Point2D endPoint) {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
+        
+        int width = endPoint.coordX - startPoint.coordX;
+        int height = endPoint.coordY - startPoint.coordY;
+        
+         int heightValue = Math.abs(height);
+            int widthValue = Math.abs(width);
+            int preferedLength;
+            if (heightValue >= widthValue) {
+                preferedLength = widthValue;
+            } else {
+                preferedLength = heightValue;
+            }
+        int widthDirection;
+            if (width < 0) {
+                widthDirection = -1;
+            } else {
+                widthDirection = 1;
+            }
 
-        centerPoint = Point2D.midPoint(startPoint, endPoint);
-
-        pointA.setCoord(centerPoint.coordX, startPoint.coordY);
+            int heightDirection;
+            if (height < 0) {
+                heightDirection = -1;
+            } else {
+                heightDirection = 1;
+            }
+            
+            
+        this.startPoint=startPoint;
+        this.endPoint.setCoord(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
+        
+        centerPoint = Point2D.midPoint(this.startPoint, this.endPoint);
+        if(widthDirection == 1 && heightDirection == 1 || widthDirection == -1 && heightDirection ==1){
+            pointA.setCoord(centerPoint.coordX, this.startPoint.coordY);
+        }else{
+            pointA.setCoord(centerPoint.coordX, this.endPoint.coordY);
+        }
+        
         opPointA.setCoord(pointA.coordX, pointA.coordY + (int) ((centerPoint.coordY - pointA.coordY) * 3 / 2));
 
         pointB = pointA.createRotationPoint(centerPoint, Math.toRadians(72));
