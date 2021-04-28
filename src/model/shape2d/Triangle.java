@@ -13,11 +13,6 @@ public class Triangle extends Shape2D {
         EQUILATERAL_TRIANGLE,
     }
 
-    public enum UnchangedPoint {
-        HEAD_POINT,
-        FEET_POINT
-    }
-
     public Triangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         pointA = new Point2D(-1, -1);
