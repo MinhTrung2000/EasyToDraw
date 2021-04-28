@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.Stack;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import model.shape2d.Arrow2D;
@@ -19,6 +20,7 @@ import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
+import model.tuple.MyPair;
 
 /**
  * Class used for implementing drawing area.
@@ -200,8 +202,17 @@ public class DrawingPanel extends JPanel {
      *
      * @param selectedToolMode
      */
-    public void setSelectedToolMode(SettingConstants.DrawingToolMode selectedToolMode) {
+    public boolean setSelectedToolMode(SettingConstants.DrawingToolMode selectedToolMode) {
+        if ((selectedToolMode == SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION)
+                || (selectedToolMode == SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY)) {
+            if (recentShape == null) {
+                JOptionPane.showMessageDialog(this.getParent(), "Draw your object before using transformation!");
+                return false;
+            }
+        }
+
         this.selectedToolMode = selectedToolMode;
+        return true;
     }
 
     /**
@@ -655,9 +666,19 @@ public class DrawingPanel extends JPanel {
         apply();
         repaint();
     }
-    
+
     public void paintViaLineSymmetry(double a, double b, double c) {
-        
+
+    }
+
+    public MyPair getXBound() {
+        int half_x = (int) (this.widthBoard / (SettingConstants.RECT_SIZE) * 2);
+        return new MyPair(-half_x, half_x);
+    }
+
+    public MyPair getYBound() {
+        int half_y = (int) (this.heightBoard / (SettingConstants.RECT_SIZE) * 2);
+        return new MyPair(-half_y, half_y);
     }
 
     private class CustomMouseClickHandling implements MouseListener {
@@ -750,6 +771,7 @@ public class DrawingPanel extends JPanel {
                         segment.setLineStyle(selectedLineStyle);
                         segment.draw();
                         segment.saveCoordinates();
+                        recentShape = segment;
                     }
                     repaint();
                     break;

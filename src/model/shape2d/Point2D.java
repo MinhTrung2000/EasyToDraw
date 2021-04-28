@@ -50,6 +50,14 @@ public class Point2D {
         this.coordY = other.coordY;
     }
 
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+    }
+
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
+    }
+
     public int getCoordX() {
         return coordX;
     }
@@ -291,7 +299,7 @@ public class Point2D {
 
         int newCoordX = 2 * intersectX - this.coordX;
         int newCoordY = 2 * intersectY - this.coordY;
-        
+
         setCoord(newCoordX, newCoordY);
         return this;
     }
@@ -317,13 +325,22 @@ public class Point2D {
         int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
 
         String result = "(" + x + ", " + y + ")";
+//        String result = "(" + this.coordX + ", " + this.coordY + ")";
         return result;
     }
-    
+
     public static void swap(Point2D pointA, Point2D pointB) {
         Point2D temp = new Point2D();
         temp.setCoord(pointA);
         pointA.setCoord(pointB);
         pointB.setCoord(temp);
+    }
+
+    public static void main(String[] args) {
+        Point2D point = new Point2D(10, 15);
+
+        System.out.println("Init point: " + point);
+        System.out.println("Rotate by 60 degree from O(0, 0): " + point.createRotationPoint(new Point2D(0, 0), 60));
+        
     }
 }
