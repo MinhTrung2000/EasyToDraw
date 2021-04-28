@@ -631,8 +631,7 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-
-        recentShape.drawPointSymmetry(new Point2D(0, 0));
+        recentShape.drawOCenterSymmetry();
         apply();
         repaint();
     }
@@ -641,7 +640,7 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-
+        System.out.println("view.DrawingPanel.paintOXSymmetry()");
         recentShape.drawOXSymmetry();
         apply();
         repaint();
@@ -668,7 +667,13 @@ public class DrawingPanel extends JPanel {
     }
 
     public void paintViaLineSymmetry(double a, double b, double c) {
+        if (recentShape == null) {
+            return;
+        }
 
+        recentShape.drawLineSymmetry(a, b, c);
+        apply();
+        repaint();
     }
 
     public MyPair getXBound() {
@@ -863,7 +868,7 @@ public class DrawingPanel extends JPanel {
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
                         Diamond diamond = new Diamond(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        if(event.isShiftDown()){
+                        if (event.isShiftDown()) {
                             diamond.setProperty(startDrawingPoint, endDrawingPoint, Diamond.Modal.SQUARE_DIAMOND);
                         } else {
                             diamond.setProperty(startDrawingPoint, endDrawingPoint, Diamond.Modal.COMMON_DIAMOND);

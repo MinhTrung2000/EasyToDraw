@@ -33,6 +33,7 @@ import javax.swing.UIManager;
 import static control.SettingConstants.*;
 import control.io.FileHandle;
 import java.awt.AWTException;
+import java.awt.event.InputEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.SpinnerNumberModel;
@@ -54,7 +55,7 @@ public class MainFrame extends javax.swing.JFrame {
     private int savedColorNumber;
 
     private JButton[] savedColorButtonList;
-    
+
     private DrawingToolMode[] ShiftException = {
         DrawingToolMode.DRAWING_POLYGON_ELLIPSE,
         DrawingToolMode.DRAWING_LINE_SEGMENT,
@@ -62,6 +63,7 @@ public class MainFrame extends javax.swing.JFrame {
         DrawingToolMode.DRAWING_POLYGON_TRIANGLE,
         DrawingToolMode.DRAWING_SHAPE_DIAMOND
     };
+
     public MainFrame() {
         UIManager.put("PopupMenu.consumeEventOnClose", false);
         customizeComponents();
@@ -84,7 +86,7 @@ public class MainFrame extends javax.swing.JFrame {
                         isInTheList = true;
                     }
                 }
-                
+
                 if (!isInTheList) {
                     hideTooltip();
                 }
@@ -148,6 +150,8 @@ public class MainFrame extends javax.swing.JFrame {
         savedPolygonMode = SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE;
         savedShapeMode = SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR;
         savedTransformMode = SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
+        
+        button_Line.requestFocus();
     }
 
     /**
@@ -406,7 +410,7 @@ public class MainFrame extends javax.swing.JFrame {
             return false;
         }
 
-         return ((DrawingPanel) panel_DrawingArea).setSelectedToolMode(toolMode);
+        return ((DrawingPanel) panel_DrawingArea).setSelectedToolMode(toolMode);
     }
 
     /**
@@ -422,9 +426,9 @@ public class MainFrame extends javax.swing.JFrame {
 
                     Color selectedColor = eyeDroper.getModel().getSelectedColor();
                     getDrawingPanel().setSelectedColor(selectedColor);
-                    
+
                     button_CurrentColor.setBackground(selectedColor);
-                    
+
                     button_ColorSave_8.setBackground(selectedColor);
 
                     button_ColorPicker.setSelected(false);
@@ -481,9 +485,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void setEventHandlingColorOption() {
         //khởi tạo
         for (int j = 0; j < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; j++) {
-             savedColorButtonList[j].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[j]));
+            savedColorButtonList[j].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[j]));
         }
-        
+
         button_ColorChooser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -1460,7 +1464,6 @@ public class MainFrame extends javax.swing.JFrame {
                         break;
                     case "TRA":
                         setSelectedToolMode(savedTransformMode);
-                        promptTranformInput();
 
                         break;
                     case "LIN":
@@ -1490,6 +1493,10 @@ public class MainFrame extends javax.swing.JFrame {
                     if (mousePressed) {
                         Ultility.showPopMenuOfButton(button, popMenu);
                         hideTooltip();
+                    } else {
+                        if (button == button_Transform) {
+                            promptTranformInput();
+                        }
                     }
                 }
             }).start();
@@ -1509,16 +1516,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            
+
             boolean isInTheList = false;
             for (DrawingToolMode element : ShiftException) {
                 if (getDrawingPanel().getSelectedToolMode() == element) {
                     isInTheList = true;
                 }
             }
-                if (!isInTheList) {
-                    hideTooltip();
-                } else {
+            if (!isInTheList) {
+                hideTooltip();
+            } else {
                 showTooltip(getDrawingPanel().getSelectedToolMode().toolTip);
             }
         }
@@ -1608,7 +1615,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     public void promptTranformInput() {
         DrawingToolMode selectedMode = getDrawingPanel().getSelectedToolMode();
-        
+
         switch (selectedMode) {
             case DRAWING_TRANSFORM_ROTATION: {
                 Rotation2DInput rotationInputDialog = new Rotation2DInput(this);

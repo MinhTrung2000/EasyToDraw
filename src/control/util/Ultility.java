@@ -9,9 +9,10 @@ import javafx.util.Pair;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import control.SettingConstants;
+import model.tuple.MyPair;
 
 public class Ultility {
-    
+
     private static final int D_X[] = {-1, 0, 0, 1};
     private static final int D_Y[] = {0, -1, 1, 0};
 
@@ -77,14 +78,15 @@ public class Ultility {
 
     /**
      * Paint the neighbors of current point via BFS algorithm.
+     *
      * @param colorOfBoard
      * @param markedArray
      * @param point
-     * @param choosedColor 
+     * @param choosedColor
      */
-   public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, Point2D point, Color chosenColor) {
-      //  int coordX = point.getCoordX();
-      //  int coordY = point.getCoordY();
+    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, Point2D point, Color chosenColor) {
+        //  int coordX = point.getCoordX();
+        //  int coordY = point.getCoordY();
 
         Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
@@ -93,32 +95,32 @@ public class Ultility {
         }
 
         Color oldColor = colorOfBoard[point.getCoordY()][point.getCoordX()];
-        
+
         if (!oldColor.equals(chosenColor)) {
-           // markedArray[point.getCoordY()][point.getCoordX()] = true;
+            // markedArray[point.getCoordY()][point.getCoordX()] = true;
             colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
-            
+
             queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
-            
+
             int newCoordX;
             int newCoordY;
             while (queue.size() > 0) {
                 Pair<Integer, Integer> frontQueue = queue.poll();
-                
+
                 for (int i = 0; i < 4; i++) {
                     newCoordX = frontQueue.getKey() + D_X[i];
                     newCoordY = frontQueue.getValue() + D_Y[i];
-                    
-                    if (checkValidPoint(colorOfBoard, newCoordX, newCoordY) &&
-                            colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
-                      //  markedArray[newCoordY][newCoordX] = true;
+
+                    if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
+                            && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
+                        //  markedArray[newCoordY][newCoordX] = true;
                         colorOfBoard[newCoordY][newCoordX] = chosenColor;
                         queue.add(new Pair<>(newCoordX, newCoordY));
-                        
+
                     }
                 }
             }
-            
+
         }
     }
 }

@@ -68,56 +68,6 @@ public class Segment2D extends Shape2D {
         drawSegment(tempStartPoint, tempEndPoint, lineStyle);
     }
 
-    @Override
-    public void drawOXSymmetry() {
-        Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-
-        drawSegment(tempStartPoint, tempEndPoint);
-    }
-
-    @Override
-    public void drawOYSymmetry() {
-        Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-
-        drawSegment(tempStartPoint, tempEndPoint);
-    }
-
-    @Override
-    public void drawPointSymmetry(Point2D basePoint) {
-        Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-        Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-
-        drawSegment(tempStartPoint, tempEndPoint);
-    }
-
-    @Override
-    public void drawVirtualMove(Vector2D vector) {
-        Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-        Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-
-        drawSegment(tempStartPoint, tempEndPoint);
-    }
-
-    @Override
-    public void drawVirtualRotation(double angle) {
-        double totalAngle = angle + this.rotatedAngle;
-
-        Point2D rotatedStartPoint = startPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D rotatedEndPoint = endPoint.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(rotatedStartPoint, rotatedEndPoint, this.lineStyle);
-    }
-
-    @Override
-    public void drawLineSymmetry(double a, double b, double c) {
-        Point2D tempStartPoint = startPoint.createRotationPoint(this.centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D tempEndPoint = endPoint.createRotationPoint(this.centerPoint, rotatedAngle).symLine(a, b, c);
-
-        drawSegment(tempStartPoint, tempEndPoint);
-    }
-
     /**
      * Move the line and change in place.
      *

@@ -100,7 +100,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 if (rbtnOCenterOption.isSelected()) {
                     ((MainFrame) getParent()).getDrawingPanel()
                             .paintOCenterSymmetry();
@@ -166,9 +165,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
                         return false;
                     }
 
-                    // Convert visual coord to real machine coord
-                    coordX += (int) (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE);
-
                     acceptedPoint.setCoordX(coordX);
                 } else if (input == textfPointCoordY) {
                     String coordYText = textfPointCoordY.getText();
@@ -185,9 +181,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
                     if (!checkCoordInBound(coordY, yBound)) {
                         return false;
                     }
-
-                    // Convert visual coord to real machine coord
-                    coordY = (int) (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE) - coordY;
 
                     acceptedPoint.setCoordY(coordY);
                 } else if (input == textfLineCoeffA) {

@@ -143,51 +143,11 @@ public class Point2D {
      * @return Point2D
      */
     public Point2D createSymmetryPoint(Point2D basePoint) {
-        Point2D resultPoint = new Point2D();
-        int newCoordX = 2 * basePoint.coordX - this.coordX;
-        int newCoordY = 2 * basePoint.coordY - this.coordY;
-        resultPoint.setCoord(newCoordX, newCoordY);
-        return resultPoint;
-    }
-
-    /**
-     * Get a copy symmetric point from line.
-     *
-     * @param line
-     */
-//    public Point2D getLineSymmetry(Line2D line) {
-//        double coefficientA_PerpendicularLine = - (line.getCoefficientB() / line.getCoefficientA());
-//        double coefficientC_PerpendicularLine = this.coordY + coefficientA_PerpendicularLine * this.coordX;
-//        double coefficientB_PerpendicularLine = -1.0;
-//        
-//    }
-    /**
-     * Create a copy symmetric point from Ox axis.
-     *
-     * @return
-     */
-    public Point2D createOXSymmetryPoint() {
-        Point2D result = new Point2D();
-
-        result.setCoord(-(this.coordX - SettingConstants.COORD_X_O),
-                this.coordY
-        );
-
-        return result;
-    }
-
-    /**
-     * Create a copy symmetric point from Oy axis.
-     *
-     * @return
-     */
-    public Point2D createOYSymmetryPoint() {
-        Point2D result = new Point2D();
-
-        result.setCoord(this.coordX,
-                -(this.coordY - SettingConstants.COORD_Y_O)
-        );
-
+        Point2D result = new Point2D(this);
+        result.convertMachineToViewCoord();
+        result.coordX = 2 * basePoint.coordX - result.coordX;
+        result.coordY = 2 * basePoint.coordY - result.coordY;
+        result.convertViewToMachineCoord();
         return result;
     }
 
@@ -197,17 +157,53 @@ public class Point2D {
      * @return
      */
     public Point2D createCenterOSymmetry() {
-        return new Point2D(-this.coordX, -this.coordY);
+        Point2D point = new Point2D(this);
+        point.convertMachineToViewCoord();
+        point.reflect();
+        point.convertViewToMachineCoord();
+        return point;
     }
 
+    /**
+     * Create a copy symmetric point from Ox axis.
+     *
+     * @return
+     */
+    public Point2D createOXSymmetryPoint() {
+        Point2D result = new Point2D(this);
+        result.convertMachineToViewCoord();
+        result.coordY = -result.coordY;
+        result.convertViewToMachineCoord();
+        return result;
+    }
+
+    /**
+     * Create a copy symmetric point from Oy axis.
+     *
+     * @return
+     */
+    public Point2D createOYSymmetryPoint() {
+        Point2D result = new Point2D(this);
+        result.convertMachineToViewCoord();
+        result.coordX = -result.coordX;
+        result.convertViewToMachineCoord();
+        return result;
+    }
+
+    /**
+     * Work later.
+     * 
+     * @param a
+     * @param b
+     * @param c
+     * @return 
+     */
     public Point2D createLineSymmetryPoint(double a, double b, double c) {
-        int intersectY = (int) ((-(b * this.coordX - a * this.coordY) * a - b * c) / (a * a + b * b));
-        int intersectX = (int) ((-b * intersectY - c) / a);
+        Point2D result = new Point2D(this);
+        result.convertMachineToViewCoord();
 
-        int newCoordX = 2 * intersectX - this.coordX;
-        int newCoordY = 2 * intersectY - this.coordY;
-
-        return new Point2D(newCoordX, newCoordY);
+        result.convertViewToMachineCoord();
+        return result;
     }
 
     /**
@@ -222,6 +218,12 @@ public class Point2D {
                 this.coordY + (int) vector.getCoordY(),
                 this.parentShape
         );
+    }
+
+    public Point2D reflect() {
+        this.coordX = -this.coordX;
+        this.coordY = -this.coordY;
+        return this;
     }
 
     /**
@@ -335,11 +337,34 @@ public class Point2D {
         pointB.setCoord(temp);
     }
 
-    public static void main(String[] args) {
-        Point2D point = new Point2D(10, 15);
+    /**
+     * Convert relative coordinate of point in user's view to machine coordinate
+     * rule (the center coordinate system is placed at the left top corner of
+     * component).
+     *
+     * @return
+     */
+    public Point2D convertViewToMachineCoord() {
+        coordX = (coordX + SettingConstants.COORD_X_O) / SettingConstants.RECT_SIZE;
+        coordY = (coordY - SettingConstants.COORD_Y_O) / (-SettingConstants.RECT_SIZE);
+        return this;
+    }
 
-        System.out.println("Init point: " + point);
-        System.out.println("Rotate by 60 degree from O(0, 0): " + point.createRotationPoint(new Point2D(0, 0), 60));
-        
+    /**
+     * Convert machine coordinate of point to position in user's view.
+     *
+     * @return
+     */
+    public Point2D convertMachineToViewCoord() {
+        coordX = coordX * SettingConstants.RECT_SIZE - SettingConstants.COORD_X_O;
+        coordY = coordY * (-SettingConstants.RECT_SIZE) + SettingConstants.COORD_Y_O;
+        return this;
+    }
+
+    public static void main(String[] args) {
+        Point2D point = new Point2D(-3, 2);
+
+        Point2D symLinePoint = point.createLineSymmetryPoint(2, 1, 3);
+        System.out.println("symm point: " + symLinePoint);
     }
 }

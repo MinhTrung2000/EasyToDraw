@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import control.SettingConstants;
 import control.util.Ultility;
+import model.tuple.MyPair;
 
 public abstract class Shape2D {
 
@@ -107,32 +108,32 @@ public abstract class Shape2D {
     }
 
     public abstract void setProperty(Point2D startPoint, Point2D endPoint);
-    
-    public int getWidthDirection(int width){
+
+    public int getWidthDirection(int width) {
         if (width < 0) {
             return -1;
         } else {
             return 1;
         }
     }
-    
-    public int getHeightDirection(int height){
+
+    public int getHeightDirection(int height) {
         if (height < 0) {
             return -1;
         } else {
             return 1;
         }
     }
-    
-    public int getPreferredLength(int width, int height){
-            int widthValue = Math.abs(width);
-            int heightValue = Math.abs(height);
 
-            if (widthValue >= heightValue) {
-                return heightValue;
-            } else {
-                return widthValue;
-            }
+    public int getPreferredLength(int width, int height) {
+        int widthValue = Math.abs(width);
+        int heightValue = Math.abs(height);
+
+        if (widthValue >= heightValue) {
+            return heightValue;
+        } else {
+            return widthValue;
+        }
     }
 
     /**
@@ -317,7 +318,7 @@ public abstract class Shape2D {
     }
 
     public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        if (pointSet.size() == 0) {
+        if (pointSet.isEmpty()) {
             return;
         }
 
@@ -333,7 +334,16 @@ public abstract class Shape2D {
         drawVirtualRotation(this.centerPoint, angle);
     }
 
-    public abstract void drawVirtualMove(Vector2D vector);
+    public void drawVirtualMove(Vector2D vector) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createMovingPoint(vector);
+            savePoint(point.coordX, point.coordY);
+        }
+    }
 
     public void applyRotation(double angle) {
         this.rotatedAngle += angle;
@@ -341,11 +351,57 @@ public abstract class Shape2D {
 
     public abstract void applyMove(Vector2D vector);
 
-    public abstract void drawOXSymmetry();
+    public void drawOCenterSymmetry() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
 
-    public abstract void drawOYSymmetry();
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createCenterOSymmetry();
+            savePoint(point.coordX, point.coordY);
+        }
+    }
 
-    public abstract void drawPointSymmetry(Point2D basePoint);
+    public void drawOXSymmetry() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createOXSymmetryPoint();
+            savePoint(point.coordX, point.coordY);
+        }
+    }
 
-    public abstract void drawLineSymmetry(double a, double b, double c);
+    public void drawOYSymmetry() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createOYSymmetryPoint();
+            savePoint(point.coordX, point.coordY);
+        }
+    }
+
+    public void drawPointSymmetry(Point2D basePoint) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createSymmetryPoint(basePoint);
+            savePoint(point.coordX, point.coordY);
+        }
+    }
+
+    public void drawLineSymmetry(double a, double b, double c) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D point = pointSet.get(i).createLineSymmetryPoint(a, b, c);
+            savePoint(point.coordX, point.coordY);
+        }
+    }
 }

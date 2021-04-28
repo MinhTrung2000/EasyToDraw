@@ -90,25 +90,6 @@ public class Arrow2D extends Shape2D {
     }
 
     @Override
-    public void drawOXSymmetry() {
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointD = pointD.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointE = pointE.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointF = pointF.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempPointG = pointG.createRotationPoint(centerPoint, rotatedAngle).symOx();
-
-        drawSegment(tempPointA, tempPointB);
-        drawSegment(tempPointB, tempPointC);
-        drawSegment(tempPointC, tempPointG);
-        drawSegment(tempPointG, tempPointE);
-        drawSegment(tempPointE, tempPointF);
-        drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);
-    }
-
-    @Override
     public void drawOYSymmetry() {
         Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).symOy();
         Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).symOy();
