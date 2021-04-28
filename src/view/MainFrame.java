@@ -69,7 +69,7 @@ public class MainFrame extends javax.swing.JFrame {
         setIconFrame();
         setOptionLineStyle();
         setAllEventHandler();
-
+        button_Line.requestFocus();
         panel_DrawingArea.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent event) {
@@ -800,7 +800,6 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Line.add(menuItem_Segment);
 
         menuItem_Line.setText("jMenuItem1");
-        menuItem_Line.setEnabled(false);
         popMenu_Line.add(menuItem_Line);
 
         menuItem_FreeDrawing.setText("jMenuItem1");

@@ -34,6 +34,74 @@ public class Line2D extends Segment2D {
     public double getCoefficientC() {
         return coeffC;
     }
+    @Override
+    public void setProperty(Point2D startPoint, Point2D endPoint){
+
+            coeffA = startPoint.coordY - endPoint.coordY;
+            coeffB = -(startPoint.coordX - endPoint.coordX);
+            coeffC = -(coeffA * startPoint.coordX + coeffB * startPoint.coordY);
+
+
+ 
+        //2 điểm trùng nhau => ko xác định được hướng
+        if(startPoint.equal(endPoint)) {
+            this.startPoint.setCoord(-1,-1);
+            this.endPoint.setCoord(-1,-1);
+            return;
+        }
+        
+        int widthLimit = (control.SettingConstants.WIDTH_DRAW_AREA / control.SettingConstants.RECT_SIZE)-1;
+        int heightLimit = (control.SettingConstants.HEIGHT_DRAW_AREA / control.SettingConstants.RECT_SIZE)-1;
+      
+        int limitTop = (int)Math.round((-coeffC - coeffB * 0) / coeffA);
+        int limitLeft = (int)Math.round((-coeffC - coeffA * 0) / coeffB);
+        int limitBot = (int)Math.round((-coeffC - coeffB*(heightLimit ) ) / coeffA);
+        int limitRight = (int)Math.round((-coeffC - coeffA*(widthLimit ) ) / coeffB);
+        
+
+           
+       
+        this.startPoint = null;
+        this.endPoint = null;
+        
+        
+
+
+            //xử lý trường hợp đặc biệt (Bot = 0, right = left) khi nằm ngang 180 độ
+            if(limitRight == limitLeft && limitRight >=0 && limitRight<heightLimit){
+                this.startPoint = new Point2D(0,limitLeft);
+                this.endPoint = new Point2D(widthLimit,limitRight); 
+            }
+            
+            if (limitBot >=0 && limitBot <=widthLimit){
+                if(this.startPoint == null) this.startPoint = new Point2D(limitBot,heightLimit);
+                else if(this.endPoint == null){
+                    this.endPoint = new Point2D(limitBot,heightLimit);  
+                }  
+            }
+            
+            if (limitTop >=0 && limitTop <=widthLimit){
+                if(this.startPoint == null) this.startPoint = new Point2D(limitTop,0);
+                else if(this.endPoint == null){
+                    this.endPoint = new Point2D(limitTop,0);  
+                }  
+            }
+            
+            if (limitLeft >=0 && limitLeft <=heightLimit){
+                if(this.startPoint == null) this.startPoint = new Point2D(0,limitLeft);
+                else if(this.endPoint == null){
+                    this.endPoint = new Point2D(0,limitLeft); 
+                }  
+            }
+            
+            if (limitRight >=0 && limitRight <=heightLimit){
+                if(this.startPoint == null) this.startPoint = new Point2D(widthLimit,limitRight);
+                else if(this.endPoint == null){
+                    this.endPoint = new Point2D(widthLimit,limitRight); 
+                }  
+            }
+        
+    }
 
     /**
      * Return a point of intersection of two points. This method will return a

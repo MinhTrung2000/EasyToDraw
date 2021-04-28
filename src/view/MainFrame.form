@@ -18,7 +18,6 @@
         <MenuItem class="javax.swing.JMenuItem" name="menuItem_Line">
           <Properties>
             <Property name="text" type="java.lang.String" value="jMenuItem1"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuItem_FreeDrawing">

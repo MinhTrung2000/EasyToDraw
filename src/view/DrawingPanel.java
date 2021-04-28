@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import model.shape2d.Arrow2D;
 import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
+import model.shape2d.Line2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
 import model.tuple.MyPair;
@@ -783,8 +784,22 @@ public class DrawingPanel extends JPanel {
                 }
                 case DRAWING_LINE_STRAIGHT: {
                     // Do no thing
+                    resetChangedPropertyArray();
+                    if (checkStartingPointAvailable()) {
+                    Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                    line.setLineStyle(selectedLineStyle);
+                    line.setProperty(startDrawingPoint, endDrawingPoint);
+                    line.draw();
+                    line.saveCoordinates();
+                    recentShape = line;
+                    }
+                    repaint();
                     break;
                 }
+
+
+
+
                 case DRAWING_LINE_FREE: {
                     if (checkStartingPointAvailable()) {
                         Segment2D pixel = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
