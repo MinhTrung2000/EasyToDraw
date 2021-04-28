@@ -84,24 +84,6 @@ public class Triangle extends Shape2D {
     }
 
     /**
-     * Rotate a copy of this shape by an angle.
-     *
-     * @param angle
-     */
-    @Override
-    public void drawVirtualRotation(double angle) {
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempPointA, tempPointB);
-        drawSegment(tempPointB, tempPointC);
-        drawSegment(tempPointC, tempPointA);
-    }
-
-    /**
      * Drawing in board.
      */
     @Override
@@ -115,22 +97,6 @@ public class Triangle extends Shape2D {
         drawSegment(tempPointC, tempPointA);
     }
 
-    /**
-     * Drawing
-     *
-     * @param vector
-     */
-    @Override
-    public void drawVirtualMove(Vector2D vector) {
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, this.rotatedAngle).move(vector);
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, this.rotatedAngle).move(vector);
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, this.rotatedAngle).move(vector);
-
-        drawSegment(tempPointA, tempPointB);
-        drawSegment(tempPointB, tempPointC);
-        drawSegment(tempPointC, tempPointA);
-    }
-
     @Override
     public void applyMove(Vector2D vector) {
         pointA.rotate(centerPoint, this.rotatedAngle).move(vector);
@@ -138,49 +104,5 @@ public class Triangle extends Shape2D {
         pointC.rotate(centerPoint, this.rotatedAngle).move(vector);
 
         centerPoint.move(vector);
-    }
-
-    @Override
-    public void drawOYSymmetry() {
-        Point2D pointASymmetry = pointA.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D pointBSymmetry = pointB.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D pointCSymmetry = pointC.createRotationPoint(centerPoint, rotatedAngle).symOy();
-
-        drawSegment(pointASymmetry, pointBSymmetry);
-        drawSegment(pointBSymmetry, pointCSymmetry);
-        drawSegment(pointCSymmetry, pointASymmetry);
-    }
-
-    @Override
-    public void drawOXSymmetry() {
-        Point2D pointASymmetry = pointA.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D pointBSymmetry = pointB.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D pointCSymmetry = pointC.createRotationPoint(centerPoint, rotatedAngle).symOx();
-
-        drawSegment(pointASymmetry, pointBSymmetry);
-        drawSegment(pointBSymmetry, pointCSymmetry);
-        drawSegment(pointCSymmetry, pointASymmetry);
-    }
-
-    @Override
-    public void drawPointSymmetry(Point2D basePoint) {
-        Point2D pointASymmetry = pointA.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-        Point2D pointBSymmetry = pointB.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-        Point2D pointCSymmetry = pointC.createRotationPoint(centerPoint, rotatedAngle).symPoint(basePoint);
-
-        drawSegment(pointASymmetry, pointBSymmetry);
-        drawSegment(pointBSymmetry, pointCSymmetry);
-        drawSegment(pointCSymmetry, pointASymmetry);
-    }
-
-    @Override
-    public void drawLineSymmetry(double a, double b, double c) {
-        Point2D pointASymmetry = pointA.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D pointBSymmetry = pointB.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D pointCSymmetry = pointC.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-
-        drawSegment(pointASymmetry, pointBSymmetry);
-        drawSegment(pointBSymmetry, pointCSymmetry);
-        drawSegment(pointCSymmetry, pointASymmetry);
     }
 }

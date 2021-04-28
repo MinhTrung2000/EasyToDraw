@@ -148,83 +148,8 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void drawVirtualMove(Vector2D vector) {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createMovingPoint(vector);
-            savePoint(pt.getCoordX(), pt.getCoordY());
-        }
-    }
-
-    @Override
     public void applyMove(Vector2D vector) {
         centerPoint.move(vector);
     }
 
-    @Override
-    public void drawOXSymmetry() {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        Point2D tempCenterPoint = this.centerPoint.createOXSymmetryPoint();
-
-        pixelCounter = 0;
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createOXSymmetryPoint();
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
-        }
-    }
-
-    @Override
-    public void drawOYSymmetry() {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        Point2D tempCenterPoint = this.centerPoint.createOYSymmetryPoint();
-
-        pixelCounter = 0;
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createOYSymmetryPoint();
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
-        }
-    }
-
-    @Override
-    public void drawLineSymmetry(double a, double b, double c) {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        Point2D tempCenterPoint = this.centerPoint.createLineSymmetryPoint(a, b, c);
-
-        pixelCounter = 0;
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createLineSymmetryPoint(a, b, c);
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
-        }
-    }
-
-    @Override
-    public void drawPointSymmetry(Point2D basePoint) {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        Point2D tempCenterPoint = this.centerPoint.createSymmetryPoint(basePoint);
-
-        pixelCounter = 0;
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createSymmetryPoint(basePoint);
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
-        }
-    }
 }

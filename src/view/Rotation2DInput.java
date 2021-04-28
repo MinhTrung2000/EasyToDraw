@@ -21,8 +21,16 @@ import model.tuple.MyPair;
  */
 public class Rotation2DInput extends javax.swing.JDialog {
 
+    /**
+     * Input center-point.
+     */
     private Point2D acceptCenterPoint = new Point2D();
+    
+    /**
+     * Input angle (radian).
+     */
     private double acceptAngle;
+    
     private InputVerifier inputVerifier = new ValidInputCheck();;
 
     /**
@@ -57,6 +65,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                acceptCenterPoint.convertViewToMachineCoord();
                 ((MainFrame) getParent()).getDrawingPanel().paintRotation(acceptCenterPoint, acceptAngle);
                 dispose();
             }
@@ -93,9 +102,6 @@ public class Rotation2DInput extends javax.swing.JDialog {
                         return false;
                     }
 
-                    // Convert visual coord to real machine coord
-                    coordX += (int) (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE);
-
                     acceptCenterPoint.setCoordX(coordX);
                 } else if (input == textfCenterPointCoordY) {
                     String coordYText = textfCenterPointCoordY.getText();
@@ -112,9 +118,6 @@ public class Rotation2DInput extends javax.swing.JDialog {
                     if (!checkCoordInBound(coordY, yBound)) {
                         return false;
                     }
-
-                    // Convert visual coord to real machine coord
-                    coordY = (int) (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE) - coordY;
 
                     acceptCenterPoint.setCoordY(coordY);
                 } else if (input == textfAngle) {
@@ -139,7 +142,6 @@ public class Rotation2DInput extends javax.swing.JDialog {
                 return false;
             }
 
-            btnOK.requestFocus();
             return true;
         }
     }

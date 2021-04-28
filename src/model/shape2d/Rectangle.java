@@ -63,34 +63,6 @@ public class Rectangle extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(double angle) {
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
-    public void drawVirtualMove(Vector2D vector) {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
     public void applyMove(Vector2D vector) {
         leftTopPoint.rotate(rotatedAngle).move(vector);
         rightTopPoint.rotate(rotatedAngle).move(vector);
@@ -98,58 +70,6 @@ public class Rectangle extends Shape2D {
         rightBottomPoint.rotate(rotatedAngle).move(vector);
 
         centerPoint.move(vector);
-    }
-
-    @Override
-    public void drawOXSymmetry() {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
-    public void drawOYSymmetry() {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
-    public void drawPointSymmetry(Point2D point) {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(point);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(point);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(point);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(point);
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
-    public void drawLineSymmetry(double a, double b, double c) {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override

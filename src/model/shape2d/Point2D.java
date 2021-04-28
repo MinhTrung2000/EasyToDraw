@@ -79,7 +79,7 @@ public class Point2D {
      * <code>angle</code>.
      *
      * @param basePoint Point2D
-     * @param angle double
+     * @param angle double (radian)
      * @return Point2D
      */
     public Point2D createRotationPoint(Point2D basePoint, double angle) {
@@ -191,18 +191,18 @@ public class Point2D {
     }
 
     /**
-     * Work later.
-     * 
+     * https://stackoverflow.com/questions/3306838/algorithm-for-reflecting-a-point-across-a-line
+     *
+     * XXX Work later.
+     *
      * @param a
      * @param b
      * @param c
-     * @return 
+     * @return
      */
     public Point2D createLineSymmetryPoint(double a, double b, double c) {
         Point2D result = new Point2D(this);
-        result.convertMachineToViewCoord();
-
-        result.convertViewToMachineCoord();
+        result.symLine(a, b, c);
         return result;
     }
 
@@ -296,13 +296,12 @@ public class Point2D {
      * @return
      */
     public Point2D symLine(double a, double b, double c) {
-        int intersectY = (int) ((-(b * this.coordX - a * this.coordY) * a - b * c) / (a * a + b * b));
-        int intersectX = (int) ((-b * intersectY - c) / a);
-
-        int newCoordX = 2 * intersectX - this.coordX;
-        int newCoordY = 2 * intersectY - this.coordY;
-
-        setCoord(newCoordX, newCoordY);
+        convertMachineToViewCoord();
+        double m = -a / b;
+        double d = (this.coordX + (this.coordY - c) * m) / (1 + m * m);
+        this.coordX = (int) (2 * d - this.coordX);
+        this.coordY = (int) (2 * d * m - this.coordY + 2 * c);
+        convertViewToMachineCoord();
         return this;
     }
 
