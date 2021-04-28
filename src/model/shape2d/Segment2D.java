@@ -26,8 +26,6 @@ public class Segment2D extends Shape2D {
             this.startPoint = startPoint;
             this.endPoint = endPoint;
         } else {
-            Point2D feetPoint = new Point2D();
-            Point2D headPoint = new Point2D();
             int width = endPoint.getCoordX() - startPoint.getCoordX();
             int height = endPoint.getCoordY() - startPoint.getCoordY();
             int widthValue = Math.abs(width);
@@ -83,7 +81,7 @@ public class Segment2D extends Shape2D {
     public void drawOutline() {
         Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle);
         Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle);
-        
+
         drawSegment(tempStartPoint, tempEndPoint, lineStyle);
     }
 
@@ -131,6 +129,9 @@ public class Segment2D extends Shape2D {
 
     @Override
     public void drawVirtualRotation(Point2D centerPoint, double angle) {
+        System.out.println("start point: " + this.startPoint);
+        System.out.println("end point: " + this.endPoint);
+        
         double totalAngle = this.rotatedAngle + angle;
 
         Point2D tempStartPoint = this.startPoint.createRotationPoint(centerPoint, totalAngle);
