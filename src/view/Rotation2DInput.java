@@ -25,7 +25,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
 
     Point2D acceptCenterPoint = new Point2D();
     double acceptAngle;
-    boolean inputValidFlag = false;
+//    boolean inputValidFlag = false;
 
     /**
      * Creates new form Rotation2DInput
@@ -43,7 +43,6 @@ public class Rotation2DInput extends javax.swing.JDialog {
         btnCancel.setInputVerifier(null);
         btnCancel.setRequestFocusEnabled(false);
         
-        
         setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(parent);
         setTitle("Rotation Transform Input");
@@ -51,7 +50,6 @@ public class Rotation2DInput extends javax.swing.JDialog {
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inputValidFlag = false;
                 dispose();
             }
         });
@@ -59,7 +57,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                inputValidFlag = true;
+                ((MainFrame) getParent()).getDrawingPanel().paintRotation(acceptCenterPoint, acceptAngle);
                 dispose();
             }
         });
@@ -74,9 +72,9 @@ public class Rotation2DInput extends javax.swing.JDialog {
         return acceptAngle;
     }
 
-    public boolean isInputValidFlag() {
-        return inputValidFlag;
-    }
+//    public boolean isInputValidFlag() {
+//        return inputValidFlag;
+//    }
 
     private class ValidInputCheck extends InputVerifier {
 

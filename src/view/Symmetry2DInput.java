@@ -14,14 +14,13 @@ public class Symmetry2DInput extends javax.swing.JDialog {
     /**
      * Creates new form Symmetry2DInput
      */
-    public Symmetry2DInput(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public Symmetry2DInput(java.awt.Frame parent) {
+        super(parent, true);
         initComponents();
+        
+        this.setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(parent);
         setTitle("Symmetry Transform Input");
-        if (modal) {
-            this.setModalityType(ModalityType.APPLICATION_MODAL);
-        }
     }
 
     /**
@@ -166,11 +165,6 @@ public class Symmetry2DInput extends javax.swing.JDialog {
         btnSymmetryOK.setText("Ok");
 
         btnSymmetryCancel.setText("Cancel");
-        btnSymmetryCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSymmetryCancelActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -212,10 +206,6 @@ public class Symmetry2DInput extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSymmetryCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSymmetryCancelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSymmetryCancelActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -246,7 +236,7 @@ public class Symmetry2DInput extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                Symmetry2DInput dialog = new Symmetry2DInput(new javax.swing.JFrame(), true);
+                Symmetry2DInput dialog = new Symmetry2DInput(new javax.swing.JFrame());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

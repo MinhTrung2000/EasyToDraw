@@ -1599,20 +1599,10 @@ public class MainFrame extends javax.swing.JFrame {
             case DRAWING_TRANSFORM_ROTATION: {
                 Rotation2DInput rotationInputDialog = new Rotation2DInput(this);
                 rotationInputDialog.setVisible(true);
-                
-                boolean validInput = rotationInputDialog.isInputValidFlag();
-                
-                if (validInput) {
-                    Point2D centerRotationPoint = rotationInputDialog.getAcceptCenterPoint();
-                    double rotateAngle = rotationInputDialog.getAcceptAngle();
-                    
-                    getDrawingPanel().paintRotation(centerRotationPoint, rotateAngle);
-                }
-                
                 break;
             }
             case DRAWING_TRANSFORM_SYMMETRY: {
-                JDialog symmetryInputDialog = new Symmetry2DInput(this, true);
+                JDialog symmetryInputDialog = new Symmetry2DInput(this);
                 symmetryInputDialog.setVisible(true);
                 break;
             }
