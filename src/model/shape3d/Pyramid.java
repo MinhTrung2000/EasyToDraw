@@ -1,5 +1,5 @@
 package model.shape3d;
 
-public class Cone {
+public class Pyramid {
 
 }

@@ -33,14 +33,11 @@ import javax.swing.UIManager;
 import static control.SettingConstants.*;
 import control.io.FileHandle;
 import java.awt.AWTException;
-import java.awt.event.InputEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.awt.CardLayout;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import model.shape2d.Point2D;
 
 public class MainFrame extends javax.swing.JFrame {
 
@@ -48,6 +45,8 @@ public class MainFrame extends javax.swing.JFrame {
     private SettingConstants.DrawingToolMode savedPolygonMode;
     private SettingConstants.DrawingToolMode savedShapeMode;
     private SettingConstants.DrawingToolMode savedTransformMode;
+
+    private SettingConstants.DrawingToolMode saved3DShapeMode;
 
     /**
      * Number of saved color.
@@ -142,6 +141,13 @@ public class MainFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Shape, menuItem_Diamond, DrawingToolMode.DRAWING_SHAPE_DIAMOND, "/img/diamond24px.png");
         initMenuItem(popMenu_Shape, menuItem_Arrow, DrawingToolMode.DRAWING_SHAPE_ARROW, "/img/arrow24px.png");
 
+        // For 3D
+        // XXX: Add icon later
+        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, null);
+        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, null);
+        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, null);
+        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, null);
+
         // Transform modal
         initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
         initMenuItem(popMenu_Transform, menuItem_Symmetry, DrawingToolMode.DRAWING_TRANSFORM_SYMMETRY, "/img/symmetry24px.png");
@@ -150,7 +156,9 @@ public class MainFrame extends javax.swing.JFrame {
         savedPolygonMode = SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE;
         savedShapeMode = SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR;
         savedTransformMode = SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
-        
+
+        saved3DShapeMode = SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CUBE;
+
         button_Line.requestFocus();
     }
 
@@ -166,7 +174,11 @@ public class MainFrame extends javax.swing.JFrame {
         String text = mode.toString().toLowerCase();
         text = String.valueOf(text.charAt(0)).toUpperCase() + text.substring(1, text.length());
         menuItem.setText(text);
-        menuItem.setIcon(new ImageIcon(getClass().getResource(iconPath)));
+
+        if (iconPath != null) {
+            menuItem.setIcon(new ImageIcon(getClass().getResource(iconPath)));
+        }
+
         popMenu.add(menuItem);
     }
 
@@ -425,6 +437,7 @@ public class MainFrame extends javax.swing.JFrame {
                     eyeDroper.setVisible(true);
 
                     Color selectedColor = eyeDroper.getModel().getSelectedColor();
+
                     getDrawingPanel().setSelectedColor(selectedColor);
 
                     button_CurrentColor.setBackground(selectedColor);
@@ -432,6 +445,7 @@ public class MainFrame extends javax.swing.JFrame {
                     button_ColorSave_8.setBackground(selectedColor);
 
                     button_ColorPicker.setSelected(false);
+
                     button_ColorPicker.repaint();
                 } catch (AWTException ex) {
                     Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -474,7 +488,6 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
-
             }
         });
     }
@@ -553,6 +566,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_Transform.addMouseListener(new CustomMouseAtButtonDrawingTool(savedTransformMode, button_Transform, popMenu_Transform));
 
+        button_3DShape.addMouseListener(new CustomMouseAtButtonDrawingTool(saved3DShapeMode, button_3DShape, popMenu_3DShape));
         //======================================================================
         // MenuItem inside popup menu
         //======================================================================
@@ -577,6 +591,7 @@ public class MainFrame extends javax.swing.JFrame {
                 button_Line)
         );
 
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menuItem_FreePolygon.addActionListener(new CustomMenuItemChooseAction(
                 savedPolygonMode,
                 SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE,
@@ -605,6 +620,7 @@ public class MainFrame extends javax.swing.JFrame {
                 button_Polygon)
         );
 
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menuItem_Star.addActionListener(new CustomMenuItemChooseAction(
                 savedShapeMode,
                 SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR,
@@ -626,6 +642,37 @@ public class MainFrame extends javax.swing.JFrame {
                 button_Shape)
         );
 
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        // For 3D
+        menuItem_3DCube.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CUBE,
+                "/img/3DShape_Cube.png",
+                button_3DShape)
+        );
+        
+        menuItem_3DCylinder.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CYLINDER,
+                "/img/3DShape_Cylinder.png",
+                button_3DShape)
+        );
+        
+        menuItem_3DPyramid.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_PYRAMID,
+                "/img/3DShape_Pyramid.png",
+                button_3DShape)
+        );
+        
+        menuItem_3DSphere.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_SPHERE,
+                "/img/3DShape_Sphere.png",
+                button_3DShape)
+        );
+        
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menuItem_Rotation.addActionListener(new CustomMenuItemChooseAction(
                 savedTransformMode,
                 SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION,
@@ -679,6 +726,11 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Transform = new javax.swing.JPopupMenu();
         menuItem_Rotation = new javax.swing.JMenuItem();
         menuItem_Symmetry = new javax.swing.JMenuItem();
+        popMenu_3DShape = new javax.swing.JPopupMenu();
+        menuItem_3DCube = new javax.swing.JMenuItem();
+        menuItem_3DCylinder = new javax.swing.JMenuItem();
+        menuItem_3DPyramid = new javax.swing.JMenuItem();
+        menuItem_3DSphere = new javax.swing.JMenuItem();
         panel_Operation = new javax.swing.JPanel();
         button_OpenFile = new javax.swing.JButton();
         button_CreateNewFile = new javax.swing.JButton();
@@ -726,11 +778,15 @@ public class MainFrame extends javax.swing.JFrame {
         panel_SelectCoordinate = new javax.swing.JPanel();
         button_2DMode = new javax.swing.JRadioButton();
         button_3DMode = new javax.swing.JRadioButton();
+        panelDrawingTool = new javax.swing.JPanel();
+        panelDrawingTool2D = new javax.swing.JPanel();
         button_Line = new javax.swing.JButton();
         button_Polygon = new javax.swing.JButton();
         button_Shape = new javax.swing.JButton();
-        button_Transform = new javax.swing.JButton();
         Seperator = new javax.swing.JSeparator();
+        button_Transform = new javax.swing.JButton();
+        panelDrawingTool3D = new javax.swing.JPanel();
+        button_3DShape = new javax.swing.JButton();
         panel_DrawingArea = new view.DrawingPanel();
         jSeparator3 = new javax.swing.JSeparator();
         panel_StatusBar = new javax.swing.JPanel();
@@ -776,6 +832,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuItem_Symmetry.setText("jMenuItem1");
         popMenu_Transform.add(menuItem_Symmetry);
+
+        menuItem_3DCube.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DCube);
+
+        menuItem_3DCylinder.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DCylinder);
+
+        menuItem_3DPyramid.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DPyramid);
+
+        menuItem_3DSphere.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DSphere);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SketchPoint");
@@ -1158,24 +1226,24 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(panel_ColorLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_ColorLayout.createSequentialGroup()
-                        .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(button_ColorSave_2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_ColorSave_4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_ColorSave_3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button_ColorChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_ColorLayout.createSequentialGroup()
+                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(button_ColorSave_2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(button_ColorSave_4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(button_ColorSave_3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(panel_ColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(button_ColorSave_6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button_ColorSave_7, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(panel_ColorLayout.createSequentialGroup()
-                        .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(15, 15, 15))
+                                .addComponent(button_ColorSave_8, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_ColorLayout.createSequentialGroup()
+                            .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout panel_ControlLayout = new javax.swing.GroupLayout(panel_Control);
@@ -1225,7 +1293,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(panel_SelectCoordinateLayout.createSequentialGroup()
                 .addComponent(button_2DMode)
                 .addGap(18, 18, 18)
-                .addComponent(button_3DMode))
+                .addComponent(button_3DMode)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_SelectCoordinateLayout.setVerticalGroup(
             panel_SelectCoordinateLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1237,6 +1306,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        panelDrawingTool.setLayout(new java.awt.CardLayout());
+
+        panelDrawingTool2D.setName("Card2D"); // NOI18N
+        panelDrawingTool2D.setVerifyInputWhenFocusTarget(false);
+
         button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Line_Segment.png"))); // NOI18N
         button_Line.setFocusPainted(false);
         button_Line.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -1246,6 +1320,9 @@ public class MainFrame extends javax.swing.JFrame {
         button_Polygon.setBorder(null);
         button_Polygon.setFocusPainted(false);
         button_Polygon.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        button_Polygon.setMaximumSize(new java.awt.Dimension(148, 105));
+        button_Polygon.setMinimumSize(new java.awt.Dimension(148, 105));
+        button_Polygon.setPreferredSize(new java.awt.Dimension(148, 105));
         button_Polygon.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Shape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Shape_Star.png"))); // NOI18N
@@ -1258,6 +1335,64 @@ public class MainFrame extends javax.swing.JFrame {
         button_Transform.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         button_Transform.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
+        javax.swing.GroupLayout panelDrawingTool2DLayout = new javax.swing.GroupLayout(panelDrawingTool2D);
+        panelDrawingTool2D.setLayout(panelDrawingTool2DLayout);
+        panelDrawingTool2DLayout.setHorizontalGroup(
+            panelDrawingTool2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDrawingTool2DLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(panelDrawingTool2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(Seperator)
+                    .addComponent(button_Shape, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 116, Short.MAX_VALUE)
+                    .addComponent(button_Line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_Transform, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
+        );
+        panelDrawingTool2DLayout.setVerticalGroup(
+            panelDrawingTool2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDrawingTool2DLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(172, 172, 172)
+                .addComponent(Seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+
+        panelDrawingTool.add(panelDrawingTool2D, "Card2D");
+        panelDrawingTool2D.getAccessibleContext().setAccessibleName("");
+
+        panelDrawingTool3D.setName("Card3D"); // NOI18N
+
+        button_3DShape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3DShape_Cube.png"))); // NOI18N
+        button_3DShape.setFocusPainted(false);
+        button_3DShape.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        button_3DShape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+
+        javax.swing.GroupLayout panelDrawingTool3DLayout = new javax.swing.GroupLayout(panelDrawingTool3D);
+        panelDrawingTool3D.setLayout(panelDrawingTool3DLayout);
+        panelDrawingTool3DLayout.setHorizontalGroup(
+            panelDrawingTool3DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelDrawingTool3DLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(button_3DShape, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0))
+        );
+        panelDrawingTool3DLayout.setVerticalGroup(
+            panelDrawingTool3DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDrawingTool3DLayout.createSequentialGroup()
+                .addComponent(button_3DShape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 487, Short.MAX_VALUE))
+        );
+
+        panelDrawingTool.add(panelDrawingTool3D, "Card3D");
+
         javax.swing.GroupLayout panel_DrawingToolLayout = new javax.swing.GroupLayout(panel_DrawingTool);
         panel_DrawingTool.setLayout(panel_DrawingToolLayout);
         panel_DrawingToolLayout.setHorizontalGroup(
@@ -1265,15 +1400,8 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(panel_DrawingToolLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(Seperator)
-                    .addGroup(panel_DrawingToolLayout.createSequentialGroup()
-                        .addGroup(panel_DrawingToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(panelDrawingTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panel_DrawingToolLayout.setVerticalGroup(
@@ -1282,15 +1410,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(panel_SelectCoordinate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_Line, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(159, 159, 159)
-                .addComponent(Seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(panelDrawingTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_DrawingArea.setBackground(new java.awt.Color(248, 248, 248));
@@ -1315,20 +1435,19 @@ public class MainFrame extends javax.swing.JFrame {
             panel_DrawingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_DrawingLayout.createSequentialGroup()
                 .addComponent(panel_DrawingTool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(0, 0, 0)
                 .addComponent(panel_DrawingArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         panel_DrawingLayout.setVerticalGroup(
             panel_DrawingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_DrawingLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(panel_DrawingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(panel_DrawingTool, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_DrawingLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(panel_DrawingArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, 0))
+                .addGap(6, 6, 6)
+                .addComponent(panel_DrawingArea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panel_DrawingLayout.createSequentialGroup()
+                .addComponent(panel_DrawingTool, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         label_CoordIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/moveCursor.png"))); // NOI18N
@@ -1348,7 +1467,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(panel_CoordinateCursorLayout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(label_CoordIcon)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_CoordValue)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -1372,12 +1491,12 @@ public class MainFrame extends javax.swing.JFrame {
         panel_StatusBarLayout.setHorizontalGroup(
             panel_StatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_StatusBarLayout.createSequentialGroup()
-                .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(label_ToolTip, javax.swing.GroupLayout.PREFERRED_SIZE, 1170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(label_ToolTip, javax.swing.GroupLayout.PREFERRED_SIZE, 1161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         panel_StatusBarLayout.setVerticalGroup(
             panel_StatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1394,31 +1513,30 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panel_StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(panel_Drawing, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jSeparator2)
-            .addComponent(jSeparator1)
             .addComponent(jSeparator3)
+            .addComponent(jSeparator1)
+            .addComponent(panel_Operation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(panel_Control, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panel_Control, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panel_Drawing, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(panel_Operation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(panel_StatusBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel_Operation, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_Control, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(panel_Drawing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(0, 0, 0)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(2, 2, 2)
                 .addComponent(panel_StatusBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1598,6 +1716,9 @@ public class MainFrame extends javax.swing.JFrame {
                 case "SHA":
                     savedShapeMode = this.selectedMode;
                     break;
+                case "3DS":
+                    saved3DShapeMode = this.selectedMode;
+                    break;
                 case "TRA":
                     savedTransformMode = this.selectedMode;
                     break;
@@ -1660,8 +1781,24 @@ public class MainFrame extends javax.swing.JFrame {
                 Change coordinate system.
              */
             getDrawingPanel().setCoordinateMode(this.selectedCoordMode);
-        }
 
+            if (button_2DMode.isSelected()) {
+                showCardDrawingTool(panelDrawingTool2D.getName());
+            } else if (button_3DMode.isSelected()) {
+                showCardDrawingTool(panelDrawingTool3D.getName());
+            }
+        }
+    }
+
+    /**
+     * Show panel containing drawing tool for current coordinate system.
+     *
+     * @param cardName
+     */
+    private void showCardDrawingTool(String cardName) {
+        CardLayout layout = (CardLayout) (panelDrawingTool.getLayout());
+        layout.show(panelDrawingTool, cardName);
+        panelDrawingTool.repaint();
     }
 
     /**
@@ -1708,6 +1845,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup_CoordMode;
     private javax.swing.JRadioButton button_2DMode;
     private javax.swing.JRadioButton button_3DMode;
+    private javax.swing.JButton button_3DShape;
     private javax.swing.JButton button_Animation;
     private javax.swing.JButton button_ClearAll;
     private javax.swing.JButton button_ColorChooser;
@@ -1752,6 +1890,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
     private javax.swing.JLabel label_ToolTip;
+    private javax.swing.JMenuItem menuItem_3DCube;
+    private javax.swing.JMenuItem menuItem_3DCylinder;
+    private javax.swing.JMenuItem menuItem_3DPyramid;
+    private javax.swing.JMenuItem menuItem_3DSphere;
     private javax.swing.JMenuItem menuItem_Arrow;
     private javax.swing.JMenuItem menuItem_Circle;
     private javax.swing.JMenuItem menuItem_Diamond;
@@ -1764,6 +1906,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem menuItem_Star;
     private javax.swing.JMenuItem menuItem_Symmetry;
     private javax.swing.JMenuItem menuItem_Triangle;
+    private javax.swing.JPanel panelDrawingTool;
+    private javax.swing.JPanel panelDrawingTool2D;
+    private javax.swing.JPanel panelDrawingTool3D;
     private javax.swing.JPanel panel_Color;
     private javax.swing.JPanel panel_Control;
     private javax.swing.JPanel panel_CoordinateCursor;
@@ -1776,6 +1921,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panel_StatusBar;
     private javax.swing.JPanel panel_Tool;
     private javax.swing.JPanel panel_View;
+    private javax.swing.JPopupMenu popMenu_3DShape;
     private javax.swing.JPopupMenu popMenu_Line;
     private javax.swing.JPopupMenu popMenu_Polygon;
     private javax.swing.JPopupMenu popMenu_Shape;
