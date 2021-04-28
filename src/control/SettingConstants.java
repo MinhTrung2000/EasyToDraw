@@ -4,34 +4,8 @@ import model.shape2d.Point2D;
 import java.awt.Color;
 import java.util.ArrayList;
 
-/**
- * Application-wide constants.
- */
 public interface SettingConstants {
 
-    /*
-    Sketch Point version.
-    Don't change the format of the VERSION_STRING (or comment out).
-    Because it is read by the build system and update automatically
-    by building task.
-    */
-    
-    /** Last build date */
-    public static final String BUILD_DATE = "20 April 2021";
-    /** Complete version string */
-    public static final String VERSION_STRING = "1.0.0";
-    /** Application name */
-    public static final String APPLICATION_NAME = "SketchPoint";
-    
-    /** Update download link */
-    public static final String DOWNLOAD_PACKAGE_WINDOWS = 
-            "https://github.com/MinhTrung2000/SketchPoint/releases";
-    
-    /*
-    Splash screen.
-    */
-    public static final int SPLASH_DIALOG_DELAY = 1000;
-    
     enum CoordinateMode {
         MODE_2D,
         MODE_3D,
@@ -68,49 +42,49 @@ public interface SettingConstants {
 
     public enum DrawingToolMode {
         TOOL_COLOR_PICKER("") {
-            public String toString(){
+            public String toString() {
                 return "COLOR PICKER";
-            }    
+            }
         },
         TOOL_COLOR_FILLER("") {
-            public String toString(){
+            public String toString() {
                 return "COLOR FILLER";
-            } 
+            }
         },
         TOOL_CLEAR_ALL("") {
-            public String toString(){
+            public String toString() {
                 return "CLEAR ALL";
             }
         },
         TOOL_ERASER("") {
-            public String toString(){
+            public String toString() {
                 return "ERASER";
-            } 
+            }
         },
         TOOL_SELECT("") {
-            public String toString(){
+            public String toString() {
                 return "SELECT";
-            }   
+            }
         },
         TOOL_ANIMATION("") {
-            public String toString(){
+            public String toString() {
                 return "ANIMATION";
-            }  
+            }
         },
         DRAWING_LINE_SEGMENT("Press SHIFT to draw Straight Line Segment") {
             public String toString() {
                 return "LINE SEGMENT";
-            }   
+            }
         },
-        DRAWING_LINE_STRAIGHT (""){
+        DRAWING_LINE_STRAIGHT("") {
             public String toString() {
                 return "STRAIGHT LINE";
-            }  
+            }
         },
-        DRAWING_LINE_FREE(""){
+        DRAWING_LINE_FREE("") {
             public String toString() {
                 return "PENCIL";
-            }    
+            }
         },
         DRAWING_POLYGON_FREE("") {
             public String toString() {
@@ -121,61 +95,83 @@ public interface SettingConstants {
             public String toString() {
                 return "TRIANGLE";
             }
-            
+
         },
         DRAWING_POLYGON_RECTANGLE("Press SHIFT to draw Square") {
             public String toString() {
                 return "RECTANGLE";
             }
-            
+
         },
         DRAWING_POLYGON_ELLIPSE("Press SHIFT to draw Ellipse") {
             public String toString() {
                 return "ELLIPSE";
             }
-            
+
         },
         DRAWING_SHAPE_STAR("") {
             public String toString() {
                 return "STAR";
             }
-           
+
         },
         DRAWING_SHAPE_DIAMOND("Press SHIFT to draw Square Diamond") {
             public String toString() {
                 return "DIAMOND";
             }
-            
+
         },
         DRAWING_SHAPE_ARROW("") {
             public String toString() {
                 return "ARROW";
             }
-            
-            
+
+        },
+        DRAWING_3DSHAPE_CUBE("") {
+            public String toString() {
+                return "CUBE";
+            }
+
+        },
+        DRAWING_3DSHAPE_CYLINDER("") {
+            public String toString() {
+                return "CYLINDER";
+            }
+
+        },
+        DRAWING_3DSHAPE_PYRAMID("") {
+            public String toString() {
+                return "PYRAMID";
+            }
+
+        },
+        DRAWING_3DSHAPE_SPHERE("") {
+            public String toString() {
+                return "SPHERE";
+            }
+
         },
         DRAWING_TRANSFORM_ROTATION("") {
             public String toString() {
                 return "ROATATION";
             }
-            
+
         },
         DRAWING_TRANSFORM_SYMMETRY("") {
             public String toString() {
                 return "SYMMETRY";
             }
-            
+
         };
+
         public final String toolTip;
-        private DrawingToolMode (String toolTip){
-            this.toolTip=toolTip;
+
+        private DrawingToolMode(String toolTip) {
+            this.toolTip = toolTip;
         }
-        
-                
-        
     }
 
-    // Note: Don't remove this, I want to have something to help anyone who 
+    // Note: Don't remove this, it is used to help anyone who 
     // read this code can understand the relation between visual pixel and 
     // machine pixel.
     public static final int PIXEL_UNIT = 1;
@@ -191,7 +187,7 @@ public interface SettingConstants {
     public static final int SIZE = 5 * PIXEL_UNIT;
 
     public static final int RECT_SIZE = SPACE + SIZE;
-    
+
     // Line size option
     public static final int MIN_LINE_SIZE = 1;
     public static final int MAX_LINE_SIZE = 5;
@@ -212,9 +208,8 @@ public interface SettingConstants {
     public static final boolean DEFAULT_VISUAL_SHOW_GRID = true;
     public static final boolean DEFAULT_VISUAL_SHOW_COORDINATE = true;
 
-    
     public static final int DEFAULT_SAVED_COLOR_NUMBER = 8;
-    
+
     public static final Color DEFAULT_COLOR_SAVE_1 = new Color(0, 0, 0);
     public static final Color DEFAULT_COLOR_SAVE_2 = new Color(255, 255, 255);
     public static final Color DEFAULT_COLOR_SAVE_3 = new Color(127, 127, 127);
