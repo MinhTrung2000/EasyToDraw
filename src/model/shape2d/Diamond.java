@@ -12,6 +12,10 @@ public class Diamond extends Shape2D {
     private Point2D topPoint;
     private Point2D bottomPoint;
 
+    public enum Modal {
+        COMMON_DIAMOND,
+        SQUARE_DIAMOND,
+    }
     public Diamond(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
@@ -23,18 +27,56 @@ public class Diamond extends Shape2D {
         bottomPoint = new Point2D();
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(Point2D startPoint, Point2D endPoint,Modal modal) {
+        int width = endPoint.getCoordX() - startPoint.getCoordX();
+        int height = endPoint.getCoordY() - startPoint.getCoordY();
+        
         this.startPoint = startPoint;
-        this.endPoint = endPoint;
+        if(modal == Modal.COMMON_DIAMOND){
+            this.endPoint = endPoint;
+        } else {
+            int widthDirection;
 
-        this.centerPoint = Point2D.midPoint(startPoint, endPoint);
+        if (width < 0) {
+            widthDirection = -1;
+        } else {
+            widthDirection = 1;
+        }
+        
+        int heightDirection;
+        
+            if (height < 0) {
+                heightDirection = -1;
+            } else {
+                heightDirection = 1;
+            }
+            
+            
+            int widthValue = Math.abs(width);
+            int heightValue = Math.abs(height);
+
+            int preferedLength;
+            if (widthValue >= heightValue) {
+                preferedLength = heightValue;
+            } else {
+                preferedLength = widthValue;
+            }
+            
+            this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
+        }
+        
+        
+        this.centerPoint = Point2D.midPoint(this.startPoint, this.endPoint);
 
         this.leftPoint.setCoord(this.startPoint.coordX, this.centerPoint.coordY);
         this.rightPoint.setCoord(this.endPoint.coordX, this.centerPoint.coordY);
         this.topPoint.setCoord(this.centerPoint.coordX, this.startPoint.coordY);
         this.bottomPoint.setCoord(this.centerPoint.coordX, this.endPoint.coordY);
     }
-
+    @Override
+    public void setProperty(Point2D startPoint, Point2D endPoint) {
+        setProperty(startPoint, endPoint, Modal.COMMON_DIAMOND);
+    }
     @Override
     public void saveCoordinates() {
         this.leftPoint.saveCoord(changedCoordOfBoard);
@@ -50,6 +92,7 @@ public class Diamond extends Shape2D {
         Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle);
         Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle);
 
+        drawSegment(startPoint, endPoint);
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);
         drawSegment(tempBottomPoint, tempLeftPoint);
