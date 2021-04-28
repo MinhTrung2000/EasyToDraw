@@ -33,38 +33,32 @@ public class Triangle extends Shape2D {
      * @param endPoint
      */
     public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        int width = endPoint.getCoordX() - startPoint.getCoordX();
+         int width = endPoint.getCoordX() - startPoint.getCoordX();
         int height = endPoint.getCoordY() - startPoint.getCoordY();
-
-        int widthDirection;//true = dương, false = âm
+        
+        int adjustingValue;
+        int widthDirection;
 
         if (width < 0) {
             widthDirection = -1;
         } else {
             widthDirection = 1;
         }
-
-        Point2D feetPoint = new Point2D();
-        Point2D headPoint = new Point2D();
-        UnchangedPoint unchangedPoint = UnchangedPoint.HEAD_POINT;
-
-        if (width > 0 && height > 0 || width < 0 && height > 0 || width == 0 || height == 0) {//chéo xuống, từ trái qua hoặc chéo xuống từ phải qua
-            feetPoint.setCoord(endPoint);                  //trường hợp width hoặc height =0 thì để chỗ nào cũng dc
-            headPoint.setCoord(startPoint);                // nó sẽ vẽ một đoạn thẳng nằm ngang
-            unchangedPoint = UnchangedPoint.HEAD_POINT;
-        } else if (width < 0 && height < 0 || width > 0 && height < 0) {//chéo lên, từ phải qua hoặc... chéo lên, từ trái qua
-            feetPoint.setCoord(startPoint);
-            headPoint.setCoord(endPoint);
-            unchangedPoint = UnchangedPoint.FEET_POINT;
-        }
-
+        
+        int heightDirection;
+        
+            if (height < 0) {
+                heightDirection = -1;
+            } else {
+                heightDirection = 1;
+            }
+            
         if (modal == Modal.COMMON_TRIANGLE) {
-            pointA.setCoord((feetPoint.coordX + headPoint.coordX) / 2, headPoint.coordY);
-            pointB.setCoord(headPoint.getCoordX(), feetPoint.getCoordY());
-            pointC.setCoord(feetPoint);
-
-        } else {
-
+            this.startPoint=startPoint;
+            this.endPoint=endPoint;
+            adjustingValue =0;
+        }else {
+            adjustingValue = -widthDirection; // giá trị để dịch 1 pixel có hướng, căn chỉnh lại cho đều 2 cạnh của tam giác đều
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
 
@@ -74,23 +68,28 @@ public class Triangle extends Shape2D {
             } else {
                 preferedLength = widthValue;
             }
-            if (preferedLength > 0) {
-                if (unchangedPoint == UnchangedPoint.HEAD_POINT) {
-                    pointA.setCoord(headPoint.getCoordX() + widthDirection * preferedLength / 2, headPoint.getCoordY());
-                    pointB.setCoord(headPoint.getCoordX(), headPoint.getCoordY() + preferedLength);
-                    pointC.setCoord(headPoint.getCoordX() + widthDirection * preferedLength + (-widthDirection), headPoint.getCoordY() + preferedLength);
-                } else {
-                    pointA.setCoord(feetPoint.getCoordX() + widthDirection * preferedLength / 2, feetPoint.getCoordY() - preferedLength);
-                    pointB.setCoord(feetPoint.getCoordX(), feetPoint.getCoordY());
-                    pointC.setCoord(feetPoint.getCoordX() + widthDirection * preferedLength + (-widthDirection), feetPoint.getCoordY());
-                }
-                //  +widthDirection*preferedLength = set điểm quan tâm đến hướng theo phương ngang (dựa vào hướng kéo chuột từ trái hay từ phải qua)
-                //  +preferedLength = chỉ quan tâm đến giá trị cộng vào, hướng luôn theo phương dọc, do vẽ tam giác mặc định luôn hướng từ trên xuống
-                //  +(-widthDirection) dịch 1 pixel có hướng theo phương ngang để căn chỉnh lại hình
-            }
+            
+            this.startPoint=startPoint;
+            this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
+            
         }
 
-        centerPoint.setCoord(
+            int Ay, By, Cy;
+            if(this.endPoint.getCoordY()< this.startPoint.getCoordY()){
+              Ay=this.endPoint.getCoordY();
+              By=this.startPoint.getCoordY();
+              Cy=this.startPoint.getCoordY();
+            }else {
+              Ay=this.startPoint.getCoordY();
+              By=this.endPoint.getCoordY();
+              Cy=this.endPoint.getCoordY();
+            } 
+            
+            pointA.setCoord(((this.startPoint.coordX + this.endPoint.coordX) / 2), Ay);
+            pointB.setCoord(this.startPoint.getCoordX(), By);
+            pointC.setCoord(this.endPoint.getCoordX()+adjustingValue,Cy);
+            
+            centerPoint.setCoord(
                 pointA.coordX,
                 pointC.coordY + (int) ((2.0 / 3.0) * Math.abs(pointC.coordY - pointA.coordY))
         );
