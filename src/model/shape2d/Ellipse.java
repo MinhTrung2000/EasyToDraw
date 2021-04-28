@@ -15,8 +15,6 @@ public class Ellipse extends Shape2D {
 
     private Modal modal;
 
-    private ArrayList<Point2D> pointSet = new ArrayList<>();
-
     public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
@@ -77,17 +75,12 @@ public class Ellipse extends Shape2D {
         setProperty(startPoint, endPoint, Modal.ELLIPSE);
     }
 
-    @Override
-    public void savePointCoordinate(int coordX, int coordY) {
-        centerPoint.saveCoord(changedCoordOfBoard);
-    }
-
     private void drawOutlineEllipse() {
         pointSet.clear();
 
         // Save center point coordination
-        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
-
+        centerPoint.saveCoord(changedCoordOfBoard);
+        
         double x = 0.0;
         double y = b;
 
@@ -95,9 +88,7 @@ public class Ellipse extends Shape2D {
         double fy = 2 * a * a * y;
 
         pixelCounter = 1;
-
         putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
-        pointSet.add(new Point2D((int) x, (int) y));
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -112,7 +103,6 @@ public class Ellipse extends Shape2D {
                 fy -= 2 * a * a;
             }
             pixelCounter++;
-            pointSet.add(new Point2D((int) x, (int) y));
             putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
         }
 
@@ -127,7 +117,6 @@ public class Ellipse extends Shape2D {
                 p += a * a * (3 - 2 * y);
             }
             pixelCounter++;
-            pointSet.add(new Point2D((int) x, (int) y));
             putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
         }
     }
@@ -136,8 +125,8 @@ public class Ellipse extends Shape2D {
         pointSet.clear();
 
         // Save center point coordination
-        savePointWithLineStyleCheck(centerPoint.coordX, centerPoint.coordY, 1, lineStyle);
-
+        centerPoint.saveCoord(changedCoordOfBoard);
+        
         double x = 0;
         double y = a;
 
@@ -156,7 +145,6 @@ public class Ellipse extends Shape2D {
             }
             x++;
             pixelCounter++;
-            pointSet.add(new Point2D((int) x, (int) y));
             putEightSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
         }
     }
@@ -176,37 +164,14 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        if (pointSet.size() == 0) {
-            return;
-        }
-
-        Point2D tempCenterPoint = this.centerPoint.createRotationPoint(centerPoint, angle);
-
-        pixelCounter = 0;
-
-        double totalAngle = this.rotatedAngle + angle;
-
-        for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createRotationPoint(centerPoint, totalAngle);
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
-        }
-    }
-
-    @Override
     public void drawVirtualMove(Vector2D vector) {
         if (pointSet.size() == 0) {
             return;
         }
 
-        Point2D tempCenterPoint = this.centerPoint.createMovingPoint(vector);
-
-        pixelCounter = 0;
         for (int i = 0; i < pointSet.size(); i++) {
             Point2D pt = pointSet.get(i).createMovingPoint(vector);
-            pixelCounter++;
-            putEightSymmetricPoints(pt.coordX, pt.coordY, tempCenterPoint.coordX, tempCenterPoint.coordY);
+            savePoint(pt.getCoordX(), pt.getCoordY());
         }
     }
 

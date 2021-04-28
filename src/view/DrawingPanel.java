@@ -805,6 +805,7 @@ public class DrawingPanel extends JPanel {
                         triangle.setLineStyle(selectedLineStyle);
                         triangle.draw();
                         triangle.saveCoordinates();
+                        recentShape = triangle;
                     }
                     repaint();
                     break;
@@ -821,6 +822,7 @@ public class DrawingPanel extends JPanel {
                         rectangle.setLineStyle(selectedLineStyle);
                         rectangle.draw();
                         rectangle.saveCoordinates();
+                        recentShape = rectangle;
                     }
                     repaint();
                     break;
@@ -839,6 +841,7 @@ public class DrawingPanel extends JPanel {
                         ellipse.setLineStyle(selectedLineStyle);
                         ellipse.draw();
                         ellipse.saveCoordinates();
+                        recentShape = ellipse;
                     }
                     repaint();
                     break;
@@ -851,6 +854,7 @@ public class DrawingPanel extends JPanel {
                         star.setLineStyle(selectedLineStyle);
                         star.draw();
                         star.saveCoordinates();
+                        recentShape = star;
                     }
                     repaint();
                     break;
@@ -863,6 +867,7 @@ public class DrawingPanel extends JPanel {
                         diamond.setLineStyle(selectedLineStyle);
                         diamond.draw();
                         diamond.saveCoordinates();
+                        recentShape = diamond;
                     }
                     repaint();
                     break;
@@ -875,6 +880,7 @@ public class DrawingPanel extends JPanel {
                         arrow.setLineStyle(selectedLineStyle);
                         arrow.draw();
                         arrow.saveCoordinates();
+                        recentShape = arrow;
                     }
                     repaint();
                     break;

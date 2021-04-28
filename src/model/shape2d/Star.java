@@ -253,34 +253,4 @@ public class Star extends Shape2D {
         drawSegment(tempPointE, tempOpPointC);
         drawSegment(tempOpPointC, tempPointA);
     }
-
-    @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        Point2D tempCenterPoint = this.centerPoint.createRotationPoint(centerPoint, angle);
-
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempPointA = pointA.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointB = pointB.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointC = pointC.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointD = pointD.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointE = pointE.createRotationPoint(tempCenterPoint, totalAngle);
-
-        Point2D tempOpPointA = opPointA.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempOpPointB = opPointB.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempOpPointC = opPointC.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempOpPointD = opPointD.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempOpPointE = opPointE.createRotationPoint(tempCenterPoint, totalAngle);
-
-        drawSegment(tempPointA, tempOpPointD);
-        drawSegment(tempOpPointD, tempPointB);
-        drawSegment(tempPointB, tempOpPointE);
-        drawSegment(tempOpPointE, tempPointC);
-        drawSegment(tempPointC, tempOpPointA);
-        drawSegment(tempOpPointA, tempPointD);
-        drawSegment(tempPointD, tempOpPointB);
-        drawSegment(tempOpPointB, tempPointE);
-        drawSegment(tempPointE, tempOpPointC);
-        drawSegment(tempOpPointC, tempPointA);
-    }
 }

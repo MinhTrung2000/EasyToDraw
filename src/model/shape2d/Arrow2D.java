@@ -166,27 +166,6 @@ public class Arrow2D extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointD = pointD.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointE = pointE.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointF = pointF.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempPointG = pointG.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempPointA, tempPointB);
-        drawSegment(tempPointB, tempPointC);
-        drawSegment(tempPointC, tempPointG);
-        drawSegment(tempPointG, tempPointE);
-        drawSegment(tempPointE, tempPointF);
-        drawSegment(tempPointF, tempPointD);
-        drawSegment(tempPointD, tempPointA);
-    }
-
-    @Override
     public void drawLineSymmetry(double a, double b, double c) {
         Point2D tempPointA = pointA.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
         Point2D tempPointB = pointB.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);

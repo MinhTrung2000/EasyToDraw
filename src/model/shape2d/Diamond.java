@@ -44,21 +44,6 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempTopPoint, tempRightPoint);
-        drawSegment(tempRightPoint, tempBottomPoint);
-        drawSegment(tempBottomPoint, tempLeftPoint);
-        drawSegment(tempLeftPoint, tempTopPoint);
-    }
-
-    @Override
     public void drawOutline() {
         Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle);
         Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle);

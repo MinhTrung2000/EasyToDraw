@@ -69,21 +69,6 @@ public class Rectangle extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
-    }
-
-    @Override
     public void setProperty(Point2D startPoint, Point2D endPoint) {
         setProperty(startPoint, endPoint, Modal.RECTANGLE);
     }
@@ -106,9 +91,9 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, totalAngle);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override
@@ -119,17 +104,17 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).move(vector);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override
     public void applyMove(Vector2D vector) {
-        leftTopPoint.move(vector);
-        rightTopPoint.move(vector);
-        leftBottomPoint.move(vector);
-        rightBottomPoint.move(vector);
+        leftTopPoint.rotate(rotatedAngle).move(vector);
+        rightTopPoint.rotate(rotatedAngle).move(vector);
+        leftBottomPoint.rotate(rotatedAngle).move(vector);
+        rightBottomPoint.rotate(rotatedAngle).move(vector);
 
         centerPoint.move(vector);
     }
@@ -142,9 +127,9 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOx();
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override
@@ -155,9 +140,9 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symOy();
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override
@@ -168,9 +153,9 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symPoint(point);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override
@@ -181,9 +166,9 @@ public class Rectangle extends Shape2D {
         Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).symLine(a, b, c);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
-        drawSegment(tempRightTopPoint, tempLeftBottomPoint, lineStyle);
-        drawSegment(tempLeftBottomPoint, tempRightBottomPoint, lineStyle);
-        drawSegment(tempRightBottomPoint, tempLeftTopPoint, lineStyle);
+        drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
+        drawSegment(tempRightBottomPoint, tempLeftBottomPoint, lineStyle);
+        drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
     @Override

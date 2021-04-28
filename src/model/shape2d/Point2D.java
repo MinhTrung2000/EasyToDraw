@@ -325,7 +325,6 @@ public class Point2D {
         int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
 
         String result = "(" + x + ", " + y + ")";
-//        String result = "(" + this.coordX + ", " + this.coordY + ")";
         return result;
     }
 

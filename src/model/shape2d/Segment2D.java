@@ -128,19 +128,6 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        System.out.println("start point: " + this.startPoint);
-        System.out.println("end point: " + this.endPoint);
-        
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempStartPoint = this.startPoint.createRotationPoint(centerPoint, totalAngle);
-        Point2D tempEndPoint = this.endPoint.createRotationPoint(centerPoint, totalAngle);
-
-        drawSegment(tempStartPoint, tempEndPoint, lineStyle);
-    }
-
-    @Override
     public void drawLineSymmetry(double a, double b, double c) {
         Point2D tempStartPoint = startPoint.createRotationPoint(this.centerPoint, rotatedAngle).symLine(a, b, c);
         Point2D tempEndPoint = endPoint.createRotationPoint(this.centerPoint, rotatedAngle).symLine(a, b, c);

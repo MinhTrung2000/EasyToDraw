@@ -5,6 +5,7 @@
  */
 package view;
 
+import control.SettingConstants;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.InputVerifier;
@@ -107,6 +108,9 @@ public class Rotation2DInput extends javax.swing.JDialog {
                         return false;
                     }
 
+                    // Change visual coord to real machine coord
+                    coordX += (int) (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE);
+                    
                     acceptCenterPoint.setCoordX(coordX);
                 } else if (input == textfCenterPointCoordY) {
                     String coordYText = textfCenterPointCoordY.getText();
@@ -124,6 +128,9 @@ public class Rotation2DInput extends javax.swing.JDialog {
                         return false;
                     }
 
+                    // Change visual coord to real machine coord
+                    coordY = (int) (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE) - coordY;
+                    
                     acceptCenterPoint.setCoordY(coordY);
                 } else if (input == textfAngle) {
                     String angText = textfAngle.getText();

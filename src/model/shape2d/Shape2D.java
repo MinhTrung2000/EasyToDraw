@@ -60,7 +60,7 @@ public abstract class Shape2D {
     protected Point2D startPoint;
     protected Point2D endPoint;
 
-//    protected ArrayList<Point2D> pointSet = new ArrayList<>();
+    protected ArrayList<Point2D> pointSet = new ArrayList<>();
 
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
@@ -89,7 +89,7 @@ public abstract class Shape2D {
         this.startPoint.setCoord(minX, maxY);
         this.endPoint.setCoord(maxX, minY);
     }
-    
+
     public Point2D getStartPoint() {
         return this.startPoint;
     }
@@ -232,11 +232,13 @@ public abstract class Shape2D {
      * @param coordX
      * @param coordY
      */
-    protected void savePointCoordinate(int coordX, int coordY) {
+    protected boolean savePoint(int coordX, int coordY) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
             markedChangeOfBoard[coordY][coordX] = true;
             changedColorOfBoard[coordY][coordX] = filledColor;
+            return true;
         }
+        return false;
     }
 
     public abstract void saveCoordinates();
@@ -249,12 +251,15 @@ public abstract class Shape2D {
      * @param coordY
      * @param lineStyle
      */
-    public void savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
+    public boolean savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordY][coordX] = true;
             changedColorOfBoard[coordY][coordX] = filledColor;
+            pointSet.add(new Point2D(coordX, coordY));
+            return true;
         }
+        return false;
     }
 
     public void putFourSymmetricPoints(int x, int y, int center_x, int center_y) {
@@ -284,7 +289,18 @@ public abstract class Shape2D {
         savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
     }
 
-    public abstract void drawVirtualRotation(Point2D centerPoint, double angle);
+    public void drawVirtualRotation(Point2D centerPoint, double angle) {
+        if (pointSet.size() == 0) {
+            return;
+        }
+
+        double totalAngle = this.rotatedAngle + angle;
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            Point2D pt = pointSet.get(i).createRotationPoint(centerPoint, totalAngle);
+            savePoint(pt.getCoordX(), pt.getCoordY());
+        }
+    }
 
     public void drawVirtualRotation(double angle) {
         drawVirtualRotation(this.centerPoint, angle);
@@ -303,6 +319,6 @@ public abstract class Shape2D {
     public abstract void drawOYSymmetry();
 
     public abstract void drawPointSymmetry(Point2D basePoint);
-    
+
     public abstract void drawLineSymmetry(double a, double b, double c);
 }

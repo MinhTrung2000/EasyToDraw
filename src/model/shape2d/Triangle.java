@@ -8,21 +8,6 @@ public class Triangle extends Shape2D {
     private Point2D pointB;
     private Point2D pointC;
 
-    @Override
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
-        Point2D tempCenterPoint = this.centerPoint.createRotationPoint(centerPoint, angle);
-
-        double totalAngle = this.rotatedAngle + angle;
-
-        Point2D tempPointA = pointA.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointB = pointB.createRotationPoint(tempCenterPoint, totalAngle);
-        Point2D tempPointC = pointC.createRotationPoint(tempCenterPoint, totalAngle);
-
-        drawSegment(tempPointA, tempPointB);
-        drawSegment(tempPointB, tempPointC);
-        drawSegment(tempPointC, tempPointA);
-    }
-
     public enum Modal {
         COMMON_TRIANGLE,
         EQUILATERAL_TRIANGLE,
