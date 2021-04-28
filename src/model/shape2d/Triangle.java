@@ -28,41 +28,22 @@ public class Triangle extends Shape2D {
      * @param endPoint
      */
     public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-         int width = endPoint.getCoordX() - startPoint.getCoordX();
+        int width = endPoint.getCoordX() - startPoint.getCoordX();
         int height = endPoint.getCoordY() - startPoint.getCoordY();
         
         int adjustingValue;
-        int widthDirection;
-
-        if (width < 0) {
-            widthDirection = -1;
-        } else {
-            widthDirection = 1;
-        }
-        
-        int heightDirection;
-        
-            if (height < 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
-            
+        int widthDirection = this.getWidthDirection(width);
+        int heightDirection = this.getHeightDirection(height);
+    
         if (modal == Modal.COMMON_TRIANGLE) {
             this.startPoint=startPoint;
             this.endPoint=endPoint;
             adjustingValue =0;
         }else {
             adjustingValue = -widthDirection; // giá trị để dịch 1 pixel có hướng, căn chỉnh lại cho đều 2 cạnh của tam giác đều
-            int widthValue = Math.abs(width);
-            int heightValue = Math.abs(height);
 
-            int preferedLength;
-            if (widthValue >= heightValue) {
-                preferedLength = heightValue;
-            } else {
-                preferedLength = widthValue;
-            }
+            int preferedLength = this.getPreferredLength(width, height);
+            
             
             this.startPoint=startPoint;
             this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);

@@ -31,27 +31,10 @@ public class Segment2D extends Shape2D {
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
 
-            int heightDirection;
-            int widthDirection;
+            int heightDirection = this.getHeightDirection(height);
+            int widthDirection = this.getWidthDirection(width);
+            int preferedLength = this.getPreferredLength(width, height);
 
-            if (width <= 0) {
-                widthDirection = -1;
-            } else {
-                widthDirection = 1;
-            }
-
-            if (height <= 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
-
-            int preferedLength;
-            if (widthValue >= heightValue) {
-                preferedLength = widthValue;
-            } else {
-                preferedLength = heightValue;
-            }
 
             this.startPoint = startPoint;
 

@@ -36,28 +36,9 @@ public class Rectangle extends Shape2D {
         } else {
             int width = endPoint.getCoordX() - startPoint.getCoordX();
             int height = endPoint.getCoordY() - startPoint.getCoordY();
-            int widthDirection;
-            int heightDirection;
-            if (width <= 0) {
-                widthDirection = -1;
-            } else {
-                widthDirection = 1;
-            }
-
-            if (height <= 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
-            int widthValue = Math.abs(width);
-            int heightValue = Math.abs(height);
-
-            int preferedLength;
-            if (widthValue >= heightValue) {
-                preferedLength = heightValue;
-            } else {
-                preferedLength = widthValue;
-            }
+            int widthDirection = this.getWidthDirection(width);
+            int heightDirection = this.getHeightDirection(height);
+            int preferedLength = this.getPreferredLength(width, height);
             if (preferedLength > 0) {
                 leftTopPoint.setCoord(startPoint);
                 leftBottomPoint.setCoord(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);

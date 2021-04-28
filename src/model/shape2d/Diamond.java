@@ -35,32 +35,10 @@ public class Diamond extends Shape2D {
         if(modal == Modal.COMMON_DIAMOND){
             this.endPoint = endPoint;
         } else {
-            int widthDirection;
-
-        if (width < 0) {
-            widthDirection = -1;
-        } else {
-            widthDirection = 1;
-        }
-        
-        int heightDirection;
-        
-            if (height < 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
+            int widthDirection = this.getWidthDirection(width);
+            int heightDirection = this.getHeightDirection(height);
+            int preferedLength = this.getPreferredLength(width, height);
             
-            
-            int widthValue = Math.abs(width);
-            int heightValue = Math.abs(height);
-
-            int preferedLength;
-            if (widthValue >= heightValue) {
-                preferedLength = heightValue;
-            } else {
-                preferedLength = widthValue;
-            }
             
             this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
         }
@@ -92,7 +70,6 @@ public class Diamond extends Shape2D {
         Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle);
         Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle);
 
-        drawSegment(startPoint, endPoint);
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);
         drawSegment(tempBottomPoint, tempLeftPoint);
