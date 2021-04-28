@@ -70,7 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
         setIconFrame();
         setOptionLineStyle();
         setAllEventHandler();
-
+        button_Line.requestFocus();
         panel_DrawingArea.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent event) {
@@ -744,7 +744,6 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Line.add(menuItem_Segment);
 
         menuItem_Line.setText("jMenuItem1");
-        menuItem_Line.setEnabled(false);
         popMenu_Line.add(menuItem_Line);
 
         menuItem_FreeDrawing.setText("jMenuItem1");
@@ -1737,13 +1736,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
-    private javax.swing.JDialog dialogRotation2DInput;
-    private javax.swing.JDialog dialogSymmetry2DInput;
-    private javax.swing.JPanel innerPanelLineSymmetryInput;
-    private javax.swing.JPanel innerPanelPointSymmetryInput;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator10;
