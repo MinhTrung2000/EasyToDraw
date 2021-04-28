@@ -361,9 +361,5 @@ public class Point2D {
     }
 
     public static void main(String[] args) {
-        Point2D point = new Point2D(-3, 2);
-
-        Point2D symLinePoint = point.createLineSymmetryPoint(2, 1, 3);
-        System.out.println("symm point: " + symLinePoint);
     }
 }

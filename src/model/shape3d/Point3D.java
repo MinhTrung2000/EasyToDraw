@@ -1,5 +1,6 @@
 package model.shape3d;
 
+import control.SettingConstants;
 import model.shape2d.Point2D;
 
 public class Point3D extends Point2D {
@@ -29,12 +30,14 @@ public class Point3D extends Point2D {
 
     /**
      * Note: Implement this code!
+     *
      * @return Point2D
      */
     public Point2D get2DRelativePosition() {
         Point2D relativePoint = new Point2D();
-
-        //??
+        int tmpX = (int) (this.coordX - Math.round(this.coordY * Math.cos(Math.toRadians(45))));
+        int tmpY = (int) (this.coordZ - Math.round(this.coordY * Math.sin(Math.toRadians(45))));
+        relativePoint.setCoord(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
         return relativePoint;
     }
 
@@ -43,9 +46,9 @@ public class Point3D extends Point2D {
         String coordPointInformation = "(" + this.coordX + ", "
                 + this.coordY + ", "
                 + this.coordZ + ")";
-        
+
         Point2D relativePoint = get2DRelativePosition();
-        
+
         coordOfBoard[relativePoint.getCoordX()][relativePoint.getCoordY()] = coordPointInformation;
     }
 }

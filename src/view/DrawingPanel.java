@@ -641,7 +641,6 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-        System.out.println("view.DrawingPanel.paintOXSymmetry()");
         recentShape.drawOXSymmetry();
         apply();
         repaint();
@@ -786,19 +785,16 @@ public class DrawingPanel extends JPanel {
                     // Do no thing
                     resetChangedPropertyArray();
                     if (checkStartingPointAvailable()) {
-                    Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                    line.setLineStyle(selectedLineStyle);
-                    line.setProperty(startDrawingPoint, endDrawingPoint);
-                    line.draw();
-                    line.saveCoordinates();
-                    recentShape = line;
+                        Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        line.setLineStyle(selectedLineStyle);
+                        line.setProperty(startDrawingPoint, endDrawingPoint);
+                        line.draw();
+                        line.saveCoordinates();
+                        recentShape = line;
                     }
                     repaint();
                     break;
                 }
-
-
-
 
                 case DRAWING_LINE_FREE: {
                     if (checkStartingPointAvailable()) {

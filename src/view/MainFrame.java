@@ -1796,17 +1796,9 @@ public class MainFrame extends javax.swing.JFrame {
      * @param cardName
      */
     private void showCardDrawingTool(String cardName) {
-//        if (!cardName.equals(panelDrawingTool2D.getName())
-//                && !cardName.equals(panelDrawingTool2D.getName())) {
-//            return;
-//        }
-
         CardLayout layout = (CardLayout) (panelDrawingTool.getLayout());
         layout.show(panelDrawingTool, cardName);
         panelDrawingTool.repaint();
-        System.out.println("name: " + cardName);
-        System.out.println("card 2d: " + panelDrawingTool2D.isVisible());
-        System.out.println("card 3d: " + panelDrawingTool3D.isVisible());
     }
 
     /**
