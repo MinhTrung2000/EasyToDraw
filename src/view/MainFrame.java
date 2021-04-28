@@ -54,7 +54,14 @@ public class MainFrame extends javax.swing.JFrame {
     private int savedColorNumber;
 
     private JButton[] savedColorButtonList;
-
+    
+    private DrawingToolMode[] ShiftException = {
+        DrawingToolMode.DRAWING_POLYGON_ELLIPSE,
+        DrawingToolMode.DRAWING_LINE_SEGMENT,
+        DrawingToolMode.DRAWING_POLYGON_RECTANGLE,
+        DrawingToolMode.DRAWING_POLYGON_TRIANGLE,
+        DrawingToolMode.DRAWING_SHAPE_DIAMOND
+    };
     public MainFrame() {
         UIManager.put("PopupMenu.consumeEventOnClose", false);
         customizeComponents();
@@ -71,11 +78,14 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void mouseMoved(MouseEvent event) {
                 showCursorCoordinate(event);
-
-                if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
-                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_ELLIPSE
-                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
-                        && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
+                boolean isInTheList = false;
+                for (DrawingToolMode element : ShiftException) {
+                    if (getDrawingPanel().getSelectedToolMode() == element) {
+                        isInTheList = true;
+                    }
+                }
+                
+                if (!isInTheList) {
                     hideTooltip();
                 }
             }
@@ -1499,12 +1509,16 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if (getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_LINE_SEGMENT
-                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_ELLIPSE
-                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_RECTANGLE
-                    && getDrawingPanel().getSelectedToolMode() != DrawingToolMode.DRAWING_POLYGON_TRIANGLE) {
-                hideTooltip();
-            } else {
+            
+            boolean isInTheList = false;
+            for (DrawingToolMode element : ShiftException) {
+                if (getDrawingPanel().getSelectedToolMode() == element) {
+                    isInTheList = true;
+                }
+            }
+                if (!isInTheList) {
+                    hideTooltip();
+                } else {
                 showTooltip(getDrawingPanel().getSelectedToolMode().toolTip);
             }
         }
