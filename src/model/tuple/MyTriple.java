@@ -24,6 +24,10 @@ public class MyTriple extends MyPair {
         this.z = z;
     }
 
+    public void setZ(int z) {
+        this.z = z;
+    }
+
     /**
      * Set x and y at the same time
      *

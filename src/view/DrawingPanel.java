@@ -627,7 +627,7 @@ public class DrawingPanel extends JPanel {
         repaint();
     }
 
-    public void paintCenterOSymmetry() {
+    public void paintOCenterSymmetry() {
         if (recentShape == null) {
             return;
         }

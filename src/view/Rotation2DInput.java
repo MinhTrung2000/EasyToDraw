@@ -21,11 +21,9 @@ import model.tuple.MyPair;
  */
 public class Rotation2DInput extends javax.swing.JDialog {
 
-    private InputVerifier inputVerifier;
-
-    Point2D acceptCenterPoint = new Point2D();
-    double acceptAngle;
-//    boolean inputValidFlag = false;
+    private Point2D acceptCenterPoint = new Point2D();
+    private double acceptAngle;
+    private InputVerifier inputVerifier = new ValidInputCheck();;
 
     /**
      * Creates new form Rotation2DInput
@@ -34,26 +32,28 @@ public class Rotation2DInput extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
 
-        inputVerifier = new ValidInputCheck();
+        setModalityType(ModalityType.APPLICATION_MODAL);
+        setLocationRelativeTo(parent);
+        setTitle("Rotation Transform Input");
+        
+        customComponents();
+    }
 
+    private void customComponents() {
         textfCenterPointCoordX.setInputVerifier(inputVerifier);
         textfCenterPointCoordY.setInputVerifier(inputVerifier);
         textfAngle.setInputVerifier(inputVerifier);
         
         btnCancel.setInputVerifier(null);
         btnCancel.setRequestFocusEnabled(false);
-        
-        setModalityType(ModalityType.APPLICATION_MODAL);
-        setLocationRelativeTo(parent);
-        setTitle("Rotation Transform Input");
-        
+
         btnCancel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
         });
-        
+
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,26 +61,13 @@ public class Rotation2DInput extends javax.swing.JDialog {
                 dispose();
             }
         });
-        
     }
-
-    public Point2D getAcceptCenterPoint() {
-        return acceptCenterPoint;
-    }
-
-    public double getAcceptAngle() {
-        return acceptAngle;
-    }
-
-//    public boolean isInputValidFlag() {
-//        return inputValidFlag;
-//    }
 
     private class ValidInputCheck extends InputVerifier {
 
         public boolean checkCoordInBound(int coord, MyPair bound) {
             if (coord < bound.x || coord > bound.y) {
-                JOptionPane.showMessageDialog(null, "Error: Coordination out of bound!");
+                JOptionPane.showMessageDialog(null, "Error: Coordinate out of bound!");
                 return false;
             }
 
@@ -94,7 +81,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
                     String coordXText = textfCenterPointCoordX.getText();
 
                     if (coordXText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "X coordination is required!");
+                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
                         return false;
                     }
 
@@ -106,15 +93,15 @@ public class Rotation2DInput extends javax.swing.JDialog {
                         return false;
                     }
 
-                    // Change visual coord to real machine coord
+                    // Convert visual coord to real machine coord
                     coordX += (int) (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE);
-                    
+
                     acceptCenterPoint.setCoordX(coordX);
                 } else if (input == textfCenterPointCoordY) {
                     String coordYText = textfCenterPointCoordY.getText();
 
                     if (coordYText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "Y coordination is required!");
+                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
                         return false;
                     }
 
@@ -126,9 +113,9 @@ public class Rotation2DInput extends javax.swing.JDialog {
                         return false;
                     }
 
-                    // Change visual coord to real machine coord
+                    // Convert visual coord to real machine coord
                     coordY = (int) (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE) - coordY;
-                    
+
                     acceptCenterPoint.setCoordY(coordY);
                 } else if (input == textfAngle) {
                     String angText = textfAngle.getText();
@@ -152,6 +139,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
                 return false;
             }
 
+            btnOK.requestFocus();
             return true;
         }
     }
@@ -254,18 +242,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Rotation2DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

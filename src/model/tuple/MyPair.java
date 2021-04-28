@@ -24,6 +24,14 @@ public class MyPair {
         y = 0;
     }
 
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
     /**
      * @param x x-coord
      * @param y y-coord

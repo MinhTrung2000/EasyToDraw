@@ -5,11 +5,31 @@
  */
 package view;
 
+import control.SettingConstants;
+import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import model.shape2d.Point2D;
+import model.tuple.MyPair;
+import model.tuple.MyTriple;
+
 /**
  *
  * @author DELL
  */
-public class Symmetry2DInput extends javax.swing.JDialog {
+public class Symmetry2DInput extends javax.swing.JDialog implements ActionListener {
+
+    private Point2D acceptedPoint = new Point2D();
+    private MyTriple acceptedLineCoeffs = new MyTriple();
+
+    private InputVerifier inputVerifier = new ValidInputCheck();
 
     /**
      * Creates new form Symmetry2DInput
@@ -17,10 +37,201 @@ public class Symmetry2DInput extends javax.swing.JDialog {
     public Symmetry2DInput(java.awt.Frame parent) {
         super(parent, true);
         initComponents();
-        
-        this.setModalityType(ModalityType.APPLICATION_MODAL);
+
+        setModalityType(ModalityType.APPLICATION_MODAL);
         setLocationRelativeTo(parent);
         setTitle("Symmetry Transform Input");
+
+        customComponents();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent evt) {
+        setPointEnable(false);
+        setLineEnable(false);
+
+        Object source = evt.getSource();
+
+        if (source == rbtnOCenterOption || source == rbtnOXOption || source == rbtnOYOption) {
+            btnOK.requestFocus();
+        } else if (source == rbtnPointOption) {
+            setPointEnable(true);
+        } else if (source == rbtnLineOption) {
+            setLineEnable(true);
+        }
+    }
+
+    private void customComponents() {
+        btnGroupOption.add(rbtnOCenterOption);
+        btnGroupOption.add(rbtnOXOption);
+        btnGroupOption.add(rbtnOYOption);
+        btnGroupOption.add(rbtnPointOption);
+        btnGroupOption.add(rbtnLineOption);
+
+        setPointEnable(false);
+        setLineEnable(false);
+
+        rbtnOCenterOption.setSelected(true);
+
+        btnOK.requestFocus();
+
+        rbtnOCenterOption.addActionListener(this);
+        rbtnOXOption.addActionListener(this);
+        rbtnOYOption.addActionListener(this);
+        rbtnPointOption.addActionListener(this);
+        rbtnLineOption.addActionListener(this);
+
+        textfPointCoordX.setInputVerifier(inputVerifier);
+        textfPointCoordY.setInputVerifier(inputVerifier);
+        textfLineCoeffA.setInputVerifier(inputVerifier);
+        textfLineCoeffB.setInputVerifier(inputVerifier);
+        textfLineCoeffC.setInputVerifier(inputVerifier);
+
+        btnCancel.setInputVerifier(null);
+        btnCancel.setRequestFocusEnabled(false);
+
+        btnCancel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
+
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (rbtnOCenterOption.isSelected()) {
+                    ((MainFrame) getParent()).getDrawingPanel()
+                            .paintOCenterSymmetry();
+                } else if (rbtnOXOption.isSelected()) {
+                    ((MainFrame) getParent()).getDrawingPanel()
+                            .paintOXSymmetry();
+                } else if (rbtnOYOption.isSelected()) {
+                    ((MainFrame) getParent()).getDrawingPanel()
+                            .paintOYSymmetry();
+                } else if (rbtnPointOption.isSelected()) {
+                    ((MainFrame) getParent()).getDrawingPanel()
+                            .paintViaPointSymmetry(acceptedPoint);
+                } else {
+                    ((MainFrame) getParent()).getDrawingPanel()
+                            .paintViaLineSymmetry(acceptedLineCoeffs.getX(), 
+                                    acceptedLineCoeffs.getY(), 
+                                    acceptedLineCoeffs.getZ());
+                }
+
+                dispose();
+            }
+        });
+    }
+
+    private void setPointEnable(boolean flag) {
+        textfPointCoordX.setEnabled(flag);
+        textfPointCoordY.setEnabled(flag);
+    }
+
+    private void setLineEnable(boolean flag) {
+        textfLineCoeffA.setEnabled(flag);
+        textfLineCoeffB.setEnabled(flag);
+        textfLineCoeffC.setEnabled(flag);
+    }
+
+    private class ValidInputCheck extends InputVerifier {
+
+        public boolean checkCoordInBound(int coord, MyPair bound) {
+            if (coord < bound.x || coord > bound.y) {
+                JOptionPane.showMessageDialog(null, "Error: Coordinate out of bound!");
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean verify(JComponent input) {
+            try {
+                if (input == textfPointCoordX) {
+                    String coordXText = textfPointCoordX.getText();
+
+                    if (coordXText.equals("")) {
+                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
+                        return false;
+                    }
+
+                    int coordX = Integer.parseInt(coordXText);
+
+                    MyPair xBound = ((MainFrame) getParent()).getDrawingPanel().getXBound();
+
+                    if (!checkCoordInBound(coordX, xBound)) {
+                        return false;
+                    }
+
+                    // Convert visual coord to real machine coord
+                    coordX += (int) (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE);
+
+                    acceptedPoint.setCoordX(coordX);
+                } else if (input == textfPointCoordY) {
+                    String coordYText = textfPointCoordY.getText();
+
+                    if (coordYText.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
+                        return false;
+                    }
+
+                    int coordY = Integer.parseInt(coordYText);
+
+                    MyPair yBound = ((MainFrame) getParent()).getDrawingPanel().getYBound();
+
+                    if (!checkCoordInBound(coordY, yBound)) {
+                        return false;
+                    }
+
+                    // Convert visual coord to real machine coord
+                    coordY = (int) (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE) - coordY;
+
+                    acceptedPoint.setCoordY(coordY);
+                } else if (input == textfLineCoeffA) {
+                    String coeffAText = textfLineCoeffA.getText();
+
+                    if (coeffAText.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Line coefficient A is required!");
+                        return false;
+                    }
+
+                    int coeffA = Integer.parseInt(coeffAText);
+
+                    acceptedLineCoeffs.setX(coeffA);
+                } else if (input == textfLineCoeffB) {
+                    String coeffBText = textfLineCoeffB.getText();
+
+                    if (coeffBText.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Line coefficient B is required!");
+                        return false;
+                    }
+
+                    int coeffB = Integer.parseInt(coeffBText);
+
+                    acceptedLineCoeffs.setY(coeffB);
+                } else if (input == textfLineCoeffC) {
+                    String coeffCText = textfLineCoeffC.getText();
+
+                    if (coeffCText.equals("")) {
+                        JOptionPane.showMessageDialog(null, "Line coefficient A is required!");
+                        return false;
+                    }
+
+                    int coeffC = Integer.parseInt(coeffCText);
+
+                    acceptedLineCoeffs.setZ(coeffC);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, "Please enter numeric number!");
+                return false;
+            }
+
+            btnOK.requestFocus();
+            return true;
+        }
     }
 
     /**
@@ -32,175 +243,133 @@ public class Symmetry2DInput extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroupOption = new javax.swing.ButtonGroup();
         labelChooseObjectSymmetry = new javax.swing.JLabel();
-        combObjectSymmetry = new javax.swing.JComboBox<>();
-        panelInner = new javax.swing.JPanel();
-        innerPanelPointSymmetryInput = new javax.swing.JPanel();
-        labelPointSymmetryInputCoordX = new javax.swing.JLabel();
-        labelPointSymmetryInputCoordY = new javax.swing.JLabel();
-        textfPointSymmetryInputCoordX = new javax.swing.JTextField();
-        textfPointSymmetryInputCoordY = new javax.swing.JTextField();
+        rbtnOCenterOption = new javax.swing.JRadioButton();
+        rbtnOXOption = new javax.swing.JRadioButton();
+        rbtnOYOption = new javax.swing.JRadioButton();
+        rbtnPointOption = new javax.swing.JRadioButton();
+        rbtnLineOption = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        innerPanelLineSymmetryInput = new javax.swing.JPanel();
-        labelLineSymmetryInputCoeffA = new javax.swing.JLabel();
-        textfLineSymmetryInputCoeffA = new javax.swing.JTextField();
-        labelLineSymmetryInputCoeffB = new javax.swing.JLabel();
-        textfLineSymmetryInputCoeffB = new javax.swing.JTextField();
-        labelLineSymmetryInputCoeffC = new javax.swing.JLabel();
-        textfLineSymmetryInputCoeffC = new javax.swing.JTextField();
-        labelSymmetryInput = new javax.swing.JLabel();
-        btnSymmetryOK = new javax.swing.JButton();
-        btnSymmetryCancel = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        textfPointCoordX = new javax.swing.JTextField();
+        textfPointCoordY = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        textfLineCoeffA = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        textfLineCoeffB = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        textfLineCoeffC = new javax.swing.JTextField();
+        btnOK = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        labelChooseObjectSymmetry.setText("Choose object:");
+        labelChooseObjectSymmetry.setText("Choose reflection object:");
 
-        combObjectSymmetry.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "O(0, 0)", "Ox", "Oy", "Point", "Line" }));
+        rbtnOCenterOption.setText("O(0, 0)");
 
-        panelInner.setLayout(new java.awt.CardLayout());
+        rbtnOXOption.setText("Ox axis");
 
-        labelPointSymmetryInputCoordX.setText("X coordinate:");
+        rbtnOYOption.setText("Oy axis");
 
-        labelPointSymmetryInputCoordY.setText("Y coordinate:");
+        rbtnPointOption.setText("Point");
 
-        jLabel1.setText("Center-point:");
+        rbtnLineOption.setText("Line Ax + By = C");
 
-        javax.swing.GroupLayout innerPanelPointSymmetryInputLayout = new javax.swing.GroupLayout(innerPanelPointSymmetryInput);
-        innerPanelPointSymmetryInput.setLayout(innerPanelPointSymmetryInputLayout);
-        innerPanelPointSymmetryInputLayout.setHorizontalGroup(
-            innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
-                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
-                        .addGap(60, 60, 60)
-                        .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(labelPointSymmetryInputCoordX)
-                            .addComponent(labelPointSymmetryInputCoordY))
-                        .addGap(38, 38, 38)
-                        .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(textfPointSymmetryInputCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textfPointSymmetryInputCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jLabel1)))
-                .addContainerGap(132, Short.MAX_VALUE))
-        );
-        innerPanelPointSymmetryInputLayout.setVerticalGroup(
-            innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(innerPanelPointSymmetryInputLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPointSymmetryInputCoordX)
-                    .addComponent(textfPointSymmetryInputCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(innerPanelPointSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelPointSymmetryInputCoordY)
-                    .addComponent(textfPointSymmetryInputCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
-        );
+        jLabel1.setText("X:");
 
-        panelInner.add(innerPanelPointSymmetryInput, "card2");
+        jLabel2.setText("Y:");
 
-        innerPanelLineSymmetryInput.setPreferredSize(new java.awt.Dimension(441, 177));
+        jLabel3.setText("A:");
 
-        labelLineSymmetryInputCoeffA.setText("A coefficient:");
+        jLabel4.setText("B:");
 
-        labelLineSymmetryInputCoeffB.setText("B coefficient:");
+        jLabel5.setText("C:");
 
-        labelLineSymmetryInputCoeffC.setText("C coefficient:");
+        btnOK.setText("Ok");
 
-        labelSymmetryInput.setText("Line Ax + By = C:");
-
-        javax.swing.GroupLayout innerPanelLineSymmetryInputLayout = new javax.swing.GroupLayout(innerPanelLineSymmetryInput);
-        innerPanelLineSymmetryInput.setLayout(innerPanelLineSymmetryInputLayout);
-        innerPanelLineSymmetryInputLayout.setHorizontalGroup(
-            innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                        .addGap(71, 71, 71)
-                        .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                                .addComponent(labelLineSymmetryInputCoeffA)
-                                .addGap(35, 35, 35)
-                                .addComponent(textfLineSymmetryInputCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                                .addComponent(labelLineSymmetryInputCoeffB)
-                                .addGap(35, 35, 35)
-                                .addComponent(textfLineSymmetryInputCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                                .addComponent(labelLineSymmetryInputCoeffC)
-                                .addGap(35, 35, 35)
-                                .addComponent(textfLineSymmetryInputCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(labelSymmetryInput)))
-                .addGap(149, 149, 149))
-        );
-        innerPanelLineSymmetryInputLayout.setVerticalGroup(
-            innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(innerPanelLineSymmetryInputLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(labelSymmetryInput)
-                .addGap(18, 18, 18)
-                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelLineSymmetryInputCoeffA)
-                    .addComponent(textfLineSymmetryInputCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelLineSymmetryInputCoeffB)
-                    .addComponent(textfLineSymmetryInputCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(innerPanelLineSymmetryInputLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelLineSymmetryInputCoeffC)
-                    .addComponent(textfLineSymmetryInputCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-
-        panelInner.add(innerPanelLineSymmetryInput, "card3");
-
-        btnSymmetryOK.setText("Ok");
-
-        btnSymmetryCancel.setText("Cancel");
+        btnCancel.setText("Cancel");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(labelChooseObjectSymmetry)
-                .addGap(29, 29, 29)
-                .addComponent(combObjectSymmetry, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(panelInner, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSymmetryOK, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(btnSymmetryCancel)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbtnPointOption)
+                            .addComponent(labelChooseObjectSymmetry)
+                            .addComponent(rbtnOCenterOption)
+                            .addComponent(rbtnOXOption)
+                            .addComponent(rbtnOYOption)
+                            .addComponent(rbtnLineOption))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textfLineCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textfPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textfPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textfLineCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(textfLineCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(btnCancel)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
+                .addComponent(labelChooseObjectSymmetry)
+                .addGap(18, 18, 18)
+                .addComponent(rbtnOCenterOption)
+                .addGap(18, 18, 18)
+                .addComponent(rbtnOXOption)
+                .addGap(18, 18, 18)
+                .addComponent(rbtnOYOption)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(labelChooseObjectSymmetry)
-                    .addComponent(combObjectSymmetry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelInner, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(rbtnPointOption)
+                    .addComponent(textfPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textfPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSymmetryOK)
-                    .addComponent(btnSymmetryCancel))
-                .addContainerGap())
+                    .addComponent(rbtnLineOption)
+                    .addComponent(jLabel3)
+                    .addComponent(textfLineCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(textfLineCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5)
+                    .addComponent(textfLineCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnOK)
+                    .addComponent(btnCancel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -210,18 +379,8 @@ public class Symmetry2DInput extends javax.swing.JDialog {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Symmetry2DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -249,24 +408,24 @@ public class Symmetry2DInput extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSymmetryCancel;
-    private javax.swing.JButton btnSymmetryOK;
-    private javax.swing.JComboBox<String> combObjectSymmetry;
-    private javax.swing.JPanel innerPanelLineSymmetryInput;
-    private javax.swing.JPanel innerPanelPointSymmetryInput;
+    private javax.swing.JButton btnCancel;
+    private javax.swing.ButtonGroup btnGroupOption;
+    private javax.swing.JButton btnOK;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel labelChooseObjectSymmetry;
-    private javax.swing.JLabel labelLineSymmetryInputCoeffA;
-    private javax.swing.JLabel labelLineSymmetryInputCoeffB;
-    private javax.swing.JLabel labelLineSymmetryInputCoeffC;
-    private javax.swing.JLabel labelPointSymmetryInputCoordX;
-    private javax.swing.JLabel labelPointSymmetryInputCoordY;
-    private javax.swing.JLabel labelSymmetryInput;
-    private javax.swing.JPanel panelInner;
-    private javax.swing.JTextField textfLineSymmetryInputCoeffA;
-    private javax.swing.JTextField textfLineSymmetryInputCoeffB;
-    private javax.swing.JTextField textfLineSymmetryInputCoeffC;
-    private javax.swing.JTextField textfPointSymmetryInputCoordX;
-    private javax.swing.JTextField textfPointSymmetryInputCoordY;
+    private javax.swing.JRadioButton rbtnLineOption;
+    private javax.swing.JRadioButton rbtnOCenterOption;
+    private javax.swing.JRadioButton rbtnOXOption;
+    private javax.swing.JRadioButton rbtnOYOption;
+    private javax.swing.JRadioButton rbtnPointOption;
+    private javax.swing.JTextField textfLineCoeffA;
+    private javax.swing.JTextField textfLineCoeffB;
+    private javax.swing.JTextField textfLineCoeffC;
+    private javax.swing.JTextField textfPointCoordX;
+    private javax.swing.JTextField textfPointCoordY;
     // End of variables declaration//GEN-END:variables
 }
