@@ -805,7 +805,6 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Line.add(menuItem_FreeDrawing);
 
         menuItem_FreePolygon.setText("jMenuItem1");
-        menuItem_FreePolygon.setEnabled(false);
         popMenu_Polygon.add(menuItem_FreePolygon);
 
         menuItem_Triangle.setText("jMenuItem1");
@@ -1343,7 +1342,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(panelDrawingTool2DLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(Seperator)
                     .addComponent(button_Shape, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 116, Short.MAX_VALUE)
+                    .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(button_Line, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(button_Transform, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(0, 0, 0))
@@ -1357,7 +1356,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(172, 172, 172)
+                .addGap(145, 145, 145)
                 .addComponent(Seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)

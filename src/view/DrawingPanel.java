@@ -58,7 +58,7 @@ public class DrawingPanel extends JPanel {
 
     // Recent drawn shape 2d
     private Shape2D recentShape;
-
+    
     /**
      * Undo stack of coordinate
      */
@@ -111,7 +111,9 @@ public class DrawingPanel extends JPanel {
      * User customized line size.
      */
     private Integer selectedLineSize;
-
+    private Point2D Polygon_previousPoint;
+    private Point2D Polygon_firstPoint;
+    private boolean firstTime = true;
     public DrawingPanel() {
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
@@ -727,6 +729,86 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
+                case DRAWING_POLYGON_FREE: {
+                     if (checkStartingPointAvailable()) {
+                        Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        if(Polygon_previousPoint == null){
+                            Polygon_previousPoint = new Point2D(startDrawingPoint);
+                            Polygon_firstPoint = new Point2D(Polygon_previousPoint);
+                            
+                            markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                            startDrawingPoint.saveCoord(coordOfBoard);
+//                            firstTime = false;
+                            repaint();
+                            return;
+                        }
+                        int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
+                        int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
+                        Point2D vicinityPoint = new Point2D();
+                        boolean end = false;
+                        
+                        for(int i =0; i<8 ; i++){
+                           vicinityPoint = new Point2D(Polygon_previousPoint.getCoordX()+D_X[i],Polygon_previousPoint.getCoordY()+D_Y[i]);
+                            if(vicinityPoint.equal(Polygon_firstPoint)){
+                                end = true;
+                                break;
+                            }
+                        }
+                        //chạy khi click vào điểm start mới
+                        if(end == true || Polygon_previousPoint.equal(Polygon_firstPoint) ){
+                            if(firstTime== true){
+                                firstTime = false;
+                                
+                            }else{
+                            Polygon_previousPoint = new Point2D(startDrawingPoint);
+                            Polygon_firstPoint = new Point2D(Polygon_previousPoint);
+                            firstTime = true; 
+                              
+                            markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                            startDrawingPoint.saveCoord(coordOfBoard);
+                            
+                            
+                            repaint();
+                            return;
+                            }
+                            
+                        } 
+                        
+                            
+                        segment.setProperty(Polygon_previousPoint, startDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
+                        
+                        segment.setLineStyle(selectedLineStyle);
+                        segment.draw();
+                        
+                        end = false;
+                        if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
+                        if(!end){
+                            for(int i =0; i<8 ; i++){
+                           vicinityPoint = new Point2D(startDrawingPoint.getCoordX()+D_X[i],startDrawingPoint.getCoordY()+D_Y[i]);
+                            if(vicinityPoint.equal(Polygon_firstPoint)){
+                                end = true;
+                                break;
+                            }
+                        }
+                        }
+                        
+                        if(!end){
+                            segment.saveCoordinates();
+                        }
+                        
+                        
+                        recentShape = segment;
+                        Polygon_previousPoint.setCoord(startDrawingPoint);
+                        
+                        markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                        changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                        Polygon_firstPoint.saveCoord(coordOfBoard);
+                        repaint();
+                        
+                     }
+                }
 
             }
         }
@@ -808,6 +890,7 @@ public class DrawingPanel extends JPanel {
                 }
                 case DRAWING_POLYGON_FREE: {
                     // Work later
+                    break;
                 }
                 case DRAWING_POLYGON_TRIANGLE: {
                     resetChangedPropertyArray();
