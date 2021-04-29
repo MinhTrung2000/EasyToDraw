@@ -142,11 +142,10 @@ public class MainFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Shape, menuItem_Arrow, DrawingToolMode.DRAWING_SHAPE_ARROW, "/img/arrow24px.png");
 
         // For 3D
-        // XXX: Add icon later
-        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, null);
-        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, null);
-        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, null);
-        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, null);
+        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, "/img/cube24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, "/img/cylinder24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, "/img/pyramid24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, "/img/sphere24px.png");
 
         // Transform modal
         initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
@@ -1577,6 +1576,10 @@ public class MainFrame extends javax.swing.JFrame {
                         break;
                     case "SHA":
                         setSelectedToolMode(savedShapeMode);
+
+                        break;
+                    case "3DS":
+                        setSelectedToolMode(saved3DShapeMode);
 
                         break;
                     case "TRA":
