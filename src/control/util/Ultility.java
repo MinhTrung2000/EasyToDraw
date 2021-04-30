@@ -9,7 +9,6 @@ import javafx.util.Pair;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import control.SettingConstants;
-import model.tuple.MyPair;
 
 public class Ultility {
 

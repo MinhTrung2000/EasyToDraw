@@ -1,6 +1,5 @@
 package model.shape2d;
 
-import java.awt.Color;
 import control.util.Ultility;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
@@ -83,17 +82,19 @@ public class Point2D {
      * @return Point2D
      */
     public Point2D createRotationPoint(Point2D basePoint, double angle) {
-        Point2D resultPoint = new Point2D();
+//        Point2D resultPoint = new Point2D();
 
-        Vector2D vector = new Vector2D(basePoint, this);
+        Vector2D vec = new Vector2D(basePoint, this);
 
-        int newCoordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
-                - vector.getCoordY() * Math.sin(angle));
-        int newCoordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
-                + vector.getCoordY() * Math.cos(angle));
+        vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
+        Point2D ret = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
 
-        resultPoint.setCoord(newCoordX, newCoordY);
-        return resultPoint;
+//        int newCoordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
+//                - vector.getCoordY() * Math.sin(angle));
+//        int newCoordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
+//                + vector.getCoordY() * Math.cos(angle));
+//        resultPoint.setCoord(newCoordX, newCoordY);
+        return ret;
     }
 
     /**
@@ -104,13 +105,15 @@ public class Point2D {
      * @return
      */
     public Point2D rotate(Point2D basePoint, double angle) {
-        Vector2D vector = new Vector2D(basePoint, this);
+        Vector2D vec = new Vector2D(basePoint, this);
 
-        coordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
-                - vector.getCoordY() * Math.sin(angle));
-        coordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
-                + vector.getCoordY() * Math.cos(angle));
-
+//        coordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
+//                - vector.getCoordY() * Math.sin(angle));
+//        coordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
+//                + vector.getCoordY() * Math.cos(angle));
+        vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
+        Point2D result = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
+        setCoord(result);
         return this;
     }
 
@@ -121,8 +124,10 @@ public class Point2D {
      * @return
      */
     public Point2D rotate(double angle) {
-        coordX = (int) (coordX * cos(angle) - coordY * Math.sin(angle));
-        coordY = (int) (coordX * sin(angle) + coordY * Math.cos(angle));
+//        coordX = (int) (coordX * cos(angle) - coordY * Math.sin(angle));
+//        coordY = (int) (coordX * sin(angle) + coordY * Math.cos(angle));
+        Point2D result = Transform2D.transform(this, Transform2D.getRotateMat(angle));
+        setCoord(result);
         return this;
     }
 
@@ -157,11 +162,12 @@ public class Point2D {
      * @return
      */
     public Point2D createCenterOSymmetry() {
-        Point2D point = new Point2D(this);
-        point.convertMachineToViewCoord();
-        point.reflect();
-        point.convertViewToMachineCoord();
-        return point;
+        Point2D result = new Point2D(this);
+        result.convertMachineToViewCoord();
+//        point.reflect();
+        result.setCoord(Transform2D.transform(result, Transform2D.getSymOCenterMat()));
+        result.convertViewToMachineCoord();
+        return result;
     }
 
     /**
@@ -172,7 +178,8 @@ public class Point2D {
     public Point2D createOXSymmetryPoint() {
         Point2D result = new Point2D(this);
         result.convertMachineToViewCoord();
-        result.coordY = -result.coordY;
+//        result.coordY = -result.coordY;
+        result.setCoord(Transform2D.transform(result, Transform2D.getSymOXMat()));
         result.convertViewToMachineCoord();
         return result;
     }
@@ -185,7 +192,8 @@ public class Point2D {
     public Point2D createOYSymmetryPoint() {
         Point2D result = new Point2D(this);
         result.convertMachineToViewCoord();
-        result.coordX = -result.coordX;
+//        result.coordX = -result.coordX;
+        result.setCoord(Transform2D.transform(result, Transform2D.getSymOYMat()));
         result.convertViewToMachineCoord();
         return result;
     }
@@ -213,17 +221,12 @@ public class Point2D {
      * @return
      */
     public Point2D createMovingPoint(Vector2D vector) {
-        return new Point2D(
-                this.coordX + (int) vector.getCoordX(),
-                this.coordY + (int) vector.getCoordY(),
-                this.parentShape
-        );
-    }
-
-    public Point2D reflect() {
-        this.coordX = -this.coordX;
-        this.coordY = -this.coordY;
-        return this;
+//        return new Point2D(
+//                this.coordX + (int) vector.getCoordX(),
+//                this.coordY + (int) vector.getCoordY(),
+//                this.parentShape
+//        );
+        return Transform2D.transform(this, Transform2D.getMoveMat(vector.getCoordX(), vector.getCoordY()));
     }
 
     /**
@@ -233,8 +236,9 @@ public class Point2D {
      * @return
      */
     public Point2D move(Vector2D vector) {
-        this.coordX += (int) vector.getCoordX();
-        this.coordY += (int) vector.getCoordY();
+//        this.coordX += (int) vector.getCoordX();
+//        this.coordY += (int) vector.getCoordY();
+        setCoord(Transform2D.transform(this, Transform2D.getMoveMat(vector.getCoordX(), vector.getCoordY())));
         return this;
     }
 
@@ -244,10 +248,7 @@ public class Point2D {
      * @return
      */
     public Point2D symOx() {
-        setCoord(-(this.coordX - SettingConstants.COORD_X_O),
-                this.coordY
-        );
-
+        setCoord(Transform2D.transform(this, Transform2D.getSymOXMat()));
         return this;
     }
 
@@ -257,10 +258,7 @@ public class Point2D {
      * @return
      */
     public Point2D symOy() {
-        setCoord(this.coordX,
-                -(this.coordY - SettingConstants.COORD_Y_O)
-        );
-
+        setCoord(Transform2D.transform(this, Transform2D.getSymOYMat()));
         return this;
     }
 
@@ -270,7 +268,7 @@ public class Point2D {
      * @return
      */
     public Point2D symCenterO() {
-        setCoord(-this.coordX, -this.coordY);
+        setCoord(Transform2D.transform(this, Transform2D.getSymOCenterMat()));
         return this;
     }
 
