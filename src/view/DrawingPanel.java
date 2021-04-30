@@ -562,8 +562,8 @@ public class DrawingPanel extends JPanel {
 
                 if (coordinateProperty != null) {
 
-                    int posX = (i + 1) * SettingConstants.RECT_SIZE;
-                    int posY = j * SettingConstants.RECT_SIZE - 2;
+                    int posX = (j + 1) * SettingConstants.RECT_SIZE;
+                    int posY = i * SettingConstants.RECT_SIZE - 2;
 
                     // Normalize
                     if (posX <= 0) {
@@ -598,7 +598,6 @@ public class DrawingPanel extends JPanel {
 
         for (int i = 0; i < this.heightBoard / SettingConstants.RECT_SIZE; i++) {
             for (int j = 0; j < this.widthBoard / SettingConstants.RECT_SIZE; j++) {
-                if (i==0 && j==0) System.out.println(colorOfBoard[i][j].toString());
                 if (markedChangeOfBoard[i][j] == true) {
                     graphic.setColor(changedColorOfBoard[i][j]);
                 } else {
@@ -743,6 +742,7 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_LINE_FREE: {
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
+                    System.out.println(startDrawingPoint.getCoordX() + " "+ startDrawingPoint.getCoordY());
                     startDrawingPoint.saveCoord(changedCoordOfBoard);
                     repaint();
                     break;

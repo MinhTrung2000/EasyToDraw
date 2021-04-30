@@ -64,6 +64,8 @@ public class Ellipse extends Shape2D {
 
         // Save center point coordination
         centerPoint.saveCoord(changedCoordOfBoard);
+        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
+        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
         
         double x = 0.0;
         double y = b;
@@ -110,6 +112,8 @@ public class Ellipse extends Shape2D {
 
         // Save center point coordination
         centerPoint.saveCoord(changedCoordOfBoard);
+        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
+        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
         
         double x = 0;
         double y = a;
