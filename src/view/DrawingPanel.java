@@ -331,8 +331,8 @@ public class DrawingPanel extends JPanel {
      * @param color_board_to
      */
     public void copyColorValue(Color[][] color_board_from, Color[][] color_board_to, boolean fromColorOBToChangedCOB) {
-        int height = color_board_from.length;
-        int width = color_board_from[0].length;
+        int height = color_board_from.length / SettingConstants.RECT_SIZE;
+        int width = color_board_from[0].length / SettingConstants.RECT_SIZE;
         if (!fromColorOBToChangedCOB) {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
@@ -360,8 +360,8 @@ public class DrawingPanel extends JPanel {
      * @param coord_board_to
      */
     public void mergeCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
-        int height = coord_board_from.length;
-        int width = coord_board_from[0].length;
+        int height = coord_board_from.length / SettingConstants.RECT_SIZE;
+        int width = coord_board_from[0].length / SettingConstants.RECT_SIZE;
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -373,8 +373,8 @@ public class DrawingPanel extends JPanel {
     }
     
     public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
-        int height = coord_board_from.length;
-        int width = coord_board_from[0].length;
+        int height = coord_board_from.length / SettingConstants.RECT_SIZE;
+        int width = coord_board_from[0].length / SettingConstants.RECT_SIZE;
 
         for (int row = 0; row < height; row++) {
             System.arraycopy(coord_board_from[row], 0, coord_board_to[row], 0, width);
@@ -633,8 +633,8 @@ public class DrawingPanel extends JPanel {
      * @param otherBoard
      */
     private void mergeColorValue() {
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
+        for (int i = 0; i < this.heightBoard / SettingConstants.RECT_SIZE; i++) {
+            for (int j = 0; j < this.widthBoard / SettingConstants.RECT_SIZE; j++) {
                 if (markedChangeOfBoard[i][j] == true) {
                     colorOfBoard[i][j] = new Color(changedColorOfBoard[i][j].getRGB());
                 }
