@@ -5,10 +5,10 @@
         <group>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Star.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/io/FileHandle.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Point2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Shape2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/MainFrame.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/util/Ultility.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/SettingConstants.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/DrawingPanel.java</file>

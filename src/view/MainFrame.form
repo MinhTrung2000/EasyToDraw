@@ -623,7 +623,6 @@
                   <Image iconType="3" name="/img/eraser.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Eraser"/>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
             </Component>

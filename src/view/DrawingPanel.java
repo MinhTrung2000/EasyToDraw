@@ -7,10 +7,14 @@ import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
 import model.shape2d.Triangle;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -114,6 +118,9 @@ public class DrawingPanel extends JPanel {
     private Point2D Polygon_previousPoint;
     private Point2D Polygon_firstPoint;
     private boolean firstTime = true;
+    
+    private Point2D eraserPos = new Point2D();
+    private boolean eraserIsSelected;
     public DrawingPanel() {
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
@@ -310,6 +317,10 @@ public class DrawingPanel extends JPanel {
             Polygon_firstPoint = null;
             Polygon_previousPoint = null;
         }
+        
+//        if (getSelectedToolMode() != SettingConstants.DrawingToolMode.TOOL_ERASER){
+//            eraserIsSelected = false;
+//        }
     }
 
     public void setShowGridLinesFlag(boolean flag) {
@@ -416,6 +427,36 @@ public class DrawingPanel extends JPanel {
         copyCoordValue(coordOfBoard, tempBoard);
         redoCoordOfBoardStack.push(tempBoard);
     }
+    
+    private void hidePixels(Point2D hidePixelsPos, boolean dragged){
+        if(!dragged){
+           for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                                hidePixelsPos.setCoord(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
+                                        changedColorOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
+                                        markedChangeOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = true;
+                                }
+                        }
+        
+        } 
+        }else{
+            for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                                hidePixelsPos.setCoord(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
+                                        changedColorOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
+                                        markedChangeOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = true;
+                                        if(coordOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] != null) 
+                                            coordOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = null;
+                                }
+                        }
+        
+        }
+        }
+        
+
+   }
 
     /**
      * Get the previous status of board. <br>
@@ -610,6 +651,12 @@ public class DrawingPanel extends JPanel {
                         SettingConstants.SIZE
                 );
             }
+        }
+        
+        if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+            graphic.setColor(Color.BLACK);
+            graphic.drawRect((eraserPos.getCoordX() - 1) * SettingConstants.RECT_SIZE, (eraserPos.getCoordY() - 1) * SettingConstants.RECT_SIZE, 
+                    SettingConstants.RECT_SIZE * 3, SettingConstants.RECT_SIZE * 3);
         }
     }
 
@@ -835,6 +882,15 @@ public class DrawingPanel extends JPanel {
                      }
                      break;
                 }
+                case TOOL_ERASER: {
+                    //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
+                    if (checkStartingPointAvailable()){
+                        Point2D hidePixelsPos = new Point2D();
+                        eraserPos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
+                        hidePixels(hidePixelsPos, true);
+                    }
+                    repaint();
+                }
 
             }
         }
@@ -852,10 +908,26 @@ public class DrawingPanel extends JPanel {
 
         @Override
         public void mouseEntered(MouseEvent e) {
+            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE || selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER)
+                //trường hợp từ mode khác, bấm vào eraser thì dùng đến vế thứ 2 của if!
+            {
+                selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER;
+                // Transparent 16 x 16 pixel cursor image.
+                BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+                // Create a new blank cursor.
+                Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                 cursorImg, new Point(0, 0), "blank cursor");
+                setCursor(blankCursor);
+                }else setCursor(Cursor.getDefaultCursor());
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
+            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
+                selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE;// set về cái này để repaint() lại mất eraser!
+                repaint(); 
+            }
         }
 
     }
@@ -1014,6 +1086,15 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
+                case TOOL_ERASER: {
+                    //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
+                    if (checkStartingPointAvailable()){
+                        Point2D hidePixelsPos = new Point2D();
+                        eraserPos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
+                        hidePixels(hidePixelsPos, true);
+                    }
+                    repaint();
+                }
             }
         }
 
@@ -1022,9 +1103,23 @@ public class DrawingPanel extends JPanel {
          */
         @Override
         public void mouseMoved(MouseEvent e) {
+            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+//                Point2D currentMousePos = new Point2D(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
+//                drawEraser(currentMousePos);
+
+                  resetChangedPropertyArray(); // để nó hiện lại những chỗ đã đi qua
+                  Point2D hidePixelsPos = new Point2D();
+                  eraserPos.setCoord(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
+                  hidePixels(hidePixelsPos, false);
+                  
+                  repaint();
+                
+            }
             return;
         }
 
     }
 
 }
+
+    

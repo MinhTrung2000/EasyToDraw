@@ -489,6 +489,7 @@ public class MainFrame extends javax.swing.JFrame {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });
+        
     }
 
     /**
@@ -1048,7 +1049,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_Eraser.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/eraser.png"))); // NOI18N
         button_Eraser.setToolTipText("Eraser");
-        button_Eraser.setEnabled(false);
         button_Eraser.setFocusPainted(false);
 
         button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
