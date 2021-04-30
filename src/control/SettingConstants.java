@@ -162,6 +162,11 @@ public interface SettingConstants {
                 return "SYMMETRY";
             }
 
+        },
+        TOOL_ERASER__FALSE("") {
+            public String toString() {
+                return "";
+            }
         };
 
         public final String toolTip;

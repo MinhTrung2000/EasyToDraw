@@ -70,7 +70,7 @@ public class Point2D {
         if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
             int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
             int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
-            coordOfBoard[coordX][coordY] = "(" + x + ", " + y + ")";
+            coordOfBoard[coordY][coordX] = "(" + x + ", " + y + ")";
         }
     }
 

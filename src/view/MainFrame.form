@@ -36,7 +36,6 @@
         <MenuItem class="javax.swing.JMenuItem" name="menuItem_FreePolygon">
           <Properties>
             <Property name="text" type="java.lang.String" value="jMenuItem1"/>
-            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </MenuItem>
         <MenuItem class="javax.swing.JMenuItem" name="menuItem_Triangle">
@@ -292,11 +291,15 @@
             <Property name="disabledIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="0" name="null"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
             <Property name="verticalTextPosition" type="int" value="3"/>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="button_Redo">
           <Properties>
@@ -309,6 +312,7 @@
             <Property name="disabledIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="0" name="null"/>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
             <Property name="focusable" type="boolean" value="false"/>
             <Property name="requestFocusEnabled" type="boolean" value="false"/>
             <Property name="rolloverEnabled" type="boolean" value="false"/>
@@ -619,7 +623,6 @@
                   <Image iconType="3" name="/img/eraser.png"/>
                 </Property>
                 <Property name="toolTipText" type="java.lang.String" value="Eraser"/>
-                <Property name="enabled" type="boolean" value="false"/>
                 <Property name="focusPainted" type="boolean" value="false"/>
               </Properties>
             </Component>
@@ -1059,7 +1062,7 @@
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                   <Component id="Seperator" max="32767" attributes="0"/>
                                   <Component id="button_Shape" alignment="0" min="-2" pref="116" max="-2" attributes="0"/>
-                                  <Component id="button_Polygon" alignment="1" pref="116" max="32767" attributes="0"/>
+                                  <Component id="button_Polygon" alignment="1" pref="0" max="32767" attributes="0"/>
                                   <Component id="button_Line" alignment="0" min="-2" pref="116" max="-2" attributes="0"/>
                                   <Component id="button_Transform" alignment="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -1076,7 +1079,7 @@
                               <Component id="button_Polygon" min="-2" pref="96" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="button_Shape" min="-2" pref="96" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="172" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
                               <Component id="Seperator" min="-2" pref="4" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="button_Transform" min="-2" pref="96" max="-2" attributes="0"/>

@@ -7,10 +7,14 @@ import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
 import model.shape2d.Triangle;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.util.Stack;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -58,7 +62,7 @@ public class DrawingPanel extends JPanel {
 
     // Recent drawn shape 2d
     private Shape2D recentShape;
-
+    
     /**
      * Undo stack of coordinate
      */
@@ -111,7 +115,12 @@ public class DrawingPanel extends JPanel {
      * User customized line size.
      */
     private Integer selectedLineSize;
-
+    private Point2D Polygon_previousPoint;
+    private Point2D Polygon_firstPoint;
+    private boolean firstTime = true;
+    
+    private Point2D eraserPos = new Point2D();
+    private boolean eraserIsSelected;
     public DrawingPanel() {
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
@@ -303,6 +312,15 @@ public class DrawingPanel extends JPanel {
                 changedCoordOfBoard[i][j] = null;
             }
         }
+        if (getSelectedToolMode()!= SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE){
+            firstTime = true;
+            Polygon_firstPoint = null;
+            Polygon_previousPoint = null;
+        }
+        
+//        if (getSelectedToolMode() != SettingConstants.DrawingToolMode.TOOL_ERASER){
+//            eraserIsSelected = false;
+//        }
     }
 
     public void setShowGridLinesFlag(boolean flag) {
@@ -324,11 +342,12 @@ public class DrawingPanel extends JPanel {
      * @param color_board_to
      */
     public void copyColorValue(Color[][] color_board_from, Color[][] color_board_to, boolean fromColorOBToChangedCOB) {
-        int height = color_board_from.length;
-        int width = color_board_from[0].length;
+        int height = color_board_from.length / SettingConstants.RECT_SIZE;
+        int width = color_board_from[0].length / SettingConstants.RECT_SIZE;
         if (!fromColorOBToChangedCOB) {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
+                  //  markedChangeOfBoard[row][col] = true;
                     color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
                 }
             }
@@ -351,9 +370,9 @@ public class DrawingPanel extends JPanel {
      * @param coord_board_from
      * @param coord_board_to
      */
-    public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
-        int height = coord_board_from.length;
-        int width = coord_board_from[0].length;
+    public void mergeCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
+        int height = coord_board_from.length / SettingConstants.RECT_SIZE;
+        int width = coord_board_from[0].length / SettingConstants.RECT_SIZE;
 
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
@@ -361,6 +380,15 @@ public class DrawingPanel extends JPanel {
                     coord_board_to[row][col] = coord_board_from[row][col];
                 }
             }
+        }
+    }
+    
+    public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
+        int height = coord_board_from.length / SettingConstants.RECT_SIZE;
+        int width = coord_board_from[0].length / SettingConstants.RECT_SIZE;
+
+        for (int row = 0; row < height; row++) {
+            System.arraycopy(coord_board_from[row], 0, coord_board_to[row], 0, width);
         }
     }
 
@@ -399,6 +427,36 @@ public class DrawingPanel extends JPanel {
         copyCoordValue(coordOfBoard, tempBoard);
         redoCoordOfBoardStack.push(tempBoard);
     }
+    
+    private void hidePixels(Point2D hidePixelsPos, boolean dragged){
+        if(!dragged){
+           for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                                hidePixelsPos.setCoord(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
+                                        changedColorOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
+                                        markedChangeOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = true;
+                                }
+                        }
+        
+        } 
+        }else{
+            for (int i = -1; i <= 1; i++) {
+                        for (int j = -1; j <= 1; j++) {
+                                hidePixelsPos.setCoord(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
+                                        changedColorOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
+                                        markedChangeOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = true;
+                                        if(coordOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] != null) 
+                                            coordOfBoard[hidePixelsPos.getCoordY()][hidePixelsPos.getCoordX()] = null;
+                                }
+                        }
+        
+        }
+        }
+        
+
+   }
 
     /**
      * Get the previous status of board. <br>
@@ -409,14 +467,23 @@ public class DrawingPanel extends JPanel {
      * will push the current state to its.
      */
     public void undo() {
+        
+        resetChangedPropertyArray();
         if (!undoColorOfBoardStack.empty()) {
             saveCurrentColorBoardToRedoStack();
+//            Color[][] tempBoard = new Color[heightBoard][widthBoard];
+//            copyColorValue(undoColorOfBoardStack.pop(), tempBoard, false);
             copyColorValue(undoColorOfBoardStack.pop(), colorOfBoard, false);
         }
         if (!undoCoordOfBoardStack.empty()) {
             saveCurrentCoordBoardToRedoStack();
+//            String [][] tempBoard = new String[heightBoard][widthBoard];
+//            copyCoordValue(undoCoordOfBoardStack.pop(), tempBoard);
             copyCoordValue(undoCoordOfBoardStack.pop(), coordOfBoard);
+            System.out.println(coordOfBoard[2][2]);
         }
+        
+        
     }
 
     /**
@@ -436,6 +503,7 @@ public class DrawingPanel extends JPanel {
             saveCurrentCoordBoardToUndoStack();
             copyCoordValue(redoCoordOfBoardStack.pop(), coordOfBoard);
         }
+        repaint();
     }
 
     /**
@@ -447,15 +515,15 @@ public class DrawingPanel extends JPanel {
 //        redoCoordOfBoardStack.clear();
 
         // Save current state to undo stack.
-//        saveCurrentColorBoardToUndoStack();
-//        saveCurrentCoordBoardToUndoStack();
+        saveCurrentColorBoardToUndoStack();
+        saveCurrentCoordBoardToUndoStack();
         // Merge of changed color to saved state of board
         // NOTE: Why not mergeColorValue coordinate??
         mergeColorValue();
-
+        MainFrame.button_Undo.setEnabled(this.ableUndo());
         // Save the changed coordinate into board.
-        copyCoordValue(changedCoordOfBoard, coordOfBoard);
-
+        mergeCoordValue(changedCoordOfBoard, coordOfBoard);
+        
         // Reset marked change array.
         // resetChangedPropertyArray();
     }
@@ -535,8 +603,8 @@ public class DrawingPanel extends JPanel {
 
                 if (coordinateProperty != null) {
 
-                    int posX = (i + 1) * SettingConstants.RECT_SIZE;
-                    int posY = j * SettingConstants.RECT_SIZE - 2;
+                    int posX = (j + 1) * SettingConstants.RECT_SIZE;
+                    int posY = i * SettingConstants.RECT_SIZE - 2;
 
                     // Normalize
                     if (posX <= 0) {
@@ -584,6 +652,12 @@ public class DrawingPanel extends JPanel {
                 );
             }
         }
+        
+        if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+            graphic.setColor(Color.BLACK);
+            graphic.drawRect((eraserPos.getCoordX() - 1) * SettingConstants.RECT_SIZE, (eraserPos.getCoordY() - 1) * SettingConstants.RECT_SIZE, 
+                    SettingConstants.RECT_SIZE * 3, SettingConstants.RECT_SIZE * 3);
+        }
     }
 
     @Override
@@ -605,8 +679,8 @@ public class DrawingPanel extends JPanel {
      * @param otherBoard
      */
     private void mergeColorValue() {
-        for (int i = 0; i < this.heightBoard; i++) {
-            for (int j = 0; j < this.widthBoard; j++) {
+        for (int i = 0; i < this.heightBoard / SettingConstants.RECT_SIZE; i++) {
+            for (int j = 0; j < this.widthBoard / SettingConstants.RECT_SIZE; j++) {
                 if (markedChangeOfBoard[i][j] == true) {
                     colorOfBoard[i][j] = new Color(changedColorOfBoard[i][j].getRGB());
                 }
@@ -715,7 +789,8 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_LINE_FREE: {
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
-                    startDrawingPoint.saveCoord(coordOfBoard);
+                    System.out.println(startDrawingPoint.getCoordX() + " "+ startDrawingPoint.getCoordY());
+                    startDrawingPoint.saveCoord(changedCoordOfBoard);
                     repaint();
                     break;
                 }
@@ -726,6 +801,95 @@ public class DrawingPanel extends JPanel {
                     Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
                     repaint();
                     break;
+                }
+                case DRAWING_POLYGON_FREE: {
+                     if (checkStartingPointAvailable()) {
+                        Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        if(Polygon_previousPoint == null){
+                            Polygon_previousPoint = new Point2D(startDrawingPoint);
+                            Polygon_firstPoint = new Point2D(Polygon_previousPoint);
+                            
+                            markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                            startDrawingPoint.saveCoord(changedCoordOfBoard);
+                            repaint();
+                            return;
+                        }
+                        int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
+                        int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
+                        Point2D neibourhoodPoint;
+                        boolean end = false;
+                        
+                        for(int i =0; i<8 ; i++){
+                           neibourhoodPoint = new Point2D(Polygon_previousPoint.getCoordX()+D_X[i],Polygon_previousPoint.getCoordY()+D_Y[i]);
+                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
+                                end = true;
+                                break;
+                            }
+                        }
+                        //chạy khi click vào điểm start mới
+                        if(end == true || Polygon_previousPoint.equal(Polygon_firstPoint) ){
+                            if(firstTime== true){
+                                firstTime = false;
+                                
+                            }else{
+                            Polygon_previousPoint = new Point2D(startDrawingPoint);
+                            Polygon_firstPoint = new Point2D(Polygon_previousPoint);
+                            firstTime = true; 
+                              
+                            markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                            startDrawingPoint.saveCoord(changedCoordOfBoard);
+                            
+                            
+                            repaint();
+                            return;
+                            }
+                            
+                        } 
+                        
+                            
+                        segment.setProperty(Polygon_previousPoint, startDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
+                        
+                        segment.setLineStyle(selectedLineStyle);
+                        segment.draw();
+                        
+                        end = false;
+                        if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
+                        if(!end){
+                            for(int i =0; i<8 ; i++){
+                           neibourhoodPoint = new Point2D(startDrawingPoint.getCoordX()+D_X[i],startDrawingPoint.getCoordY()+D_Y[i]);
+                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
+                                end = true;
+                                break;
+                            }
+                        }
+                        }
+                        
+                        if(!end){
+                            segment.saveCoordinates();
+                        }
+                        
+                        
+                        recentShape = segment;
+                        Polygon_previousPoint.setCoord(startDrawingPoint);
+                        
+                        markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                        changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                        Polygon_firstPoint.saveCoord(changedCoordOfBoard);
+                        repaint();
+                        
+                     }
+                     break;
+                }
+                case TOOL_ERASER: {
+                    //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
+                    if (checkStartingPointAvailable()){
+                        Point2D hidePixelsPos = new Point2D();
+                        eraserPos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
+                        hidePixels(hidePixelsPos, true);
+                    }
+                    repaint();
                 }
 
             }
@@ -744,10 +908,26 @@ public class DrawingPanel extends JPanel {
 
         @Override
         public void mouseEntered(MouseEvent e) {
+            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE || selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER)
+                //trường hợp từ mode khác, bấm vào eraser thì dùng đến vế thứ 2 của if!
+            {
+                selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER;
+                // Transparent 16 x 16 pixel cursor image.
+                BufferedImage cursorImg = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+
+                // Create a new blank cursor.
+                Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
+                 cursorImg, new Point(0, 0), "blank cursor");
+                setCursor(blankCursor);
+                }else setCursor(Cursor.getDefaultCursor());
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
+            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
+                selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE;// set về cái này để repaint() lại mất eraser!
+                repaint(); 
+            }
         }
 
     }
@@ -808,6 +988,7 @@ public class DrawingPanel extends JPanel {
                 }
                 case DRAWING_POLYGON_FREE: {
                     // Work later
+                    break;
                 }
                 case DRAWING_POLYGON_TRIANGLE: {
                     resetChangedPropertyArray();
@@ -905,6 +1086,15 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
+                case TOOL_ERASER: {
+                    //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
+                    if (checkStartingPointAvailable()){
+                        Point2D hidePixelsPos = new Point2D();
+                        eraserPos.setCoord(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
+                        hidePixels(hidePixelsPos, true);
+                    }
+                    repaint();
+                }
             }
         }
 
@@ -913,9 +1103,23 @@ public class DrawingPanel extends JPanel {
          */
         @Override
         public void mouseMoved(MouseEvent e) {
+            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+//                Point2D currentMousePos = new Point2D(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
+//                drawEraser(currentMousePos);
+
+                  resetChangedPropertyArray(); // để nó hiện lại những chỗ đã đi qua
+                  Point2D hidePixelsPos = new Point2D();
+                  eraserPos.setCoord(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
+                  hidePixels(hidePixelsPos, false);
+                  
+                  repaint();
+                
+            }
             return;
         }
 
     }
 
 }
+
+    
