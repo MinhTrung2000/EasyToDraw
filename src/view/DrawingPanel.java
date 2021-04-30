@@ -305,6 +305,11 @@ public class DrawingPanel extends JPanel {
                 changedCoordOfBoard[i][j] = null;
             }
         }
+        if (getSelectedToolMode()!= SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE){
+            firstTime = true;
+            Polygon_firstPoint = null;
+            Polygon_previousPoint = null;
+        }
     }
 
     public void setShowGridLinesFlag(boolean flag) {
@@ -331,6 +336,7 @@ public class DrawingPanel extends JPanel {
         if (!fromColorOBToChangedCOB) {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
+                  //  markedChangeOfBoard[row][col] = true;
                     color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
                 }
             }
@@ -353,7 +359,7 @@ public class DrawingPanel extends JPanel {
      * @param coord_board_from
      * @param coord_board_to
      */
-    public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
+    public void mergeCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
         int height = coord_board_from.length;
         int width = coord_board_from[0].length;
 
@@ -363,6 +369,15 @@ public class DrawingPanel extends JPanel {
                     coord_board_to[row][col] = coord_board_from[row][col];
                 }
             }
+        }
+    }
+    
+    public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
+        int height = coord_board_from.length;
+        int width = coord_board_from[0].length;
+
+        for (int row = 0; row < height; row++) {
+            System.arraycopy(coord_board_from[row], 0, coord_board_to[row], 0, width);
         }
     }
 
@@ -411,14 +426,23 @@ public class DrawingPanel extends JPanel {
      * will push the current state to its.
      */
     public void undo() {
+        
+        resetChangedPropertyArray();
         if (!undoColorOfBoardStack.empty()) {
             saveCurrentColorBoardToRedoStack();
+//            Color[][] tempBoard = new Color[heightBoard][widthBoard];
+//            copyColorValue(undoColorOfBoardStack.pop(), tempBoard, false);
             copyColorValue(undoColorOfBoardStack.pop(), colorOfBoard, false);
         }
         if (!undoCoordOfBoardStack.empty()) {
             saveCurrentCoordBoardToRedoStack();
+//            String [][] tempBoard = new String[heightBoard][widthBoard];
+//            copyCoordValue(undoCoordOfBoardStack.pop(), tempBoard);
             copyCoordValue(undoCoordOfBoardStack.pop(), coordOfBoard);
+            System.out.println(coordOfBoard[2][2]);
         }
+        
+        
     }
 
     /**
@@ -438,6 +462,7 @@ public class DrawingPanel extends JPanel {
             saveCurrentCoordBoardToUndoStack();
             copyCoordValue(redoCoordOfBoardStack.pop(), coordOfBoard);
         }
+        repaint();
     }
 
     /**
@@ -449,15 +474,15 @@ public class DrawingPanel extends JPanel {
 //        redoCoordOfBoardStack.clear();
 
         // Save current state to undo stack.
-//        saveCurrentColorBoardToUndoStack();
-//        saveCurrentCoordBoardToUndoStack();
+        saveCurrentColorBoardToUndoStack();
+        saveCurrentCoordBoardToUndoStack();
         // Merge of changed color to saved state of board
         // NOTE: Why not mergeColorValue coordinate??
         mergeColorValue();
-
+        MainFrame.button_Undo.setEnabled(this.ableUndo());
         // Save the changed coordinate into board.
-        copyCoordValue(changedCoordOfBoard, coordOfBoard);
-
+        mergeCoordValue(changedCoordOfBoard, coordOfBoard);
+        
         // Reset marked change array.
         // resetChangedPropertyArray();
     }
@@ -573,6 +598,7 @@ public class DrawingPanel extends JPanel {
 
         for (int i = 0; i < this.heightBoard / SettingConstants.RECT_SIZE; i++) {
             for (int j = 0; j < this.widthBoard / SettingConstants.RECT_SIZE; j++) {
+                if (i==0 && j==0) System.out.println(colorOfBoard[i][j].toString());
                 if (markedChangeOfBoard[i][j] == true) {
                     graphic.setColor(changedColorOfBoard[i][j]);
                 } else {
@@ -717,7 +743,7 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_LINE_FREE: {
                     markedChangeOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[startDrawingPoint.getCoordY()][startDrawingPoint.getCoordX()] = selectedColor;
-                    startDrawingPoint.saveCoord(coordOfBoard);
+                    startDrawingPoint.saveCoord(changedCoordOfBoard);
                     repaint();
                     break;
                 }
@@ -738,19 +764,18 @@ public class DrawingPanel extends JPanel {
                             
                             markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                             changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
-                            startDrawingPoint.saveCoord(coordOfBoard);
-//                            firstTime = false;
+                            startDrawingPoint.saveCoord(changedCoordOfBoard);
                             repaint();
                             return;
                         }
                         int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
                         int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
-                        Point2D vicinityPoint = new Point2D();
+                        Point2D neibourhoodPoint;
                         boolean end = false;
                         
                         for(int i =0; i<8 ; i++){
-                           vicinityPoint = new Point2D(Polygon_previousPoint.getCoordX()+D_X[i],Polygon_previousPoint.getCoordY()+D_Y[i]);
-                            if(vicinityPoint.equal(Polygon_firstPoint)){
+                           neibourhoodPoint = new Point2D(Polygon_previousPoint.getCoordX()+D_X[i],Polygon_previousPoint.getCoordY()+D_Y[i]);
+                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
                                 end = true;
                                 break;
                             }
@@ -767,7 +792,7 @@ public class DrawingPanel extends JPanel {
                               
                             markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                             changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
-                            startDrawingPoint.saveCoord(coordOfBoard);
+                            startDrawingPoint.saveCoord(changedCoordOfBoard);
                             
                             
                             repaint();
@@ -786,8 +811,8 @@ public class DrawingPanel extends JPanel {
                         if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
                         if(!end){
                             for(int i =0; i<8 ; i++){
-                           vicinityPoint = new Point2D(startDrawingPoint.getCoordX()+D_X[i],startDrawingPoint.getCoordY()+D_Y[i]);
-                            if(vicinityPoint.equal(Polygon_firstPoint)){
+                           neibourhoodPoint = new Point2D(startDrawingPoint.getCoordX()+D_X[i],startDrawingPoint.getCoordY()+D_Y[i]);
+                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
                                 end = true;
                                 break;
                             }
@@ -804,10 +829,11 @@ public class DrawingPanel extends JPanel {
                         
                         markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                         changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
-                        Polygon_firstPoint.saveCoord(coordOfBoard);
+                        Polygon_firstPoint.saveCoord(changedCoordOfBoard);
                         repaint();
                         
                      }
+                     break;
                 }
 
             }

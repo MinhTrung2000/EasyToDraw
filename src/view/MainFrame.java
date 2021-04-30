@@ -339,7 +339,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ((DrawingPanel) panel_DrawingArea).undo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
-                repaint();
+                getDrawingPanel().repaint();
             }
         });
 
@@ -349,7 +349,7 @@ public class MainFrame extends javax.swing.JFrame {
                 ((DrawingPanel) panel_DrawingArea).redo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
-                repaint();
+                getDrawingPanel().repaint();
             }
         });
     }
@@ -876,6 +876,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Undo.setToolTipText("Undo");
         button_Undo.setContentAreaFilled(false);
         button_Undo.setDisabledIcon(null);
+        button_Undo.setEnabled(false);
         button_Undo.setFocusable(false);
         button_Undo.setRequestFocusEnabled(false);
         button_Undo.setRolloverEnabled(false);
@@ -886,6 +887,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Redo.setBorderPainted(false);
         button_Redo.setContentAreaFilled(false);
         button_Redo.setDisabledIcon(null);
+        button_Redo.setEnabled(false);
         button_Redo.setFocusable(false);
         button_Redo.setRequestFocusEnabled(false);
         button_Redo.setRolloverEnabled(false);
@@ -1240,7 +1242,7 @@ public class MainFrame extends javax.swing.JFrame {
                             .addComponent(button_ColorSave_1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(button_ColorSave_5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -1872,7 +1874,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_Select;
     private javax.swing.JButton button_Shape;
     private javax.swing.JButton button_Transform;
-    private javax.swing.JButton button_Undo;
+    public static javax.swing.JButton button_Undo;
     private javax.swing.JCheckBox checkBox_showCoordinate;
     private javax.swing.JCheckBox checkBox_showGridlines;
     private javax.swing.JComboBox<String> comboBox_StyleLine;
