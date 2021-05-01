@@ -1,17 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
-import control.SettingConstants;
-import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -20,10 +10,6 @@ import model.shape2d.Point2D;
 import model.tuple.MyPair;
 import model.tuple.MyTriple;
 
-/**
- *
- * @author DELL
- */
 public class Symmetry2DInput extends javax.swing.JDialog implements ActionListener {
 
     private Point2D acceptedPoint = new Point2D();
@@ -31,9 +17,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
 
     private InputVerifier inputVerifier = new ValidInputCheck();
 
-    /**
-     * Creates new form Symmetry2DInput
-     */
     public Symmetry2DInput(java.awt.Frame parent) {
         super(parent, true);
         initComponents();

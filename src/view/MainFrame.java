@@ -142,10 +142,10 @@ public class MainFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Shape, menuItem_Arrow, DrawingToolMode.DRAWING_SHAPE_ARROW, "/img/arrow24px.png");
 
         // For 3D
-        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, "/img/cube24px.png");
-        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, "/img/cylinder24px.png");
-        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, "/img/pyramid24px.png");
-        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, "/img/sphere24px.png");
+//        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, "/img/cube24px.png");
+//        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, "/img/cylinder24px.png");
+//        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, "/img/pyramid24px.png");
+//        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, "/img/sphere24px.png");
 
         // Transform modal
         initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
@@ -156,7 +156,7 @@ public class MainFrame extends javax.swing.JFrame {
         savedShapeMode = SettingConstants.DrawingToolMode.DRAWING_SHAPE_STAR;
         savedTransformMode = SettingConstants.DrawingToolMode.DRAWING_TRANSFORM_ROTATION;
 
-        saved3DShapeMode = SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CUBE;
+        saved3DShapeMode = SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR;
 
         button_Line.requestFocus();
     }
@@ -644,10 +644,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // For 3D
-        menuItem_3DCube.addActionListener(new CustomMenuItemChooseAction(
+        menuItem_3DRectangular.addActionListener(new CustomMenuItemChooseAction(
                 saved3DShapeMode,
-                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CUBE,
-                "/img/3DShape_Cube.png",
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR,
+                "/img/3DShape_Rectangular.png",
                 button_3DShape)
         );
         
@@ -727,7 +727,7 @@ public class MainFrame extends javax.swing.JFrame {
         menuItem_Rotation = new javax.swing.JMenuItem();
         menuItem_Symmetry = new javax.swing.JMenuItem();
         popMenu_3DShape = new javax.swing.JPopupMenu();
-        menuItem_3DCube = new javax.swing.JMenuItem();
+        menuItem_3DRectangular = new javax.swing.JMenuItem();
         menuItem_3DCylinder = new javax.swing.JMenuItem();
         menuItem_3DPyramid = new javax.swing.JMenuItem();
         menuItem_3DSphere = new javax.swing.JMenuItem();
@@ -832,8 +832,8 @@ public class MainFrame extends javax.swing.JFrame {
         menuItem_Symmetry.setText("jMenuItem1");
         popMenu_Transform.add(menuItem_Symmetry);
 
-        menuItem_3DCube.setText("jMenuItem1");
-        popMenu_3DShape.add(menuItem_3DCube);
+        menuItem_3DRectangular.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DRectangular);
 
         menuItem_3DCylinder.setText("jMenuItem1");
         popMenu_3DShape.add(menuItem_3DCylinder);
@@ -1309,7 +1309,6 @@ public class MainFrame extends javax.swing.JFrame {
         panelDrawingTool.setLayout(new java.awt.CardLayout());
 
         panelDrawingTool2D.setName("Card2D"); // NOI18N
-        panelDrawingTool2D.setVerifyInputWhenFocusTarget(false);
 
         button_Line.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Line_Segment.png"))); // NOI18N
         button_Line.setFocusPainted(false);
@@ -1358,11 +1357,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(button_Polygon, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(button_Shape, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(145, 145, 145)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
                 .addComponent(Seperator, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addComponent(button_Transform, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         panelDrawingTool.add(panelDrawingTool2D, "Card2D");
@@ -1370,9 +1368,12 @@ public class MainFrame extends javax.swing.JFrame {
 
         panelDrawingTool3D.setName("Card3D"); // NOI18N
 
-        button_3DShape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3DShape_Cube.png"))); // NOI18N
+        button_3DShape.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/3DShape_Rectangular.png"))); // NOI18N
         button_3DShape.setFocusPainted(false);
         button_3DShape.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        button_3DShape.setMaximumSize(new java.awt.Dimension(148, 116));
+        button_3DShape.setMinimumSize(new java.awt.Dimension(148, 116));
+        button_3DShape.setPreferredSize(new java.awt.Dimension(148, 116));
         button_3DShape.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout panelDrawingTool3DLayout = new javax.swing.GroupLayout(panelDrawingTool3D);
@@ -1894,9 +1895,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
     private javax.swing.JLabel label_ToolTip;
-    private javax.swing.JMenuItem menuItem_3DCube;
     private javax.swing.JMenuItem menuItem_3DCylinder;
     private javax.swing.JMenuItem menuItem_3DPyramid;
+    private javax.swing.JMenuItem menuItem_3DRectangular;
     private javax.swing.JMenuItem menuItem_3DSphere;
     private javax.swing.JMenuItem menuItem_Arrow;
     private javax.swing.JMenuItem menuItem_Circle;

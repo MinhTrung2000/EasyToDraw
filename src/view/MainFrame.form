@@ -102,7 +102,7 @@
         <Property name="useNullLayout" type="boolean" value="true"/>
       </Layout>
       <SubComponents>
-        <MenuItem class="javax.swing.JMenuItem" name="menuItem_3DCube">
+        <MenuItem class="javax.swing.JMenuItem" name="menuItem_3DRectangular">
           <Properties>
             <Property name="text" type="java.lang.String" value="jMenuItem1"/>
           </Properties>
@@ -1043,7 +1043,6 @@
                 <Container class="javax.swing.JPanel" name="panelDrawingTool2D">
                   <Properties>
                     <Property name="name" type="java.lang.String" value="Card2D" noResource="true"/>
-                    <Property name="verifyInputWhenFocusTarget" type="boolean" value="false"/>
                   </Properties>
                   <AccessibilityProperties>
                     <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
@@ -1079,11 +1078,10 @@
                               <Component id="button_Polygon" min="-2" pref="96" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="button_Shape" min="-2" pref="96" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
+                              <EmptySpace pref="174" max="32767" attributes="0"/>
                               <Component id="Seperator" min="-2" pref="4" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="button_Transform" min="-2" pref="96" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -1178,10 +1176,19 @@
                     <Component class="javax.swing.JButton" name="button_3DShape">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                          <Image iconType="3" name="/img/3DShape_Cube.png"/>
+                          <Image iconType="3" name="/img/3DShape_Rectangular.png"/>
                         </Property>
                         <Property name="focusPainted" type="boolean" value="false"/>
                         <Property name="horizontalTextPosition" type="int" value="0"/>
+                        <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[148, 116]"/>
+                        </Property>
+                        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[148, 116]"/>
+                        </Property>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[148, 116]"/>
+                        </Property>
                         <Property name="verticalTextPosition" type="int" value="3"/>
                       </Properties>
                     </Component>

@@ -10,10 +10,6 @@ public abstract class Shape3D extends Shape2D {
     public Shape3D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
-
-    @Override
-    public void drawOutline() {
-        
-    }
-
+    
+    
 }

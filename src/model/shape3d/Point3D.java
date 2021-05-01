@@ -34,11 +34,11 @@ public class Point3D extends Point2D {
      * @return Point2D
      */
     public Point2D get2DRelativePosition() {
-        Point2D relativePoint = new Point2D();
+        Point2D ret = new Point2D();
         int tmpX = (int) (this.coordX - Math.round(this.coordY * Math.cos(Math.toRadians(45))));
         int tmpY = (int) (this.coordZ - Math.round(this.coordY * Math.sin(Math.toRadians(45))));
-        relativePoint.setCoord(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
-        return relativePoint;
+        ret.setCoord(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
+        return ret;
     }
 
     @Override

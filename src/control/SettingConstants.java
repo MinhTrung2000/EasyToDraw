@@ -127,9 +127,9 @@ public interface SettingConstants {
             }
 
         },
-        DRAWING_3DSHAPE_CUBE("") {
+        DRAWING_3DSHAPE_RECTANGULAR("") {
             public String toString() {
-                return "CUBE";
+                return "RECTANGULAR";
             }
 
         },

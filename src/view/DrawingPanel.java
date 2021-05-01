@@ -750,6 +750,22 @@ public class DrawingPanel extends JPanel {
         repaint();
     }
 
+    public void draw3DShapeRectangular(Point2D centerPoint, int width, int height, int high) {
+        
+    }
+
+    public void draw3DShapeCylinder(Point2D centerPoint, int radius, int high) {
+        
+    }
+    
+    public void draw3DShapePyramid(Point2D centerPoint, int bottomEdge, int high) {
+        
+    }
+    
+    public void draw3DShapeSphere(Point2D centerPoint, int radius) {
+        
+    }
+    
     public MyPair getXBound() {
         int half_x = (int) (this.widthBoard / (SettingConstants.RECT_SIZE) * 2);
         return new MyPair(-half_x, half_x);
