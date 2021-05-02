@@ -232,7 +232,62 @@ public abstract class Shape2D {
     public void drawSegment(Point2D startPoint, Point2D endPoint) {
         drawSegment(startPoint, endPoint, this.lineStyle);
     }
+    public void drawOutlineEllipse(int a, int b, Point2D centerPoint, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
+        pointSet.clear();
 
+        // Save center point coordination
+        
+        double x = 0.0;
+        double y = b;
+
+        double fx = 0;
+        double fy = 2 * a * a * y;
+
+        pixelCounter = 1;
+        putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+
+        double p = b * b - a * a * b + a * a * 0.25;
+
+        while (fx < fy) {
+            x++;
+            fx += 2 * b * b;
+            if (p < 0) {
+                p += b * b * (2 * x + 3);
+            } else {
+                p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
+                y--;
+                fy -= 2 * a * a;
+            }
+            pixelCounter++;
+            putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+        }
+
+        p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
+
+        while (y >= 0) {
+            y--;
+            if (p < 0) {
+                p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
+                x++;
+            } else {
+                p += a * a * (3 - 2 * y);
+            }
+            pixelCounter++;
+            putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+        }
+    }
+     
+     
+     
+     public void putSymmetricPoints(int x, int y, int center_x, int center_y, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
+        if(topLeft)  savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
+         
+        if(topRight) savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
+        if(botRight) savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
+        
+        if(botLeft)  savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
+        
+    }
     /**
      * Drawing for a complex shape.
      *
@@ -247,7 +302,7 @@ public abstract class Shape2D {
     }
 
     public abstract void drawOutline();
-
+    
     public void draw() {
         drawOutline();
 //        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint, this.filledColor);
@@ -289,7 +344,7 @@ public abstract class Shape2D {
         }
         return false;
     }
-
+    
     public void putFourSymmetricPoints(int x, int y, int center_x, int center_y) {
         savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
