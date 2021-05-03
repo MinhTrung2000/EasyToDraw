@@ -48,6 +48,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private SettingConstants.DrawingToolMode saved3DShapeMode;
 
+    private AnimationDialog animationDialog = new AnimationDialog(this, true);
+    
     /**
      * Number of saved color.
      */
@@ -486,7 +488,11 @@ public class MainFrame extends javax.swing.JFrame {
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
+                if (animationDialog.isShowing()) {
+                    animationDialog.requestFocus();
+                } else {
+                    animationDialog.setVisible(true);
+                }
             }
         });
         

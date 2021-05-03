@@ -10,14 +10,14 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import model.shape2d.Point2D;
+import model.shape3d.Point3D;
 import model.tuple.MyPair;
 
 public class Shape3DInput extends javax.swing.JDialog implements ActionListener {
 
     private InputVerifier inputVerifier = new ValidInputCheck();
     private GenTextForCubeMode genTextEngine = new GenTextForCubeMode();
-    private Point2D accepctedCenterPoint = new Point2D();
+    private Point3D accepctedCenterPoint = new Point3D();
 
     public Shape3DInput(java.awt.Frame parent) {
         super(parent, true);
@@ -270,6 +270,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         textfRectangularHeight = new javax.swing.JTextField();
         textfRectangularHigh = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        textfRectangularCenterPointCoordZ = new javax.swing.JTextField();
         panelCylinder = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -283,6 +285,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         textfCylinderHigh = new javax.swing.JTextField();
+        textfRectangularCenterPointCoordZ1 = new javax.swing.JTextField();
+        jLabel34 = new javax.swing.JLabel();
         panelPyramid = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -296,6 +300,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         textfPyramidBottomEdge = new javax.swing.JTextField();
+        textfRectangularCenterPointCoordZ2 = new javax.swing.JTextField();
+        jLabel35 = new javax.swing.JLabel();
         panelSphere = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -306,6 +312,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         textfSphereRadius = new javax.swing.JTextField();
+        textfRectangularCenterPointCoordZ3 = new javax.swing.JTextField();
+        jLabel36 = new javax.swing.JLabel();
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -366,6 +374,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         jLabel10.setText("Rectangular Shape Custom:");
 
+        jLabel33.setText("Z:");
+
         javax.swing.GroupLayout panelRectangularLayout = new javax.swing.GroupLayout(panelRectangular);
         panelRectangular.setLayout(panelRectangularLayout);
         panelRectangularLayout.setHorizontalGroup(
@@ -394,7 +404,11 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                         .addGap(35, 35, 35)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(jLabel33)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(textfRectangularCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelRectangularLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(28, 28, 28)
@@ -422,7 +436,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
                     .addComponent(textfRectangularCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel33)
+                        .addComponent(textfRectangularCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
@@ -462,6 +479,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         jLabel18.setText("H:");
 
+        jLabel34.setText("Z:");
+
         javax.swing.GroupLayout panelCylinderLayout = new javax.swing.GroupLayout(panelCylinder);
         panelCylinder.setLayout(panelCylinderLayout);
         panelCylinderLayout.setHorizontalGroup(
@@ -476,14 +495,6 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                             .addComponent(jLabel15))
                         .addGap(18, 18, 18)
                         .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelCylinderLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfCylinderCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(panelCylinderLayout.createSequentialGroup()
                                     .addComponent(jLabel18)
@@ -492,9 +503,21 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                 .addGroup(panelCylinderLayout.createSequentialGroup()
                                     .addComponent(jLabel16)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(textfCylinderRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(textfCylinderRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelCylinderLayout.createSequentialGroup()
+                                .addComponent(jLabel13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfCylinderCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel34)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addComponent(jLabel17))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(32, 32, 32))
         );
         panelCylinderLayout.setVerticalGroup(
             panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +530,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addComponent(jLabel13)
                     .addComponent(jLabel14)
                     .addComponent(textfCylinderCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel34)
+                        .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -541,6 +567,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         jLabel26.setText("D:");
 
+        jLabel35.setText("Z:");
+
         javax.swing.GroupLayout panelPyramidLayout = new javax.swing.GroupLayout(panelPyramid);
         panelPyramid.setLayout(panelPyramidLayout);
         panelPyramidLayout.setHorizontalGroup(
@@ -567,12 +595,16 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel22)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel35)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelPyramidLayout.createSequentialGroup()
                                 .addComponent(jLabel24)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(textfPyramidHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(39, 39, 39))
         );
         panelPyramidLayout.setVerticalGroup(
             panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -585,7 +617,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addComponent(jLabel21)
                     .addComponent(jLabel22)
                     .addComponent(textfPyramidCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel35)
+                        .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
@@ -615,6 +650,8 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         jLabel32.setText("R:");
 
+        jLabel36.setText("Z:");
+
         javax.swing.GroupLayout panelSphereLayout = new javax.swing.GroupLayout(panelSphere);
         panelSphere.setLayout(panelSphereLayout);
         panelSphereLayout.setHorizontalGroup(
@@ -640,8 +677,12 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                 .addGap(35, 35, 35)
                                 .addComponent(jLabel30)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(68, Short.MAX_VALUE))
+                                .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel36)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(39, 39, 39))
         );
         panelSphereLayout.setVerticalGroup(
             panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -654,13 +695,16 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addComponent(jLabel29)
                     .addComponent(jLabel30)
                     .addComponent(textfSphereCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel36)
+                        .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24)
                 .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel31)
                     .addComponent(jLabel32)
                     .addComponent(textfSphereRadius, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addGap(158, 158, 158))
         );
 
         panelCustom.add(panelSphere, "CardSphere");
@@ -673,12 +717,12 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -688,7 +732,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                             .addComponent(jLabel1)
                             .addComponent(btnOptionRectangular, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelCustom, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(panelCustom, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -709,7 +753,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(panelCustom, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)
                     .addComponent(btnCancel))
@@ -786,6 +830,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -809,6 +857,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private javax.swing.JTextField textfPyramidHigh;
     private javax.swing.JTextField textfRectangularCenterPointCoordX;
     private javax.swing.JTextField textfRectangularCenterPointCoordY;
+    private javax.swing.JTextField textfRectangularCenterPointCoordZ;
+    private javax.swing.JTextField textfRectangularCenterPointCoordZ1;
+    private javax.swing.JTextField textfRectangularCenterPointCoordZ2;
+    private javax.swing.JTextField textfRectangularCenterPointCoordZ3;
     private javax.swing.JTextField textfRectangularHeight;
     private javax.swing.JTextField textfRectangularHigh;
     private javax.swing.JTextField textfRectangularWidth;
