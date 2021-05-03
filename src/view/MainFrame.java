@@ -49,7 +49,8 @@ public class MainFrame extends javax.swing.JFrame {
     private SettingConstants.DrawingToolMode saved3DShapeMode;
 
     private AnimationDialog animationDialog = new AnimationDialog(this, true);
-    
+    private Shape3DInput shape3DInputDialog = new Shape3DInput(this);
+
     /**
      * Number of saved color.
      */
@@ -144,10 +145,10 @@ public class MainFrame extends javax.swing.JFrame {
         initMenuItem(popMenu_Shape, menuItem_Arrow, DrawingToolMode.DRAWING_SHAPE_ARROW, "/img/arrow24px.png");
 
         // For 3D
-//        initMenuItem(popMenu_3DShape, menuItem_3DCube, DrawingToolMode.DRAWING_3DSHAPE_CUBE, "/img/cube24px.png");
-//        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, "/img/cylinder24px.png");
-//        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, "/img/pyramid24px.png");
-//        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, "/img/sphere24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DRectangular, DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR, "/img/rectangular24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DCylinder, DrawingToolMode.DRAWING_3DSHAPE_CYLINDER, "/img/cylinder24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DPyramid, DrawingToolMode.DRAWING_3DSHAPE_PYRAMID, "/img/pyramid24px.png");
+        initMenuItem(popMenu_3DShape, menuItem_3DSphere, DrawingToolMode.DRAWING_3DSHAPE_SPHERE, "/img/sphere24px.png");
 
         // Transform modal
         initMenuItem(popMenu_Transform, menuItem_Rotation, DrawingToolMode.DRAWING_TRANSFORM_ROTATION, "/img/rotation24px.png");
@@ -411,7 +412,6 @@ public class MainFrame extends javax.swing.JFrame {
      * @param toolMode
      */
     private boolean setSelectedToolMode(SettingConstants.DrawingToolMode toolMode) {
-
         if (toolMode.toolTip.compareTo("") != 0) {
             showTooltip(toolMode.toolTip);
         }
@@ -496,7 +496,7 @@ public class MainFrame extends javax.swing.JFrame {
                    setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });
-        
+
     }
 
     /**
@@ -573,7 +573,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         button_Transform.addMouseListener(new CustomMouseAtButtonDrawingTool(savedTransformMode, button_Transform, popMenu_Transform));
 
-//        button_3DShape.addMouseListener(new CustomMouseAtButtonDrawingTool(saved3DShapeMode, button_3DShape, popMenu_3DShape));
+        button_3DShape.addMouseListener(new CustomMouseAtButtonDrawingTool(saved3DShapeMode, button_3DShape, popMenu_3DShape));
         //======================================================================
         // MenuItem inside popup menu
         //======================================================================
@@ -651,34 +651,34 @@ public class MainFrame extends javax.swing.JFrame {
 
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         // For 3D
-//        menuItem_3DRectangular.addActionListener(new CustomMenuItemChooseAction(
-//                saved3DShapeMode,
-//                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR,
-//                "/img/3DShape_Rectangular.png",
-//                button_3DShape)
-//        );
-//        
-//        menuItem_3DCylinder.addActionListener(new CustomMenuItemChooseAction(
-//                saved3DShapeMode,
-//                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CYLINDER,
-//                "/img/3DShape_Cylinder.png",
-//                button_3DShape)
-//        );
-//        
-//        menuItem_3DPyramid.addActionListener(new CustomMenuItemChooseAction(
-//                saved3DShapeMode,
-//                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_PYRAMID,
-//                "/img/3DShape_Pyramid.png",
-//                button_3DShape)
-//        );
-//        
-//        menuItem_3DSphere.addActionListener(new CustomMenuItemChooseAction(
-//                saved3DShapeMode,
-//                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_SPHERE,
-//                "/img/3DShape_Sphere.png",
-//                button_3DShape)
-//        );
-        
+        menuItem_3DRectangular.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR,
+                "/img/3DShape_Rectangular.png",
+                button_3DShape)
+        );
+
+        menuItem_3DCylinder.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CYLINDER,
+                "/img/3DShape_Cylinder.png",
+                button_3DShape)
+        );
+
+        menuItem_3DPyramid.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_PYRAMID,
+                "/img/3DShape_Pyramid.png",
+                button_3DShape)
+        );
+
+        menuItem_3DSphere.addActionListener(new CustomMenuItemChooseAction(
+                saved3DShapeMode,
+                SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_SPHERE,
+                "/img/3DShape_Sphere.png",
+                button_3DShape)
+        );
+
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         menuItem_Rotation.addActionListener(new CustomMenuItemChooseAction(
                 savedTransformMode,
@@ -733,6 +733,11 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu_Transform = new javax.swing.JPopupMenu();
         menuItem_Rotation = new javax.swing.JMenuItem();
         menuItem_Symmetry = new javax.swing.JMenuItem();
+        popMenu_3DShape = new javax.swing.JPopupMenu();
+        menuItem_3DRectangular = new javax.swing.JMenuItem();
+        menuItem_3DCylinder = new javax.swing.JMenuItem();
+        menuItem_3DPyramid = new javax.swing.JMenuItem();
+        menuItem_3DSphere = new javax.swing.JMenuItem();
         panel_Operation = new javax.swing.JPanel();
         button_OpenFile = new javax.swing.JButton();
         button_CreateNewFile = new javax.swing.JButton();
@@ -833,6 +838,18 @@ public class MainFrame extends javax.swing.JFrame {
 
         menuItem_Symmetry.setText("jMenuItem1");
         popMenu_Transform.add(menuItem_Symmetry);
+
+        menuItem_3DRectangular.setText("jMenuItem1");
+        popMenu_3DShape.add(menuItem_3DRectangular);
+
+        menuItem_3DCylinder.setText("jMenuItem2");
+        popMenu_3DShape.add(menuItem_3DCylinder);
+
+        menuItem_3DPyramid.setText("jMenuItem3");
+        popMenu_3DShape.add(menuItem_3DPyramid);
+
+        menuItem_3DSphere.setText("jMenuItem4");
+        popMenu_3DShape.add(menuItem_3DSphere);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("SketchPoint");
@@ -1608,6 +1625,8 @@ public class MainFrame extends javax.swing.JFrame {
                     } else {
                         if (button == button_Transform) {
                             promptTranformInput();
+                        } else if (button == button_3DShape) {
+                            prompt3DShapeInput();
                         }
                     }
                 }
@@ -1725,6 +1744,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
 
             promptTranformInput();
+            prompt3DShapeInput();
         }
     }
 
@@ -1740,6 +1760,21 @@ public class MainFrame extends javax.swing.JFrame {
             case DRAWING_TRANSFORM_SYMMETRY: {
                 JDialog symmetryInputDialog = new Symmetry2DInput(this);
                 symmetryInputDialog.setVisible(true);
+                break;
+            }
+        }
+    }
+
+    public void prompt3DShapeInput() {
+        DrawingToolMode selectedMode = getDrawingPanel().getSelectedToolMode();
+
+        switch (selectedMode) {
+            case DRAWING_3DSHAPE_RECTANGULAR:
+            case DRAWING_3DSHAPE_CYLINDER:
+            case DRAWING_3DSHAPE_PYRAMID:
+            case DRAWING_3DSHAPE_SPHERE: {
+                shape3DInputDialog.setSelectedShape(selectedMode);
+                shape3DInputDialog.setVisible(true);
                 break;
             }
         }
@@ -1885,6 +1920,10 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
     private javax.swing.JLabel label_ToolTip;
+    private javax.swing.JMenuItem menuItem_3DCylinder;
+    private javax.swing.JMenuItem menuItem_3DPyramid;
+    private javax.swing.JMenuItem menuItem_3DRectangular;
+    private javax.swing.JMenuItem menuItem_3DSphere;
     private javax.swing.JMenuItem menuItem_Arrow;
     private javax.swing.JMenuItem menuItem_Circle;
     private javax.swing.JMenuItem menuItem_Diamond;
@@ -1912,6 +1951,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panel_StatusBar;
     private javax.swing.JPanel panel_Tool;
     private javax.swing.JPanel panel_View;
+    private javax.swing.JPopupMenu popMenu_3DShape;
     private javax.swing.JPopupMenu popMenu_Line;
     private javax.swing.JPopupMenu popMenu_Polygon;
     private javax.swing.JPopupMenu popMenu_Shape;
