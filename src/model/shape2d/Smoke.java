@@ -22,10 +22,13 @@ public class Smoke extends Shape2D{
         savePoint(this.startPoint.coordX, this.startPoint.coordY);
         this.filledColor = new Color (0,0,0);
         
-        this.drawOutlineCircle(2, new Point2D (this.startPoint,-5,0), false, false, false, false, false, false, true, true);
+        this.drawOutlineCircle(2, new Point2D (this.startPoint,-6,2), false, false, false, false, false, true, true, true);  
+        this.drawOutlineCircle(2, new Point2D (this.startPoint,-6 -2,2 + 3), false, false, false, false, false, false, true, true); 
         
         this.drawOutlineCircle(4, new Point2D (this.startPoint,7,8), true, true, true, false, false, false, false, false);
-        
+        //vòng tròn liên tiếp
+        this.drawOutlineCircle(4, new Point2D (this.startPoint,4,-4), true, true, false, false, false, false, false, true);   
+        this.drawOutlineCircle(2, new Point2D (this.startPoint,4 +6,-4), true, true, true, false, false, false, false, true);
     }
     @Override
     public void applyMove(Vector2D vector) {

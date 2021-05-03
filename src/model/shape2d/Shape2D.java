@@ -238,7 +238,7 @@ public abstract class Shape2D {
         pointSet.clear();
 
         // Save center point coordination
-        centerPoint.saveCoord(changedCoordOfBoard);
+  //      centerPoint.saveCoord(changedCoordOfBoard);
 //        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
 //        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
         
