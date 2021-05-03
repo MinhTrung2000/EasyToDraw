@@ -224,50 +224,50 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         @Override
         public boolean verify(JComponent input) {
             try {
-                if (isTextfCoordX(input)) {
-                    String coordXText = ((JTextField) input).getText();
-
-                    if (coordXText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
-                        return false;
-                    }
-
-                    int coordX = Integer.parseInt(coordXText);
-
-                    MyPair xBound = ((MainFrame) getParent()).getDrawingPanel().getXBound();
-
-                    if (!checkCoordInBound(coordX, xBound)) {
-                        return false;
-                    }
-
-                    accepctedCenterPoint.setCoordX(coordX);
-                } else if (isTextfCoordY(input)) {
-                    String coordYText = ((JTextField) input).getText();
-
-                    if (coordYText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
-                        return false;
-                    }
-
-                    int coordY = Integer.parseInt(coordYText);
-
-                    MyPair yBound = ((MainFrame) getParent()).getDrawingPanel().getYBound();
-
-                    if (!checkCoordInBound(coordY, yBound)) {
-                        return false;
-                    }
-
-                    accepctedCenterPoint.setCoordY(coordY);
-                } else if (isTextShapeParam(input)) {
-                    String paramText = ((JTextField) input).getText();
-
-                    if (paramText.equals("")) {
-                        JOptionPane.showMessageDialog(null, "All shape parameter are required!");
-                        return false;
-                    }
-
-                    Integer.parseInt(paramText);
-                }
+//                if (isTextfCoordX(input)) {
+//                    String coordXText = ((JTextField) input).getText();
+//
+//                    if (coordXText.equals("")) {
+//                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
+//                        return false;
+//                    }
+//
+//                    int coordX = Integer.parseInt(coordXText);
+//
+//                    MyPair xBound = ((MainFrame) getParent()).getDrawingPanel().getXBound();
+//
+//                    if (!checkCoordInBound(coordX, xBound)) {
+//                        return false;
+//                    }
+//
+//                    accepctedCenterPoint.setCoordX(coordX);
+//                } else if (isTextfCoordY(input)) {
+//                    String coordYText = ((JTextField) input).getText();
+//
+//                    if (coordYText.equals("")) {
+//                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
+//                        return false;
+//                    }
+//
+//                    int coordY = Integer.parseInt(coordYText);
+//
+//                    MyPair yBound = ((MainFrame) getParent()).getDrawingPanel().getYBound();
+//
+//                    if (!checkCoordInBound(coordY, yBound)) {
+//                        return false;
+//                    }
+//
+//                    accepctedCenterPoint.setCoordY(coordY);
+//                } else if (isTextShapeParam(input)) {
+//                    String paramText = ((JTextField) input).getText();
+//
+//                    if (paramText.equals("")) {
+//                        JOptionPane.showMessageDialog(null, "All shape parameter are required!");
+//                        return false;
+//                    }
+//
+//                    Integer.parseInt(paramText);
+//                }
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, "Please enter numeric number!");
                 return false;
