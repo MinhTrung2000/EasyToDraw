@@ -5,6 +5,18 @@ import java.awt.Color;
 import model.shape2d.Point2D;
 import model.shape2d.Vector2D;
 
+/*
+    A2        B2
+  /         /
+A --------- B
+|           |
+|           |
+|  C2       | D2
+|/          |/
+C-----------D
+
+*/
+
 public class Rectangular extends Shape3D {
     
     private Point2D pointA;
