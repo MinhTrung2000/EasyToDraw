@@ -5,12 +5,15 @@
         <group>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Star.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Fish.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Shape3DInput.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Shape2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Rectangle.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Rotation2DInput.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/nbproject/private/private.xml</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/SettingConstants.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/DrawingPanel.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Transform2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Arrow2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Diamond.java</file>
