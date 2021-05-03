@@ -23,9 +23,9 @@ import model.shape2d.Arrow2D;
 import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
-import model.shape2d.Mountain;
+import model.shape2d.animation.Mountain;
 import model.shape2d.Shape2D;
-import model.shape2d.Smoke;
+import model.shape2d.animation.Smoke;
 import model.shape2d.Star;
 import model.tuple.MyPair;
 

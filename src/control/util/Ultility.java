@@ -81,7 +81,7 @@ public class Ultility {
      * @param colorOfBoard
      * @param markedArray
      * @param point
-     * @param choosedColor
+     * @param chosenColor
      */
     public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, Point2D point, Color chosenColor) {
         //  int coordX = point.getCoordX();

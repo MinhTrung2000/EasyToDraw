@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.shape2d;
+package model.shape2d.animation;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import model.shape2d.Point2D;
+import model.shape2d.Shape2D;
+import model.shape2d.Vector2D;
 
 /**
  *
@@ -20,7 +23,7 @@ public class Smoke extends Shape2D{
     public void drawSmoke(Point2D startPoint){
         this.startPoint=startPoint; //startPoint là tâm của khói
         this.filledColor = new Color (255,0,0);
-        savePoint(this.startPoint.coordX, this.startPoint.coordY);
+        savePoint(this.startPoint.getCoordX(), this.startPoint.getCoordY());
         this.filledColor = new Color (0,0,0);
         //khói ở trong
         this.drawOutlineCircle(2, new Point2D (this.startPoint,-6,2), false, false, false, false, false, true, true, true);  

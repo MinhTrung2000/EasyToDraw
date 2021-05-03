@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.shape2d;
+package model.shape2d.animation;
 
 import control.SettingConstants;
 import control.util.Ultility;
 import java.awt.Color;
 import java.util.ArrayList;
+import model.shape2d.Point2D;
+import model.shape2d.Shape2D;
+import model.shape2d.Vector2D;
 
 /**
  *
@@ -33,8 +36,8 @@ public class Mountain extends Shape2D {
         this.drawSegmentS(startPoint2, endPoint2);
         this.drawSegment(endPoint,endPoint2);
         //tâm ellipse miệng núi lửa
-        Point2D volcano_CenterP = new Point2D((startPoint.coordX+startPoint2.coordX)/2, startPoint.coordY);
-        this.drawOutlineEllipse((startPoint2.coordX-startPoint.coordX)/2, 4, volcano_CenterP, false, false, true, true);
+        Point2D volcano_CenterP = new Point2D((startPoint.getCoordX()+startPoint2.getCoordX())/2, startPoint.getCoordY());
+        this.drawOutlineEllipse((startPoint2.getCoordX()-startPoint.getCoordX())/2, 4, volcano_CenterP, false, false, true, true);
         
         //vẽ dung nham
         this.filledColor = new Color (255,100,50);
@@ -65,8 +68,8 @@ public class Mountain extends Shape2D {
         this.drawSegmentS(new Point2D(startPoint,1,10), new Point2D(startPoint,-10,40));
         
         //dung nham ở miệng núi lửa
-        this.drawOutlineEllipse((startPoint2.coordX-startPoint.coordX)/2, 4, new Point2D(volcano_CenterP,0,1), false, false, true, true);
-        this.drawOutlineEllipse((startPoint2.coordX-startPoint.coordX)/2, 4, new Point2D(volcano_CenterP,0,2), false, false, true, true);
+        this.drawOutlineEllipse((startPoint2.getCoordX()-startPoint.getCoordX())/2, 4, new Point2D(volcano_CenterP,0,1), false, false, true, true);
+        this.drawOutlineEllipse((startPoint2.getCoordX()-startPoint.getCoordX())/2, 4, new Point2D(volcano_CenterP,0,2), false, false, true, true);
         this.drawSegment(new Point2D(pointList1.get(0),0,0), new Point2D (pointList1.get(0),5,0));
     }
      
@@ -100,31 +103,31 @@ public class Mountain extends Shape2D {
         int incx = 0, incy = 0;
         int balance = 0;
 
-        if (endPoint.coordX >= startPoint.coordX) {
-            dx = endPoint.coordX - startPoint.coordX;
+        if (endPoint.getCoordX() >= startPoint.getCoordX()) {
+            dx = endPoint.getCoordX() - startPoint.getCoordX();
             incx = 1;
         } else {
-            dx = startPoint.coordX - endPoint.coordX;
+            dx = startPoint.getCoordX() - endPoint.getCoordX();
             incx = -1;
         }
 
-        if (endPoint.coordY >= startPoint.coordY) {
-            dy = endPoint.coordY - startPoint.coordY;
+        if (endPoint.getCoordY() >= startPoint.getCoordY()) {
+            dy = endPoint.getCoordY() - startPoint.getCoordY();
             incy = 1;
         } else {
-            dy = startPoint.coordY - endPoint.coordY;
+            dy = startPoint.getCoordY() - endPoint.getCoordY();
             incy = -1;
         }
 
-        int x = startPoint.coordX;
-        int y = startPoint.coordY;
+        int x = startPoint.getCoordX();
+        int y = startPoint.getCoordY();
 
         if (dx >= dy) {
             dy <<= 1;
             balance = dy - dx;
             dx <<= 1;
 
-            while (x != endPoint.coordX) {
+            while (x != endPoint.getCoordX()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 
@@ -157,7 +160,7 @@ public class Mountain extends Shape2D {
             balance = dx - dy;
             dy <<= 1;
 
-            while (y != endPoint.coordY) {
+            while (y != endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
            

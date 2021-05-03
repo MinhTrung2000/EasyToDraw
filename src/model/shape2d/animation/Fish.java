@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.shape2d;
+package model.shape2d.animation;
 
 import control.util.Ultility;
 import java.awt.Color;
+import model.shape2d.Point2D;
+import model.shape2d.Shape2D;
+import model.shape2d.Vector2D;
 
 /**
  *
