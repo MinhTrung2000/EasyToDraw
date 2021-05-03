@@ -1,4 +1,4 @@
 # Match /build anywhere
 **/build
 build/
-nbproject/private/
+nbproject/private/*

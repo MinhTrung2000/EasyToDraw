@@ -20,13 +20,13 @@ public class Point2D {
         coordY = 0;
         parentShape = null;
     }
-
+    
     public Point2D(int coordX, int coordY, Shape2D parentShape) {
         this.coordX = coordX;
         this.coordY = coordY;
         this.parentShape = parentShape;
     }
-
+    
     public Point2D(int coordX, int coordY) {
         this(coordX, coordY, null);
     }
@@ -34,7 +34,10 @@ public class Point2D {
     public Point2D(Point2D other) {
         this(other.coordX, other.coordY, other.parentShape);
     }
-
+    
+    public Point2D(Point2D other, int adjustmentValue_X, int adjustmentValue_Y){
+        this(other.coordX + adjustmentValue_X, other.coordY + adjustmentValue_Y, other.parentShape);
+    }
     public void setParent(Shape2D parentShape) {
         this.parentShape = parentShape;
     }

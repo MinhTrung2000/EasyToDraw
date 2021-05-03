@@ -23,6 +23,7 @@ import model.shape2d.Arrow2D;
 import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
+import model.shape2d.Mountain;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
 import model.tuple.MyPair;
@@ -906,6 +907,30 @@ public class DrawingPanel extends JPanel {
                         hidePixels(hidePixelsPos, true);
                     }
                     repaint();
+                }
+                case TOOL_ANIMATION: {
+                    if(checkStartingPointAvailable()){
+//                        Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                        Point2D startP = new Point2D(50,30);
+//                        Point2D endP = new Point2D (70,70);
+//                        fish.drawFish1(startP, endP);
+//                        fish.drawFish2(new Point2D(30,65), new Point2D(110,110));
+//                        apply();
+//                        resetChangedPropertyArray();
+//                        copyColorValue(colorOfBoard, changedColorOfBoard, true);
+//                        fish.paintFish1(startP, endP);
+//                        fish.paintFish2(new Point2D(30,65), new Point2D(110,110));
+                          Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                          Point2D startP = new Point2D(80,30);
+                          Point2D endP = new Point2D (40,90);
+                          mountain.drawMountain(startP, endP);
+                          apply();
+                         resetChangedPropertyArray();
+                         copyColorValue(colorOfBoard, changedColorOfBoard, true);
+                         mountain.paintMountain(startP);
+                    }
+                    repaint();
+                    break;
                 }
 
             }
