@@ -934,6 +934,8 @@ public class DrawingPanel extends JPanel {
                          resetChangedPropertyArray();
                          copyColorValue(colorOfBoard, changedColorOfBoard, true);
                       //   mountain.paintMountain(startP);
+                         tree.paintAppleTree(startP);
+                         tree.paintApple();
                     }
                     repaint();
                     break;
