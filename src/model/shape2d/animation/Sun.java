@@ -21,7 +21,8 @@ public class Sun extends Shape2D{
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
     public void drawSun(Point2D startP){
-        this.filledColor = new Color(236,224,0);
+      //  this.filledColor = new Color(236,224,0);
+      this.filledColor = new Color (245, 120, 60);
         this.drawOutlineCircle(7, startP, true, true, true, true, true, true, true, true);
       //  this.filledColor = new Color (255,242,0);
        this.filledColor = new Color(0,0,0);
