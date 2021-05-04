@@ -52,24 +52,25 @@ public class AppleTree extends Shape2D{
         this.drawSegment( new Point2D ( pointList.get(4),9,1),  new Point2D ( pointList.get(4),36,1));
         this.drawSegment( new Point2D ( pointList.get(4),9,36),  new Point2D ( pointList.get(4),36,36));
         
-    }
-    @Override
+
+}
+     @Override
     public void applyMove(Vector2D vector) {
-        
+
     }
-    
+
     @Override
-    public void saveCoordinates(){
-        
+    public void saveCoordinates() {
+
     }
-    
+
     @Override
     public void drawOutline() {
-        
+
     }
-    
+
     @Override
     public void setProperty(Point2D startPoint, Point2D endPoint) {
-        
+
     }
 }

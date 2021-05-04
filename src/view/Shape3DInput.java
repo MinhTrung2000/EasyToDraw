@@ -223,7 +223,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         @Override
         public boolean verify(JComponent input) {
-            try {
+//            try {
 //                if (isTextfCoordX(input)) {
 //                    String coordXText = ((JTextField) input).getText();
 //
@@ -268,10 +268,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 //
 //                    Integer.parseInt(paramText);
 //                }
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Please enter numeric number!");
-                return false;
-            }
+//            } catch (NumberFormatException ex) {
+//                JOptionPane.showMessageDialog(null, "Please enter numeric number!");
+//                return false;
+//            }
 
             return true;
         }
