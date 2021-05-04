@@ -3,26 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Star.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Fish.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Shape3DInput.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Shape2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Rectangle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Rotation2DInput.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/nbproject/private/private.xml</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/SettingConstants.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/DrawingPanel.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Transform2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Arrow2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Diamond.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/io/FileHandle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Point2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/MainFrame.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Mountain.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Triangle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Ellipse.java</file>
+            <file>file:/F:/IT/School/Ky%20thuat%20DH/DoAn/SketchPoint/.gitignore</file>
+            <file>file:/F:/IT/School/Ky%20thuat%20DH/DoAn/SketchPoint/src/view/MainFrame.java</file>
+            <file>file:/F:/IT/School/Ky%20thuat%20DH/DoAn/SketchPoint/src/view/DrawingPanel.java</file>
+            <file>file:/F:/IT/School/Ky%20thuat%20DH/DoAn/SketchPoint/src/view/Shape3DInput.java</file>
         </group>
     </open-files>
 </project-private>
