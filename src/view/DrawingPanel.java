@@ -25,12 +25,7 @@ import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
-import model.shape2d.animation.AppleTree;
-import model.shape2d.animation.Fish;
 import model.shape2d.animation.Ground;
-import model.shape2d.animation.Mountain;
-import model.shape2d.animation.Smoke;
-import model.shape2d.animation.Sun;
 import model.tuple.MyPair;
 
 /**
@@ -927,7 +922,9 @@ public class DrawingPanel extends JPanel {
                           Point2D startP_Mountain = new Point2D(80,45);
                           Point2D endP_Mountain = new Point2D (40,105);
                           
-                          Point2D startP_Ground = new Point2D(0,50);
+//                          Point2D startP_Cloud = new Point2D(35,30);
+//                          
+                           Point2D startP_Ground = new Point2D(0,50);
 //                          Point2D startP_Smoke = new Point2D (startP_Mountain,15,-25);
 //                          Point2D startP_Sun = new Point2D(startP_Mountain,-50,-30);
 //                          Point2D startP_Tree = new Point2D(startP_Mountain,-30,20);
@@ -975,6 +972,16 @@ public class DrawingPanel extends JPanel {
                             Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                             ground.drawGround(startP_Ground);
                             ground.paintGround(startP_Ground);
+                            
+                            apply();
+                            resetChangedPropertyArray();
+                            
+                            ground.drawAndPaintFlowers();
+                            
+                            apply();
+                            resetChangedPropertyArray();
+//                            Cloud cloud =new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                            cloud.drawCloud(startP_Cloud);
                           
                     }
                     repaint();
