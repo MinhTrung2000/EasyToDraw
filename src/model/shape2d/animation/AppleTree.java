@@ -83,10 +83,7 @@ public class AppleTree extends Shape2D{
         for(Point2D centerP : Apple_CenterP){
             drawApple(centerP);
         }
-//        drawApple(Apple_CenterP.get(0));
-//        drawApple();
-//        drawApple();
-//        drawApple();
+
         //giới hạn  chân để tô màu
         this.filledColor = new Color (0,0,0);
         this.drawSegment( new Point2D ( pointList.get(4),9,36),  new Point2D ( pointList.get(4),27,36));

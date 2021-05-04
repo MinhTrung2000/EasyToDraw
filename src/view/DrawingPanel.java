@@ -23,11 +23,9 @@ import model.shape2d.Arrow2D;
 import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
-import model.shape2d.animation.Mountain;
 import model.shape2d.Shape2D;
-import model.shape2d.animation.Smoke;
 import model.shape2d.Star;
-import model.shape2d.animation.AppleTree;
+import model.shape2d.animation.Sun;
 import model.tuple.MyPair;
 
 /**
@@ -928,14 +926,17 @@ public class DrawingPanel extends JPanel {
 //                          Point2D endP = new Point2D (40,105);
 //                          smoke.drawSmoke(new Point2D (startP,15,-25));
 //                          mountain.drawMountain(startP, endP);
-                         AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                         tree.drawAppleTree(startP);
+//                         AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                         tree.drawAppleTree(startP);
+                            Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                            sun.drawSun(startP);
                           apply();
                          resetChangedPropertyArray();
                          copyColorValue(colorOfBoard, changedColorOfBoard, true);
+                         sun.paintSun(startP);
                       //   mountain.paintMountain(startP);
-                         tree.paintAppleTree(startP);
-                         tree.paintApple();
+//                         tree.paintAppleTree(startP);
+//                         tree.paintApple();
                     }
                     repaint();
                     break;
