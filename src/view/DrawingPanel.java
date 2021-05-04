@@ -23,8 +23,9 @@ import model.shape2d.Arrow2D;
 import model.shape2d.Diamond;
 import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
-import model.shape2d.Mountain;
+import model.shape2d.animation.Mountain;
 import model.shape2d.Shape2D;
+import model.shape2d.animation.Smoke;
 import model.shape2d.Star;
 import model.tuple.MyPair;
 
@@ -921,8 +922,10 @@ public class DrawingPanel extends JPanel {
 //                        fish.paintFish1(startP, endP);
 //                        fish.paintFish2(new Point2D(30,65), new Point2D(110,110));
                           Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          Point2D startP = new Point2D(80,30);
-                          Point2D endP = new Point2D (40,90);
+                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                          Point2D startP = new Point2D(80,45);
+                          Point2D endP = new Point2D (40,105);
+                          smoke.drawSmoke(new Point2D (startP,15,-25));
                           mountain.drawMountain(startP, endP);
                           apply();
                          resetChangedPropertyArray();

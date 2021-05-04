@@ -488,11 +488,12 @@ public class MainFrame extends javax.swing.JFrame {
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                if (animationDialog.isShowing()) {
-                    animationDialog.requestFocus();
-                } else {
-                    animationDialog.setVisible(true);
-                }
+//                if (animationDialog.isShowing()) {
+//                    animationDialog.requestFocus();
+//                } else {
+//                    animationDialog.setVisible(true);
+//                }
+                   setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });
 

@@ -232,6 +232,50 @@ public abstract class Shape2D {
     public void drawSegment(Point2D startPoint, Point2D endPoint) {
         drawSegment(startPoint, endPoint, this.lineStyle);
     }
+    
+     protected void drawOutlineCircle(int a, Point2D centerPoint, boolean Pos1, boolean Pos2, boolean Pos3,
+             boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7, boolean Pos8) {
+        pointSet.clear();
+
+        // Save center point coordination
+  //      centerPoint.saveCoord(changedCoordOfBoard);
+//        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
+//        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
+        
+        double x = 0;
+        double y = a;
+
+        pixelCounter = 1;
+        pointSet.add(new Point2D((int) x, (int) y));
+        putSymmetricPoints_Circle((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+
+        double p = 5 / 4.0 - a;
+
+        while (x < y) {
+            if (p < 0) {
+                p += 2 * x + 3;
+            } else {
+                p += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+            pixelCounter++;
+            putSymmetricPoints_Circle((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+        }
+    }
+    
+     
+     public void putSymmetricPoints_Circle(int x, int y, int center_x, int center_y, boolean Pos1, boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
+         boolean Pos6,boolean Pos7,boolean Pos8) {
+        if(Pos4)savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
+        if(Pos3)savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+        if(Pos2)savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
+        if(Pos1)savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
+        if(Pos8)savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
+        if(Pos7)savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
+        if(Pos6)savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
+        if(Pos5)savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
+    }
     public void drawOutlineEllipse(int a, int b, Point2D centerPoint, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
         pointSet.clear();
 
