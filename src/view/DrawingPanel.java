@@ -27,6 +27,7 @@ import model.shape2d.animation.Mountain;
 import model.shape2d.Shape2D;
 import model.shape2d.animation.Smoke;
 import model.shape2d.Star;
+import model.shape2d.animation.AppleTree;
 import model.tuple.MyPair;
 
 /**
@@ -921,16 +922,18 @@ public class DrawingPanel extends JPanel {
 //                        copyColorValue(colorOfBoard, changedColorOfBoard, true);
 //                        fish.paintFish1(startP, endP);
 //                        fish.paintFish2(new Point2D(30,65), new Point2D(110,110));
-                          Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          Point2D startP = new Point2D(80,45);
-                          Point2D endP = new Point2D (40,105);
-                          smoke.drawSmoke(new Point2D (startP,15,-25));
-                          mountain.drawMountain(startP, endP);
+//                          Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                          Point2D startP = new Point2D(80,40);
+//                          Point2D endP = new Point2D (40,105);
+//                          smoke.drawSmoke(new Point2D (startP,15,-25));
+//                          mountain.drawMountain(startP, endP);
+                         AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                         tree.drawAppleTree(startP);
                           apply();
                          resetChangedPropertyArray();
                          copyColorValue(colorOfBoard, changedColorOfBoard, true);
-                         mountain.paintMountain(startP);
+                      //   mountain.paintMountain(startP);
                     }
                     repaint();
                     break;
