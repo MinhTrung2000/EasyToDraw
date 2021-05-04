@@ -14,31 +14,33 @@ import model.shape2d.Vector2D;
  *
  * @author Minh Tu
  */
-public class AppleTree extends Shape2D{
+public class AppleTree extends Shape2D {
+
     public AppleTree(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
-    
-    public void drawAppleTree(Point2D startPoint){
-        
+
+    public void drawAppleTree(Point2D startPoint) {
+
     }
+
     @Override
     public void applyMove(Vector2D vector) {
-        
+
     }
-    
+
     @Override
-    public void saveCoordinates(){
-        
+    public void saveCoordinates() {
+
     }
-    
+
     @Override
     public void drawOutline() {
-        
+
     }
-    
+
     @Override
     public void setProperty(Point2D startPoint, Point2D endPoint) {
-        
+
     }
 }
