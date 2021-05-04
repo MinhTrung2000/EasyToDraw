@@ -5,10 +5,183 @@
  */
 package model.shape2d.animation;
 
+import control.SettingConstants;
+import control.util.Ultility;
+import java.awt.Color;
+import java.util.ArrayList;
+import model.shape2d.Point2D;
+import model.shape2d.Shape2D;
+import model.shape2d.Vector2D;
+
 /**
  *
  * @author Minh Tu
  */
-public class Ground {
+public class Ground extends Shape2D {
+     int[] roughNumberArray110 = {2, 1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 1, 2, 1, 3, 2, 1, 1, 1, 1, 1, 3, 1, 2, 3, 2, 3, 1, 1, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 1, 3, 3, 3, 2, 1, 3, 3, 1, 3, 1, 3, 3, 1, 3, 1, 2, 3, 2, 3, 2, 3, 2, 1, 1, 2, 3, 3, 1, 3, 3, 1, 2, 1, 1, 2, 2, 3, 3, 3, 1, 2, 2, 1, 1, 3, 2, 3, 1, 3, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2};
+    int[] roughNumberArray110_2 = {3, 1, 2, 1, 1, 3, 3, 3, 2, 3, 1, 2, 3, 3, 1, 1, 2, 1, 2, 2, 2, 2, 3, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 3, 1, 3, 2, 3, 3, 3, 1, 1, 3, 1, 2, 1, 1, 3, 1, 1, 1, 2, 3, 3, 3, 1, 3, 1, 1, 1, 3, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 3, 1, 3, 1, 3, 1, 2, 2, 3, 2, 2, 3, 1, 2, 3, 3, 3, 3, 3, 3, 1, 1, 3, 2, 3, 1, 2, 1, 2, 3, 3, 2, 3, 2};
+    Color groundColor = new Color (120, 80, 47);
+    Color grassColor = new Color (15,242,22);
+    public Ground (boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+    }
+    public void drawGround(Point2D startP){
+//        int rY_Thickness = 15;
+//        int rX_Length = 30;
+        int realWidthLimit = SettingConstants.WIDTH_DRAW_AREA/SettingConstants.RECT_SIZE -1;
+        this.filledColor = new Color (15,242,22);
+        int flatGround1_Length = 30;
+        int slopeGround1_Length = 50;
+        int slopeGround2_Length = 45;
+        int flatGround2_Length = 50;
+        int slopeGround3_Length = realWidthLimit - (flatGround1_Length + flatGround2_Length + slopeGround1_Length + slopeGround2_Length);
+        ArrayList<Point2D> pointList = new ArrayList<>();
+        pointList.add(new Point2D (startP,0,0));
+        pointList.add(new Point2D (startP,flatGround1_Length ,0));
+        pointList.add(new Point2D (pointList.get(1),slopeGround1_Length,8));
+        pointList.add(new Point2D (pointList.get(2),slopeGround2_Length,-15));
+        pointList.add(new Point2D (pointList.get(3),flatGround2_Length, 0));
+        pointList.add(new Point2D (pointList.get(4),slopeGround3_Length, 3));
+        this.drawZigZagS(pointList);
+        
+        this.filledColor = grassColor;
+        ArrayList<Point2D> pointList2 = new ArrayList<>();
+        pointList2.add(startP);
+        pointList2.add(new Point2D (startP,0,25));
+        pointList2.add(new Point2D(pointList2.get(1),realWidthLimit,0));
+        pointList2.add(new Point2D (pointList2.get(2),0,-27));
+        this.drawZigZag(pointList2);
+        
+//        Point2D Land1_CenterP = new Point2D(startP, rX_Length + 15,rY_Thickness);
+//        this.drawOutlineEllipse(rX_Length, rY_Thickness, Land1_CenterP, true, true, false, false);
+    }
     
+    
+    
+    public void drawZigZagS(ArrayList<Point2D> pointList) {
+        int pointNumber = pointList.size();
+
+        for (int i = 0; i < pointNumber - 1; i++) {
+            drawSegmentS(pointList.get(i), pointList.get(i + 1));
+        }
+    }
+    public void drawSegmentS(Point2D startPoint, Point2D endPoint) {
+        pixelCounter = 1;
+
+        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
+
+        int dx = 0, dy = 0;
+        int incx = 0, incy = 0;
+        int balance = 0;
+
+        if (endPoint.getCoordX() >= startPoint.getCoordX()) {
+            dx = endPoint.getCoordX() - startPoint.getCoordX();
+            incx = 1;
+        } else {
+            dx = startPoint.getCoordX() - endPoint.getCoordX();
+            incx = -1;
+        }
+
+        if (endPoint.getCoordY() >= startPoint.getCoordY()) {
+            dy = endPoint.getCoordY() - startPoint.getCoordY();
+            incy = 1;
+        } else {
+            dy = startPoint.getCoordY() - endPoint.getCoordY();
+            incy = -1;
+        }
+
+        int x = startPoint.getCoordX();
+        int y = startPoint.getCoordY();
+
+        if (dx >= dy) {
+            dy <<= 1;
+            balance = dy - dx;
+            dx <<= 1;
+
+            while (x != endPoint.getCoordX()) {
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+                for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+                }
+                for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+                }
+                if (balance >= 0) {
+                    y += incy;
+                    balance -= dx;
+                }
+                balance += dy;
+                x += incx;
+            }
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+            for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+            }
+            for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+            }
+        } else {
+            dx <<= 1;
+            balance = dx - dy;
+            dy <<= 1;
+
+            while (y != endPoint.getCoordY()) {
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+                for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+                }
+                for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+                }
+                if (balance >= 0) {
+                    x += incx;
+                    balance -= dy;
+                }
+                balance += dx;
+                y += incy;
+            }
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+            for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+            }
+            for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+            }
+        }
+
+    }
+    public void paintGround(Point2D startP){
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new Point2D(startP,5,5),grassColor);
+    }
+    @Override
+    public void applyMove(Vector2D vector) {
+
+    }
+
+    @Override
+    public void saveCoordinates() {
+
+    }
+
+    @Override
+    public void drawOutline() {
+
+    }
+
+    @Override
+    public void setProperty(Point2D startPoint, Point2D endPoint) {
+
+    }
 }

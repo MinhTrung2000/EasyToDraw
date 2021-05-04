@@ -27,6 +27,7 @@ import model.shape2d.Shape2D;
 import model.shape2d.Star;
 import model.shape2d.animation.AppleTree;
 import model.shape2d.animation.Fish;
+import model.shape2d.animation.Ground;
 import model.shape2d.animation.Mountain;
 import model.shape2d.animation.Smoke;
 import model.shape2d.animation.Sun;
@@ -926,50 +927,54 @@ public class DrawingPanel extends JPanel {
                           Point2D startP_Mountain = new Point2D(80,45);
                           Point2D endP_Mountain = new Point2D (40,105);
                           
-                          Point2D startP_Smoke = new Point2D (startP_Mountain,15,-25);
-                          Point2D startP_Sun = new Point2D(startP_Mountain,-50,-30);
-                          Point2D startP_Tree = new Point2D(startP_Mountain,-30,20);
-                          Point2D startP_Fish1 = new Point2D (startP_Mountain,50,-30);
-                          Point2D startP_Fish2 = new Point2D (startP_Mountain,50,-5);
-
-                          Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-
-                          smoke.drawSmoke(startP_Smoke);
-                          mountain.drawMountain(startP_Mountain, endP_Mountain);
-                          //draw xong paint luôn, vì lúc này mảng tạm đã có dữ liệu (khác với vẽ chuột, lúc đó ko có dữ liệu, phải copyCoordValue)
-                          mountain.paintMountain(startP_Mountain);
-                          
-                          apply();
-                          resetChangedPropertyArray();
-                          
-                          
-                          AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          tree.drawAppleTree(startP_Tree);
-                          tree.paintAppleTree(startP_Tree);
-                          tree.paintApple();
-                          
-                          apply();
-                          resetChangedPropertyArray();
-                          
-                          Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          
-                          sun.drawSun(startP_Sun);
-                          apply();
-                          resetChangedPropertyArray();
-                          copyColorValue(colorOfBoard, changedColorOfBoard, true);
-                          sun.paintSun(startP_Sun);
-                          
-                          apply();
-                          resetChangedPropertyArray();
-                          
-                          Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          fish.drawFish1(startP_Fish1, new Point2D(0,0));
-                          fish.drawFish2(startP_Fish2, new Point2D(0,0));
-                          fish.paintFish1(startP_Fish1, new Point2D(0,0));
-                          fish.paintFish2(startP_Fish2, new Point2D(0,0));
-                          apply();
-                          resetChangedPropertyArray();// không cần thiết lắm vì đã có sự kiện mouseReleased
+                          Point2D startP_Ground = new Point2D(0,50);
+//                          Point2D startP_Smoke = new Point2D (startP_Mountain,15,-25);
+//                          Point2D startP_Sun = new Point2D(startP_Mountain,-50,-30);
+//                          Point2D startP_Tree = new Point2D(startP_Mountain,-30,20);
+//                          Point2D startP_Fish1 = new Point2D (startP_Mountain,50,-30);
+//                          Point2D startP_Fish2 = new Point2D (startP_Mountain,50,-5);
+//
+//                          Mountain mountain = new Mountain(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//
+//                          smoke.drawSmoke(startP_Smoke);
+//                          mountain.drawMountain(startP_Mountain, endP_Mountain);
+//                          //draw xong paint luôn, vì lúc này mảng tạm đã có dữ liệu (khác với vẽ chuột, lúc đó ko có dữ liệu, phải copyCoordValue)
+//                          mountain.paintMountain(startP_Mountain);
+//                          
+//                          apply();
+//                          resetChangedPropertyArray();
+//                          
+//                          
+//                          AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                          tree.drawAppleTree(startP_Tree);
+//                          tree.paintAppleTree(startP_Tree);
+//                          tree.paintApple();
+//                          
+//                          apply();
+//                          resetChangedPropertyArray();
+//                          
+//                          Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                          
+//                          sun.drawSun(startP_Sun);
+//                          apply();
+//                          resetChangedPropertyArray();
+//                          copyColorValue(colorOfBoard, changedColorOfBoard, true);
+//                          sun.paintSun(startP_Sun);
+//                          
+//                          apply();
+//                          resetChangedPropertyArray();
+//                          
+//                          Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                          fish.drawFish1(startP_Fish1, new Point2D(0,0));
+//                          fish.drawFish2(startP_Fish2, new Point2D(0,0));
+//                          fish.paintFish1(startP_Fish1, new Point2D(0,0));
+//                          fish.paintFish2(startP_Fish2, new Point2D(0,0));
+//                          apply();
+//                          resetChangedPropertyArray();// không cần thiết lắm vì đã có sự kiện mouseReleased
+                            Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                            ground.drawGround(startP_Ground);
+                            ground.paintGround(startP_Ground);
                           
                     }
                     repaint();
