@@ -1,10 +1,7 @@
 package control.myawt;
 
 import control.util.Ultility;
-import static java.lang.Math.cos;
-import static java.lang.Math.sin;
 import control.SettingConstants;
-import model.shape2d.Shape2D;
 import model.shape2d.Transform2D;
 import model.shape2d.Vector2D;
 
@@ -18,15 +15,15 @@ public class SKPoint2D {
     }
     
     public SKPoint2D(double coordX, double coordY) {
-        SKPoint2D.this.setLocation(coordX, coordY);
+        setLocation(coordX, coordY);
     }
     
     public SKPoint2D(SKPoint2D other) {
-        SKPoint2D.this.setLocation(other.coordX, other.coordY);
+        setLocation(other.coordX, other.coordY);
     }
     
     public SKPoint2D(SKPoint2D other, int adjustmentValue_X, int adjustmentValue_Y){
-        SKPoint2D.this.setLocation(other.coordX + adjustmentValue_X, other.coordY + adjustmentValue_Y);
+        setLocation(other.coordX + adjustmentValue_X, other.coordY + adjustmentValue_Y);
     }
 
     public void setLocation(double coordX, double coordY) {
@@ -52,6 +49,10 @@ public class SKPoint2D {
 
     public double getCoordY() {
         return coordY;
+    }
+    
+    public double getCoordZ() {
+        return 0.0;
     }
 
     public static double distance(SKPoint2D p1, SKPoint2D p2) {

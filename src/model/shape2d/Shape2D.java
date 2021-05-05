@@ -4,6 +4,7 @@ import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.util.ArrayList;
 import control.SettingConstants;
+import control.myawt.SKPoint3D;
 import control.util.Ultility;
 import model.tuple.MyPair;
 
@@ -52,15 +53,15 @@ public abstract class Shape2D {
     /**
      * Center point of shape.
      */
-    protected SKPoint2D centerPoint;
+    protected SKPoint2D centerPoint2D;
 
     /**
      * The total of pixel number.
      */
     protected int pixelCounter;
 
-    protected SKPoint2D startPoint;
-    protected SKPoint2D endPoint;
+    protected SKPoint2D startPoint2D;
+    protected SKPoint2D endPoint2D;
 
     protected ArrayList<SKPoint2D> pointSet = new ArrayList<>();
 
@@ -75,29 +76,29 @@ public abstract class Shape2D {
         rotatedAngle = DEFAULT_ANGLE;
         lineStyle = DEFAULT_LINE_STYLE;
 
-        centerPoint = new SKPoint2D(0, 0);
+        centerPoint2D = new SKPoint2D(0, 0);
 
         pixelCounter = 0;
 
-        startPoint = new SKPoint2D();
-        endPoint = new SKPoint2D();
+        startPoint2D = new SKPoint2D();
+        endPoint2D = new SKPoint2D();
     }
 
     protected void normalizeStartEndPoint() {
-        double minX = Math.min(this.startPoint.getCoordX(), this.endPoint.getCoordX());
-        double maxX = Math.max(this.startPoint.getCoordX(), this.endPoint.getCoordX());
-        double minY = Math.min(this.startPoint.getCoordY(), this.endPoint.getCoordY());
-        double maxY = Math.max(this.startPoint.getCoordY(), this.endPoint.getCoordY());
-        this.startPoint.setLocation(minX, maxY);
-        this.endPoint.setLocation(maxX, minY);
+        double minX = Math.min(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
+        double maxX = Math.max(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
+        double minY = Math.min(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
+        double maxY = Math.max(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
+        this.startPoint2D.setLocation(minX, maxY);
+        this.endPoint2D.setLocation(maxX, minY);
     }
 
     public SKPoint2D getStartPoint() {
-        return this.startPoint;
+        return this.startPoint2D;
     }
 
     public SKPoint2D getEndPoint() {
-        return this.endPoint;
+        return this.endPoint2D;
     }
 
     public void setLineStyle(SettingConstants.LineStyle lineStyle) {
@@ -138,7 +139,7 @@ public abstract class Shape2D {
     }
 
     /**
-     * Draw a segment from startPoint to endPoint by using Bresenham algorithm.
+     * Draw a segment from startPoint2D to endPoint2D by using Bresenham algorithm.
      *
      * @param startPoint
      * @param endPoint
@@ -228,6 +229,10 @@ public abstract class Shape2D {
                 this.drawSegment(endPoint, downPoint, SettingConstants.LineStyle.DEFAULT);
             }
         }
+    }
+    
+    public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
+        drawSegment(startPoint.get2DRelativePosition(), endPoint.get2DRelativePosition());
     }
     
     public void drawZigZagS(ArrayList<SKPoint2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
@@ -469,8 +474,6 @@ public abstract class Shape2D {
         }
     }
 
-//    public abstract void drawOutline();
-
     public abstract void drawOutline();
 
     /**
@@ -563,7 +566,7 @@ public abstract class Shape2D {
     }
 
     public void drawVirtualRotation(double angle) {
-        drawVirtualRotation(this.centerPoint, angle);
+        drawVirtualRotation(this.centerPoint2D, angle);
     }
 
     public void drawVirtualMove(Vector2D vector) {
@@ -638,7 +641,7 @@ public abstract class Shape2D {
     }
     
     public void scale(int k) {
-        startPoint.scale(k);
-        endPoint.scale(k);
+        startPoint2D.scale(k);
+        endPoint2D.scale(k);
     }
 }

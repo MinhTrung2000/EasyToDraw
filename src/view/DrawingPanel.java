@@ -3,6 +3,7 @@ package view;
 import control.SettingConstants;
 import control.util.Ultility;
 import control.myawt.SKPoint2D;
+import control.myawt.SKPoint3D;
 import model.shape2d.Rectangle;
 import model.shape2d.Segment2D;
 import model.shape2d.Triangle;
@@ -28,6 +29,7 @@ import model.shape2d.Star;
 import model.shape2d.animation.Ground;
 import model.shape2d.animation.Smoke;
 import model.shape2d.animation.Volcano;
+import model.shape3d.Rectangular;
 import model.tuple.MyPair;
 
 /**
@@ -65,7 +67,7 @@ public class DrawingPanel extends JPanel {
 
     // Recent drawn shape 2d
     private Shape2D recentShape;
-    
+
     /**
      * Undo stack of coordinate
      */
@@ -121,9 +123,10 @@ public class DrawingPanel extends JPanel {
     private SKPoint2D Polygon_previousPoint;
     private SKPoint2D Polygon_firstPoint;
     private boolean firstTime = true;
-    
+
     private SKPoint2D eraserPos = new SKPoint2D();
     private boolean eraserIsSelected;
+
     public DrawingPanel() {
         this.colorOfBoard = new Color[heightBoard][widthBoard];
         this.coordOfBoard = new String[heightBoard][widthBoard];
@@ -315,12 +318,12 @@ public class DrawingPanel extends JPanel {
                 changedCoordOfBoard[i][j] = null;
             }
         }
-        if (getSelectedToolMode()!= SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE){
+        if (getSelectedToolMode() != SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE) {
             firstTime = true;
             Polygon_firstPoint = null;
             Polygon_previousPoint = null;
         }
-        
+
 //        if (getSelectedToolMode() != SettingConstants.DrawingToolMode.TOOL_ERASER){
 //            eraserIsSelected = false;
 //        }
@@ -350,7 +353,7 @@ public class DrawingPanel extends JPanel {
         if (!fromColorOBToChangedCOB) {
             for (int row = 0; row < height; row++) {
                 for (int col = 0; col < width; col++) {
-                  //  markedChangeOfBoard[row][col] = true;
+                    //  markedChangeOfBoard[row][col] = true;
                     color_board_to[row][col] = new Color(color_board_from[row][col].getRGB());
                 }
             }
@@ -385,7 +388,7 @@ public class DrawingPanel extends JPanel {
             }
         }
     }
-    
+
     public void copyCoordValue(String[][] coord_board_from, String[][] coord_board_to) {
         int height = coord_board_from.length / SettingConstants.RECT_SIZE;
         int width = coord_board_from[0].length / SettingConstants.RECT_SIZE;
@@ -430,36 +433,36 @@ public class DrawingPanel extends JPanel {
         copyCoordValue(coordOfBoard, tempBoard);
         redoCoordOfBoardStack.push(tempBoard);
     }
-    
-    private void hidePixels(SKPoint2D hidePixelsPos, boolean dragged){
-        if(!dragged){
-           for (int i = -1; i <= 1; i++) {
-                        for (int j = -1; j <= 1; j++) {
-                                hidePixelsPos.setLocation(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
-                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
-                                        changedColorOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
-                                        markedChangeOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = true;
-                                }
-                        }
-        
-        } 
-        }else{
-            for (int i = -1; i <= 1; i++) {
-                        for (int j = -1; j <= 1; j++) {
-                                hidePixelsPos.setLocation(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
-                                if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())){
-                                        changedColorOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR; 
-                                        markedChangeOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = true;
-                                        if(coordOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] != null) 
-                                            coordOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = null;
-                                }
-                        }
-        
-        }
-        }
-        
 
-   }
+    private void hidePixels(SKPoint2D hidePixelsPos, boolean dragged) {
+        if (!dragged) {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    hidePixelsPos.setLocation(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                    if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())) {
+                        changedColorOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR;
+                        markedChangeOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = true;
+                    }
+                }
+
+            }
+        } else {
+            for (int i = -1; i <= 1; i++) {
+                for (int j = -1; j <= 1; j++) {
+                    hidePixelsPos.setLocation(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
+                    if (Ultility.checkValidPoint(changedColorOfBoard, hidePixelsPos.getCoordX(), hidePixelsPos.getCoordY())) {
+                        changedColorOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = SettingConstants.DEFAULT_EMPTY_BACKGROUND_COLOR;
+                        markedChangeOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = true;
+                        if (coordOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] != null) {
+                            coordOfBoard[(int) hidePixelsPos.getCoordY()][(int) hidePixelsPos.getCoordX()] = null;
+                        }
+                    }
+                }
+
+            }
+        }
+
+    }
 
     /**
      * Get the previous status of board. <br>
@@ -470,7 +473,7 @@ public class DrawingPanel extends JPanel {
      * will push the current state to its.
      */
     public void undo() {
-        
+
         resetChangedPropertyArray();
         if (!undoColorOfBoardStack.empty()) {
             saveCurrentColorBoardToRedoStack();
@@ -485,8 +488,7 @@ public class DrawingPanel extends JPanel {
             copyCoordValue(undoCoordOfBoardStack.pop(), coordOfBoard);
             System.out.println(coordOfBoard[2][2]);
         }
-        
-        
+
     }
 
     /**
@@ -526,7 +528,7 @@ public class DrawingPanel extends JPanel {
         MainFrame.button_Undo.setEnabled(this.ableUndo());
         // Save the changed coordinate into board.
         mergeCoordValue(changedCoordOfBoard, coordOfBoard);
-        
+
         // Reset marked change array.
         // resetChangedPropertyArray();
     }
@@ -655,10 +657,10 @@ public class DrawingPanel extends JPanel {
                 );
             }
         }
-        
-        if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+
+        if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
             graphic.setColor(Color.BLACK);
-            graphic.drawRect((int) (eraserPos.getCoordX() - 1) * SettingConstants.RECT_SIZE, (int) (eraserPos.getCoordY() - 1) * SettingConstants.RECT_SIZE, 
+            graphic.drawRect((int) (eraserPos.getCoordX() - 1) * SettingConstants.RECT_SIZE, (int) (eraserPos.getCoordY() - 1) * SettingConstants.RECT_SIZE,
                     SettingConstants.RECT_SIZE * 3, SettingConstants.RECT_SIZE * 3);
         }
     }
@@ -753,22 +755,27 @@ public class DrawingPanel extends JPanel {
         repaint();
     }
 
-    public void draw3DShapeRectangular(SKPoint2D centerPoint, int width, int height, int high) {
-        
+    public void draw3DShapeRectangular(double center_x, double center_y, double center_z, int width, int height, int high) {
+        resetChangedPropertyArray();
+        Rectangular rectangular = new Rectangular(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+        rectangular.setProperty(center_x, center_y, center_z, width, height, high);
+        rectangular.drawOutline();
+        rectangular.saveCoordinates();
+        repaint();
     }
 
     public void draw3DShapeCylinder(SKPoint2D centerPoint, int radius, int high) {
-        
+
     }
-    
+
     public void draw3DShapePyramid(SKPoint2D centerPoint, int bottomEdge, int high) {
-        
+
     }
-    
+
     public void draw3DShapeSphere(SKPoint2D centerPoint, int radius) {
-        
+
     }
-    
+
     public MyPair getXBound() {
         int half_x = (int) (this.widthBoard / (SettingConstants.RECT_SIZE) * 2);
         return new MyPair(-half_x, half_x);
@@ -808,7 +815,7 @@ public class DrawingPanel extends JPanel {
                 case DRAWING_LINE_FREE: {
                     markedChangeOfBoard[(int) startDrawingPoint.getCoordY()][(int) startDrawingPoint.getCoordX()] = true;
                     changedColorOfBoard[(int) startDrawingPoint.getCoordY()][(int) startDrawingPoint.getCoordX()] = selectedColor;
-                    System.out.println(startDrawingPoint.getCoordX() + " "+ startDrawingPoint.getCoordY());
+                    System.out.println(startDrawingPoint.getCoordX() + " " + startDrawingPoint.getCoordY());
                     startDrawingPoint.saveCoord(changedCoordOfBoard);
                     repaint();
                     break;
@@ -822,14 +829,14 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
                 case DRAWING_POLYGON_FREE: {
-                     if (checkStartingPointAvailable()) {
+                    if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        if(Polygon_previousPoint == null){
+                        if (Polygon_previousPoint == null) {
                             Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
                             Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
-                            
+
                             markedChangeOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = true;
-                            changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                            changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
                             startDrawingPoint.saveCoord(changedCoordOfBoard);
                             repaint();
                             return;
@@ -838,72 +845,71 @@ public class DrawingPanel extends JPanel {
                         int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
                         SKPoint2D neibourhoodPoint;
                         boolean end = false;
-                        
-                        for(int i =0; i<8 ; i++){
-                           neibourhoodPoint = new SKPoint2D(Polygon_previousPoint.getCoordX()+D_X[i],Polygon_previousPoint.getCoordY()+D_Y[i]);
-                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
+
+                        for (int i = 0; i < 8; i++) {
+                            neibourhoodPoint = new SKPoint2D(Polygon_previousPoint.getCoordX() + D_X[i], Polygon_previousPoint.getCoordY() + D_Y[i]);
+                            if (neibourhoodPoint.equal(Polygon_firstPoint)) {
                                 end = true;
                                 break;
                             }
                         }
                         //chạy khi click vào điểm start mới
-                        if(end == true || Polygon_previousPoint.equal(Polygon_firstPoint) ){
-                            if(firstTime== true){
+                        if (end == true || Polygon_previousPoint.equal(Polygon_firstPoint)) {
+                            if (firstTime == true) {
                                 firstTime = false;
-                                
-                            }else{
-                            Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
-                            Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
-                            firstTime = true; 
-                              
-                            markedChangeOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = true;
-                            changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
-                            startDrawingPoint.saveCoord(changedCoordOfBoard);
-                            
-                            
-                            repaint();
-                            return;
+
+                            } else {
+                                Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
+                                Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
+                                firstTime = true;
+
+                                markedChangeOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = true;
+                                changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
+                                startDrawingPoint.saveCoord(changedCoordOfBoard);
+
+                                repaint();
+                                return;
                             }
-                            
-                        } 
-                        
-                            
+
+                        }
+
                         segment.setProperty(Polygon_previousPoint, startDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
-                        
+
                         segment.setLineStyle(selectedLineStyle);
                         segment.drawOutline();
-                        
+
                         end = false;
-                        if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
-                        if(!end){
-                            for(int i =0; i<8 ; i++){
-                           neibourhoodPoint = new SKPoint2D(startDrawingPoint.getCoordX()+D_X[i],startDrawingPoint.getCoordY()+D_Y[i]);
-                            if(neibourhoodPoint.equal(Polygon_firstPoint)){
-                                end = true;
-                                break;
+                        if (startDrawingPoint.equal(Polygon_firstPoint)) {
+                            end = true;
+                        }
+                        if (!end) {
+                            for (int i = 0; i < 8; i++) {
+                                neibourhoodPoint = new SKPoint2D(startDrawingPoint.getCoordX() + D_X[i], startDrawingPoint.getCoordY() + D_Y[i]);
+                                if (neibourhoodPoint.equal(Polygon_firstPoint)) {
+                                    end = true;
+                                    break;
+                                }
                             }
                         }
-                        }
-                        
-                        if(!end){
+
+                        if (!end) {
                             segment.saveCoordinates();
                         }
-                        
-                        
+
                         recentShape = segment;
                         Polygon_previousPoint.setLocation(startDrawingPoint);
-                        
+
                         markedChangeOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = true;
-                        changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255,0,0);
+                        changedColorOfBoard[(int) Polygon_firstPoint.getCoordY()][(int) Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
                         Polygon_firstPoint.saveCoord(changedCoordOfBoard);
                         repaint();
-                        
-                     }
-                     break;
+
+                    }
+                    break;
                 }
                 case TOOL_ERASER: {
                     //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
-                    if (checkStartingPointAvailable()){
+                    if (checkStartingPointAvailable()) {
                         SKPoint2D hidePixelsPos = new SKPoint2D();
                         eraserPos.setLocation(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                         hidePixels(hidePixelsPos, true);
@@ -911,7 +917,7 @@ public class DrawingPanel extends JPanel {
                     repaint();
                 }
                 case TOOL_ANIMATION: {
-                    if(checkStartingPointAvailable()){
+                    if (checkStartingPointAvailable()) {
 //                        Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 //                        SKPoint2D startP = new SKPoint2D(50,30);
 //                        SKPoint2D endP = new SKPoint2D (70,70);
@@ -921,17 +927,17 @@ public class DrawingPanel extends JPanel {
 //                        copyColorValue(colorOfBoard, changedColorOfBoard, true);
 //                        fish.paintFish1(startP, endP);
 //                        fish.paintFish2(new SKPoint2D(30,65), new SKPoint2D(110,110));
-                          SKPoint2D startP_Volcano = new SKPoint2D(80,45);
-                          SKPoint2D endP_Volcano = new SKPoint2D (40,105);
-                          
-                          SKPoint2D startP_Cloud = new SKPoint2D(35,30);
-                          
-                           SKPoint2D startP_Ground = new SKPoint2D(0,25);
-                          SKPoint2D startP_Smoke = new SKPoint2D (startP_Volcano,15,-25);
-                          SKPoint2D startP_Sun = new SKPoint2D(startP_Volcano,-50,-30);
-                          SKPoint2D startP_Tree = new SKPoint2D(startP_Volcano,-30,20);
-                          SKPoint2D startP_Fish1 = new SKPoint2D (startP_Volcano,50,50);
-                          SKPoint2D startP_Fish2 = new SKPoint2D (startP_Volcano,-30,42);
+                        SKPoint2D startP_Volcano = new SKPoint2D(80, 45);
+                        SKPoint2D endP_Volcano = new SKPoint2D(40, 105);
+
+                        SKPoint2D startP_Cloud = new SKPoint2D(35, 30);
+
+                        SKPoint2D startP_Ground = new SKPoint2D(0, 25);
+                        SKPoint2D startP_Smoke = new SKPoint2D(startP_Volcano, 15, -25);
+                        SKPoint2D startP_Sun = new SKPoint2D(startP_Volcano, -50, -30);
+                        SKPoint2D startP_Tree = new SKPoint2D(startP_Volcano, -30, 20);
+                        SKPoint2D startP_Fish1 = new SKPoint2D(startP_Volcano, 50, 50);
+                        SKPoint2D startP_Fish2 = new SKPoint2D(startP_Volcano, -30, 42);
 //
 
 //                          
@@ -955,19 +961,18 @@ public class DrawingPanel extends JPanel {
 //                          apply();
 //                          resetChangedPropertyArray();
 //                          
+                        Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        ground.drawGround(startP_Ground);
+                        ground.paintGround(startP_Ground);
 
-                            Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                            ground.drawGround(startP_Ground);
-                            ground.paintGround(startP_Ground);
-                            
-                            apply();
-                            resetChangedPropertyArray();
-                            
-                            ground.drawAndPaintFlowers();
-                            
-                            apply();
-                            resetChangedPropertyArray();
-                            
+                        apply();
+                        resetChangedPropertyArray();
+
+                        ground.drawAndPaintFlowers();
+
+                        apply();
+                        resetChangedPropertyArray();
+
 //                            River river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 //                            river.drawRiver(new SKPoint2D (startP_Ground,0,26));
 //                            river.paintRiver(new SKPoint2D (startP_Ground,0,26));
@@ -983,18 +988,17 @@ public class DrawingPanel extends JPanel {
 //                          fish.paintFish2(startP_Fish2, new SKPoint2D(0,0));
 //                          apply();
 //                          resetChangedPropertyArray();
-                          
-                                                    Volcano volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                          Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        Volcano volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 
-                          smoke.drawSmoke(startP_Smoke);
-                          volcano.drawVolcano(startP_Volcano, endP_Volcano);
-                          //draw xong paint luôn, vì lúc này mảng tạm đã có dữ liệu (khác với vẽ chuột, lúc đó ko có dữ liệu, phải copyCoordValue)
-                          volcano.paintVolcano(startP_Volcano);
-                          
-                          apply();
-                          resetChangedPropertyArray();
-                          
+                        smoke.drawSmoke(startP_Smoke);
+                        volcano.drawVolcano(startP_Volcano, endP_Volcano);
+                        //draw xong paint luôn, vì lúc này mảng tạm đã có dữ liệu (khác với vẽ chuột, lúc đó ko có dữ liệu, phải copyCoordValue)
+                        volcano.paintVolcano(startP_Volcano);
+
+                        apply();
+                        resetChangedPropertyArray();
+
                     }
                     repaint();
                     break;
@@ -1016,8 +1020,7 @@ public class DrawingPanel extends JPanel {
 
         @Override
         public void mouseEntered(MouseEvent e) {
-            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE || selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER)
-                //trường hợp từ mode khác, bấm vào eraser thì dùng đến vế thứ 2 của if!
+            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE || selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) //trường hợp từ mode khác, bấm vào eraser thì dùng đến vế thứ 2 của if!
             {
                 selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER;
                 // Transparent 16 x 16 pixel cursor image.
@@ -1025,16 +1028,18 @@ public class DrawingPanel extends JPanel {
 
                 // Create a new blank cursor.
                 Cursor blankCursor = Toolkit.getDefaultToolkit().createCustomCursor(
-                 cursorImg, new Point(0, 0), "blank cursor");
+                        cursorImg, new Point(0, 0), "blank cursor");
                 setCursor(blankCursor);
-                }else setCursor(Cursor.getDefaultCursor());
+            } else {
+                setCursor(Cursor.getDefaultCursor());
+            }
         }
 
         @Override
         public void mouseExited(MouseEvent e) {
-            if(selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
+            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
                 selectedToolMode = SettingConstants.DrawingToolMode.TOOL_ERASER__FALSE;// set về cái này để repaint() lại mất eraser!
-                repaint(); 
+                repaint();
             }
         }
 
@@ -1196,7 +1201,7 @@ public class DrawingPanel extends JPanel {
                 }
                 case TOOL_ERASER: {
                     //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
-                    if (checkStartingPointAvailable()){
+                    if (checkStartingPointAvailable()) {
                         SKPoint2D hidePixelsPos = new SKPoint2D();
                         eraserPos.setLocation(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                         hidePixels(hidePixelsPos, true);
@@ -1211,17 +1216,17 @@ public class DrawingPanel extends JPanel {
          */
         @Override
         public void mouseMoved(MouseEvent e) {
-            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER){
+            if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
 //                SKPoint2D currentMousePos = new SKPoint2D(e.getCoordX() / SettingConstants.RECT_SIZE, e.getCoordY() / SettingConstants.RECT_SIZE);
 //                drawEraser(currentMousePos);
 
-                  resetChangedPropertyArray(); // để nó hiện lại những chỗ đã đi qua
-                  SKPoint2D hidePixelsPos = new SKPoint2D();
-                  eraserPos.setLocation(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
-                  hidePixels(hidePixelsPos, false);
-                  
-                  repaint();
-                
+                resetChangedPropertyArray(); // để nó hiện lại những chỗ đã đi qua
+                SKPoint2D hidePixelsPos = new SKPoint2D();
+                eraserPos.setLocation(e.getX() / SettingConstants.RECT_SIZE, e.getY() / SettingConstants.RECT_SIZE);
+                hidePixels(hidePixelsPos, false);
+
+                repaint();
+
             }
             return;
         }
@@ -1229,5 +1234,3 @@ public class DrawingPanel extends JPanel {
     }
 
 }
-
-    

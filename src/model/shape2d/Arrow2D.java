@@ -47,7 +47,7 @@ public class Arrow2D extends Shape2D {
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
-        centerPoint = SKPoint2D.midPoint(startPoint, endPoint);
+        centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
 
         int dx = (int) (endPoint.getCoordX() - startPoint.getCoordX()) / 5;
         int dy = (int) (endPoint.getCoordY() - startPoint.getCoordY()) / 4;
@@ -87,7 +87,7 @@ public class Arrow2D extends Shape2D {
         pointE.rotate(rotatedAngle).move(vector);
         pointF.rotate(rotatedAngle).move(vector);
         pointG.rotate(rotatedAngle).move(vector);
-        centerPoint.move(vector);
+        centerPoint2D.move(vector);
     }
 
     @Override

@@ -22,24 +22,24 @@ public class Smoke extends Shape2D {
     }
 
     public void drawSmoke(SKPoint2D startPoint) {
-        this.startPoint = startPoint; //startPoint là tâm của khói
+        this.startPoint2D = startPoint; //startPoint là tâm của khói
 //        this.filledColor = new Color(255, 0, 0);
-//        savePoint(this.startPoint.getCoordX(), this.startPoint.getCoordY());
+//        savePoint(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY());
         this.filledColor = new Color(0, 0, 0);
         //khói ở trong
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint, -6, 2), false, false, false, false, false, true, true, true);
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint, -6 - 2, 2 + 3), false, false, false, false, false, false, true, true);
+        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, -6, 2), false, false, false, false, false, true, true, true);
+        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, -6 - 2, 2 + 3), false, false, false, false, false, false, true, true);
 
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint, 7, 8), true, true, true, false, false, false, false, false);
+        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 7, 8), true, true, true, false, false, false, false, false);
         //vòng tròn liên tiếp
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint, 4, -4), true, true, false, false, false, false, false, true);
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint, 4 + 6, -4), true, true, true, false, false, false, false, true);
+        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 4, -4), true, true, false, false, false, false, false, true);
+        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, 4 + 6, -4), true, true, true, false, false, false, false, true);
 
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint, 0, 6), false, false, false, false, true, true, false, false);
+        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 0, 6), false, false, false, false, true, true, false, false);
 
         //viền ngoài, theo chiều kim đồng hồ lồng nhau
         ArrayList<SKPoint2D> pointList_Border = new ArrayList<>();
-        pointList_Border.add(new SKPoint2D(this.startPoint, -10, -1));
+        pointList_Border.add(new SKPoint2D(this.startPoint2D, -10, -1));
         this.drawOutlineCircle(7, pointList_Border.get(0), false, false, false, false, false, false, true, true);
 
         pointList_Border.add(new SKPoint2D(pointList_Border.get(0), 4, -3));

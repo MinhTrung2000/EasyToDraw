@@ -2,11 +2,16 @@ package view;
 
 import control.SettingConstants;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -15,14 +20,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import model.shape3d.Point3D;
-import model.tuple.MyPair;
+import javax.swing.text.JTextComponent;
+import control.myawt.SKPoint3D;
 
 public class Shape3DInput extends javax.swing.JDialog implements ActionListener {
 
-    private InputVerifier inputVerifier = new ValidInputCheck();
     private GenTextForCubeMode genTextEngine = new GenTextForCubeMode();
-    private Point3D accepctedCenterPoint = new Point3D();
+    private SKPoint3D accepctedCenterPoint = new SKPoint3D();
 
     public Shape3DInput(java.awt.Frame parent) {
         super(parent, true);
@@ -56,16 +60,20 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         rbtRectangularMode.addActionListener(this);
         rbtCubeMode.addActionListener(this);
 
-        btnCancel.setInputVerifier(null);
         btnCancel.setRequestFocusEnabled(false);
         btnCancel.addActionListener(this);
-
         btnOK.addActionListener(this);
 
         for (Component panel : panelCustom.getComponents()) {
             for (Component comp : ((JPanel) panel).getComponents()) {
                 if (comp instanceof JTextField) {
-                    ((JTextField) comp).setInputVerifier(inputVerifier);
+                    ((JTextField) comp).addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            ((JTextField) comp).setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                        }
+
+                    });
                 }
             }
         }
@@ -75,7 +83,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
 
-        // Do nothing if choose the current selected shape option.
+        // Do nothing if choose the current shape option.
         ButtonModel selectedObject = btnOptionGroup.getSelection();
         if (source instanceof JButton) {
             if (((JButton) source).getModel() == selectedObject) {
@@ -102,31 +110,82 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
             btnOptionGroup.setSelected(btnOptionSphere.getModel(), true);
             showCard(panelSphere.getName());
         } else if (source == btnOK) {
-            process();
+            if (!process()) {
+                return;
+            }
             dispose();
         } else if (source == btnCancel) {
             dispose();
         }
     }
 
-    private void process() {
+    private boolean process() {
         if (btnOptionRectangular.isSelected()) {
-            int width = Integer.parseInt(textfRectangularWidth.getText());
-            int height = Integer.parseInt(textfRectangularHeight.getText());
-            int high = Integer.parseInt(textfRectangularHigh.getText());
-
+            try {
+                int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
+                int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
+                int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
+                int with = getValidInput(textfRectangularWidth);
+                int height = getValidInput(textfRectangularHeight);
+                int high = getValidInput(textfRectangularHigh);
+                
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ , WIDTH, height, high);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
         } else if (btnOptionCylinder.isSelected()) {
-            int radius = Integer.parseInt(textfCylinderRadius.getText());
-            int high = Integer.parseInt(textfCylinderHigh.getText());
+            try {
+                int centerPointX = getValidInput(textfCylinderCenterPointCoordX);
+                int centerPointY = getValidInput(textfCylinderCenterPointCoordY);
+                int centerPointZ = getValidInput(textfCylinderCenterPointCoordZ);
+                int radius = getValidInput(textfCylinderRadius);
+                int high = getValidInput(textfCylinderHigh);
+
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         } else if (btnOptionPyramid.isSelected()) {
-            int edgeSize = Integer.parseInt(textfPyramidBottomEdge.getText());
-            int high = Integer.parseInt(textfPyramidHigh.getText());
+            try {
+                int centerPointX = getValidInput(textfPyramidCenterPointCoordX);
+                int centerPointY = getValidInput(textfPyramidCenterPointCoordY);
+                int centerPointZ = getValidInput(textfPyramidCenterPointCoordZ);
+                int bottomEdge = getValidInput(textfPyramidBottomEdge);
+                int high = getValidInput(textfPyramidHigh);
+
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         } else if (btnOptionSphere.isSelected()) {
-            int radius = Integer.parseInt(textfSphereRadius.getText());
+            try {
+                int centerPointX = getValidInput(textfSphereCenterPointCoordX);
+                int centerPointY = getValidInput(textfSphereCenterPointCoordY);
+                int centerPointZ = getValidInput(textfSphereCenterPointCoordZ);
+                int radius = getValidInput(textfSphereRadius);
+                
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         }
+
+        return true;
+    }
+
+    private int getValidInput(JTextComponent comp) {
+        int ret = -1;
+
+        String inpText = comp.getText();
+
+        try {
+            ret = Integer.parseInt(inpText);
+        } catch (NumberFormatException ex) {
+            comp.setBorder(BorderFactory.createLineBorder(Color.RED));
+            throw ex;
+        }
+
+        return ret;
     }
 
     private void setRectangularMode() {
@@ -199,85 +258,6 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
     }
 
-    private class ValidInputCheck extends InputVerifier {
-
-        public boolean isTextShapeParam(JComponent input) {
-            return (input == textfRectangularWidth
-                    || input == textfRectangularHeight
-                    || input == textfRectangularHigh
-                    || input == textfCylinderHigh
-                    || input == textfCylinderRadius
-                    || input == textfPyramidHigh
-                    || input == textfPyramidBottomEdge
-                    || input == textfSphereRadius);
-        }
-
-        public boolean checkCoordInBound(int coord, MyPair bound) {
-            if (coord < bound.x || coord > bound.y) {
-                JOptionPane.showMessageDialog(null, "Error: Coordinate out of bound!");
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public boolean verify(JComponent input) {
-//            try {
-//                if (isTextfCoordX(input)) {
-//                    String coordXText = ((JTextField) input).getText();
-//
-//                    if (coordXText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
-//                        return false;
-//                    }
-//
-//                    int coordX = Integer.parseInt(coordXText);
-//
-//                    MyPair xBound = ((MainFrame) getParent()).getDrawingPanel().getXBound();
-//
-//                    if (!checkCoordInBound(coordX, xBound)) {
-//                        return false;
-//                    }
-//
-//                    accepctedCenterPoint.setCoordX(coordX);
-//                } else if (isTextfCoordY(input)) {
-//                    String coordYText = ((JTextField) input).getText();
-//
-//                    if (coordYText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
-//                        return false;
-//                    }
-//
-//                    int coordY = Integer.parseInt(coordYText);
-//
-//                    MyPair yBound = ((MainFrame) getParent()).getDrawingPanel().getYBound();
-//
-//                    if (!checkCoordInBound(coordY, yBound)) {
-//                        return false;
-//                    }
-//
-//                    accepctedCenterPoint.setCoordY(coordY);
-//                } else if (isTextShapeParam(input)) {
-//                    String paramText = ((JTextField) input).getText();
-//
-//                    if (paramText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "All shape parameter are required!");
-//                        return false;
-//                    }
-//
-//                    Integer.parseInt(paramText);
-//                }
-//            } catch (NumberFormatException ex) {
-//                JOptionPane.showMessageDialog(null, "Please enter numeric number!");
-//                return false;
-//            }
-
-            return true;
-        }
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -328,7 +308,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         textfCylinderHigh = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ1 = new javax.swing.JTextField();
+        textfCylinderCenterPointCoordZ = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
         filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         panelPyramid = new javax.swing.JPanel();
@@ -344,7 +324,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         textfPyramidBottomEdge = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ2 = new javax.swing.JTextField();
+        textfPyramidCenterPointCoordZ = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
         filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         panelSphere = new javax.swing.JPanel();
@@ -357,7 +337,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         textfSphereRadius = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ3 = new javax.swing.JTextField();
+        textfSphereCenterPointCoordZ = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
         filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         btnOK = new javax.swing.JButton();
@@ -568,7 +548,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                         .addGap(35, 35, 35)
                                         .addComponent(jLabel34)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(textfCylinderCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addComponent(jLabel17)))
                     .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -583,7 +563,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel34)
-                        .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfCylinderCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(jLabel13)
@@ -657,7 +637,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                         .addGap(35, 35, 35)
                                         .addComponent(jLabel35)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(textfPyramidCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(panelPyramidLayout.createSequentialGroup()
                                         .addComponent(jLabel24)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -675,7 +655,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel35)
-                        .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfPyramidCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel20)
                         .addComponent(jLabel21)
@@ -744,7 +724,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                                         .addGap(35, 35, 35)
                                         .addComponent(jLabel36)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addComponent(textfSphereCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                     .addComponent(filler4, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -758,7 +738,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel36)
-                        .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfSphereCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel28)
                         .addComponent(jLabel29)
@@ -919,23 +899,23 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private javax.swing.JRadioButton rbtRectangularMode;
     private javax.swing.JTextField textfCylinderCenterPointCoordX;
     private javax.swing.JTextField textfCylinderCenterPointCoordY;
+    private javax.swing.JTextField textfCylinderCenterPointCoordZ;
     private javax.swing.JTextField textfCylinderHigh;
     private javax.swing.JTextField textfCylinderRadius;
     private javax.swing.JTextField textfPyramidBottomEdge;
     private javax.swing.JTextField textfPyramidCenterPointCoordX;
     private javax.swing.JTextField textfPyramidCenterPointCoordY;
+    private javax.swing.JTextField textfPyramidCenterPointCoordZ;
     private javax.swing.JTextField textfPyramidHigh;
     private javax.swing.JTextField textfRectangularCenterPointCoordX;
     private javax.swing.JTextField textfRectangularCenterPointCoordY;
     private javax.swing.JTextField textfRectangularCenterPointCoordZ;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ1;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ2;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ3;
     private javax.swing.JTextField textfRectangularHeight;
     private javax.swing.JTextField textfRectangularHigh;
     private javax.swing.JTextField textfRectangularWidth;
     private javax.swing.JTextField textfSphereCenterPointCoordX;
     private javax.swing.JTextField textfSphereCenterPointCoordY;
+    private javax.swing.JTextField textfSphereCenterPointCoordZ;
     private javax.swing.JTextField textfSphereRadius;
     // End of variables declaration//GEN-END:variables
 

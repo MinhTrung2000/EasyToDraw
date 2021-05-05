@@ -15,9 +15,9 @@ public class Line2D extends Segment2D {
 
     public Line2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        coeffA = startPoint.getCoordY() - endPoint.getCoordY();
-        coeffB = -(startPoint.getCoordX() - endPoint.getCoordX());
-        coeffC = -(coeffA * startPoint.getCoordX() + coeffB * startPoint.getCoordY());
+        coeffA = startPoint2D.getCoordY() - endPoint2D.getCoordY();
+        coeffB = -(startPoint2D.getCoordX() - endPoint2D.getCoordX());
+        coeffC = -(coeffA * startPoint2D.getCoordX() + coeffB * startPoint2D.getCoordY());
     }
 
     public double getCoefficientA() {
@@ -41,8 +41,8 @@ public class Line2D extends Segment2D {
 
         //2 điểm trùng nhau => ko xác định được hướng
         if (startPoint.equal(endPoint)) {
-            this.startPoint.setLocation(-1, -1);
-            this.endPoint.setLocation(-1, -1);
+            this.startPoint2D.setLocation(-1, -1);
+            this.endPoint2D.setLocation(-1, -1);
             return;
         }
 
@@ -54,44 +54,44 @@ public class Line2D extends Segment2D {
         int limitBot = (int) Math.round((-coeffC - coeffB * (heightLimit)) / coeffA);
         int limitRight = (int) Math.round((-coeffC - coeffA * (widthLimit)) / coeffB);
 
-        this.startPoint = null;
-        this.endPoint = null;
+        this.startPoint2D = null;
+        this.endPoint2D = null;
 
         //xử lý trường hợp đặc biệt (Bot = 0, right = left) khi nằm ngang 180 độ
         if (limitRight == limitLeft && limitRight >= 0 && limitRight < heightLimit) {
-            this.startPoint = new SKPoint2D(0, limitLeft);
-            this.endPoint = new SKPoint2D(widthLimit, limitRight);
+            this.startPoint2D = new SKPoint2D(0, limitLeft);
+            this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
         }
 
         if (limitBot >= 0 && limitBot <= widthLimit) {
-            if (this.startPoint == null) {
-                this.startPoint = new SKPoint2D(limitBot, heightLimit);
-            } else if (this.endPoint == null) {
-                this.endPoint = new SKPoint2D(limitBot, heightLimit);
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(limitBot, heightLimit);
             }
         }
 
         if (limitTop >= 0 && limitTop <= widthLimit) {
-            if (this.startPoint == null) {
-                this.startPoint = new SKPoint2D(limitTop, 0);
-            } else if (this.endPoint == null) {
-                this.endPoint = new SKPoint2D(limitTop, 0);
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(limitTop, 0);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(limitTop, 0);
             }
         }
 
         if (limitLeft >= 0 && limitLeft <= heightLimit) {
-            if (this.startPoint == null) {
-                this.startPoint = new SKPoint2D(0, limitLeft);
-            } else if (this.endPoint == null) {
-                this.endPoint = new SKPoint2D(0, limitLeft);
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(0, limitLeft);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(0, limitLeft);
             }
         }
 
         if (limitRight >= 0 && limitRight <= heightLimit) {
-            if (this.startPoint == null) {
-                this.startPoint = new SKPoint2D(widthLimit, limitRight);
-            } else if (this.endPoint == null) {
-                this.endPoint = new SKPoint2D(widthLimit, limitRight);
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(widthLimit, limitRight);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
             }
         }
 

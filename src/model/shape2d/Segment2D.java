@@ -24,8 +24,8 @@ public class Segment2D extends Shape2D {
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
         if (modal == Modal.STRAIGHT_LINE) {
-            this.startPoint = startPoint;
-            this.endPoint = endPoint;
+            this.startPoint2D = startPoint;
+            this.endPoint2D = endPoint;
         } else {
             int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
             int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
@@ -38,20 +38,20 @@ public class Segment2D extends Shape2D {
             int preferedLength = this.getPreferredLength(width, height);
 
 
-            this.startPoint = startPoint;
+            this.startPoint2D = startPoint;
 
             double ratio = (double) widthValue / (double) heightValue;
             if (ratio <= 0.3) {
-                this.endPoint.setLocation(this.startPoint.getCoordX(), this.startPoint.getCoordY() + heightDirection * preferedLength);
+                this.endPoint2D.setLocation(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY() + heightDirection * preferedLength);
             } else if (ratio > 0.3 && ratio <= 1.5) {
-                this.endPoint.setLocation(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY() + heightDirection * preferedLength);
+                this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY() + heightDirection * preferedLength);
             } else {
-                this.endPoint.setLocation(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY());
+                this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY());
             }
 
         }
 
-        this.centerPoint.setLocation(
+        this.centerPoint2D.setLocation(
                 (startPoint.getCoordX() + endPoint.getCoordX()) / 2,
                 (startPoint.getCoordY() + endPoint.getCoordY()) / 2
         );
@@ -64,8 +64,8 @@ public class Segment2D extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle);
-        SKPoint2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempStartPoint = startPoint2D.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempEndPoint = endPoint2D.createRotationPoint(centerPoint2D, rotatedAngle);
 
         drawSegment(tempStartPoint, tempEndPoint, lineStyle);
     }
@@ -77,21 +77,21 @@ public class Segment2D extends Shape2D {
      */
     @Override
     public void applyMove(Vector2D vector) {
-        startPoint.move(vector);
-        endPoint.move(vector);
-        centerPoint.move(vector);
+        startPoint2D.move(vector);
+        endPoint2D.move(vector);
+        centerPoint2D.move(vector);
     }
 
     @Override
     public void saveCoordinates() {
-        this.startPoint.saveCoord(changedCoordOfBoard);
-        this.endPoint.saveCoord(changedCoordOfBoard);
+        this.startPoint2D.saveCoord(changedCoordOfBoard);
+        this.endPoint2D.saveCoord(changedCoordOfBoard);
     }
 
     public SKPoint2D intersect(Segment2D other) {
-        Vector2D vec_a_b = new Vector2D(this.startPoint, this.endPoint);
-        Vector2D vec_c_d = new Vector2D(other.startPoint, other.endPoint);
-        Vector2D vec_c_a = new Vector2D(other.startPoint, this.endPoint);
+        Vector2D vec_a_b = new Vector2D(this.startPoint2D, this.endPoint2D);
+        Vector2D vec_c_d = new Vector2D(other.startPoint2D, other.endPoint2D);
+        Vector2D vec_c_a = new Vector2D(other.startPoint2D, this.endPoint2D);
 
         Vector2D r = Vector2D.getVectorOfLinearEquationRepr(vec_a_b, vec_c_d, vec_c_a);
 
@@ -101,7 +101,7 @@ public class Segment2D extends Shape2D {
             return null;
         }
 
-        SKPoint2D result = new SKPoint2D(this.startPoint);
+        SKPoint2D result = new SKPoint2D(this.startPoint2D);
         result.move(vec_a_b.scale(r.getCoordX()));
 
         return result;

@@ -1,6 +1,7 @@
 package model.shape2d;
 
 import control.myawt.SKPoint2D;
+import control.myawt.SKPoint3D;
 import java.awt.Color;
 
 public class Rectangle extends Shape2D {
@@ -25,7 +26,7 @@ public class Rectangle extends Shape2D {
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
-        centerPoint = SKPoint2D.midPoint(startPoint, endPoint);
+        centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
 
         if (modal == Modal.RECTANGLE) {
             leftTopPoint.setLocation(startPoint);
@@ -57,10 +58,10 @@ public class Rectangle extends Shape2D {
 
     @Override
     public void saveCoordinates() {
-        leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
     }
 
     @Override
@@ -70,15 +71,15 @@ public class Rectangle extends Shape2D {
         leftBottomPoint.rotate(rotatedAngle).move(vector);
         rightBottomPoint.rotate(rotatedAngle).move(vector);
 
-        centerPoint.move(vector);
+        centerPoint2D.move(vector);
     }
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        SKPoint2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        SKPoint2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        SKPoint2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, this.rotatedAngle);
+        SKPoint2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
         drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
@@ -86,4 +87,36 @@ public class Rectangle extends Shape2D {
         drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
+    public static void setFourPointSymmetricFromCenter(SKPoint2D centerPoint, double width, double height, SKPoint2D ULPoint, SKPoint2D URPoint, SKPoint2D LLPoint, SKPoint2D LRPoint) {
+        double cx = centerPoint.getCoordX();
+        double cy = centerPoint.getCoordY();
+        double half_w = width / 2;
+        double half_h = height / 2;
+
+        ULPoint.setLocation(cx - half_w, cy - half_h);
+        URPoint.setLocation(cx + half_w, cy - half_h);
+        LLPoint.setLocation(cx - half_w, cy + half_h);
+        LRPoint.setLocation(cx + half_w, cy + half_h);
+
+        if (centerPoint instanceof SKPoint3D) {
+            double cz = ((SKPoint3D) centerPoint).getCoordZ();
+            ((SKPoint3D) ULPoint).setCoordZ(cz);
+            ((SKPoint3D) URPoint).setCoordZ(cz);
+            ((SKPoint3D) LLPoint).setCoordZ(cz);
+            ((SKPoint3D) LRPoint).setCoordZ(cz);
+        }
+    }
+
+    public static void setFourPointSymmetricFromCenter(double center_x,
+            double center_y, double center_z, double width, double height,
+            SKPoint3D ULPoint, SKPoint3D URPoint, SKPoint3D LRPoint,
+            SKPoint3D LLPoint) {
+        double half_w = width / 2;
+        double half_h = height / 2;
+
+        ULPoint.setLocation(center_x - half_w, center_y - half_h, center_z);
+        URPoint.setLocation(center_x + half_w, center_y - half_h, center_z);
+        LLPoint.setLocation(center_x - half_w, center_y + half_h, center_z);
+        LRPoint.setLocation(center_x + half_w, center_y + half_h, center_z);
+    }
 }

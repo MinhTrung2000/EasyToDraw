@@ -1,8 +1,10 @@
 package model.shape3d;
 
 import control.SettingConstants;
-import java.awt.Color;
 import control.myawt.SKPoint2D;
+import java.awt.Color;
+import control.myawt.SKPoint3D;
+import model.shape2d.Rectangle;
 import model.shape2d.Vector2D;
 
 /*
@@ -11,45 +13,38 @@ import model.shape2d.Vector2D;
 A --------- B
 |           |
 |           |
-|  C2       | D2
+|  D2       | C2
 |/          |/
-C-----------D
+D-----------C
 
 */
 
 public class Rectangular extends Shape3D {
     
-    private SKPoint2D pointA;
-    private SKPoint2D pointB;
-    private SKPoint2D pointC;
-    private SKPoint2D pointD;
+    private SKPoint3D pointA = new SKPoint3D();
+    private SKPoint3D pointB = new SKPoint3D();
+    private SKPoint3D pointC = new SKPoint3D();
+    private SKPoint3D pointD = new SKPoint3D();
     
-    private SKPoint2D pointA2;
-    private SKPoint2D pointB2;
-    private SKPoint2D pointC2;
-    private SKPoint2D pointD2;
+    private SKPoint3D pointA2 = new SKPoint3D();
+    private SKPoint3D pointB2 = new SKPoint3D();
+    private SKPoint3D pointC2 = new SKPoint3D();
+    private SKPoint3D pointD2 = new SKPoint3D();
     
     public Rectangular(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        
-        pointA = new SKPoint2D();
-        pointB = new SKPoint2D();
-        pointC = new SKPoint2D();
-        pointD = new SKPoint2D();
-        pointA2 = new SKPoint2D();
-        pointB2 = new SKPoint2D();
-        pointC2 = new SKPoint2D();
-        pointD2 = new SKPoint2D();
     }
 
-    @Override
-    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void setProperty(SKPoint2D centerPoint, int width, int height, int high) {
-        this.centerPoint.setLocation(centerPoint);
+    public void setProperty(double center_x, double center_y, double center_z, int width, int height, int high) {
+        this.centerPoint3D.setLocation(center_x, center_y, center_z);
         
+        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(), 
+                this.centerPoint3D.getCoordY(), this.centerPoint3D.getCoordZ() + height / 2, 
+                width, high, pointA, pointB, pointC, pointD);
+        
+        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
+                this.centerPoint3D.getCoordY(), this.centerPoint3D.getCoordZ() - height / 2,
+                width, high, pointA2, pointB2, pointC2, pointD2);
     }
     
     @Override
@@ -66,7 +61,6 @@ public class Rectangular extends Shape3D {
 
     @Override
     public void applyMove(Vector2D vector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -84,5 +78,6 @@ public class Rectangular extends Shape3D {
         drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DASH);
         drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DASH);
     }
+
     
 }

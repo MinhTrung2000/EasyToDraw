@@ -39,7 +39,7 @@ public class Fish extends Shape2D {
     //chiều dài và rộng thân hình
     int radius_BodyF2X = 20;
     int radius_BodyF2Y = 6;
-    //khoảng cách (X) từ startPoint tới tâm của vây trên thân
+    //khoảng cách (X) từ startPoint2D tới tâm của vây trên thân
     int distance_FinF2X = 13;
 
     // dài và rộng của vây trên thân

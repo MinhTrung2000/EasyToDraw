@@ -413,7 +413,7 @@
                                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                               <Component id="jLabel34" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="textfRectangularCenterPointCoordZ1" min="-2" pref="40" max="-2" attributes="0"/>
+                                              <Component id="textfCylinderCenterPointCoordZ" min="-2" pref="40" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -436,7 +436,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel34" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textfRectangularCenterPointCoordZ1" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textfCylinderCenterPointCoordZ" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -512,7 +512,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="textfCylinderHigh">
             </Component>
-            <Component class="javax.swing.JTextField" name="textfRectangularCenterPointCoordZ1">
+            <Component class="javax.swing.JTextField" name="textfCylinderCenterPointCoordZ">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel34">
               <Properties>
@@ -580,7 +580,7 @@
                                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                               <Component id="jLabel35" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="textfRectangularCenterPointCoordZ2" min="-2" pref="40" max="-2" attributes="0"/>
+                                              <Component id="textfPyramidCenterPointCoordZ" min="-2" pref="40" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel24" min="-2" max="-2" attributes="0"/>
@@ -607,7 +607,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel35" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textfRectangularCenterPointCoordZ2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textfPyramidCenterPointCoordZ" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel20" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -683,7 +683,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="textfPyramidBottomEdge">
             </Component>
-            <Component class="javax.swing.JTextField" name="textfRectangularCenterPointCoordZ2">
+            <Component class="javax.swing.JTextField" name="textfPyramidCenterPointCoordZ">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel35">
               <Properties>
@@ -750,7 +750,7 @@
                                               <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                                               <Component id="jLabel36" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="textfRectangularCenterPointCoordZ3" min="-2" pref="40" max="-2" attributes="0"/>
+                                              <Component id="textfSphereCenterPointCoordZ" min="-2" pref="40" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -772,7 +772,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
                               <Component id="jLabel36" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="textfRectangularCenterPointCoordZ3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="textfSphereCenterPointCoordZ" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel28" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -830,7 +830,7 @@
             </Component>
             <Component class="javax.swing.JTextField" name="textfSphereRadius">
             </Component>
-            <Component class="javax.swing.JTextField" name="textfRectangularCenterPointCoordZ3">
+            <Component class="javax.swing.JTextField" name="textfSphereCenterPointCoordZ">
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel36">
               <Properties>

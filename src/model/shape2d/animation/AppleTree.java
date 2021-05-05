@@ -25,13 +25,13 @@ public class AppleTree extends Shape2D {
     }
 
     public void drawAppleTree(SKPoint2D startPoint) {
-        this.startPoint = startPoint;
+        this.startPoint2D = startPoint;
 //        this.filledColor = new Color (255,0,0);
-//        savePoint(this.startPoint.getCoordX(), this.startPoint.getCoordY());
+//        savePoint(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY());
         this.filledColor = new Color(0, 0, 0);
 
         ArrayList<SKPoint2D> pointList = new ArrayList<>();
-        pointList.add(new SKPoint2D(this.startPoint, -10, -4));
+        pointList.add(new SKPoint2D(this.startPoint2D, -10, -4));
         this.drawOutlineCircle(20, pointList.get(0), false, false, false, false, false, false, true, true);
 
         pointList.add(new SKPoint2D(pointList.get(0), 10, -6));

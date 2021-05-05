@@ -45,12 +45,12 @@ public class Diamond extends Shape2D {
         }
         
         
-        this.centerPoint = SKPoint2D.midPoint(this.startPoint, this.endPoint);
+        this.centerPoint2D = SKPoint2D.midPoint(this.startPoint, this.endPoint);
 
-        this.leftPoint.setLocation(this.startPoint.getCoordX(), this.centerPoint.getCoordY());
-        this.rightPoint.setLocation(this.endPoint.getCoordX(), this.centerPoint.getCoordY());
-        this.topPoint.setLocation(this.centerPoint.getCoordX(), this.startPoint.getCoordY());
-        this.bottomPoint.setLocation(this.centerPoint.getCoordX(), this.endPoint.getCoordY());
+        this.leftPoint.setLocation(this.startPoint.getCoordX(), this.centerPoint2D.getCoordY());
+        this.rightPoint.setLocation(this.endPoint.getCoordX(), this.centerPoint2D.getCoordY());
+        this.topPoint.setLocation(this.centerPoint2D.getCoordX(), this.startPoint.getCoordY());
+        this.bottomPoint.setLocation(this.centerPoint2D.getCoordX(), this.endPoint.getCoordY());
     }
     @Override
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
@@ -66,10 +66,10 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle);
-        SKPoint2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle);
-        SKPoint2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle);
-        SKPoint2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempTopPoint = topPoint.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempRightPoint = rightPoint.createRotationPoint(centerPoint2D, rotatedAngle);
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);
@@ -83,6 +83,6 @@ public class Diamond extends Shape2D {
         bottomPoint.rotate(rotatedAngle).move(vector);
         leftPoint.rotate(rotatedAngle).move(vector);
         rightPoint.rotate(rotatedAngle).move(vector);
-        centerPoint.move(vector);
+        centerPoint2D.move(vector);
     }
 }
