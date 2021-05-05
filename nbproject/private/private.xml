@@ -12,10 +12,10 @@
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Transform2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Mountain.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Cloud.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape3d/Cylinder.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Triangle.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Volcano.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Sun.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Star.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/AnimationDialog.java</file>
@@ -24,6 +24,7 @@
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Rotation2DInput.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/AppleTree.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/DrawingPanel.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/River.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Arrow2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/io/FileHandle.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Point2D.java</file>
