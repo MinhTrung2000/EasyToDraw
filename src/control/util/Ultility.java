@@ -100,9 +100,8 @@ public class Ultility {
         Color oldColor = colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()];
 
         if (!oldColor.equals(chosenColor)) {
-            // markedArray[point.getCoordY()][point.getCoordX()] = true;
+             markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
             colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()] = chosenColor;
-
             queue.add(new Pair<>((int) point.getCoordX(), (int) point.getCoordY()));
 
             int newCoordX;
@@ -116,7 +115,7 @@ public class Ultility {
 
                     if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
                             && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
-                        //  markedArray[newCoordY][newCoordX] = true;
+                        markedArray[newCoordY][newCoordX] = true;
                         colorOfBoard[newCoordY][newCoordX] = chosenColor;
                         queue.add(new Pair<>(newCoordX, newCoordY));
 

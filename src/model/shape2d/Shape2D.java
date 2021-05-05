@@ -229,7 +229,113 @@ public abstract class Shape2D {
             }
         }
     }
+    
+    public void drawZigZagS(ArrayList<SKPoint2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
+        int pointNumber = pointList.size();
 
+        for (int i = 0; i < pointNumber - 1; i++) {
+            drawSegmentS(pointList.get(i), pointList.get(i + 1), roughNumberArray110, roughNumberArray110_2);
+        }
+    }
+    
+    public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint, int[] roughNumberArray110, int[] roughNumberArray110_2) {
+        pixelCounter = 1;
+
+        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
+
+        int dx = 0, dy = 0;
+        int incx = 0, incy = 0;
+        int balance = 0;
+
+        if (endPoint.getCoordX() >= startPoint.getCoordX()) {
+            dx = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+            incx = 1;
+        } else {
+            dx = (int) (startPoint.getCoordX() - endPoint.getCoordX());
+            incx = -1;
+        }
+
+        if (endPoint.getCoordY() >= startPoint.getCoordY()) {
+            dy = (int) (endPoint.getCoordY() - startPoint.getCoordY());
+            incy = 1;
+        } else {
+            dy = (int) (startPoint.getCoordY() - endPoint.getCoordY());
+            incy = -1;
+        }
+
+        double x = startPoint.getCoordX();
+        double y = startPoint.getCoordY();
+
+        if (dx >= dy) {
+            dy <<= 1;
+            balance = dy - dx;
+            dx <<= 1;
+
+            while (x != endPoint.getCoordX()) {
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+                for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+                }
+                for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+                }
+                if (balance >= 0) {
+                    y += incy;
+                    balance -= dx;
+                }
+                balance += dy;
+                x += incx;
+            }
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+            for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+            }
+            for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+            }
+        } else {
+            dx <<= 1;
+            balance = dx - dy;
+            dy <<= 1;
+
+            while (y != endPoint.getCoordY()) {
+                pixelCounter += 1;
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+                for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+                }
+                for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                    savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+                }
+                if (balance >= 0) {
+                    x += incx;
+                    balance -= dy;
+                }
+                balance += dx;
+                y += incy;
+            }
+            pixelCounter += 1;
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+
+            for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
+
+            }
+            for (int i = 1; i <= roughNumberArray110_2[pixelCounter] - 1; i++) {
+                savePointWithLineStyleCheck(x, y + i, pixelCounter, lineStyle);
+            }
+        }
+
+    }
+    
     public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint) {
         drawSegment(startPoint, endPoint, this.lineStyle);
     }

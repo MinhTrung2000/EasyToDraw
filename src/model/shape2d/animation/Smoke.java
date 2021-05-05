@@ -23,8 +23,8 @@ public class Smoke extends Shape2D {
 
     public void drawSmoke(SKPoint2D startPoint) {
         this.startPoint = startPoint; //startPoint là tâm của khói
-        this.filledColor = new Color(255, 0, 0);
-        savePoint(this.startPoint.getCoordX(), this.startPoint.getCoordY());
+//        this.filledColor = new Color(255, 0, 0);
+//        savePoint(this.startPoint.getCoordX(), this.startPoint.getCoordY());
         this.filledColor = new Color(0, 0, 0);
         //khói ở trong
         this.drawOutlineCircle(2, new SKPoint2D(this.startPoint, -6, 2), false, false, false, false, false, true, true, true);
