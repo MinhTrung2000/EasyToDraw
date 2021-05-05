@@ -871,7 +871,7 @@ public class DrawingPanel extends JPanel {
                         segment.setProperty(Polygon_previousPoint, startDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
                         
                         segment.setLineStyle(selectedLineStyle);
-                        segment.draw();
+                        segment.drawOutline();
                         
                         end = false;
                         if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
@@ -1062,7 +1062,7 @@ public class DrawingPanel extends JPanel {
                             segment.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
                         }
                         segment.setLineStyle(selectedLineStyle);
-                        segment.draw();
+                        segment.drawOutline();
                         segment.saveCoordinates();
                         recentShape = segment;
                     }
@@ -1076,7 +1076,7 @@ public class DrawingPanel extends JPanel {
                         Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         line.setLineStyle(selectedLineStyle);
                         line.setProperty(startDrawingPoint, endDrawingPoint);
-                        line.draw();
+                        line.drawOutline();
                         line.saveCoordinates();
                         recentShape = line;
                     }
@@ -1088,7 +1088,7 @@ public class DrawingPanel extends JPanel {
                     if (checkStartingPointAvailable()) {
                         Segment2D pixel = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         pixel.setProperty(startDrawingPoint, endDrawingPoint, Segment2D.Modal.STRAIGHT_LINE);
-                        pixel.draw();
+                        pixel.drawOutline();
                     }
                     setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                     repaint();
@@ -1108,7 +1108,7 @@ public class DrawingPanel extends JPanel {
                             triangle.setProperty(startDrawingPoint, endDrawingPoint, Triangle.Modal.COMMON_TRIANGLE);
                         }
                         triangle.setLineStyle(selectedLineStyle);
-                        triangle.draw();
+                        triangle.drawOutline();
                         triangle.saveCoordinates();
                         recentShape = triangle;
                     }
@@ -1125,7 +1125,7 @@ public class DrawingPanel extends JPanel {
                             rectangle.setProperty(startDrawingPoint, endDrawingPoint, Rectangle.Modal.RECTANGLE);
                         }
                         rectangle.setLineStyle(selectedLineStyle);
-                        rectangle.draw();
+                        rectangle.drawOutline();
                         rectangle.saveCoordinates();
                         recentShape = rectangle;
                     }
@@ -1144,7 +1144,7 @@ public class DrawingPanel extends JPanel {
                         }
 
                         ellipse.setLineStyle(selectedLineStyle);
-                        ellipse.draw();
+                        ellipse.drawOutline();
                         ellipse.saveCoordinates();
                         recentShape = ellipse;
                     }
@@ -1157,7 +1157,7 @@ public class DrawingPanel extends JPanel {
                         Star star = new Star(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         star.setProperty(startDrawingPoint, endDrawingPoint);
                         star.setLineStyle(selectedLineStyle);
-                        star.draw();
+                        star.drawOutline();
                         star.saveCoordinates();
                         recentShape = star;
                     }
@@ -1174,7 +1174,7 @@ public class DrawingPanel extends JPanel {
                             diamond.setProperty(startDrawingPoint, endDrawingPoint, Diamond.Modal.COMMON_DIAMOND);
                         }
                         diamond.setLineStyle(selectedLineStyle);
-                        diamond.draw();
+                        diamond.drawOutline();
                         diamond.saveCoordinates();
                         recentShape = diamond;
                     }
@@ -1187,7 +1187,7 @@ public class DrawingPanel extends JPanel {
                         Arrow2D arrow = new Arrow2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
                         arrow.setProperty(startDrawingPoint, endDrawingPoint);
                         arrow.setLineStyle(selectedLineStyle);
-                        arrow.draw();
+                        arrow.drawOutline();
                         arrow.saveCoordinates();
                         recentShape = arrow;
                     }

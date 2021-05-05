@@ -89,18 +89,10 @@ public class SKPoint2D {
      * @return SKPoint2D
      */
     public SKPoint2D createRotationPoint(SKPoint2D basePoint, double angle) {
-//        SKPoint2D resultPoint = new SKPoint2D();
-
         Vector2D vec = new Vector2D(basePoint, this);
 
         vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
         SKPoint2D ret = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
-
-//        int newCoordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
-//                - vector.getCoordY() * Math.sin(angle));
-//        int newCoordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
-//                + vector.getCoordY() * Math.cos(angle));
-//        resultPoint.setLocation(newCoordX, newCoordY);
         return ret;
     }
 
@@ -114,10 +106,6 @@ public class SKPoint2D {
     public SKPoint2D rotate(SKPoint2D basePoint, double angle) {
         Vector2D vec = new Vector2D(basePoint, this);
 
-//        coordX = (int) (basePoint.coordX + vector.getCoordX() * cos(angle)
-//                - vector.getCoordY() * Math.sin(angle));
-//        coordY = (int) (basePoint.coordY + vector.getCoordX() * sin(angle)
-//                + vector.getCoordY() * Math.cos(angle));
         vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
         SKPoint2D result = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
         setLocation(result);
@@ -131,8 +119,6 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D rotate(double angle) {
-//        coordX = (int) (coordX * cos(angle) - coordY * Math.sin(angle));
-//        coordY = (int) (coordX * sin(angle) + coordY * Math.cos(angle));
         SKPoint2D result = Transform2D.transform(this, Transform2D.getRotateMat(angle));
         setLocation(result);
         return this;
@@ -171,7 +157,6 @@ public class SKPoint2D {
     public SKPoint2D createCenterOSymmetry() {
         SKPoint2D result = new SKPoint2D(this);
         result.convertMachineToViewCoord();
-//        point.reflect();
         result.setLocation(Transform2D.transform(result, Transform2D.getSymOCenterMat()));
         result.convertViewToMachineCoord();
         return result;
@@ -185,7 +170,6 @@ public class SKPoint2D {
     public SKPoint2D createOXSymmetryPoint() {
         SKPoint2D result = new SKPoint2D(this);
         result.convertMachineToViewCoord();
-//        result.coordY = -result.coordY;
         result.setLocation(Transform2D.transform(result, Transform2D.getSymOXMat()));
         result.convertViewToMachineCoord();
         return result;
@@ -199,7 +183,6 @@ public class SKPoint2D {
     public SKPoint2D createOYSymmetryPoint() {
         SKPoint2D result = new SKPoint2D(this);
         result.convertMachineToViewCoord();
-//        result.coordX = -result.coordX;
         result.setLocation(Transform2D.transform(result, Transform2D.getSymOYMat()));
         result.convertViewToMachineCoord();
         return result;
@@ -228,11 +211,6 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D createMovingPoint(Vector2D vector) {
-//        return new SKPoint2D(
-//                this.coordX + (int) vector.getCoordX(),
-//                this.coordY + (int) vector.getCoordY(),
-//                this.parentShape
-//        );
         return Transform2D.transform(this, Transform2D.getMoveMat(vector.getCoordX(), vector.getCoordY()));
     }
 
@@ -243,8 +221,6 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D move(Vector2D vector) {
-//        this.coordX += (int) vector.getCoordX();
-//        this.coordY += (int) vector.getCoordY();
         setLocation(Transform2D.transform(this, Transform2D.getMoveMat(vector.getCoordX(), vector.getCoordY())));
         return this;
     }
@@ -365,6 +341,16 @@ public class SKPoint2D {
         return this;
     }
 
+    public SKPoint2D scale(int k) {
+        this.coordX *= k;
+        this.coordY *= k;
+        return this;
+    }
+    
+    public SKPoint2D createScaleInstance(int k) {
+        return new SKPoint2D(this).scale(k);
+    }
+    
     public static void main(String[] args) {
     }
 }

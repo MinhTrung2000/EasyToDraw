@@ -469,12 +469,9 @@ public abstract class Shape2D {
         }
     }
 
-    public abstract void drawOutline();
+//    public abstract void drawOutline();
 
-    public void draw() {
-        drawOutline();
-//        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint, this.filledColor);
-    }
+    public abstract void drawOutline();
 
     /**
      * Mark the point coordinates in marked array and color array if they are in
@@ -638,5 +635,10 @@ public abstract class Shape2D {
             SKPoint2D point = pointSet.get(i).createLineSymmetryPoint(a, b, c);
             savePoint(point.getCoordX(), point.getCoordY());
         }
+    }
+    
+    public void scale(int k) {
+        startPoint.scale(k);
+        endPoint.scale(k);
     }
 }
