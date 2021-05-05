@@ -1,5 +1,6 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -21,13 +22,14 @@ public class Segment2D extends Shape2D {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
         if (modal == Modal.STRAIGHT_LINE) {
             this.startPoint = startPoint;
             this.endPoint = endPoint;
         } else {
-            int width = endPoint.getCoordX() - startPoint.getCoordX();
-            int height = endPoint.getCoordY() - startPoint.getCoordY();
+            int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+            int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
+            
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
 
@@ -40,30 +42,30 @@ public class Segment2D extends Shape2D {
 
             double ratio = (double) widthValue / (double) heightValue;
             if (ratio <= 0.3) {
-                this.endPoint.setCoord(this.startPoint.getCoordX(), this.startPoint.getCoordY() + heightDirection * preferedLength);
+                this.endPoint.setLocation(this.startPoint.getCoordX(), this.startPoint.getCoordY() + heightDirection * preferedLength);
             } else if (ratio > 0.3 && ratio <= 1.5) {
-                this.endPoint.setCoord(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY() + heightDirection * preferedLength);
+                this.endPoint.setLocation(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY() + heightDirection * preferedLength);
             } else {
-                this.endPoint.setCoord(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY());
+                this.endPoint.setLocation(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY());
             }
 
         }
 
-        this.centerPoint.setCoord(
-                (startPoint.coordX + endPoint.coordX) / 2,
-                (startPoint.coordY + endPoint.coordY) / 2
+        this.centerPoint.setLocation(
+                (startPoint.getCoordX() + endPoint.getCoordX()) / 2,
+                (startPoint.getCoordY() + endPoint.getCoordY()) / 2
         );
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.STRAIGHT_LINE);
     }
 
     @Override
     public void drawOutline() {
-        Point2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle);
-        Point2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempStartPoint = startPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempEndPoint = endPoint.createRotationPoint(centerPoint, rotatedAngle);
 
         drawSegment(tempStartPoint, tempEndPoint, lineStyle);
     }
@@ -86,7 +88,7 @@ public class Segment2D extends Shape2D {
         this.endPoint.saveCoord(changedCoordOfBoard);
     }
 
-    public Point2D intersect(Segment2D other) {
+    public SKPoint2D intersect(Segment2D other) {
         Vector2D vec_a_b = new Vector2D(this.startPoint, this.endPoint);
         Vector2D vec_c_d = new Vector2D(other.startPoint, other.endPoint);
         Vector2D vec_c_a = new Vector2D(other.startPoint, this.endPoint);
@@ -99,7 +101,7 @@ public class Segment2D extends Shape2D {
             return null;
         }
 
-        Point2D result = new Point2D(this.startPoint);
+        SKPoint2D result = new SKPoint2D(this.startPoint);
         result.move(vec_a_b.scale(r.getCoordX()));
 
         return result;

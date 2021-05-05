@@ -1,7 +1,7 @@
 package model.shape3d;
 
 import java.awt.Color;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 

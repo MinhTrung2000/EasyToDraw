@@ -31,7 +31,7 @@ import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import static control.SettingConstants.*;
-import control.io.FileHandle;
+import control.io.FileController;
 import java.awt.AWTException;
 import java.awt.CardLayout;
 import javax.swing.SpinnerNumberModel;
@@ -287,7 +287,7 @@ public class MainFrame extends javax.swing.JFrame {
                     getDrawingPanel().repaint();
                     String inputFileName = chooser.getSelectedFile().getAbsolutePath();
 
-                    FileHandle.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
+                    FileController.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
 
                     repaint();
                 }
@@ -331,7 +331,7 @@ public class MainFrame extends javax.swing.JFrame {
                 if (reVal == JFileChooser.APPROVE_OPTION) {
                     String outputFileName = chooser.getSelectedFile().getAbsolutePath();
 
-                    FileHandle.saveFile(outputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
+                    FileController.saveFile(outputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
                 }
             }
         });

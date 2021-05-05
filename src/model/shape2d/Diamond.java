@@ -1,16 +1,17 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 
 public class Diamond extends Shape2D {
 
-    private Point2D startPoint;
-    private Point2D endPoint;
+    private SKPoint2D startPoint;
+    private SKPoint2D endPoint;
 
-    private Point2D leftPoint;
-    private Point2D rightPoint;
-    private Point2D topPoint;
-    private Point2D bottomPoint;
+    private SKPoint2D leftPoint;
+    private SKPoint2D rightPoint;
+    private SKPoint2D topPoint;
+    private SKPoint2D bottomPoint;
 
     public enum Modal {
         COMMON_DIAMOND,
@@ -19,17 +20,17 @@ public class Diamond extends Shape2D {
     public Diamond(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
-        startPoint = new Point2D();
-        endPoint = new Point2D();
-        leftPoint = new Point2D();
-        rightPoint = new Point2D();
-        topPoint = new Point2D();
-        bottomPoint = new Point2D();
+        startPoint = new SKPoint2D();
+        endPoint = new SKPoint2D();
+        leftPoint = new SKPoint2D();
+        rightPoint = new SKPoint2D();
+        topPoint = new SKPoint2D();
+        bottomPoint = new SKPoint2D();
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint,Modal modal) {
-        int width = endPoint.getCoordX() - startPoint.getCoordX();
-        int height = endPoint.getCoordY() - startPoint.getCoordY();
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint,Modal modal) {
+        int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+        int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
         
         this.startPoint = startPoint;
         if(modal == Modal.COMMON_DIAMOND){
@@ -40,19 +41,19 @@ public class Diamond extends Shape2D {
             int preferedLength = this.getPreferredLength(width, height);
             
             
-            this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
+            this.endPoint.setLocation(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
         }
         
         
-        this.centerPoint = Point2D.midPoint(this.startPoint, this.endPoint);
+        this.centerPoint = SKPoint2D.midPoint(this.startPoint, this.endPoint);
 
-        this.leftPoint.setCoord(this.startPoint.coordX, this.centerPoint.coordY);
-        this.rightPoint.setCoord(this.endPoint.coordX, this.centerPoint.coordY);
-        this.topPoint.setCoord(this.centerPoint.coordX, this.startPoint.coordY);
-        this.bottomPoint.setCoord(this.centerPoint.coordX, this.endPoint.coordY);
+        this.leftPoint.setLocation(this.startPoint.getCoordX(), this.centerPoint.getCoordY());
+        this.rightPoint.setLocation(this.endPoint.getCoordX(), this.centerPoint.getCoordY());
+        this.topPoint.setLocation(this.centerPoint.getCoordX(), this.startPoint.getCoordY());
+        this.bottomPoint.setLocation(this.centerPoint.getCoordX(), this.endPoint.getCoordY());
     }
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.COMMON_DIAMOND);
     }
     @Override
@@ -65,10 +66,10 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawOutline() {
-        Point2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle);
-        Point2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle);
-        Point2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle);
-        Point2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempTopPoint = topPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint, rotatedAngle);
+        SKPoint2D tempRightPoint = rightPoint.createRotationPoint(centerPoint, rotatedAngle);
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);

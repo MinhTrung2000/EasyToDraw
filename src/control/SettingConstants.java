@@ -1,6 +1,6 @@
 package control;
 
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -19,7 +19,6 @@ public interface SettingConstants {
         },
         DASH {
             public String toString() {
-//                return "---------------------";
                 return "─── ─── ─── ──";
             }
         },
@@ -167,7 +166,18 @@ public interface SettingConstants {
             public String toString() {
                 return "";
             }
-        };
+        },
+        
+        // Adding
+        
+        // Perpendicular Line
+        MODE_ORTHOGONAL(""),
+        MODE_INTERSECT(""),
+        MODE_DELETE(""),
+        MODE_RELATION(""),
+        MODE_MIDPOINT("");
+        
+        
 
         public final String toolTip;
 
@@ -230,7 +240,7 @@ public interface SettingConstants {
     public static final Color DEFAULT_COORDINATE_AXIS_COLOR = new Color(128, 128, 128);
     public static final Color DEFAULT_COORDINATE_POINT_COLOR = Color.RED;
 
-    public static final Point2D DEFAULT_UNUSED_POINT = new Point2D(-1, -1);
+    public static final SKPoint2D DEFAULT_UNUSED_POINT = new SKPoint2D(-1, -1);
 
     public static final Color DEFAULT_DRAWING_COLOR = Color.BLACK;
     public static final Color DEFAULT_FILL_COLOR = Color.BLACK;

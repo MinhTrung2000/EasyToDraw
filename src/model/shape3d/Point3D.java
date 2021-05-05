@@ -1,9 +1,9 @@
 package model.shape3d;
 
 import control.SettingConstants;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 
-public class Point3D extends Point2D {
+public class Point3D extends SKPoint2D {
 
     private int coordZ;
 
@@ -31,13 +31,13 @@ public class Point3D extends Point2D {
     /**
      * Note: Implement this code!
      *
-     * @return Point2D
+     * @return SKPoint2D
      */
-    public Point2D get2DRelativePosition() {
-        Point2D ret = new Point2D();
+    public SKPoint2D get2DRelativePosition() {
+        SKPoint2D ret = new SKPoint2D();
         int tmpX = (int) (this.coordX - Math.round(this.coordY * Math.cos(Math.toRadians(45))));
         int tmpY = (int) (this.coordZ - Math.round(this.coordY * Math.sin(Math.toRadians(45))));
-        ret.setCoord(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
+        ret.setLocation(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
         return ret;
     }
 
@@ -47,8 +47,8 @@ public class Point3D extends Point2D {
                 + this.coordY + ", "
                 + this.coordZ + ")";
 
-        Point2D relativePoint = get2DRelativePosition();
+        SKPoint2D relativePoint = get2DRelativePosition();
 
-        coordOfBoard[relativePoint.getCoordX()][relativePoint.getCoordY()] = coordPointInformation;
+        coordOfBoard[(int) relativePoint.getCoordX()][(int) relativePoint.getCoordY()] = coordPointInformation;
     }
 }

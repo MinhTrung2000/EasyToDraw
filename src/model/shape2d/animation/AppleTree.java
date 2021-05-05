@@ -6,7 +6,7 @@
 package model.shape2d.animation;
 
 import java.awt.Color;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
@@ -20,7 +20,7 @@ public class AppleTree extends Shape2D {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
-    public void drawAppleTree(Point2D startPoint) {
+    public void drawAppleTree(SKPoint2D startPoint) {
 
     }
 
@@ -40,7 +40,7 @@ public class AppleTree extends Shape2D {
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
 
     }
 }

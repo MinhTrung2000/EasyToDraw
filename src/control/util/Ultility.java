@@ -1,6 +1,6 @@
 package control.util;
 
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -47,6 +47,10 @@ public class Ultility {
 
         return (0 <= x && x < width && 0 <= y && y < height);
     }
+    
+    public static boolean checkValidPoint(Object[][] array, double x, double y) {
+        return checkValidPoint(array, (int) x, (int) y);
+    }
 
     /**
      * Check if pixel can be put or not.
@@ -83,7 +87,7 @@ public class Ultility {
      * @param point
      * @param chosenColor
      */
-    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, Point2D point, Color chosenColor) {
+    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, SKPoint2D point, Color chosenColor) {
         //  int coordX = point.getCoordX();
         //  int coordY = point.getCoordY();
 
@@ -93,13 +97,13 @@ public class Ultility {
             return;
         }
 
-        Color oldColor = colorOfBoard[point.getCoordY()][point.getCoordX()];
+        Color oldColor = colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()];
 
         if (!oldColor.equals(chosenColor)) {
             // markedArray[point.getCoordY()][point.getCoordX()] = true;
-            colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
+            colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()] = chosenColor;
 
-            queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
+            queue.add(new Pair<>((int) point.getCoordX(), (int) point.getCoordY()));
 
             int newCoordX;
             int newCoordY;

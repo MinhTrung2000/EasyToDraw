@@ -9,7 +9,7 @@ import control.SettingConstants;
 import control.util.Ultility;
 import java.awt.Color;
 import java.util.ArrayList;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
@@ -27,64 +27,64 @@ public class Mountain extends Shape2D {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
-    public void drawMountain(Point2D startPoint, Point2D endPoint) {
+    public void drawMountain(SKPoint2D startPoint, SKPoint2D endPoint) {
         this.filledColor = new Color(0, 0, 0);
         //cạnh còn lại của núi lửa
-        Point2D startPoint2 = new Point2D(startPoint, 30, 0);
-        Point2D endPoint2 = new Point2D(startPoint2, 70, 60);
+        SKPoint2D startPoint2 = new SKPoint2D(startPoint, 30, 0);
+        SKPoint2D endPoint2 = new SKPoint2D(startPoint2, 70, 60);
         //vẽ đường thẳng + gây nhiễu
         this.drawSegmentS(startPoint, endPoint);
         this.drawSegmentS(startPoint2, endPoint2);
         this.drawSegment(endPoint, endPoint2);
         //tâm ellipse miệng núi lửa
-        Point2D volcano_CenterP = new Point2D((startPoint.getCoordX() + startPoint2.getCoordX()) / 2, startPoint.getCoordY());
-        this.drawOutlineEllipse((startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, volcano_CenterP, false, false, true, true);
+        SKPoint2D volcano_CenterP = new SKPoint2D((startPoint.getCoordX() + startPoint2.getCoordX()) / 2, startPoint.getCoordY());
+        this.drawOutlineEllipse((int) (startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, volcano_CenterP, false, false, true, true);
 
         //vẽ dung nham
         this.filledColor = new Color(255, 100, 50);
 
         //nhánh lớn 1
-        ArrayList<Point2D> pointList1 = new ArrayList<>();
-        pointList1.add(new Point2D(volcano_CenterP, -3, 5));
-        pointList1.add(new Point2D(startPoint, 5, 13));
-        pointList1.add(new Point2D(pointList1.get(1), 8, 15));
-        pointList1.add(new Point2D(pointList1.get(2), -14, 10));
-        pointList1.add(new Point2D(pointList1.get(3), 16, 20));
+        ArrayList<SKPoint2D> pointList1 = new ArrayList<>();
+        pointList1.add(new SKPoint2D(volcano_CenterP, -3, 5));
+        pointList1.add(new SKPoint2D(startPoint, 5, 13));
+        pointList1.add(new SKPoint2D(pointList1.get(1), 8, 15));
+        pointList1.add(new SKPoint2D(pointList1.get(2), -14, 10));
+        pointList1.add(new SKPoint2D(pointList1.get(3), 16, 20));
         this.drawZigZag(pointList1);
         //nhánh 1.2
-        this.drawSegmentS(new Point2D(pointList1.get(2)), new Point2D(pointList1.get(2), 9, 12));
-        this.drawSegmentS(new Point2D(pointList1.get(2), 9, 12), new Point2D(pointList1.get(2), 12, 25));
+        this.drawSegmentS(new SKPoint2D(pointList1.get(2)), new SKPoint2D(pointList1.get(2), 9, 12));
+        this.drawSegmentS(new SKPoint2D(pointList1.get(2), 9, 12), new SKPoint2D(pointList1.get(2), 12, 25));
 
         //nhánh 2
-        this.drawSegmentS(new Point2D(startPoint2, -4, 4), new Point2D(startPoint2, 3, 50));
+        this.drawSegmentS(new SKPoint2D(startPoint2, -4, 4), new SKPoint2D(startPoint2, 3, 50));
         // nhánh 2.2
-        this.drawSegmentS(new Point2D(startPoint2, -2, 14), new Point2D(startPoint2, -8, 30));
-        this.drawSegmentS(new Point2D(new Point2D(startPoint2, -8, 30)), new Point2D(startPoint2, -8, 35));
+        this.drawSegmentS(new SKPoint2D(startPoint2, -2, 14), new SKPoint2D(startPoint2, -8, 30));
+        this.drawSegmentS(new SKPoint2D(new SKPoint2D(startPoint2, -8, 30)), new SKPoint2D(startPoint2, -8, 35));
         //nhánh 2.3
-        this.drawSegmentS(new Point2D(startPoint2, 0, 22), new Point2D(startPoint2, 10, 30));
-        this.drawSegmentS(new Point2D(startPoint2, 10, 30), new Point2D(startPoint2, 14, 60));
+        this.drawSegmentS(new SKPoint2D(startPoint2, 0, 22), new SKPoint2D(startPoint2, 10, 30));
+        this.drawSegmentS(new SKPoint2D(startPoint2, 10, 30), new SKPoint2D(startPoint2, 14, 60));
         // nhánh 3
-        this.drawSegmentS(new Point2D(startPoint, 0, 2), new Point2D(startPoint, 3, 25));
+        this.drawSegmentS(new SKPoint2D(startPoint, 0, 2), new SKPoint2D(startPoint, 3, 25));
         //nhánh 3.2
-        this.drawSegmentS(new Point2D(startPoint, 1, 10), new Point2D(startPoint, -10, 40));
+        this.drawSegmentS(new SKPoint2D(startPoint, 1, 10), new SKPoint2D(startPoint, -10, 40));
 
         //dung nham ở miệng núi lửa
-        this.drawOutlineEllipse((startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, new Point2D(volcano_CenterP, 0, 1), false, false, true, true);
-        this.drawOutlineEllipse((startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, new Point2D(volcano_CenterP, 0, 2), false, false, true, true);
-        this.drawSegment(new Point2D(pointList1.get(0), 0, 0), new Point2D(pointList1.get(0), 5, 0));
+        this.drawOutlineEllipse((int) (startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, new SKPoint2D(volcano_CenterP, 0, 1), false, false, true, true);
+        this.drawOutlineEllipse((int) (startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, new SKPoint2D(volcano_CenterP, 0, 2), false, false, true, true);
+        this.drawSegment(new SKPoint2D(pointList1.get(0), 0, 0), new SKPoint2D(pointList1.get(0), 5, 0));
     }
 
-    public void paintMountain(Point2D startPoint) {
+    public void paintMountain(SKPoint2D startPoint) {
         this.filledColor = new Color(132, 127, 111);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new Point2D(startPoint, 0, 7), new Color(123, 99, 99));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new Point2D(startPoint, 20, 10), new Color(123, 99, 99));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 0, 7), new Color(123, 99, 99));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 20, 10), new Color(123, 99, 99));
 
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new Point2D(startPoint, 45, 30), new Color(123, 99, 99));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 45, 30), new Color(123, 99, 99));
 
     }
 
     @Override
-    public void drawZigZag(ArrayList<Point2D> pointList) {
+    public void drawZigZag(ArrayList<SKPoint2D> pointList) {
         int pointNumber = pointList.size();
 
         for (int i = 0; i < pointNumber - 1; i++) {
@@ -92,7 +92,7 @@ public class Mountain extends Shape2D {
         }
     }
 
-    public void drawSegmentS(Point2D startPoint, Point2D endPoint) {
+    public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint) {
         pixelCounter = 1;
 
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
@@ -102,23 +102,23 @@ public class Mountain extends Shape2D {
         int balance = 0;
 
         if (endPoint.getCoordX() >= startPoint.getCoordX()) {
-            dx = endPoint.getCoordX() - startPoint.getCoordX();
+            dx = (int) (endPoint.getCoordX() - startPoint.getCoordX());
             incx = 1;
         } else {
-            dx = startPoint.getCoordX() - endPoint.getCoordX();
+            dx = (int) (startPoint.getCoordX() - endPoint.getCoordX());
             incx = -1;
         }
 
         if (endPoint.getCoordY() >= startPoint.getCoordY()) {
-            dy = endPoint.getCoordY() - startPoint.getCoordY();
+            dy = (int) (endPoint.getCoordY() - startPoint.getCoordY());
             incy = 1;
         } else {
-            dy = startPoint.getCoordY() - endPoint.getCoordY();
+            dy = (int) (startPoint.getCoordY() - endPoint.getCoordY());
             incy = -1;
         }
 
-        int x = startPoint.getCoordX();
-        int y = startPoint.getCoordY();
+        double x = startPoint.getCoordX();
+        double y = startPoint.getCoordY();
 
         if (dx >= dy) {
             dy <<= 1;
@@ -206,7 +206,7 @@ public class Mountain extends Shape2D {
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
 
     }
 }

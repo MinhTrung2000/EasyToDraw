@@ -2,7 +2,7 @@ package model.shape3d;
 
 import control.SettingConstants;
 import java.awt.Color;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.shape2d.Vector2D;
 
 /*
@@ -19,36 +19,36 @@ C-----------D
 
 public class Rectangular extends Shape3D {
     
-    private Point2D pointA;
-    private Point2D pointB;
-    private Point2D pointC;
-    private Point2D pointD;
+    private SKPoint2D pointA;
+    private SKPoint2D pointB;
+    private SKPoint2D pointC;
+    private SKPoint2D pointD;
     
-    private Point2D pointA2;
-    private Point2D pointB2;
-    private Point2D pointC2;
-    private Point2D pointD2;
+    private SKPoint2D pointA2;
+    private SKPoint2D pointB2;
+    private SKPoint2D pointC2;
+    private SKPoint2D pointD2;
     
     public Rectangular(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
         
-        pointA = new Point2D();
-        pointB = new Point2D();
-        pointC = new Point2D();
-        pointD = new Point2D();
-        pointA2 = new Point2D();
-        pointB2 = new Point2D();
-        pointC2 = new Point2D();
-        pointD2 = new Point2D();
+        pointA = new SKPoint2D();
+        pointB = new SKPoint2D();
+        pointC = new SKPoint2D();
+        pointD = new SKPoint2D();
+        pointA2 = new SKPoint2D();
+        pointB2 = new SKPoint2D();
+        pointC2 = new SKPoint2D();
+        pointD2 = new SKPoint2D();
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void setProperty(Point2D centerPoint, int width, int height, int high) {
-        this.centerPoint.setCoord(centerPoint);
+    public void setProperty(SKPoint2D centerPoint, int width, int height, int high) {
+        this.centerPoint.setLocation(centerPoint);
         
     }
     

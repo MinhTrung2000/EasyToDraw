@@ -1,5 +1,6 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -22,9 +23,10 @@ public class Ellipse extends Shape2D {
         modal = Modal.ELLIPSE;
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        int width = endPoint.coordX - startPoint.coordX;
-        int height = endPoint.coordY - startPoint.coordY;
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
+        int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+        int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
+
         double half_x = Math.abs(width) / 2.0;
         double half_y = Math.abs(height) / 2.0;
 
@@ -41,21 +43,21 @@ public class Ellipse extends Shape2D {
             int heightDirection = this.getHeightDirection(height);
 
             this.startPoint = startPoint;
-            this.endPoint.setCoord(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
+            this.endPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
             a = preferedLength / 2;
             b = a;
         }
 
-        centerPoint.setCoord(
-                (int) Math.round(this.startPoint.coordX + this.endPoint.coordX) / 2,
-                (int) Math.round(this.startPoint.coordY + this.endPoint.coordY) / 2
+        centerPoint.setLocation(
+                (int) Math.round(this.startPoint.getCoordX() + this.endPoint.getCoordX()) / 2,
+                (int) Math.round(this.startPoint.getCoordY() + this.endPoint.getCoordY()) / 2
         );
 
         this.modal = modal;
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.ELLIPSE);
     }
 
@@ -64,9 +66,9 @@ public class Ellipse extends Shape2D {
 
         // Save center point coordination
         centerPoint.saveCoord(changedCoordOfBoard);
-        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
-        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
-        
+        markedChangeOfBoard[(int) centerPoint.getCoordY()][(int) centerPoint.getCoordX()] = true;
+        changedColorOfBoard[(int) centerPoint.getCoordY()][(int) centerPoint.getCoordX()] = filledColor;
+
         double x = 0.0;
         double y = b;
 
@@ -74,7 +76,7 @@ public class Ellipse extends Shape2D {
         double fy = 2 * a * a * y;
 
         pixelCounter = 1;
-        putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+        putFourSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY());
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -89,7 +91,7 @@ public class Ellipse extends Shape2D {
                 fy -= 2 * a * a;
             }
             pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+            putFourSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY());
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -103,7 +105,7 @@ public class Ellipse extends Shape2D {
                 p += a * a * (3 - 2 * y);
             }
             pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+            putFourSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY());
         }
     }
 
@@ -112,15 +114,15 @@ public class Ellipse extends Shape2D {
 
         // Save center point coordination
         centerPoint.saveCoord(changedCoordOfBoard);
-        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
-        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
-        
+        markedChangeOfBoard[(int) centerPoint.getCoordY()][(int) centerPoint.getCoordX()] = true;
+        changedColorOfBoard[(int) centerPoint.getCoordY()][(int) centerPoint.getCoordX()] = filledColor;
+
         double x = 0;
         double y = a;
 
         pixelCounter = 1;
-        pointSet.add(new Point2D((int) x, (int) y));
-        putEightSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+        pointSet.add(new SKPoint2D((int) x, (int) y));
+        putEightSymmetricPoints(x, y, centerPoint.getCoordX(), centerPoint.getCoordY());
 
         double p = 5 / 4.0 - a;
 
@@ -133,7 +135,7 @@ public class Ellipse extends Shape2D {
             }
             x++;
             pixelCounter++;
-            putEightSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY);
+            putEightSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY());
         }
     }
 

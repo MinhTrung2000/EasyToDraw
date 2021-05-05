@@ -1,12 +1,13 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 
 public class Triangle extends Shape2D {
 
-    private Point2D pointA;
-    private Point2D pointB;
-    private Point2D pointC;
+    private SKPoint2D pointA;
+    private SKPoint2D pointB;
+    private SKPoint2D pointC;
 
     public enum Modal {
         COMMON_TRIANGLE,
@@ -15,9 +16,9 @@ public class Triangle extends Shape2D {
 
     public Triangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        pointA = new Point2D(-1, -1);
-        pointB = new Point2D(-1, -1);
-        pointC = new Point2D(-1, -1);
+        pointA = new SKPoint2D(-1, -1);
+        pointB = new SKPoint2D(-1, -1);
+        pointC = new SKPoint2D(-1, -1);
     }
 
     /**
@@ -27,52 +28,51 @@ public class Triangle extends Shape2D {
      * @param startPoint
      * @param endPoint
      */
-    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        int width = endPoint.getCoordX() - startPoint.getCoordX();
-        int height = endPoint.getCoordY() - startPoint.getCoordY();
-        
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
+        int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+        int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
+
         int adjustingValue;
         int widthDirection = this.getWidthDirection(width);
         int heightDirection = this.getHeightDirection(height);
-    
+
         if (modal == Modal.COMMON_TRIANGLE) {
-            this.startPoint=startPoint;
-            this.endPoint=endPoint;
-            adjustingValue =0;
-        }else {
+            this.startPoint = startPoint;
+            this.endPoint = endPoint;
+            adjustingValue = 0;
+        } else {
             adjustingValue = -widthDirection; // giá trị để dịch 1 pixel có hướng, căn chỉnh lại cho đều 2 cạnh của tam giác đều
 
             int preferedLength = this.getPreferredLength(width, height);
-            
-            
-            this.startPoint=startPoint;
-            this.endPoint.setCoord(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
-            
+
+            this.startPoint = startPoint;
+            this.endPoint.setLocation(this.startPoint.getCoordX() + widthDirection * preferedLength, this.startPoint.getCoordY() + heightDirection * preferedLength);
+
         }
 
-            int Ay, By, Cy;
-            if(this.endPoint.getCoordY()< this.startPoint.getCoordY()){
-              Ay=this.endPoint.getCoordY();
-              By=this.startPoint.getCoordY();
-              Cy=this.startPoint.getCoordY();
-            }else {
-              Ay=this.startPoint.getCoordY();
-              By=this.endPoint.getCoordY();
-              Cy=this.endPoint.getCoordY();
-            } 
-            
-            pointA.setCoord(((this.startPoint.coordX + this.endPoint.coordX) / 2), Ay);
-            pointB.setCoord(this.startPoint.getCoordX(), By);
-            pointC.setCoord(this.endPoint.getCoordX()+adjustingValue,Cy);
-            
-            centerPoint.setCoord(
-                pointA.coordX,
-                pointC.coordY + (int) ((2.0 / 3.0) * Math.abs(pointC.coordY - pointA.coordY))
+        double Ay, By, Cy;
+        if (this.endPoint.getCoordY() < this.startPoint.getCoordY()) {
+            Ay = this.endPoint.getCoordY();
+            By = this.startPoint.getCoordY();
+            Cy = this.startPoint.getCoordY();
+        } else {
+            Ay = this.startPoint.getCoordY();
+            By = this.endPoint.getCoordY();
+            Cy = this.endPoint.getCoordY();
+        }
+
+        pointA.setLocation(((this.startPoint.getCoordX() + this.endPoint.getCoordX()) / 2), Ay);
+        pointB.setLocation(this.startPoint.getCoordX(), By);
+        pointC.setLocation(this.endPoint.getCoordX() + adjustingValue, Cy);
+
+        centerPoint.setLocation(
+                pointA.getCoordX(),
+                pointC.getCoordY() + (int) ((2.0 / 3.0) * Math.abs(pointC.getCoordY() - pointA.getCoordY()))
         );
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.COMMON_TRIANGLE);
     }
 
@@ -88,9 +88,9 @@ public class Triangle extends Shape2D {
      */
     @Override
     public void drawOutline() {
-        Point2D tempPointA = pointA.createRotationPoint(centerPoint, this.rotatedAngle);
-        Point2D tempPointB = pointB.createRotationPoint(centerPoint, this.rotatedAngle);
-        Point2D tempPointC = pointC.createRotationPoint(centerPoint, this.rotatedAngle);
+        SKPoint2D tempPointA = pointA.createRotationPoint(centerPoint, this.rotatedAngle);
+        SKPoint2D tempPointB = pointB.createRotationPoint(centerPoint, this.rotatedAngle);
+        SKPoint2D tempPointC = pointC.createRotationPoint(centerPoint, this.rotatedAngle);
 
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
