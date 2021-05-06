@@ -7,36 +7,33 @@ import model.shape2d.Vector2D;
 
 public class SKPoint2D {
 
-//    protected double coordX;
     protected int coordX;
-//    protected double coordY;
     protected int coordY;
 
     public SKPoint2D() {
-//        SKPoint2D.this.setLocation(0.0, 0.0);
         SKPoint2D.this.setLocation(0, 0);
     }
-    
+
     public SKPoint2D(double coordX, double coordY) {
         setLocation(coordX, coordY);
     }
-    
-    public SKPoint2D(int coordX, int  coordY) {
+
+    public SKPoint2D(int coordX, int coordY) {
         setLocation(coordX, coordY);
     }
-    
+
     public SKPoint2D(SKPoint2D other) {
         setLocation(other.coordX, other.coordY);
     }
-    
-    public SKPoint2D(SKPoint2D other, int adjustmentValue_X, int adjustmentValue_Y){
+
+    public SKPoint2D(SKPoint2D other, int adjustmentValue_X, int adjustmentValue_Y) {
         setLocation(other.coordX + adjustmentValue_X, other.coordY + adjustmentValue_Y);
     }
 
     public void setLocation(double coordX, double coordY) {
         setLocation((int) coordX, (int) coordY);
     }
-    
+
     public void setLocation(int coordX, int coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
@@ -46,12 +43,10 @@ public class SKPoint2D {
         setLocation(other.coordX, other.coordY);
     }
 
-//    public void setCoordX(double coordX) {
     public void setCoordX(int coordX) {
         this.coordX = coordX;
     }
 
-//    public void setCoordY(double coordY) {
     public void setCoordY(int coordY) {
         this.coordY = coordY;
     }
@@ -63,7 +58,7 @@ public class SKPoint2D {
     public int getCoordY() {
         return coordY;
     }
-    
+
     public int getCoordZ() {
         return 0;
     }
@@ -75,17 +70,17 @@ public class SKPoint2D {
     public static double distance(double x1, double y1, double x2, double y2) {
         return Math.hypot(x2 - x1, y2 - y1);
     }
-    
+
     public double distanceSquare(SKPoint2D p1, SKPoint2D p2) {
         return distanceSquare(p1.coordX, p1.coordY, p2.coordX, p2.coordY);
     }
-    
+
     public static double distanceSquare(double x1, double y1, double x2, double y2) {
         double dx = x2 - x1;
         double dy = y2 - y1;
         return dx * dx + dy * dy;
     }
-    
+
     public void saveCoord(String[][] coordOfBoard) {
         if (Ultility.checkValidPoint(coordOfBoard, coordX, coordY)) {
             int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
@@ -358,7 +353,7 @@ public class SKPoint2D {
         this.coordY *= k;
         return this;
     }
-    
+
     public SKPoint2D createScaleInstance(int k) {
         return new SKPoint2D(this).scale(k);
     }

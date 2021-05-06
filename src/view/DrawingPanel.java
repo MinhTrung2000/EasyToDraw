@@ -29,6 +29,7 @@ import model.shape2d.Star;
 import model.shape2d.animation.Ground;
 import model.shape2d.animation.Smoke;
 import model.shape2d.animation.Volcano;
+import model.shape3d.Cylinder;
 import model.shape3d.Rectangular;
 import model.tuple.MyPair;
 
@@ -486,7 +487,7 @@ public class DrawingPanel extends JPanel {
 //            String [][] tempBoard = new String[heightBoard][widthBoard];
 //            copyCoordValue(undoCoordOfBoardStack.pop(), tempBoard);
             copyCoordValue(undoCoordOfBoardStack.pop(), coordOfBoard);
-            System.out.println(coordOfBoard[2][2]);
+//            System.out.println(coordOfBoard[2][2]);
         }
 
     }
@@ -588,13 +589,24 @@ public class DrawingPanel extends JPanel {
             // Oy axis
             graphic.drawLine(SettingConstants.COORD_X_O, 1, SettingConstants.COORD_X_O, this.heightBoard);
 
+            // Add ), Ox, Oy text string
+            graphic.drawString("O", SettingConstants.COORD_X_O - 10, SettingConstants.COORD_Y_O + 10);
+            graphic.drawString("Ox", this.widthBoard - 20, SettingConstants.COORD_Y_O + 10);
+            graphic.drawString("Oy", SettingConstants.COORD_X_O - 20, 10);
+
         } else {
             // Ox
             graphic.drawLine(SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O, this.widthBoard, SettingConstants.COORD_Y_O);
-            // Oy
-            graphic.drawLine(SettingConstants.COORD_X_O, 1, SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O);
             // Oz
+            graphic.drawLine(SettingConstants.COORD_X_O, 1, SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O);
+            // Oy
             graphic.drawLine(SettingConstants.COORD_X_O, SettingConstants.COORD_Y_O, 1, SettingConstants.COORD_X_O + SettingConstants.COORD_Y_O);
+
+            // Add O, Ox, Oy, Oz text string
+            graphic.drawString("O", SettingConstants.COORD_X_O - 10, SettingConstants.COORD_Y_O + 10);
+            graphic.drawString("Ox", this.widthBoard - 20, SettingConstants.COORD_Y_O + 10);
+            graphic.drawString("Oy", SettingConstants.COORD_X_O - SettingConstants.COORD_Y_O - 10, this.heightBoard - 10);
+            graphic.drawString("Oz", SettingConstants.COORD_X_O - 20, 10);
         }
 
         /*
@@ -763,18 +775,32 @@ public class DrawingPanel extends JPanel {
         rectangular.saveCoordinates();
         apply();
         repaint();
+        recentShape = null;
     }
 
     public void draw3DShapeCylinder(SKPoint2D centerPoint, int radius, int high) {
-
+        resetChangedPropertyArray();
+        Cylinder cylinder = new Cylinder(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//        cylinder.setProperty(center_x, center_y, center_z, width, height, high);
+        cylinder.drawOutline();
+        cylinder.saveCoordinates();
+        apply();
+        repaint();
+        recentShape = null;
     }
 
     public void draw3DShapePyramid(SKPoint2D centerPoint, int bottomEdge, int high) {
 
+        apply();
+        repaint();
+        recentShape = null;
     }
 
     public void draw3DShapeSphere(SKPoint2D centerPoint, int radius) {
 
+        apply();
+        repaint();
+        recentShape = null;
     }
 
     public MyPair getXBound() {
@@ -789,9 +815,6 @@ public class DrawingPanel extends JPanel {
 
     private class CustomMouseClickHandling implements MouseListener {
 
-        /*
-        Do later
-         */
         @Override
         public void mouseClicked(MouseEvent event) {
 
@@ -819,6 +842,7 @@ public class DrawingPanel extends JPanel {
                     System.out.println(startDrawingPoint.getCoordX() + " " + startDrawingPoint.getCoordY());
                     startDrawingPoint.saveCoord(changedCoordOfBoard);
                     repaint();
+                    recentShape = null;
                     break;
                 }
                 case TOOL_COLOR_FILLER: {
@@ -827,6 +851,7 @@ public class DrawingPanel extends JPanel {
                     currentMousePos.setLocation(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                     Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
                     repaint();
+                    recentShape = null;
                     break;
                 }
                 case DRAWING_POLYGON_FREE: {
@@ -905,6 +930,7 @@ public class DrawingPanel extends JPanel {
                         Polygon_firstPoint.saveCoord(changedCoordOfBoard);
                         repaint();
 
+                        recentShape = null;
                     }
                     break;
                 }
@@ -916,6 +942,7 @@ public class DrawingPanel extends JPanel {
                         hidePixels(hidePixelsPos, true);
                     }
                     repaint();
+                    recentShape = null;
                 }
                 case TOOL_ANIMATION: {
                     if (checkStartingPointAvailable()) {
@@ -939,9 +966,6 @@ public class DrawingPanel extends JPanel {
                         SKPoint2D startP_Tree = new SKPoint2D(startP_Volcano, -30, 20);
                         SKPoint2D startP_Fish1 = new SKPoint2D(startP_Volcano, 50, 50);
                         SKPoint2D startP_Fish2 = new SKPoint2D(startP_Volcano, -30, 42);
-//
-
-//                          
 //                          
 //                          AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 //                          tree.drawAppleTree(startP_Tree);
@@ -1002,6 +1026,7 @@ public class DrawingPanel extends JPanel {
 
                     }
                     repaint();
+                    recentShape = null;
                     break;
                 }
 
@@ -1098,10 +1123,6 @@ public class DrawingPanel extends JPanel {
                     }
                     setStartDrawingPoint(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
                     repaint();
-                    break;
-                }
-                case DRAWING_POLYGON_FREE: {
-                    // Work later
                     break;
                 }
                 case DRAWING_POLYGON_TRIANGLE: {

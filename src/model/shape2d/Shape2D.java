@@ -231,8 +231,8 @@ public abstract class Shape2D {
     }
     
     public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
-        SKPoint2D from = startPoint.get2DRelativePosition();
-        SKPoint2D to = endPoint.get2DRelativePosition();
+        SKPoint2D from = startPoint.get2DRelativePosition().convertViewToMachineCoord();
+        SKPoint2D to = endPoint.get2DRelativePosition().convertViewToMachineCoord();
         drawSegment(from, to, lineStyle);
     }
     

@@ -209,14 +209,7 @@ public interface SettingConstants {
     public static final int MAX_LINE_SIZE = 5;
     public static final int STEP_LINE_SIZE = 1;
 
-    /**
-     * X coordinate part of O point.
-     */
     public static final int COORD_X_O = (int) (WIDTH_DRAW_AREA / 2) - 1;
-
-    /**
-     * Y coordinate part of O point.
-     */
     public static final int COORD_Y_O = (int) (HEIGHT_DRAW_AREA / 2) - 1;
 
     public static final int DEFAULT_LINE_SIZE = 1;

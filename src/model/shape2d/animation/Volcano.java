@@ -34,7 +34,7 @@ public class Volcano extends Shape2D {
         SKPoint2D endPoint2 = new SKPoint2D(startPoint2, 70, 60);
         //vẽ đường thẳng + gây nhiễu
         this.drawSegmentS(startPoint, endPoint, roughNumberArray110, roughNumberArray110_2);
-        this.drawSegmentS(startPoint2, endPoint2,roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(startPoint2, endPoint2, roughNumberArray110, roughNumberArray110_2);
         this.drawSegment(endPoint, endPoint2);
         //tâm ellipse miệng núi lửa
         SKPoint2D volcano_CenterP = new SKPoint2D((startPoint.getCoordX() + startPoint2.getCoordX()) / 2, startPoint.getCoordY());
@@ -52,21 +52,21 @@ public class Volcano extends Shape2D {
         pointList1.add(new SKPoint2D(pointList1.get(3), 16, 20));
         this.drawZigZag(pointList1);
         //nhánh 1.2
-        this.drawSegmentS(new SKPoint2D(pointList1.get(2)), new SKPoint2D(pointList1.get(2), 9, 12),roughNumberArray110, roughNumberArray110_2);
-        this.drawSegmentS(new SKPoint2D(pointList1.get(2), 9, 12), new SKPoint2D(pointList1.get(2), 12, 25),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(pointList1.get(2)), new SKPoint2D(pointList1.get(2), 9, 12), roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(pointList1.get(2), 9, 12), new SKPoint2D(pointList1.get(2), 12, 25), roughNumberArray110, roughNumberArray110_2);
 
         //nhánh 2
-        this.drawSegmentS(new SKPoint2D(startPoint2, -4, 4), new SKPoint2D(startPoint2, 3, 50),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint2, -4, 4), new SKPoint2D(startPoint2, 3, 50), roughNumberArray110, roughNumberArray110_2);
         // nhánh 2.2
-        this.drawSegmentS(new SKPoint2D(startPoint2, -2, 14), new SKPoint2D(startPoint2, -8, 30),roughNumberArray110, roughNumberArray110_2);
-        this.drawSegmentS(new SKPoint2D(new SKPoint2D(startPoint2, -8, 30)), new SKPoint2D(startPoint2, -8, 35),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint2, -2, 14), new SKPoint2D(startPoint2, -8, 30), roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(new SKPoint2D(startPoint2, -8, 30)), new SKPoint2D(startPoint2, -8, 35), roughNumberArray110, roughNumberArray110_2);
         //nhánh 2.3
-        this.drawSegmentS(new SKPoint2D(startPoint2, 0, 22), new SKPoint2D(startPoint2, 10, 30),roughNumberArray110, roughNumberArray110_2);
-        this.drawSegmentS(new SKPoint2D(startPoint2, 10, 30), new SKPoint2D(startPoint2, 14, 60),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint2, 0, 22), new SKPoint2D(startPoint2, 10, 30), roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint2, 10, 30), new SKPoint2D(startPoint2, 14, 60), roughNumberArray110, roughNumberArray110_2);
         // nhánh 3
-        this.drawSegmentS(new SKPoint2D(startPoint, 0, 2), new SKPoint2D(startPoint, 3, 25),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint, 0, 2), new SKPoint2D(startPoint, 3, 25), roughNumberArray110, roughNumberArray110_2);
         //nhánh 3.2
-        this.drawSegmentS(new SKPoint2D(startPoint, 1, 10), new SKPoint2D(startPoint, -10, 40),roughNumberArray110, roughNumberArray110_2);
+        this.drawSegmentS(new SKPoint2D(startPoint, 1, 10), new SKPoint2D(startPoint, -10, 40), roughNumberArray110, roughNumberArray110_2);
 
         //dung nham ở miệng núi lửa
         this.drawOutlineEllipse((int) (startPoint2.getCoordX() - startPoint.getCoordX()) / 2, 4, new SKPoint2D(volcano_CenterP, 0, 1), false, false, true, true);

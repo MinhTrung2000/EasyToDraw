@@ -1,5 +1,6 @@
 package model.shape2d;
 
+import control.SettingConstants;
 import control.myawt.SKPoint2D;
 import control.myawt.SKPoint3D;
 import java.awt.Color;
@@ -87,37 +88,32 @@ public class Rectangle extends Shape2D {
         drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
-    public static void setFourPointSymmetricFromCenter(SKPoint2D centerPoint, double width, double height, SKPoint2D ULPoint, SKPoint2D URPoint, SKPoint2D LLPoint, SKPoint2D LRPoint) {
+    public static void setFourPointSymmetricFromCenter(SKPoint2D centerPoint,
+            double width, double height, SKPoint3D ULPoint, SKPoint3D URPoint,
+            SKPoint3D LLPoint, SKPoint3D LRPoint) {
         int cx = centerPoint.getCoordX();
         int cy = centerPoint.getCoordY();
-        double half_w = width / 2;
-        double half_h = height / 2;
+        int cz = centerPoint.getCoordZ();
+        double half_w = width / 2 * SettingConstants.RECT_SIZE;
+        double half_h = height / 2 * SettingConstants.RECT_SIZE;
 
-        ULPoint.setLocation(cx - half_w, cy - half_h);
-        URPoint.setLocation(cx + half_w, cy - half_h);
-        LLPoint.setLocation(cx - half_w, cy + half_h);
-        LRPoint.setLocation(cx + half_w, cy + half_h);
-
-        if (centerPoint instanceof SKPoint3D) {
-            int cz = ((SKPoint3D) centerPoint).getCoordZ();
-            ((SKPoint3D) ULPoint).setCoordZ(cz);
-            ((SKPoint3D) URPoint).setCoordZ(cz);
-            ((SKPoint3D) LLPoint).setCoordZ(cz);
-            ((SKPoint3D) LRPoint).setCoordZ(cz);
-        }
+        ULPoint.setLocation(cx - half_w, cy - half_h, cz);
+        URPoint.setLocation(cx + half_w, cy - half_h, cz);
+        LLPoint.setLocation(cx - half_w, cy + half_h, cz);
+        LRPoint.setLocation(cx + half_w, cy + half_h, cz);
     }
 
     public static void setFourPointSymmetricFromCenter(double center_x,
-            double center_y, double center_z, double width, double height,
+            double center_y, double center_z, double width, double high,
             SKPoint3D ULPoint, SKPoint3D URPoint, SKPoint3D LRPoint,
             SKPoint3D LLPoint) {
         double half_w = width / 2;
-        double half_h = height / 2;
+        double half_h = high / 2;
 
         // Set location in visual system coordinate mode.
-        ULPoint.setLocation(center_x - half_w, center_y + half_h, center_z);
-        URPoint.setLocation(center_x + half_w, center_y + half_h, center_z);
-        LLPoint.setLocation(center_x - half_w, center_y - half_h, center_z);
-        LRPoint.setLocation(center_x + half_w, center_y - half_h, center_z);
+        ULPoint.setLocation(center_x - half_w, center_y, center_z + half_h);
+        URPoint.setLocation(center_x + half_w, center_y, center_z + half_h);
+        LLPoint.setLocation(center_x - half_w, center_y, center_z - half_h);
+        LRPoint.setLocation(center_x + half_w, center_y, center_z - half_h);
     }
 }

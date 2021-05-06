@@ -14,21 +14,24 @@ import model.shape2d.Vector2D;
  *
  * @author Minh Tu
  */
-public class Cloud extends Shape2D{
+public class Cloud extends Shape2D {
+
     public Cloud(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
     int width = 18;
-    public void drawCloud(SKPoint2D startP){
-        this.drawSegment(startP, new SKPoint2D (startP,width,0));
-        this.drawSegment(new SKPoint2D (startP,-1,-1), new SKPoint2D (startP,-1,-1 - 3));
-        this.drawSegment(new SKPoint2D (startP,width+1,-1), new SKPoint2D (startP,width+1,-1 - 3));
-        
-        this.drawOutlineCircle(6, new SKPoint2D (startP, 5, -4), true, false, false, false, false, false, true, true);
-        this.drawOutlineCircle(3, new SKPoint2D (startP, width -2, -4), true, true, false, false, false, false, false, true);
-        this.drawOutlineCircle(3, new SKPoint2D (startP, width -6, -7), true, true, false, false, false, false, true, true);
+
+    public void drawCloud(SKPoint2D startP) {
+        this.drawSegment(startP, new SKPoint2D(startP, width, 0));
+        this.drawSegment(new SKPoint2D(startP, -1, -1), new SKPoint2D(startP, -1, -1 - 3));
+        this.drawSegment(new SKPoint2D(startP, width + 1, -1), new SKPoint2D(startP, width + 1, -1 - 3));
+
+        this.drawOutlineCircle(6, new SKPoint2D(startP, 5, -4), true, false, false, false, false, false, true, true);
+        this.drawOutlineCircle(3, new SKPoint2D(startP, width - 2, -4), true, true, false, false, false, false, false, true);
+        this.drawOutlineCircle(3, new SKPoint2D(startP, width - 6, -7), true, true, false, false, false, false, true, true);
     }
-      @Override
+
+    @Override
     public void applyMove(Vector2D vector) {
 
     }

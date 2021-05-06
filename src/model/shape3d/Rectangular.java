@@ -17,36 +17,40 @@ A --------- B
 |/          |/
 D-----------C
 
-*/
-
+DC: width
+CC2: height
+BC: high
+ */
 public class Rectangular extends Shape3D {
-    
+
     private SKPoint3D pointA = new SKPoint3D();
     private SKPoint3D pointB = new SKPoint3D();
     private SKPoint3D pointC = new SKPoint3D();
     private SKPoint3D pointD = new SKPoint3D();
-    
+
     private SKPoint3D pointA2 = new SKPoint3D();
     private SKPoint3D pointB2 = new SKPoint3D();
     private SKPoint3D pointC2 = new SKPoint3D();
     private SKPoint3D pointD2 = new SKPoint3D();
-    
+
     public Rectangular(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
     public void setProperty(double center_x, double center_y, double center_z, int width, int height, int high) {
         this.centerPoint3D.setLocation(center_x, center_y, center_z);
-        
-        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(), 
-                this.centerPoint3D.getCoordY(), this.centerPoint3D.getCoordZ() + height / 2, 
-                width, high, pointA, pointB, pointC, pointD);
-        
+
         Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
-                this.centerPoint3D.getCoordY(), this.centerPoint3D.getCoordZ() - height / 2,
-                width, high, pointA2, pointB2, pointC2, pointD2);
+                this.centerPoint3D.getCoordY() + height / 2, this.centerPoint3D.getCoordZ(),
+                width, high, pointA, pointB, pointC, pointD
+        );
+
+        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
+                this.centerPoint3D.getCoordY() - height / 2, this.centerPoint3D.getCoordZ(),
+                width, high, pointA2, pointB2, pointC2, pointD2
+        );
     }
-    
+
     @Override
     public void saveCoordinates() {
         pointA.saveCoord(changedCoordOfBoard);
@@ -79,5 +83,4 @@ public class Rectangular extends Shape3D {
         drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DOT);
     }
 
-    
 }
