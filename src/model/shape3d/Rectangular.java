@@ -49,14 +49,14 @@ public class Rectangular extends Shape3D {
     
     @Override
     public void saveCoordinates() {
-        pointA.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointB.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointC.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointD.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointA2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointB2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointC2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointD2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
+        pointA.saveCoord(changedCoordOfBoard);
+        pointB.saveCoord(changedCoordOfBoard);
+        pointC.saveCoord(changedCoordOfBoard);
+        pointD.saveCoord(changedCoordOfBoard);
+        pointA2.saveCoord(changedCoordOfBoard);
+        pointB2.saveCoord(changedCoordOfBoard);
+        pointC2.saveCoord(changedCoordOfBoard);
+        pointD2.saveCoord(changedCoordOfBoard);
     }
 
     @Override
@@ -74,9 +74,9 @@ public class Rectangular extends Shape3D {
         drawSegment(pointB2, pointB, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointB2, pointC2, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointC2, pointC, SettingConstants.LineStyle.DEFAULT);
-        drawSegment(pointD, pointD2, SettingConstants.LineStyle.DASH);
-        drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DASH);
-        drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DASH);
+        drawSegment(pointD, pointD2, SettingConstants.LineStyle.DOT);
+        drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DOT);
+        drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DOT);
     }
 
     

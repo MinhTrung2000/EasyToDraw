@@ -37,6 +37,7 @@ public interface SettingConstants {
                 return "───────────→";
             }
         },
+        DOT,
     }
 
     public enum DrawingToolMode {

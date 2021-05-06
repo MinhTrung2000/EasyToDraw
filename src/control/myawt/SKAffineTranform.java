@@ -89,8 +89,8 @@ public class SKAffineTranform implements SKAffineTranformInterface {
         point2_copy = impl.transform(point1_copy, point2_copy);
         
         if (point2 != null) {
-            point2.setCoordX(point2_copy.getX());
-            point2.setCoordY(point2_copy.getY());
+            point2.setCoordX((int) point2_copy.getX());
+            point2.setCoordY((int) point2_copy.getY());
             return point2;
         }
         

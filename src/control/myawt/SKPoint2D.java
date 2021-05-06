@@ -7,14 +7,21 @@ import model.shape2d.Vector2D;
 
 public class SKPoint2D {
 
-    protected double coordX;
-    protected double coordY;
+//    protected double coordX;
+    protected int coordX;
+//    protected double coordY;
+    protected int coordY;
 
     public SKPoint2D() {
-        SKPoint2D.this.setLocation(0.0, 0.0);
+//        SKPoint2D.this.setLocation(0.0, 0.0);
+        SKPoint2D.this.setLocation(0, 0);
     }
     
     public SKPoint2D(double coordX, double coordY) {
+        setLocation(coordX, coordY);
+    }
+    
+    public SKPoint2D(int coordX, int  coordY) {
         setLocation(coordX, coordY);
     }
     
@@ -27,6 +34,10 @@ public class SKPoint2D {
     }
 
     public void setLocation(double coordX, double coordY) {
+        setLocation((int) coordX, (int) coordY);
+    }
+    
+    public void setLocation(int coordX, int coordY) {
         this.coordX = coordX;
         this.coordY = coordY;
     }
@@ -35,24 +46,26 @@ public class SKPoint2D {
         setLocation(other.coordX, other.coordY);
     }
 
-    public void setCoordX(double coordX) {
+//    public void setCoordX(double coordX) {
+    public void setCoordX(int coordX) {
         this.coordX = coordX;
     }
 
-    public void setCoordY(double coordY) {
+//    public void setCoordY(double coordY) {
+    public void setCoordY(int coordY) {
         this.coordY = coordY;
     }
 
-    public double getCoordX() {
+    public int getCoordX() {
         return coordX;
     }
 
-    public double getCoordY() {
+    public int getCoordY() {
         return coordY;
     }
     
-    public double getCoordZ() {
-        return 0.0;
+    public int getCoordZ() {
+        return 0;
     }
 
     public static double distance(SKPoint2D p1, SKPoint2D p2) {
@@ -263,9 +276,11 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D symPoint(SKPoint2D basePoint) {
-        double newCoordX = 2 * basePoint.coordX - this.coordX;
-        double newCoordY = 2 * basePoint.coordY - this.coordY;
-        SKPoint2D.this.setLocation(newCoordX, newCoordY);
+//        double newCoordX = 2 * basePoint.coordX - this.coordX;
+        int newCoordX = 2 * basePoint.coordX - this.coordX;
+//        double newCoordY = 2 * basePoint.coordY - this.coordY;
+        int newCoordY = 2 * basePoint.coordY - this.coordY;
+        setLocation(newCoordX, newCoordY);
         return this;
     }
 
@@ -304,10 +319,6 @@ public class SKPoint2D {
     }
 
     public String toString() {
-//        int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
-//        int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
-//
-//        String result = "(" + x + ", " + y + ")";
         return "(" + coordX + ", " + coordY + ")";
     }
 
@@ -350,8 +361,5 @@ public class SKPoint2D {
     
     public SKPoint2D createScaleInstance(int k) {
         return new SKPoint2D(this).scale(k);
-    }
-    
-    public static void main(String[] args) {
     }
 }

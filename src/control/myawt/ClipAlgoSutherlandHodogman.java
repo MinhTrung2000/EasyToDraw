@@ -27,7 +27,7 @@ public class ClipAlgoSutherlandHodogman {
         
         for (MyPoint pt: output) {
             if (Double.isFinite(pt.getCoordY())) {
-                pt.setCoordY(Math.signum(pt.getCoordY()) * 1E6);
+                pt.setCoordY((int) (Math.signum(pt.getCoordY()) * 1E6));
             }
         }
         

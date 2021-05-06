@@ -88,8 +88,8 @@ public class Rectangle extends Shape2D {
     }
 
     public static void setFourPointSymmetricFromCenter(SKPoint2D centerPoint, double width, double height, SKPoint2D ULPoint, SKPoint2D URPoint, SKPoint2D LLPoint, SKPoint2D LRPoint) {
-        double cx = centerPoint.getCoordX();
-        double cy = centerPoint.getCoordY();
+        int cx = centerPoint.getCoordX();
+        int cy = centerPoint.getCoordY();
         double half_w = width / 2;
         double half_h = height / 2;
 
@@ -99,7 +99,7 @@ public class Rectangle extends Shape2D {
         LRPoint.setLocation(cx + half_w, cy + half_h);
 
         if (centerPoint instanceof SKPoint3D) {
-            double cz = ((SKPoint3D) centerPoint).getCoordZ();
+            int cz = ((SKPoint3D) centerPoint).getCoordZ();
             ((SKPoint3D) ULPoint).setCoordZ(cz);
             ((SKPoint3D) URPoint).setCoordZ(cz);
             ((SKPoint3D) LLPoint).setCoordZ(cz);

@@ -125,15 +125,15 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 //                int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
 //                int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
 //                int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
-//                int with = getValidInput(textfRectangularWidth);
+//                int width = getValidInput(textfRectangularWidth);
 //                int height = getValidInput(textfRectangularHeight);
 //                int high = getValidInput(textfRectangularHigh);
                 int centerPointX = 0;
                 int centerPointY = 0;
                 int centerPointZ = 0;
-                int width = 50;
-                int height = 50;
-                int high = 50;
+                int width = 200;
+                int height = 200;
+                int high = 200;
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
             } catch (NumberFormatException ex) {
                 return false;

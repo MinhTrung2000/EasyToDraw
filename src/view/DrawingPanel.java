@@ -761,6 +761,7 @@ public class DrawingPanel extends JPanel {
         rectangular.setProperty(center_x, center_y, center_z, width, height, high);
         rectangular.drawOutline();
         rectangular.saveCoordinates();
+        apply();
         repaint();
     }
 

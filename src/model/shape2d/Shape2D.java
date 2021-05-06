@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import control.SettingConstants;
 import control.myawt.SKPoint3D;
 import control.util.Ultility;
-import model.tuple.MyPair;
 
 public abstract class Shape2D {
 
@@ -234,7 +233,7 @@ public abstract class Shape2D {
     public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
         SKPoint2D from = startPoint.get2DRelativePosition();
         SKPoint2D to = endPoint.get2DRelativePosition();
-        drawSegment(from, to);
+        drawSegment(from, to, lineStyle);
     }
     
     public void drawZigZagS(ArrayList<SKPoint2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
@@ -351,8 +350,8 @@ public abstract class Shape2D {
             boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7, boolean Pos8) {
         pointSet.clear();
 
-        double x = 0;
-        double y = a;
+        int x = 0;
+        int y = a;
 
         pixelCounter = 1;
         pointSet.add(new SKPoint2D(x,y));
@@ -506,7 +505,9 @@ public abstract class Shape2D {
      *
      * @param coordX
      * @param coordY
+     * @param pixelCounter
      * @param lineStyle
+     * @return 
      */
     public boolean savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)

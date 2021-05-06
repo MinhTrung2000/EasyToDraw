@@ -61,8 +61,12 @@ public class Ultility {
      */
     public static boolean checkPixelPut(int pixelCounter, SettingConstants.LineStyle lineStyle) {
         switch (lineStyle) {
-            case DEFAULT:
+            case DEFAULT: {
                 return true;
+            }
+            case DOT: {
+                return (pixelCounter % 2 != 0);
+            }
             case DASH: {
                 return (pixelCounter % 5 != 0);
             }
