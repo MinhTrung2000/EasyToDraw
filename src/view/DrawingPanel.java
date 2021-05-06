@@ -778,10 +778,10 @@ public class DrawingPanel extends JPanel {
         recentShape = null;
     }
 
-    public void draw3DShapeCylinder(SKPoint2D centerPoint, int radius, int high) {
+    public void draw3DShapeCylinder(double center_x, double center_y, double center_z, int radius, int high) {
         resetChangedPropertyArray();
         Cylinder cylinder = new Cylinder(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//        cylinder.setProperty(center_x, center_y, center_z, width, height, high);
+        cylinder.setProperty(center_x, center_y, center_z, radius, high);
         cylinder.drawOutline();
         cylinder.saveCoordinates();
         apply();

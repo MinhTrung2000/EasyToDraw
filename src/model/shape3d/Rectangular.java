@@ -1,7 +1,6 @@
 package model.shape3d;
 
 import control.SettingConstants;
-import control.myawt.SKPoint2D;
 import java.awt.Color;
 import control.myawt.SKPoint3D;
 import model.shape2d.Rectangle;

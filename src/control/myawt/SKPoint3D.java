@@ -55,6 +55,14 @@ public class SKPoint3D extends SKPoint2D {
         return ret;
     }
 
+    public static SKPoint2D get2DRelativePosition(double x, double y, double z) {
+        SKPoint2D ret = new SKPoint2D();
+        int tempX = (int) (x - Math.round(y * Math.cos(Math.toRadians(45))));
+        int tempY = (int) (z - Math.round(y * Math.sin(Math.toRadians(45))));
+        ret.setLocation(tempX, tempY);
+        return ret;
+    }
+
     @Override
     public void saveCoord(String[][] coordOfBoard) {
         SKPoint2D relativePoint2D = this.get2DRelativePosition().convertViewToMachineCoord();
