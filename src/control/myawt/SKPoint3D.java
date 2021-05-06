@@ -50,7 +50,11 @@ public class SKPoint3D extends SKPoint2D {
         SKPoint2D ret = new SKPoint2D();
         double tmpX = (this.coordX - Math.round(this.coordY * Math.cos(Math.toRadians(45))));
         double tmpY = (this.coordZ - Math.round(this.coordY * Math.sin(Math.toRadians(45))));
-        ret.setLocation(tmpX + SettingConstants.WIDTH_DRAW_AREA / 2, -tmpY + SettingConstants.HEIGHT_DRAW_AREA / 2);
+        System.out.println("x: " + tmpX + ", y: " + tmpY);
+        ret.setLocation(tmpX, tmpY);
+        ret.convertViewToMachineCoord();
+        System.out.println("ret after: " + ret);
+                
         return ret;
     }
 

@@ -114,9 +114,10 @@ public class Rectangle extends Shape2D {
         double half_w = width / 2;
         double half_h = height / 2;
 
-        ULPoint.setLocation(center_x - half_w, center_y - half_h, center_z);
-        URPoint.setLocation(center_x + half_w, center_y - half_h, center_z);
-        LLPoint.setLocation(center_x - half_w, center_y + half_h, center_z);
-        LRPoint.setLocation(center_x + half_w, center_y + half_h, center_z);
+        // Set location in visual system coordinate mode.
+        ULPoint.setLocation(center_x - half_w, center_y + half_h, center_z);
+        URPoint.setLocation(center_x + half_w, center_y + half_h, center_z);
+        LLPoint.setLocation(center_x - half_w, center_y - half_h, center_z);
+        LRPoint.setLocation(center_x + half_w, center_y - half_h, center_z);
     }
 }

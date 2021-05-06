@@ -304,11 +304,11 @@ public class SKPoint2D {
     }
 
     public String toString() {
-        int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
-        int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
-
-        String result = "(" + x + ", " + y + ")";
-        return result;
+//        int x = (int) (coordX - (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE));
+//        int y = (int) (-(coordY - (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)));
+//
+//        String result = "(" + x + ", " + y + ")";
+        return "(" + coordX + ", " + coordY + ")";
     }
 
     public static void swap(SKPoint2D pointA, SKPoint2D pointB) {

@@ -122,14 +122,19 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private boolean process() {
         if (btnOptionRectangular.isSelected()) {
             try {
-                int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
-                int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
-                int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
-                int with = getValidInput(textfRectangularWidth);
-                int height = getValidInput(textfRectangularHeight);
-                int high = getValidInput(textfRectangularHigh);
-                
-                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ , WIDTH, height, high);
+//                int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
+//                int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
+//                int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
+//                int with = getValidInput(textfRectangularWidth);
+//                int height = getValidInput(textfRectangularHeight);
+//                int high = getValidInput(textfRectangularHigh);
+                int centerPointX = 0;
+                int centerPointY = 0;
+                int centerPointZ = 0;
+                int width = 50;
+                int height = 50;
+                int high = 50;
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
             } catch (NumberFormatException ex) {
                 return false;
             }
@@ -163,7 +168,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int centerPointY = getValidInput(textfSphereCenterPointCoordY);
                 int centerPointZ = getValidInput(textfSphereCenterPointCoordZ);
                 int radius = getValidInput(textfSphereRadius);
-                
+
             } catch (NumberFormatException ex) {
                 return false;
             }

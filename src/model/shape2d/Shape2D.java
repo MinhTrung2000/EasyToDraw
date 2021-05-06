@@ -170,15 +170,15 @@ public abstract class Shape2D {
             incy = -1;
         }
 
-        double x = startPoint.getCoordX();
-        double y = startPoint.getCoordY();
+        int x = (int) startPoint.getCoordX();
+        int y = (int) startPoint.getCoordY();
 
         if (dx >= dy) {
             dy <<= 1;
             balance = dy - dx;
             dx <<= 1;
 
-            while (x != endPoint.getCoordX()) {
+            while (x != (int) endPoint.getCoordX()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
@@ -195,7 +195,7 @@ public abstract class Shape2D {
             balance = dx - dy;
             dy <<= 1;
 
-            while (y != endPoint.getCoordY()) {
+            while (y != (int) endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
@@ -232,7 +232,10 @@ public abstract class Shape2D {
     }
     
     public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
-        drawSegment(startPoint.get2DRelativePosition(), endPoint.get2DRelativePosition());
+        SKPoint2D from = startPoint.get2DRelativePosition();
+        SKPoint2D to = endPoint.get2DRelativePosition();
+        System.out.println("=========================================");
+        drawSegment(from, to);
     }
     
     public void drawZigZagS(ArrayList<SKPoint2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
