@@ -1864,13 +1864,6 @@ public class MainFrame extends javax.swing.JFrame {
                 try {
                     MainFrame frame = new MainFrame();
                     frame.setVisible(true);
-
-                    int centerPointX = 10* RECT_SIZE;
-                    int centerPointY = 10* RECT_SIZE;
-                    int centerPointZ = 10* RECT_SIZE;
-                    int radius = 20 * RECT_SIZE;
-
-                    frame.getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
