@@ -181,6 +181,7 @@ public class Ellipse extends Shape2D {
             double fx = 0;
             double fy = 2 * a * a * y;
 
+            pixelCounter = 0;
             addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
             double p = b * b - a * a * b + a * a * 0.25;
 
@@ -213,6 +214,7 @@ public class Ellipse extends Shape2D {
             double x = 0;
             double y = a;
 
+            pixelCounter = 0;
 //            pointSet.add(new SKPoint2D((int) x, (int) y));
             addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
             double p = 5 / 4.0 - a;

@@ -30,7 +30,9 @@ import model.shape2d.animation.Ground;
 import model.shape2d.animation.Smoke;
 import model.shape2d.animation.Volcano;
 import model.shape3d.Cylinder;
+import model.shape3d.Pyramid;
 import model.shape3d.Rectangular;
+import model.shape3d.Sphere;
 import model.tuple.MyPair;
 
 /**
@@ -789,15 +791,23 @@ public class DrawingPanel extends JPanel {
         recentShape = null;
     }
 
-    public void draw3DShapePyramid(SKPoint2D centerPoint, int bottomEdge, int high) {
-
+    public void draw3DShapePyramid(double center_x, double center_y, double center_z, int edge, int high) {
+        resetChangedPropertyArray();
+        Pyramid pyramid = new Pyramid(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+        pyramid.setProperty(center_x, center_y, center_z, edge, high);
+        pyramid.drawOutline();
+        pyramid.saveCoordinates();
         apply();
         repaint();
         recentShape = null;
     }
 
-    public void draw3DShapeSphere(SKPoint2D centerPoint, int radius) {
-
+    public void draw3DShapeSphere(double center_x, double center_y, double center_z, int radius) {
+        resetChangedPropertyArray();
+        Sphere sphere = new Sphere(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+        sphere.setProperty(center_x, center_y, center_z, radius);
+        sphere.drawOutline();
+        sphere.saveCoordinates();
         apply();
         repaint();
         recentShape = null;

@@ -43,9 +43,11 @@ public class Cylinder extends Shape3D {
 
         for (int i = 0; i < list1.size(); i++) {
             SKPoint2D p = list1.get(i);
+//            System.out.println("\nbefore: " + p);
             p = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() + half_high).convertViewToMachineCoord();
+//            System.out.println("after: " + p);
             boolean res = savePoint(p.getCoordX(), p.getCoordY());
-            System.out.println("Point " + p + " : " + res);
+//            System.out.println("Point " + p + " : " + res);
         }
 
         ArrayList<SKPoint2D> list2 = LEllipse.getSetOfAllPoints(true);
@@ -56,16 +58,15 @@ public class Cylinder extends Shape3D {
             SKPoint2D p = list2.get(i);
             p = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - half_high).convertViewToMachineCoord();
             boolean res = savePoint(p.getCoordX(), p.getCoordY());
-            System.out.println("Point " + p + " : " + res);
         }
-
-        SKPoint3D ULPoint = new SKPoint3D(centerPoint3D.getCoordX() - radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() + half_high);
-        SKPoint3D URPoint = new SKPoint3D(centerPoint3D.getCoordX() + radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() + half_high);
-        SKPoint3D LLPoint = new SKPoint3D(centerPoint3D.getCoordX() - radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() - half_high);
-        SKPoint3D LRPoint = new SKPoint3D(centerPoint3D.getCoordX() + radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() - half_high);
-
-        drawSegment(ULPoint, LLPoint, SettingConstants.LineStyle.DEFAULT);
-        drawSegment(URPoint, LRPoint, SettingConstants.LineStyle.DEFAULT);
+        
+//        SKPoint3D ULPoint = new SKPoint3D(centerPoint3D.getCoordX() - radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() + half_high);
+//        SKPoint3D URPoint = new SKPoint3D(centerPoint3D.getCoordX() + radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() + half_high);
+//        SKPoint3D LLPoint = new SKPoint3D(centerPoint3D.getCoordX() - radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() - half_high);
+//        SKPoint3D LRPoint = new SKPoint3D(centerPoint3D.getCoordX() + radius, centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() - half_high);
+//
+//        drawSegment(ULPoint, LLPoint, SettingConstants.LineStyle.DEFAULT);
+//        drawSegment(URPoint, LRPoint, SettingConstants.LineStyle.DEFAULT);
     }
 
     @Override

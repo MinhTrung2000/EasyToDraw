@@ -125,9 +125,9 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
                 int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
                 int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
-                int width = getValidInput(textfRectangularWidth) * SettingConstants.RECT_SIZE;
-                int height = getValidInput(textfRectangularHeight) * SettingConstants.RECT_SIZE;
-                int high = getValidInput(textfRectangularHigh) * SettingConstants.RECT_SIZE;
+                int width = getValidInput(textfRectangularWidth);
+                int height = getValidInput(textfRectangularHeight);
+                int high = getValidInput(textfRectangularHigh);
                 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
             } catch (NumberFormatException ex) {
@@ -138,15 +138,13 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 //                int centerPointX = getValidInput(textfCylinderCenterPointCoordX);
 //                int centerPointY = getValidInput(textfCylinderCenterPointCoordY);
 //                int centerPointZ = getValidInput(textfCylinderCenterPointCoordZ);
-//                int radius = getValidInput(textfCylinderRadius) * SettingConstants.RECT_SIZE;
-//                int high = getValidInput(textfCylinderHigh) * SettingConstants.RECT_SIZE;
+//                int radius = getValidInput(textfCylinderRadius);
+//                int high = getValidInput(textfCylinderHigh);
                 int centerPointX = 0;
                 int centerPointY = 0;
                 int centerPointZ = 0;
                 int radius = 10 * SettingConstants.RECT_SIZE;
-//                int radius = 10 ;
                 int high = 20 * SettingConstants.RECT_SIZE;
-//                int high = 20;
                 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
             } catch (NumberFormatException ex) {
@@ -158,9 +156,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int centerPointX = getValidInput(textfPyramidCenterPointCoordX);
                 int centerPointY = getValidInput(textfPyramidCenterPointCoordY);
                 int centerPointZ = getValidInput(textfPyramidCenterPointCoordZ);
-                int bottomEdge = getValidInput(textfPyramidBottomEdge) * SettingConstants.RECT_SIZE;
-                int high = getValidInput(textfPyramidHigh) * SettingConstants.RECT_SIZE;
+                int edge = getValidInput(textfPyramidBottomEdge);
+                int high = getValidInput(textfPyramidHigh);
 
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapePyramid(centerPointX, centerPointY, centerPointZ, edge, high);
             } catch (NumberFormatException ex) {
                 return false;
             }
@@ -170,8 +169,9 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int centerPointX = getValidInput(textfSphereCenterPointCoordX);
                 int centerPointY = getValidInput(textfSphereCenterPointCoordY);
                 int centerPointZ = getValidInput(textfSphereCenterPointCoordZ);
-                int radius = getValidInput(textfSphereRadius) * SettingConstants.RECT_SIZE;
+                int radius = getValidInput(textfSphereRadius);
 
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
             } catch (NumberFormatException ex) {
                 return false;
             }
@@ -193,7 +193,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
             throw ex;
         }
 
-        return ret;
+        return ret * SettingConstants.RECT_SIZE;
     }
 
     private void setRectangularMode() {

@@ -493,7 +493,7 @@ public class MainFrame extends javax.swing.JFrame {
 //                } else {
 //                    animationDialog.setVisible(true);
 //                }
-                   setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });
 
@@ -1862,7 +1862,15 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new MainFrame().setVisible(true);
+                    MainFrame frame = new MainFrame();
+                    frame.setVisible(true);
+
+                    int centerPointX = 10* RECT_SIZE;
+                    int centerPointY = 10* RECT_SIZE;
+                    int centerPointZ = 10* RECT_SIZE;
+                    int radius = 20 * RECT_SIZE;
+
+                    frame.getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
