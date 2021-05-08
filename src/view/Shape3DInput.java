@@ -128,24 +128,19 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int width = getValidInput(textfRectangularWidth);
                 int height = getValidInput(textfRectangularHeight);
                 int high = getValidInput(textfRectangularHigh);
-                
+
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
             } catch (NumberFormatException ex) {
                 return false;
             }
         } else if (btnOptionCylinder.isSelected()) {
             try {
-//                int centerPointX = getValidInput(textfCylinderCenterPointCoordX);
-//                int centerPointY = getValidInput(textfCylinderCenterPointCoordY);
-//                int centerPointZ = getValidInput(textfCylinderCenterPointCoordZ);
-//                int radius = getValidInput(textfCylinderRadius);
-//                int high = getValidInput(textfCylinderHigh);
-                int centerPointX = 0;
-                int centerPointY = 0;
-                int centerPointZ = 0;
-                int radius = 10 * SettingConstants.RECT_SIZE;
-                int high = 20 * SettingConstants.RECT_SIZE;
-                
+                int centerPointX = getValidInput(textfCylinderCenterPointCoordX) * SettingConstants.RECT_SIZE;
+                int centerPointY = getValidInput(textfCylinderCenterPointCoordY) * SettingConstants.RECT_SIZE;
+                int centerPointZ = getValidInput(textfCylinderCenterPointCoordZ) * SettingConstants.RECT_SIZE;
+                int radius = getValidInput(textfCylinderRadius) * SettingConstants.RECT_SIZE;
+                int high = getValidInput(textfCylinderHigh) * SettingConstants.RECT_SIZE;
+
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
             } catch (NumberFormatException ex) {
                 return false;
@@ -166,10 +161,14 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         } else if (btnOptionSphere.isSelected()) {
             try {
-                int centerPointX = getValidInput(textfSphereCenterPointCoordX);
-                int centerPointY = getValidInput(textfSphereCenterPointCoordY);
-                int centerPointZ = getValidInput(textfSphereCenterPointCoordZ);
-                int radius = getValidInput(textfSphereRadius);
+//                int centerPointX = getValidInput(textfSphereCenterPointCoordX) * SettingConstants.RECT_SIZE;
+//                int centerPointY = getValidInput(textfSphereCenterPointCoordY) * SettingConstants.RECT_SIZE;
+//                int centerPointZ = getValidInput(textfSphereCenterPointCoordZ) * SettingConstants.RECT_SIZE;
+//                int radius = getValidInput(textfSphereRadius) * SettingConstants.RECT_SIZE;
+                int centerPointX = 0;
+                int centerPointY = 0;
+                int centerPointZ = 0;
+                int radius = 10 * SettingConstants.RECT_SIZE;
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
             } catch (NumberFormatException ex) {

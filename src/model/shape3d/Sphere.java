@@ -74,7 +74,7 @@ public class Sphere extends Shape3D {
 
         pixelCounter = 0;
 
-        putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY(), true);
+        putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -88,7 +88,7 @@ public class Sphere extends Shape3D {
                 y--;
                 fy -= 2 * a * a;
             }
-            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY(), true);
+            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -101,7 +101,7 @@ public class Sphere extends Shape3D {
             } else {
                 p += a * a * (3 - 2 * y);
             }
-            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY(), true);
+            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
         }
     }
 

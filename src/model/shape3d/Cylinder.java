@@ -5,6 +5,7 @@ import control.myawt.SKPoint2D;
 import control.myawt.SKPoint3D;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Comparator;
 import model.shape2d.Ellipse;
 import model.shape2d.Vector2D;
 
@@ -41,19 +42,22 @@ public class Cylinder extends Shape3D {
     public void drawOutline() {
         double half_high = (int) (high / 2);
 
-        ArrayList<SKPoint2D> list1 = UEllipse.getSetOfAllPoints(true);
-
-        Color cc = new Color(225, 239, 252);
+        ArrayList<SKPoint2D> topPointList = UEllipse.getSetOfAllPoints(true, false);
+        ArrayList<SKPoint2D> bottomPointList = UEllipse.getSetOfAllPoints(false, true);
         
-        for (int k = 0; k < half_high; k++) {
-            if (k < half_high - 1) {
-                setFilledColor(cc);
-            } else {
-                setFilledColor(Color.BLACK);
-            }
+        Color shapeColor = new Color(225, 239, 252);
 
-            for (int i = 0; i < list1.size(); i++) {
-                SKPoint2D p = list1.get(i);
+        setFilledColor(shapeColor);
+        for (int k = 0; k < half_high - 1; k++) {
+            for (int i = 0; i < topPointList.size(); i++) {
+                SKPoint2D p = topPointList.get(i);
+                SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() + k).convertViewToMachineCoord();
+                savePoint(p1.getCoordX(), p1.getCoordY());
+                SKPoint2D p2 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - k).convertViewToMachineCoord();
+                savePoint(p2.getCoordX(), p2.getCoordY());
+            }
+            for (int i = 0; i < bottomPointList.size(); i++) {
+                SKPoint2D p = bottomPointList.get(i);
                 SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() + k).convertViewToMachineCoord();
                 savePoint(p1.getCoordX(), p1.getCoordY());
                 SKPoint2D p2 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - k).convertViewToMachineCoord();
@@ -61,18 +65,42 @@ public class Cylinder extends Shape3D {
             }
         }
 
-//        ArrayList<SKPoint2D> list2 = LEllipse.getSetOfAllPoints(true);
-//
-//        for (int i = 0; i < list2.size(); i++) {
-//            SKPoint2D p = list2.get(i);
-//            p = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - half_high).convertViewToMachineCoord();
-//            savePoint(p.getCoordX(), p.getCoordY());
-//        }
+        setFilledColor(Color.BLACK);
+        for (int i = 0; i < topPointList.size(); i++) {
+            SKPoint2D p = topPointList.get(i);
+            SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() + half_high).convertViewToMachineCoord();
+            savePoint(p1.getCoordX(), p1.getCoordY());
+        }
+        for (int i = 0; i < bottomPointList.size(); i++) {
+            SKPoint2D p = bottomPointList.get(i);
+            SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() + half_high).convertViewToMachineCoord();
+            savePoint(p1.getCoordX(), p1.getCoordY());
+        }
+        topPointList.sort(new Comparator<SKPoint2D>() {
+            @Override
+            public int compare(SKPoint2D o1, SKPoint2D o2) {
+                return (o1.getCoordX() > o2.getCoordX() ? 1 : (o1.getCoordX() == o2.getCoordX() ? 0 : -1));
+            }
+        });
+        for (int i = 0; i < topPointList.size(); i++) {
+            SKPoint2D p = topPointList.get(i);
+            SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - half_high).convertViewToMachineCoord();
+            if (p1.getCoordX() % 3 == 0) {
+                continue;
+            }
+            savePoint(p1.getCoordX(), p1.getCoordY());
+        }
+        for (int i = 0; i < bottomPointList.size(); i++) {
+            SKPoint2D p = bottomPointList.get(i);
+            SKPoint2D p1 = SKPoint3D.get2DRelativePosition(p.getCoordX(), p.getCoordY(), centerPoint3D.getCoordZ() - half_high).convertViewToMachineCoord();
+            savePoint(p1.getCoordX(), p1.getCoordY());
+        }
+
         SKPoint3D ULPoint = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY() - radius, centerPoint3D.getCoordZ() + half_high);
         SKPoint3D URPoint = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY() + radius, centerPoint3D.getCoordZ() + half_high);
         SKPoint3D LLPoint = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY() - radius, centerPoint3D.getCoordZ() - half_high);
         SKPoint3D LRPoint = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY() + radius, centerPoint3D.getCoordZ() - half_high);
-        
+
         drawSegment(ULPoint, LLPoint, SettingConstants.LineStyle.DOT);
         drawSegment(URPoint, LRPoint, SettingConstants.LineStyle.DEFAULT);
     }

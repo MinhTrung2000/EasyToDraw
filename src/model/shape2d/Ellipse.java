@@ -26,7 +26,7 @@ public class Ellipse extends Shape2D {
     public void setModal(Modal modal) {
         this.modal = modal;
     }
-    
+
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
@@ -70,7 +70,7 @@ public class Ellipse extends Shape2D {
      *
      * @param mode2
      */
-    public void drawOutlineEllipse(boolean mode2) {
+    public void drawOutlineEllipse() {
         pointSet.clear();
 
         // Save center point coordination
@@ -85,7 +85,7 @@ public class Ellipse extends Shape2D {
         double fy = 2 * a * a * y;
 
         pixelCounter = 1;
-        putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+        putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -100,7 +100,7 @@ public class Ellipse extends Shape2D {
                 fy -= 2 * a * a;
             }
             pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -114,15 +114,11 @@ public class Ellipse extends Shape2D {
                 p += a * a * (3 - 2 * y);
             }
             pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
         }
     }
 
-    public void drawOutlineEllipse() {
-        drawOutlineEllipse(false);
-    }
-
-    public void drawOutlineCircle(boolean mode2) {
+    public void drawOutlineCircle() {
         pointSet.clear();
 
         // Save center point coordination
@@ -135,7 +131,7 @@ public class Ellipse extends Shape2D {
 
         pixelCounter = 1;
 //        pointSet.add(new SKPoint2D((int) x, (int) y));
-        putEightSymmetricPoints(x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+        putEightSymmetricPoints(x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
 
         double p = 5 / 4.0 - a;
 
@@ -148,12 +144,8 @@ public class Ellipse extends Shape2D {
             }
             x++;
             pixelCounter++;
-            putEightSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+            putEightSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
         }
-    }
-
-    public void drawOutlineCircle() {
-        drawOutlineCircle(false);
     }
 
     @Override
@@ -175,7 +167,7 @@ public class Ellipse extends Shape2D {
         centerPoint2D.move(vector);
     }
 
-    public ArrayList<SKPoint2D> getSetOfAllPoints(boolean mode2) {
+    public ArrayList<SKPoint2D> getSetOfAllPoints(boolean topPart, boolean bottomPart) {
         ArrayList<SKPoint2D> ret = new ArrayList<>();
 
         if (modal == Modal.ELLIPSE) {
@@ -186,7 +178,14 @@ public class Ellipse extends Shape2D {
             double fy = 2 * a * a * y;
 
             pixelCounter = 0;
-            addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+
+            if (topPart) {
+                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
+            }
+            if (bottomPart) {
+                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
+            }
+
             double p = b * b - a * a * b + a * a * 0.25;
 
             while (fx < fy) {
@@ -199,7 +198,12 @@ public class Ellipse extends Shape2D {
                     y--;
                     fy -= 2 * a * a;
                 }
-                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+                if (topPart) {
+                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
+                }
+                if (bottomPart) {
+                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
+                }
             }
 
             p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -212,14 +216,20 @@ public class Ellipse extends Shape2D {
                 } else {
                     p += a * a * (3 - 2 * y);
                 }
-                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+
+                if (topPart) {
+                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
+                }
+                if (bottomPart) {
+                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
+                }
             }
         } else {
             double x = 0;
             double y = a;
 
             pixelCounter = 0;
-            addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+//            addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
             double p = 5 / 4.0 - a;
 
             while (x < y) {
@@ -230,10 +240,15 @@ public class Ellipse extends Shape2D {
                     y--;
                 }
                 x++;
-                addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
+                if (topPart) {
+                    addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, false, true, true, true, true, false, false);
+                }
+                if (bottomPart) {
+                    addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, true, false, false, false, false, true, true);
+                }
             }
         }
-        
+
         return ret;
     }
 }

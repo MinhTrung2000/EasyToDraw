@@ -459,11 +459,9 @@ public abstract class Shape2D {
         if (botRight) {
             savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
         }
-
         if (botLeft) {
             savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
         }
-
     }
 
     /**
@@ -529,32 +527,32 @@ public abstract class Shape2D {
     }
 
     public void putFourSymmetricPoints(int x, int y, int center_x, int center_y) {
-        putFourSymmetricPoints(x, y, center_x, center_y, false);
-    }
-
-    public void putFourSymmetricPoints(int x, int y, int center_x, int center_y, boolean mode2) {
         pixelCounter++;
         savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
-
-        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
-            savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
-        }
+        savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
     }
 
     public void putFourSymmetricPoints(int x, int y, double center_x, double center_y) {
         putFourSymmetricPoints(x, y, (int) center_x, (int) center_y);
     }
 
-    public void addFourSymmetricPoints(ArrayList<SKPoint2D> arr, double x, double y, double center_x, double center_y, boolean mode2) {
+    public void addFourSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+            double y, double center_x, double center_y, boolean topLeft,
+            boolean topRight, boolean botLeft, boolean botRight) {
         pixelCounter++;
-        arr.add(new SKPoint2D(center_x + x, center_y + y));
-        arr.add(new SKPoint2D(center_x - x, center_y + y));
-
-        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
-            arr.add(new SKPoint2D(center_x + x, center_y - y));
+        if (topLeft) {
             arr.add(new SKPoint2D(center_x - x, center_y - y));
+        }
+        if (topRight) {
+            arr.add(new SKPoint2D(center_x + x, center_y - y));
+        }
+        if (botRight) {
+            arr.add(new SKPoint2D(center_x + x, center_y + y));
+        }
+        if (botLeft) {
+            arr.add(new SKPoint2D(center_x - x, center_y + y));
         }
     }
 
@@ -567,37 +565,63 @@ public abstract class Shape2D {
      * @param center_x
      * @param center_y
      */
-    public void putEightSymmetricPoints(double x, double y, double center_x, double center_y, boolean mode2) {
+    public void putEightSymmetricPoints(double x, double y, double center_x, double center_y) {
         pixelCounter++;
         savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
-
-        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
-            savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
-        }
+        savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
     }
 
-    public void putEightSymmetricPoints(double x, double y, double center_x, double center_y) {
-        putEightSymmetricPoints(x, y, center_x, center_y, false);
-    }
-
-    public void addEightSymmetricPoints(ArrayList<SKPoint2D> arr, double x, double y, double center_x, double center_y, boolean mode2) {
+    /**
+     * Pos 1..8 follows counter-clockwise
+     * @param arr
+     * @param x
+     * @param y
+     * @param center_x
+     * @param center_y
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     * @param Pos5
+     * @param Pos6
+     * @param Pos7
+     * @param Pos8 
+     */
+    public void addEightSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+            double y, double center_x, double center_y, boolean Pos1,
+            boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
+            boolean Pos6, boolean Pos7, boolean Pos8) {
         pixelCounter++;
-        arr.add(new SKPoint2D(y + center_x, -x + center_y));
-        arr.add(new SKPoint2D(x + center_x, -y + center_y));
-        arr.add(new SKPoint2D(-y + center_x, x + center_y));
-        arr.add(new SKPoint2D(-x + center_x, y + center_y));
-        
-        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
-            arr.add(new SKPoint2D(y + center_x, x + center_y));
+
+        if (Pos1) {
             arr.add(new SKPoint2D(x + center_x, y + center_y));
+        }
+        if (Pos2) {
+            arr.add(new SKPoint2D(y + center_x, x + center_y));
+        }
+        if (Pos3) {
+            arr.add(new SKPoint2D(y + center_x, -x + center_y));
+        }
+        if (Pos4) {
+            arr.add(new SKPoint2D(x + center_x, -y + center_y));
+        }
+        if (Pos5) {
             arr.add(new SKPoint2D(-x + center_x, -y + center_y));
+        }
+        if (Pos6) {
             arr.add(new SKPoint2D(-y + center_x, -x + center_y));
+        }
+        if (Pos7) {
+            arr.add(new SKPoint2D(-y + center_x, x + center_y));
+        }
+        if (Pos8) {
+            arr.add(new SKPoint2D(-x + center_x, y + center_y));
         }
     }
 
