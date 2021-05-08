@@ -717,4 +717,8 @@ public abstract class Shape2D {
         startPoint2D.scale(k);
         endPoint2D.scale(k);
     }
+
+    public void paint() {
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, this.filledColor);
+    }
 }
