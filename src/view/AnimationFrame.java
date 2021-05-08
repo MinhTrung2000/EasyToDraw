@@ -9,14 +9,24 @@ import control.SettingConstants;
 import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+import javax.swing.Timer;
+import model.shape2d.animation.AppleTree;
+import model.shape2d.animation.Cloud;
 import model.shape2d.animation.Fish;
+import model.shape2d.animation.Ground;
+import model.shape2d.animation.River;
+import model.shape2d.animation.Sun;
 
 /**
  *
  * @author DELL
  */
 public class AnimationFrame extends javax.swing.JFrame {
+
+    private Timer timer;
 
     /**
      * Creates new form AnimationFrame
@@ -28,6 +38,13 @@ public class AnimationFrame extends javax.swing.JFrame {
         getAnimationPanel().setComponent();
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getAnimationPanel().animate();
+            }
+        });
     }
 
     public AnimationPanel getAnimationPanel() {
@@ -76,10 +93,14 @@ public class AnimationFrame extends javax.swing.JFrame {
 
         @Override
         public void paintComponent(Graphics graphic) {
+            System.out.println("view.AnimationFrame.AnimationPanel.paintComponent()");
             super.paintComponents(graphic);
 
-            for (int i = 0; i < heightBoard; i++) {
-                for (int j = 0; j < widthBoard; j++) {
+            graphic.setColor(Color.WHITE);
+            graphic.fillRect(0, 0, this.getWidth(), this.getHeight());
+
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
                     if (markedChangeOfBoard[i][j] == true) {
                         graphic.setColor(changedColorOfBoard[i][j]);
                     } else {
@@ -96,41 +117,102 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void animate() {
+            resetSavedPropertyArray();
+            resetChangedPropertyArray();
+
             Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            SKPoint2D startP = new SKPoint2D(50, 30);
-            SKPoint2D endP = new SKPoint2D(70, 70);
 
-            SKPoint2D startP_Volcano = new SKPoint2D(80, 45);
-            SKPoint2D endP_Volcano = new SKPoint2D(40, 105);
+            SKPoint2D startPoint = new SKPoint2D(50, 30);
+            SKPoint2D endPoint = new SKPoint2D(70, 70);
 
-            SKPoint2D startP_Cloud = new SKPoint2D(35, 30);
+            SKPoint2D startPointVolcano = new SKPoint2D(80, 45);
+            SKPoint2D endPointVolcano = new SKPoint2D(40, 105);
+            SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -25);
 
-            SKPoint2D startP_Ground = new SKPoint2D(0, 25);
-            SKPoint2D startP_Smoke = new SKPoint2D(startP_Volcano, 15, -25);
-            SKPoint2D startP_Sun = new SKPoint2D(startP_Volcano, -50, -30);
-            SKPoint2D startP_Tree = new SKPoint2D(startP_Volcano, -30, 20);
-            SKPoint2D startP_Fish1 = new SKPoint2D(startP_Volcano, 50, 50);
-            SKPoint2D startP_Fish2 = new SKPoint2D(startP_Volcano, -30, 42);
+            /* APPLE TREE */
+//            SKPoint2D startPointTree = new SKPoint2D(startPointVolcano, -30, 20);
+//            AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+//            tree.drawAppleTree(startPointTree);
+//            tree.paintAppleTree(startPointTree);
+//            tree.paintApple();
 
-            fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            fish.drawFish1(startP_Fish1, new SKPoint2D(0, 0));
-            fish.drawFish2(startP_Fish2, new SKPoint2D(0, 0));
-            fish.paintFish1(startP_Fish1, new SKPoint2D(0, 0));
-            fish.paintFish2(startP_Fish2, new SKPoint2D(0, 0));
+            /* SUN */
+//            SKPoint2D startPointSun = new SKPoint2D(startPointVolcano, -50, -30);
+//            Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+//            sun.drawSun(startPointSun);
+//            sun.paintSun(startPointSun);
+
+            /* GROUND */
+            SKPoint2D startPointGround = new SKPoint2D(0, 56);
+            Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            ground.drawGround(startPointGround);
+            ground.paintGround(startPointGround);
+            ground.drawAndPaintFlowers();
+
+            /* RIVER */
+            River river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            river.drawRiver(new SKPoint2D(startPointGround, 0, 26));
+            river.paintRiver(new SKPoint2D(startPointGround, 0, 26));
+
+            /* CLOUD */
+//            SKPoint2D startPointCloud = new SKPoint2D(35, 30);
+//            Cloud cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+//            cloud.drawCloud(startPointCloud);
+
+            /* FISH1, FISH2*/
+//            SKPoint2D startPointFish1 = new SKPoint2D(startPointVolcano, 50, 50);
+//            SKPoint2D startPointFish2 = new SKPoint2D(startPointVolcano, -30, 42);
+//            fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+//            fish.drawFish1(startPointFish1, new SKPoint2D(0, 0));
+//            fish.paintFish1(startPointFish1, new SKPoint2D(0, 0));
+//            fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
+//            fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
 
             mergeColorValue();
-            repaint();
+            this.repaint();
+            timer.stop();
         }
 
         private void mergeColorValue() {
-            for (int i = 0; i < heightBoard; i++) {
-                for (int j = 0; j < widthBoard; j++) {
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
                     if (markedChangeOfBoard[i][j] == true) {
                         colorOfBoard[i][j] = new Color(changedColorOfBoard[i][j].getRGB());
                     }
                 }
             }
         }
+
+        public void resetSavedPropertyArray() {
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
+                    colorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
+                    coordOfBoard[i][j] = null;
+                }
+            }
+        }
+
+        public void resetChangedPropertyArray() {
+            for (int i = 0; i < this.heightBoard; i++) {
+                for (int j = 0; j < this.widthBoard; j++) {
+                    markedChangeOfBoard[i][j] = false;
+                    changedColorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
+                    changedCoordOfBoard[i][j] = null;
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+        timer.start();
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose(); //To change body of generated methods, choose Tools | Templates.
+        timer.stop();
     }
 
     /**
@@ -167,8 +249,6 @@ public class AnimationFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-
-        animationPanel.getAccessibleContext().setAccessibleParent(animationPanel);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

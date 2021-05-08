@@ -492,7 +492,6 @@ public class MainFrame extends javax.swing.JFrame {
                     animationFrame.requestFocus();
                 } else {
                     animationFrame.setVisible(true);
-                    animationFrame.getAnimationPanel().animate();
                 }
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
