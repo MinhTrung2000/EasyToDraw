@@ -29,6 +29,7 @@ import model.shape2d.animation.Volcano;
 public class AnimationFrame extends javax.swing.JFrame {
 
     private Timer timer;
+    private int timeUnit = 0;
 
     /**
      * Creates new form AnimationFrame
@@ -64,6 +65,29 @@ public class AnimationFrame extends javax.swing.JFrame {
         private String[][] changedCoordOfBoard;
         private boolean[][] markedChangeOfBoard;
 
+        /* Animation objects */
+        private Sun sun;
+        private Cloud cloud;
+        private Volcano volcano;
+        private Smoke smoke;
+        private Ground ground;
+        private AppleTree tree;
+        private River river;
+        private Fish fish;
+
+        /* Object intial position */
+        private SKPoint2D startPointSun = new SKPoint2D(70, 10);
+        private SKPoint2D startPointCloud1 = new SKPoint2D(70, 30);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(90, 20);
+        private SKPoint2D startPointVolcano = new SKPoint2D(80, 45);
+        private SKPoint2D endPointVolcano = new SKPoint2D(40, 105);
+        private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -25);
+        private SKPoint2D startPointGround = new SKPoint2D(0, 56);
+        private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
+        private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 10, 40);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 80, 40);
+
         public AnimationPanel() {
         }
 
@@ -91,6 +115,17 @@ public class AnimationFrame extends javax.swing.JFrame {
                     changedCoordOfBoard[i][j] = null;
                 }
             }
+
+            sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            sun.setProperty(startPointSun);
+            
+            cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
         }
 
         @Override
@@ -117,66 +152,49 @@ public class AnimationFrame extends javax.swing.JFrame {
             }
         }
 
+        public void setAnimationObject() {
+
+        }
+
         public void animate() {
             resetSavedPropertyArray();
             resetChangedPropertyArray();
-
-            Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
 
             SKPoint2D startPoint = new SKPoint2D(50, 30);
             SKPoint2D endPoint = new SKPoint2D(70, 70);
 
             /* VOLCANO */
-            SKPoint2D startPointVolcano = new SKPoint2D(80, 45);
-            SKPoint2D endPointVolcano = new SKPoint2D(40, 105);
-            SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -25);
-//            Volcano volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-//            Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
 //            smoke.drawSmoke(startPointSmoke);
 //            volcano.drawVolcano(startPointVolcano, endPointVolcano);
 //            volcano.paintVolcano(startPointVolcano);
 
             /* SUN */
-            SKPoint2D startPointSun = new SKPoint2D(70, 10);
-            Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            sun.drawSun(startPointSun);
-            sun.paintSun(startPointSun);
+            sun.drawSun();
 
             /* GROUND */
-            SKPoint2D startPointGround = new SKPoint2D(0, 56);
-            Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             ground.drawGround(startPointGround);
             ground.paintGround(startPointGround);
             ground.drawAndPaintFlowers();
 
             /* APPLE TREE */
-            SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
-            AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             tree.drawAppleTree(startPointTree);
             tree.paintAppleTree(startPointTree);
             tree.paintApple();
 
             /* RIVER */
-            SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-            River river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             river.drawRiver(startPointRiver);
             river.paintRiver(startPointRiver);
 
             /* CLOUD */
-            SKPoint2D startPointCloud = new SKPoint2D(70, 30);
-            Cloud cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            cloud.drawCloud(startPointCloud);
-            cloud.drawCloud(new SKPoint2D(90, 20));
+            cloud.drawCloud(startPointCloud1);
+            cloud.drawCloud(startPointCloud2);
 
             /* FISH1, FISH2*/
-            SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 10, 40);
-            SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 80, 40);
-            fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             fish.drawFish1(startPointFish1, new SKPoint2D(0, 0));
             fish.paintFish1(startPointFish1, new SKPoint2D(0, 0));
             fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
             fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
-            
+
             mergeColorValue();
             this.repaint();
             timer.stop();
@@ -276,16 +294,24 @@ public class AnimationFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AnimationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AnimationFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AnimationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AnimationFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AnimationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AnimationFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AnimationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AnimationFrame.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
