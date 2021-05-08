@@ -39,7 +39,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
 
-        timer = new Timer(1000, new ActionListener() {
+        timer = new Timer(0, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getAnimationPanel().animate();
@@ -93,7 +93,6 @@ public class AnimationFrame extends javax.swing.JFrame {
 
         @Override
         public void paintComponent(Graphics graphic) {
-            System.out.println("view.AnimationFrame.AnimationPanel.paintComponent()");
             super.paintComponents(graphic);
 
             graphic.setColor(Color.WHITE);
