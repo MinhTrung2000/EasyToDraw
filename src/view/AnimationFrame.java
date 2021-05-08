@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import model.shape2d.Vector2D;
 import model.shape2d.animation.AppleTree;
 import model.shape2d.animation.Cloud;
 import model.shape2d.animation.Fish;
@@ -67,7 +68,8 @@ public class AnimationFrame extends javax.swing.JFrame {
 
         /* Animation objects */
         private Sun sun;
-        private Cloud cloud;
+        private Cloud cloud1;
+        private Cloud cloud2;
         private Volcano volcano;
         private Smoke smoke;
         private Ground ground;
@@ -119,7 +121,11 @@ public class AnimationFrame extends javax.swing.JFrame {
             sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             sun.setProperty(startPointSun);
 
-            cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            cloud1 = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            cloud1.setProperty(startPointCloud1);
+            cloud2 = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            cloud2.setProperty(startPointCloud2);
+            
             volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
@@ -166,15 +172,15 @@ public class AnimationFrame extends javax.swing.JFrame {
             sun.drawSunLight();
 
             /* CLOUD */
-            cloud.drawCloud(startPointCloud1);
-            cloud.drawCloud(startPointCloud2);
+            cloud1.drawCloud();
+            cloud2.drawCloud();
 
             /* GROUND */
             ground.drawGround(startPointGround);
             ground.paintGround(startPointGround);
             ground.drawAndPaintFlowers();
 
-            /* APPLE TREsE */
+            /* APPLE TREE */
             tree.drawAppleTree(startPointTree);
             tree.paintAppleTree(startPointTree);
             tree.paintApple();

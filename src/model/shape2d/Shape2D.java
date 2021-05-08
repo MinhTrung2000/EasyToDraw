@@ -377,6 +377,97 @@ public abstract class Shape2D {
         }
     }
 
+    /**
+     * Merge point set of shape without drawing.
+     *
+     * @param array
+     * @param centerPoint
+     * @param radius
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     * @param Pos5
+     * @param Pos6
+     * @param Pos7
+     * @param Pos8
+     */
+    public static void mergePointSetCircle(ArrayList<SKPoint2D> array,
+            SKPoint2D centerPoint, double radius, boolean Pos1, boolean Pos2,
+            boolean Pos3, boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7,
+            boolean Pos8) {
+        int x = 0;
+        int y = (int) radius;
+
+        array.add(new SKPoint2D(x, y));
+        addEightSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+
+        double p = 5 / 4.0 - radius;
+
+        while (x < y) {
+            if (p < 0) {
+                p += 2 * x + 3;
+            } else {
+                p += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+            addEightSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+        }
+    }
+
+    /**
+     * Merge point set of shape without drawing.
+     *
+     * @param array
+     * @param centerPoint
+     * @param radius
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     */
+    public static void mergePointSetEllipse(ArrayList<SKPoint2D> array,
+            SKPoint2D centerPoint, double a, double b, boolean topLeft,
+            boolean topRight, boolean botLeft, boolean botRight) {
+        // Save center point coordination
+        double x = 0.0;
+        double y = b;
+
+        double fx = 0;
+        double fy = 2 * a * a * y;
+
+        addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+
+        double p = b * b - a * a * b + a * a * 0.25;
+
+        while (fx < fy) {
+            x++;
+            fx += 2 * b * b;
+            if (p < 0) {
+                p += b * b * (2 * x + 3);
+            } else {
+                p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
+                y--;
+                fy -= 2 * a * a;
+            }
+            addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+        }
+
+        p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
+
+        while (y >= 0) {
+            y--;
+            if (p < 0) {
+                p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
+                x++;
+            } else {
+                p += a * a * (3 - 2 * y);
+            }
+            addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+        }
+    }
+
     public void putSymmetricPoints_Circle(double x, double y, double center_x, double center_y, boolean Pos1, boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
             boolean Pos6, boolean Pos7, boolean Pos8) {
         if (Pos4) {
@@ -538,10 +629,10 @@ public abstract class Shape2D {
         putFourSymmetricPoints(x, y, (int) center_x, (int) center_y);
     }
 
-    public void addFourSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+    public static void addFourSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
             double y, double center_x, double center_y, boolean topLeft,
             boolean topRight, boolean botLeft, boolean botRight) {
-        pixelCounter++;
+//        pixelCounter++;
         if (topLeft) {
             arr.add(new SKPoint2D(center_x - x, center_y - y));
         }
@@ -579,6 +670,7 @@ public abstract class Shape2D {
 
     /**
      * Pos 1..8 follows counter-clockwise
+     *
      * @param arr
      * @param x
      * @param y
@@ -591,13 +683,13 @@ public abstract class Shape2D {
      * @param Pos5
      * @param Pos6
      * @param Pos7
-     * @param Pos8 
+     * @param Pos8
      */
-    public void addEightSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+    public static void addEightSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
             double y, double center_x, double center_y, boolean Pos1,
             boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
             boolean Pos6, boolean Pos7, boolean Pos8) {
-        pixelCounter++;
+//        pixelCounter++;
 
         if (Pos1) {
             arr.add(new SKPoint2D(x + center_x, y + center_y));

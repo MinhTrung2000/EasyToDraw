@@ -29,14 +29,13 @@ public class Segment2D extends Shape2D {
         } else {
             int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
             int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
-            
+
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
 
             int heightDirection = this.getHeightDirection(height);
             int widthDirection = this.getWidthDirection(width);
             int preferedLength = this.getPreferredLength(width, height);
-
 
             this.startPoint2D = startPoint;
 
@@ -105,5 +104,71 @@ public class Segment2D extends Shape2D {
         result.move(vec_a_b.scale(r.getCoordX()));
 
         return result;
+    }
+
+    /**
+     * Get set of points without drawing.
+     *
+     * @param startPoint
+     * @param endPoint
+     * @return
+     */
+    public static void mergePointSet(ArrayList<SKPoint2D> array, SKPoint2D startPoint, SKPoint2D endPoint) {
+        array.add(startPoint);
+
+        int dx = 0, dy = 0;
+        int incx = 0, incy = 0;
+        int balance = 0;
+
+        if (endPoint.getCoordX() >= startPoint.getCoordX()) {
+            dx = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+            incx = 1;
+        } else {
+            dx = (int) (startPoint.getCoordX() - endPoint.getCoordX());
+            incx = -1;
+        }
+
+        if (endPoint.getCoordY() >= startPoint.getCoordY()) {
+            dy = (int) (endPoint.getCoordY() - startPoint.getCoordY());
+            incy = 1;
+        } else {
+            dy = (int) (startPoint.getCoordY() - endPoint.getCoordY());
+            incy = -1;
+        }
+
+        int x = (int) startPoint.getCoordX();
+        int y = (int) startPoint.getCoordY();
+
+        if (dx >= dy) {
+            dy <<= 1;
+            balance = dy - dx;
+            dx <<= 1;
+
+            while (x != (int) endPoint.getCoordX()) {
+                array.add(new SKPoint2D(x, y));
+                if (balance >= 0) {
+                    y += incy;
+                    balance -= dx;
+                }
+                balance += dy;
+                x += incx;
+            }
+            array.add(new SKPoint2D(x, y));
+        } else {
+            dx <<= 1;
+            balance = dx - dy;
+            dy <<= 1;
+
+            while (y != (int) endPoint.getCoordY()) {
+                array.add(new SKPoint2D(x, y));
+                if (balance >= 0) {
+                    x += incx;
+                    balance -= dy;
+                }
+                balance += dx;
+                y += incy;
+            }
+            array.add(new SKPoint2D(x, y));
+        }
     }
 }
