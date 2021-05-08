@@ -48,7 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private SettingConstants.DrawingToolMode saved3DShapeMode;
 
-    private AnimationDialog animationDialog = new AnimationDialog(this, true);
+    private AnimationFrame animationFrame = new AnimationFrame(this);
     private Shape3DInput shape3DInputDialog = new Shape3DInput(this);
 
     /**
@@ -488,11 +488,13 @@ public class MainFrame extends javax.swing.JFrame {
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-//                if (animationDialog.isShowing()) {
-//                    animationDialog.requestFocus();
-//                } else {
-//                    animationDialog.setVisible(true);
-//                }
+                if (animationFrame.isShowing()) {
+                    animationFrame.requestFocus();
+                } else {
+                    animationFrame.getAnimationPanel().animate();
+                    animationFrame.getAnimationPanel().repaint();
+                    animationFrame.setVisible(true);
+                }
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });

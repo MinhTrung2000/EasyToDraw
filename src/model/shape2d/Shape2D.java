@@ -453,7 +453,6 @@ public abstract class Shape2D {
         if (topLeft) {
             savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
         }
-
         if (topRight) {
             savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
         }
