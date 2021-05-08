@@ -23,6 +23,10 @@ public class Ellipse extends Shape2D {
         modal = Modal.ELLIPSE;
     }
 
+    public void setModal(Modal modal) {
+        this.modal = modal;
+    }
+    
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
@@ -215,7 +219,6 @@ public class Ellipse extends Shape2D {
             double y = a;
 
             pixelCounter = 0;
-//            pointSet.add(new SKPoint2D((int) x, (int) y));
             addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
             double p = 5 / 4.0 - a;
 

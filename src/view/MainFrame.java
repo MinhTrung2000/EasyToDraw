@@ -1865,6 +1865,17 @@ public class MainFrame extends javax.swing.JFrame {
                 try {
                     MainFrame frame = new MainFrame();
                     frame.setVisible(true);
+
+                    frame.getDrawingPanel().setCoordinateMode(CoordinateMode.MODE_3D);
+                    
+                    int centerPointX = 0;
+                    int centerPointY = 0;
+                    int centerPointZ = 0;
+                    int radius = 20 * SettingConstants.RECT_SIZE;
+                    int high = 30 * SettingConstants.RECT_SIZE;
+
+                    frame.getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
+
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

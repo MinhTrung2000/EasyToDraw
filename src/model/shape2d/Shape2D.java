@@ -537,7 +537,7 @@ public abstract class Shape2D {
         savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
 
-        if (!mode2 || pixelCounter % 2 == 0) {
+        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
             savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
             savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
         }
@@ -552,7 +552,7 @@ public abstract class Shape2D {
         arr.add(new SKPoint2D(center_x + x, center_y + y));
         arr.add(new SKPoint2D(center_x - x, center_y + y));
 
-        if (mode2 && pixelCounter % 2 == 0) {
+        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
             arr.add(new SKPoint2D(center_x + x, center_y - y));
             arr.add(new SKPoint2D(center_x - x, center_y - y));
         }
@@ -574,7 +574,7 @@ public abstract class Shape2D {
         savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
 
-        if (!mode2 || pixelCounter % 2 == 0) {
+        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
             savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
             savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
             savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
@@ -593,7 +593,7 @@ public abstract class Shape2D {
         arr.add(new SKPoint2D(-y + center_x, x + center_y));
         arr.add(new SKPoint2D(-x + center_x, y + center_y));
         
-        if (!mode2 || pixelCounter % 2 == 0) {
+        if (!mode2 || (mode2 && pixelCounter % 2 == 0)) {
             arr.add(new SKPoint2D(y + center_x, x + center_y));
             arr.add(new SKPoint2D(x + center_x, y + center_y));
             arr.add(new SKPoint2D(-x + center_x, -y + center_y));
