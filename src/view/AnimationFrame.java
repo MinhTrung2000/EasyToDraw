@@ -9,9 +9,6 @@ import control.SettingConstants;
 import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Toolkit;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
 import model.shape2d.animation.Fish;
 
@@ -27,8 +24,8 @@ public class AnimationFrame extends javax.swing.JFrame {
     public AnimationFrame(java.awt.Frame parent) {
         initComponents();
 
+        setResizable(false);
         getAnimationPanel().setComponent();
-
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
     }
@@ -52,8 +49,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void setComponent() {
-            widthBoard = this.getWidth();
-            heightBoard = this.getHeight();
+            widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
+            heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
             this.colorOfBoard = new Color[heightBoard][widthBoard];
             this.coordOfBoard = new String[heightBoard][widthBoard];
@@ -75,15 +72,14 @@ public class AnimationFrame extends javax.swing.JFrame {
                     changedCoordOfBoard[i][j] = null;
                 }
             }
-
         }
 
         @Override
         public void paintComponent(Graphics graphic) {
             super.paintComponents(graphic);
 
-            for (int i = 0; i < heightBoard / SettingConstants.RECT_SIZE; i++) {
-                for (int j = 0; j < this.heightBoard / SettingConstants.RECT_SIZE; j++) {
+            for (int i = 0; i < heightBoard; i++) {
+                for (int j = 0; j < widthBoard; j++) {
                     if (markedChangeOfBoard[i][j] == true) {
                         graphic.setColor(changedColorOfBoard[i][j]);
                     } else {
@@ -127,8 +123,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         private void mergeColorValue() {
-            for (int i = 0; i < this.getHeight() / SettingConstants.RECT_SIZE; i++) {
-                for (int j = 0; j < this.getWidth() / SettingConstants.RECT_SIZE; j++) {
+            for (int i = 0; i < heightBoard; i++) {
+                for (int j = 0; j < widthBoard; j++) {
                     if (markedChangeOfBoard[i][j] == true) {
                         colorOfBoard[i][j] = new Color(changedColorOfBoard[i][j].getRGB());
                     }
@@ -171,6 +167,8 @@ public class AnimationFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        animationPanel.getAccessibleContext().setAccessibleParent(animationPanel);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
