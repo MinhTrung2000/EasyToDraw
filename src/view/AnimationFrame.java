@@ -9,6 +9,7 @@ import control.SettingConstants;
 import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JPanel;
@@ -78,7 +79,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         @Override
-        public void paintComponents(Graphics graphic) {
+        public void paintComponent(Graphics graphic) {
             super.paintComponents(graphic);
 
             for (int i = 0; i < heightBoard / SettingConstants.RECT_SIZE; i++) {
