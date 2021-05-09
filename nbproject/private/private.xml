@@ -22,7 +22,10 @@
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Shape3DInput.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape3d/Shape3D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Shape2D.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/SKPoint2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Rotation2DInput.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/ComplexShape.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/AnimationFrame.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/AppleTree.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/nbproject/private/private.xml</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/DrawingPanel.java</file>

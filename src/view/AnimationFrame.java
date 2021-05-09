@@ -87,8 +87,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointGround = new SKPoint2D(0, 56);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
         private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 10, 40);
-        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 80, 40);
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 20, 40);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 40);
 
         public AnimationPanel() {
         }
@@ -190,8 +190,9 @@ public class AnimationFrame extends javax.swing.JFrame {
             river.paintRiver(startPointRiver);
 
             /* FISH1, FISH2*/
-            fish.drawFish1(startPointFish1, new SKPoint2D(0, 0));
-            fish.paintFish1(startPointFish1, new SKPoint2D(0, 0));
+            fish.setPropertyFish1(startPointFish1);
+            fish.drawFish1();
+            fish.paintFish1();
             fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
             fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
 
