@@ -8,7 +8,6 @@ package model.shape2d.animation;
 import control.util.Ultility;
 import java.awt.Color;
 import control.myawt.SKPoint2D;
-import java.awt.geom.Ellipse2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
@@ -18,139 +17,260 @@ import model.shape2d.Vector2D;
  */
 public class Fish extends Shape2D {
 
-    SKPoint2D savedPoint = new SKPoint2D();
-
+//    //hướng của cá 1
+//    int widthDirection1 = 1;
+//    //hướng của cá 2
+    
     /* FISH 1 */
     /**
      * Chiều dài đuôi
      */
-    private int tailWidth1 = 10;
+    public static final int TAIL_WIDTH_1 = 10;
 
     /**
      * Chiều rộng đuôi tính từ truc doi xung
      */
-    private int tailHeight1 = 6;
+    public static final int TAIL_HEIGHT_1 = 6;
 
-    private int botFinWidth1 = 10;
-    private int botFinHeight1 = 2;
+    public static final int BOTTOM_FIN_WIDTH_1 = 10;
+    public static final int BOTTOM_FIN_HEIGHT_1 = 2;
 
-    private int topFinWidth1 = 7;
-    private int topFinHeight1 = 2;
+    public static final int TOP_FIN_WIDTH_1 = 7;
+    public static final int TOP_FIN_HEIGHT_1 = 2;
 
     /**
      * Bán kính lớn ellipse thân cá
      */
-    private int radius_BodyF1X = 15;
+    public static final int RADIUS_BODY_F1_X = 15;
     /**
      * Bán kính nhỏ ellipse thân cá
      */
-    private int radius_BodyF1Y = 7;
+    public static final int RADIUS_BODY_F1_Y = 7;
     /**
      * Bán kính lớn ellipse thân cá
      */
-    private int radius_HeadF1X = 5;
+    public static final int RADIUS_HEAD_F1_X = 5;
     /**
      * chiều rộng phần đầu
      */
-    private int radius_HeadF1Y = 5;
+    public static final int RADIUS_HEAD_F1_Y = 5;
 
     //-------------Fish 2---------------
     //chiều dài và rộng thân hình
-    private int radius_BodyF2X = 20;
-    private int radius_BodyF2Y = 6;
+    public static final int RADIUS_BODY_F2_X = 20;
+    public static final int RADIUS_BODY_F2_Y = 6;
 
     // khoảng cách (X) từ startPoint2D tới tâm của vây trên thân
-    private int distance_FinF2X = 13;
+    public static final int DISTANCE_FIN_F2_X = 13;
 
     // dài và rộng của vây trên thân
-    private int radius_FinF2X = 4;
-    private int radius_FinF2Y = 2;
+    public static final int RADIUS_FIN_F2_X = 4;
+    public static final int RADIUS_FIN_F2_Y = 2;
 
     // dài rộng của vân cá trên thân
-    private int skinShape_F2X = 1;
-    private int skinShape_F2Y = 3;
+    public static final int SKIN_SHAPE_F2_X = 1;
+    public static final int SKIN_SHAPE_F2_Y = 3;
 
-    private int topFinHeight2 = 4;
-    private int topFinWidth2 = 20;
+    public static final int TOP_FIN_HEIGHT_2 = 4;
+    public static final int TOP_FIN_WIDTH_2 = 20;
 
-    private int botFinHeight2 = 3;
-    private int botFinWidth2 = 14;
+    public static final int BOTTOM_FIN_HEIGHT_2 = 3;
+    public static final int BOTTOM_FIN_WIDTH_2 = 14;
 
-    private int tailWidth2 = 10;
-    private int tailHeight2 = 8;
+    public static final int TAIL_WIDTH_2 = 10;
+    public static final int TAIL_HEIGHT_2 = 8;
+
+    private SKPoint2D savedPoint = new SKPoint2D();
+
+    private SKPoint2D startPointFish1 = new SKPoint2D();
+    private SKPoint2D startPointFish2 = new SKPoint2D();
+
+    private SKPoint2D thanCa1_centerP = new SKPoint2D();
+    private SKPoint2D dauCa1_CenterP = new SKPoint2D();
+
+    /*
+        Danh sách màu.
+     */
+    public static final Color MAU_MIENG_CA = new Color(180, 61, 59);
+    public static final Color MAU_DA_CA = new Color(242, 236, 171);
+    public static final Color MAU_VAN_DUOI_CA = new Color(254, 147, 31);
+
+    /*
+        Chỉ số 1 là dịch Y, chỉ số 2 là dịch X!
+     */
+    public static final int[] FISH_MOUTH_ADJUSTMENT_PIXEL_1 = {1, 1};
+    public static final int[] FISH_MOUTH_ADJUSTMENT_PIXEL_2 = {1, 2};
+    public static final int[] FISH_MOUTH_ADJUSTMENT_PIXEL_3 = {0, 3};
+
+    private SKPoint2D duoi1_StartP = new SKPoint2D();
+    private SKPoint2D duoiTren1_EndP = new SKPoint2D();
+    private SKPoint2D duoiDuoi1_EndP = new SKPoint2D();
+    private SKPoint2D tailEdge1_CenterP = new SKPoint2D();
+
+    /**
+     * Độ lệch tạo thành hình bình hành của vây cá
+     */
+    public static final int LECH_TREN_1 = 3;
+    public static final int LECH_DUOI_1 = 3;
+
+    private SKPoint2D vayTren1_StartP = new SKPoint2D();
+    private SKPoint2D vayTren1_P2 = new SKPoint2D();
+    private SKPoint2D vayTren1_P3 = new SKPoint2D();
+    private SKPoint2D vayTren1_EndP = new SKPoint2D();
+
+    private SKPoint2D vayDuoi1_StartP = new SKPoint2D();
+    private SKPoint2D vayDuoi1_P2 = new SKPoint2D();
+    private SKPoint2D vayDuoi1_P3 = new SKPoint2D();
+    private SKPoint2D vayDuoi1_EndP = new SKPoint2D();
+
+    private SKPoint2D skinShape1_Start = new SKPoint2D();
+
+    private SKPoint2D headPosToPaint = new SKPoint2D();
+    private SKPoint2D bodyPosToPaint = new SKPoint2D();
+    private SKPoint2D topFinPosToPaint = new SKPoint2D();
+    private SKPoint2D botFinPosToPaint = new SKPoint2D();
+    private SKPoint2D tailPosToPaint = new SKPoint2D();
+
+    /*
+        Các điểm mắt theo thứ tự sau:
+        | diemMat00 | diemMat01 |  
+        | diemMat10 | diemMat11 |  
+     */
+    private SKPoint2D diemMat00 = new SKPoint2D();
+    private SKPoint2D diemMat01 = new SKPoint2D();
+    private SKPoint2D diemMat10 = new SKPoint2D();
+    private SKPoint2D diemMat11 = new SKPoint2D();
+
+    /*
+        Ba điểm miệng.
+     */
+    private SKPoint2D diemMieng1 = new SKPoint2D();
+    private SKPoint2D diemMieng2 = new SKPoint2D();
+    private SKPoint2D diemMieng3 = new SKPoint2D();
 
     public Fish(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
-    public void drawFish1(SKPoint2D startPoint, SKPoint2D endPoint) {
+    public void setPropertyFish1(SKPoint2D startPoint1) {
+        this.startPointFish1 = startPoint1;
 
+        thanCa1_centerP.setLocation(startPointFish1, RADIUS_BODY_F1_X, 0);
+        dauCa1_CenterP.setLocation(startPointFish1, RADIUS_HEAD_F1_X, 0);
+        duoi1_StartP.setLocation(startPointFish1, RADIUS_BODY_F1_X * 2, -1);
+        duoiTren1_EndP.setLocation(duoi1_StartP, TAIL_WIDTH_1, -TAIL_HEIGHT_1);
+        duoiDuoi1_EndP.setLocation(duoi1_StartP, TAIL_WIDTH_1, TAIL_HEIGHT_1);
+        tailEdge1_CenterP.setLocation(duoi1_StartP, TAIL_WIDTH_1, 0);
+
+        savedPoint.setLocation(tailEdge1_CenterP);
+
+        //điểm bắt đầu là góc dưới, bên trái hình bình hành
+        vayTren1_StartP.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 2, -RADIUS_BODY_F1_Y);
+        //góc trên bên trái
+        vayTren1_P2.setLocation(vayTren1_StartP, LECH_TREN_1, -TOP_FIN_HEIGHT_1);
+        //góc trên bên phải
+        vayTren1_P3.setLocation(vayTren1_StartP, TOP_FIN_WIDTH_1, -TOP_FIN_HEIGHT_1);
+        //góc dưới bên phải
+        vayTren1_EndP.setLocation(vayTren1_StartP, TOP_FIN_WIDTH_1 - LECH_TREN_1, 0);
+
+        //góc trên bên trái
+        vayDuoi1_StartP.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 2, RADIUS_BODY_F1_Y);
+        //góc dưới bên trái
+        vayDuoi1_P2.setLocation(vayDuoi1_StartP, LECH_DUOI_1, BOTTOM_FIN_HEIGHT_1);
+        //góc dưới bên phải
+        vayDuoi1_P3.setLocation(vayDuoi1_StartP, BOTTOM_FIN_WIDTH_1, BOTTOM_FIN_HEIGHT_1);
+        //góc trên bên phải
+        vayDuoi1_EndP.setLocation(vayDuoi1_StartP, BOTTOM_FIN_WIDTH_1 - LECH_DUOI_1, 0);
+
+        skinShape1_Start.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 3, 0);
+
+        // Set các điểm để paint
+        headPosToPaint.setLocation(startPointFish1, 2, 0);
+        bodyPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 1, 0);
+        topFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 5, -RADIUS_BODY_F1_Y - 1);
+        botFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * 2 + 5, RADIUS_BODY_F1_Y + 1);
+        tailPosToPaint.setLocation(startPointFish1, RADIUS_BODY_F1_X * 2 + 1, -1);
+
+        // Set cac diem mat
+        // Note: chỉ cần xét tọa độ cho điểm diemMat00
+        diemMat00.setLocation(startPointFish1.getCoordX() + RADIUS_HEAD_F1_X, startPointFish1.getCoordY() - 2);
+        diemMat01.setLocation(diemMat00.getCoordX() + 1, diemMat00.getCoordY());
+        diemMat10.setLocation(diemMat00.getCoordX(), diemMat00.getCoordY() + 1);
+        diemMat11.setLocation(diemMat01.getCoordX(), diemMat10.getCoordY());
+    }
+
+    public void drawFish1() {
         /* Vẽ thân hình ellipse */
-        // Tâm ellipse
-        SKPoint2D than_CenterP = new SKPoint2D(startPoint, radius_BodyF1X, 0);
-        this.drawOutlineEllipse(radius_BodyF1X, radius_BodyF1Y, than_CenterP, true, true, true, true);
+        this.drawOutlineEllipse(RADIUS_BODY_F1_X, RADIUS_BODY_F1_Y, thanCa1_centerP, true, true, true, true);
 
         /* Vẽ đầu hình ellipse */
-        SKPoint2D dau_CenterP = new SKPoint2D(startPoint, radius_HeadF1X, 0);
-        this.drawOutlineEllipse(radius_HeadF1X, radius_HeadF1Y, dau_CenterP, false, true, false, true);
+        this.drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, false, true, false, true);
 
         /* Vẽ các điểm ở miệng */
-        markedChangeOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 1] = true;
-        changedColorOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 1] = new Color(180, 61, 59);
+        diemMieng1.setLocation(startPointFish1.getCoordX() + FISH_MOUTH_ADJUSTMENT_PIXEL_1[1], startPointFish1.getCoordY() + FISH_MOUTH_ADJUSTMENT_PIXEL_1[0]);
+        diemMieng2.setLocation(startPointFish1.getCoordX() + FISH_MOUTH_ADJUSTMENT_PIXEL_2[1], startPointFish1.getCoordY() + FISH_MOUTH_ADJUSTMENT_PIXEL_2[0]);
+        diemMieng3.setLocation(startPointFish1.getCoordX() + FISH_MOUTH_ADJUSTMENT_PIXEL_3[1], startPointFish1.getCoordY() + FISH_MOUTH_ADJUSTMENT_PIXEL_3[0]);
 
-        markedChangeOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 2] = true;
-        changedColorOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 2] = new Color(180, 61, 59);
-
-        markedChangeOfBoard[(int) startPoint.getCoordY()][(int) startPoint.getCoordX() + 3] = true;
-        changedColorOfBoard[(int) startPoint.getCoordY()][(int) startPoint.getCoordX() + 3] = new Color(180, 61, 59);
+        setFilledColor(MAU_MIENG_CA);
+        savePoint(diemMieng1);
+        savePoint(diemMieng2);
+        savePoint(diemMieng3);
 
         /* Vẽ đuôi là một hình quạt */
-        this.filledColor = Color.BLACK;
+        setFilledColor(Color.BLACK);
 
-        SKPoint2D duoi_StartP = new SKPoint2D(startPoint, radius_BodyF1X * 2, -1);
-        SKPoint2D duoiTren_EndP = new SKPoint2D(duoi_StartP, tailWidth1, -tailHeight1);
-        SKPoint2D duoiDuoi_EndP = new SKPoint2D(duoi_StartP, tailWidth1, tailHeight1);
-        SKPoint2D edge_CenterP = new SKPoint2D(duoi_StartP, tailWidth1, 0);
+        /* Vẽ viền là hình ellipse nằm dọc */
+        drawOutlineEllipse(4, TAIL_HEIGHT_1, tailEdge1_CenterP, false, true, false, true);
 
-        drawOutlineEllipse(4, tailHeight1, edge_CenterP, false, true, false, true);
-        drawSegment(duoi_StartP, duoiTren_EndP);
-        drawSegment(duoi_StartP, duoiDuoi_EndP);
-
-        this.savedPoint.setLocation(edge_CenterP);
+        /* Vẽ 2 đường thẳng nối từ duoi_StartP tới hình ellipse nằm dọc ở trên */
+        drawSegment(duoi1_StartP, duoiTren1_EndP);
+        drawSegment(duoi1_StartP, duoiDuoi1_EndP);
 
         /*vẽ vây trên*/
-        this.filledColor = Color.BLACK;
-        int lech = 3;
-        SKPoint2D vayTren_StartP = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 2, -radius_BodyF1Y);
-        SKPoint2D vayTren_P2 = new SKPoint2D(vayTren_StartP, lech, -topFinHeight1);
-        SKPoint2D vayTren_P3 = new SKPoint2D(vayTren_StartP, topFinWidth1, -topFinHeight1);
-        SKPoint2D vayTren_EndP = new SKPoint2D(vayTren_StartP, topFinWidth1 - lech, 0);
-
-        drawSegment(vayTren_StartP, vayTren_P2);
-        drawSegment(vayTren_P2, vayTren_P3);
-        drawSegment(vayTren_P3, vayTren_EndP);
+        drawSegment(vayTren1_StartP, vayTren1_P2);
+        drawSegment(vayTren1_P2, vayTren1_P3);
+        drawSegment(vayTren1_P3, vayTren1_EndP);
 
         /*vẽ vây dưới*/
-        lech = 3;
-        SKPoint2D vayDuoi_StartP = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 2, radius_BodyF1Y);
-        SKPoint2D vayDuoi_P2 = new SKPoint2D(vayDuoi_StartP, lech, botFinHeight1);//
-        SKPoint2D vayDuoi_P3 = new SKPoint2D(vayDuoi_StartP, botFinWidth1, botFinHeight1);
-        SKPoint2D vayDuoi_EndP = new SKPoint2D(vayDuoi_StartP, botFinWidth1 - lech, 0);
+        drawSegment(vayDuoi1_StartP, vayDuoi1_P2);
+        drawSegment(vayDuoi1_P2, vayDuoi1_P3);
+        drawSegment(vayDuoi1_P3, vayDuoi1_EndP);
 
-        drawSegment(vayDuoi_StartP, vayDuoi_P2);
-        drawSegment(vayDuoi_P2, vayDuoi_P3);
-        drawSegment(vayDuoi_P3, vayDuoi_EndP);
+        /* vẽ da */
+        setFilledColor(MAU_DA_CA);
 
-        /* vẽ da*/
-        this.filledColor = new Color(242, 236, 171);
-        SKPoint2D skinShape_Start = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 3, 0);
-        drawFishSkin1(skinShape_Start, 0, 0);
-        drawFishSkin1(skinShape_Start, 3, 3);
-        drawFishSkin1(skinShape_Start, -1, -4);
-        drawFishSkin1(skinShape_Start, 4, -3);
-        drawFishSkin1(skinShape_Start, 8, -2);
-        drawFishSkin1(skinShape_Start, 6, 1);
-        drawFishSkin1(skinShape_Start, 11, 0);
+        /* Điểm bắt đầu ra khỏi phần ellipse ở đầu cá, có Y trùng với tâm đầu cá */
+        drawFishSkin1(skinShape1_Start, 0, 0);
+        drawFishSkin1(skinShape1_Start, 3, 3);
+        drawFishSkin1(skinShape1_Start, -1, -4);
+        drawFishSkin1(skinShape1_Start, 4, -3);
+        drawFishSkin1(skinShape1_Start, 8, -2);
+        drawFishSkin1(skinShape1_Start, 6, 1);
+        drawFishSkin1(skinShape1_Start, 11, 0);
+
+        /* Vẽ mắt */
+        setFilledColor(Color.WHITE);
+        savePoint(diemMat01);
+        setFilledColor(Color.BLACK);
+        savePoint(diemMat11);
+        savePoint(diemMat00);
+        savePoint(diemMat10);
+
+        /* Tô màu */
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, headPosToPaint, new Color(243, 240, 161));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, new Color(202, 192, 50));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, new Color(254, 241, 2));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, new Color(254, 241, 2));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(254, 241, 2));
+
+        setFilledColor(MAU_VAN_DUOI_CA);
+
+        /* Vẽ đường vân ở đuôi */
+        savedPoint.setLocation(savedPoint, -2, 0);
+        drawOutlineEllipse(3, TAIL_HEIGHT_1 - 3, savedPoint, false, true, false, true);
+
+        savedPoint.setLocation(savedPoint, -4, 0);
+        drawOutlineEllipse(3, TAIL_HEIGHT_1 - 4, savedPoint, false, true, false, true);
     }
 
     /**
@@ -171,89 +291,43 @@ public class Fish extends Shape2D {
         drawSegment(newStartPoint, endPoint2);
     }
 
-    /**
-     * Tô màu cho cá
-     *
-     * @param startPoint
-     * @param endPoint
-     */
-    public void paintFish1(SKPoint2D startPoint, SKPoint2D endPoint) {
-        SKPoint2D headPosToPaint = new SKPoint2D(startPoint, 2, 0);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, headPosToPaint, new Color(243, 240, 161));
-
-        SKPoint2D bodyPosToPaint = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 1, 0);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, new Color(202, 192, 50));
-
-        SKPoint2D topFinPosToPaint = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 5, -radius_BodyF1Y - 1);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, new Color(254, 241, 2));
-
-        SKPoint2D botFinPosToPaint = new SKPoint2D(startPoint, radius_HeadF1X * 2 + 5, radius_BodyF1Y + 1);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, new Color(254, 241, 2));
-
-        SKPoint2D tailPosToPaint = new SKPoint2D(startPoint, radius_BodyF1X * 2 + 1, -1);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(254, 241, 2));
-
-        // Vẽ mắt
-        for (int i = 0; i <= 1; i++) {
-            for (int j = 0; j <= 1; j++) {
-                if (i == 0 && j == 1) {
-                    this.filledColor = new Color(255, 255, 255);
-                } else {
-                    this.filledColor = new Color(0, 0, 0);
-                }
-                markedChangeOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + radius_HeadF1X + j] = true;
-                changedColorOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + radius_HeadF1X + j] = filledColor;
-            }
-        }
-
-        this.filledColor = new Color(254, 147, 31);
-
-        // vẽ đường vân ở đuôi
-        savedPoint.setLocation(savedPoint.getCoordX() - 2, savedPoint.getCoordY());
-        drawOutlineEllipse(3, tailHeight1 - 3, savedPoint, false, true, false, true);
-
-        savedPoint.setLocation(savedPoint.getCoordX() - 4, savedPoint.getCoordY());
-        drawOutlineEllipse(3, tailHeight1 - 4, savedPoint, false, true, false, true);
-
-    }
-
     public void drawFish2(SKPoint2D startPoint, SKPoint2D endPoint) {
 
         //đầu
         this.filledColor = new Color(0, 0, 0);
-        SKPoint2D than_CenterP = new SKPoint2D(startPoint, radius_BodyF2X, 0);
-        this.drawOutlineEllipse(radius_BodyF2X, radius_BodyF2Y, than_CenterP, true, true, true, true);
+        SKPoint2D than_CenterP = new SKPoint2D(startPoint, RADIUS_BODY_F2_X, 0);
+        this.drawOutlineEllipse(RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y, than_CenterP, true, true, true, true);
 
         //vây trên thân
         this.filledColor = new Color(183, 250, 255);
-        SKPoint2D vayTT_CenterP = new SKPoint2D(startPoint, distance_FinF2X, 0);
-        this.drawOutlineEllipse(radius_FinF2X, radius_FinF2Y, vayTT_CenterP, false, true, false, true);
+        SKPoint2D vayTT_CenterP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X, 0);
+        this.drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT_CenterP, false, true, false, true);
 
         // da trên thân
-        SKPoint2D skinShape_CenterP = new SKPoint2D(startPoint, distance_FinF2X + radius_FinF2X + 5, 0);
-        this.drawOutlineEllipse(skinShape_F2X, skinShape_F2Y, skinShape_CenterP, true, false, true, false);
+        SKPoint2D skinShape_CenterP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X + RADIUS_FIN_F2_X + 5, 0);
+        this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape_CenterP, true, false, true, false);
         skinShape_CenterP.setLocation(skinShape_CenterP.getCoordX() + 4, skinShape_CenterP.getCoordY());
-        this.drawOutlineEllipse(skinShape_F2X, skinShape_F2Y, skinShape_CenterP, true, false, true, false);
+        this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape_CenterP, true, false, true, false);
         skinShape_CenterP.setLocation(skinShape_CenterP.getCoordX() + 4, skinShape_CenterP.getCoordY());
-        this.drawOutlineEllipse(skinShape_F2X, skinShape_F2Y, skinShape_CenterP, true, false, true, false);
+        this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape_CenterP, true, false, true, false);
 
         // vây trên
         this.filledColor = new Color(0, 0, 0);
         int lech = 4;
-        SKPoint2D vayTren_StartP = new SKPoint2D(startPoint, distance_FinF2X - 3, -radius_BodyF2Y);
-        SKPoint2D vayTren_P2 = new SKPoint2D(vayTren_StartP, lech, -topFinHeight2);
-        SKPoint2D vayTren_P3 = new SKPoint2D(vayTren_StartP, topFinWidth2, -topFinHeight2);
-        SKPoint2D vayTren_EndP = new SKPoint2D(vayTren_StartP, topFinWidth2 - lech, 0);
+        SKPoint2D vayTren_StartP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 3, -RADIUS_BODY_F2_Y);
+        SKPoint2D vayTren_P2 = new SKPoint2D(vayTren_StartP, lech, -TOP_FIN_HEIGHT_2);
+        SKPoint2D vayTren_P3 = new SKPoint2D(vayTren_StartP, TOP_FIN_WIDTH_2, -TOP_FIN_HEIGHT_2);
+        SKPoint2D vayTren_EndP = new SKPoint2D(vayTren_StartP, TOP_FIN_WIDTH_2 - lech, 0);
 
         drawSegment(vayTren_StartP, vayTren_P2);
         drawSegment(vayTren_P2, vayTren_P3);
         drawSegment(vayTren_P3, vayTren_EndP);
 
         //vây dưới
-        SKPoint2D vayDuoi_StartP = new SKPoint2D(startPoint, distance_FinF2X - 1, radius_BodyF2Y);
-        SKPoint2D vayDuoi_P2 = new SKPoint2D(vayDuoi_StartP, lech, +botFinHeight2);
-        SKPoint2D vayDuoi_P3 = new SKPoint2D(vayDuoi_StartP, botFinWidth2, botFinHeight2);
-        SKPoint2D vayDuoi_EndP = new SKPoint2D(vayDuoi_StartP, botFinWidth2 - lech, 0);
+        SKPoint2D vayDuoi_StartP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 1, RADIUS_BODY_F2_Y);
+        SKPoint2D vayDuoi_P2 = new SKPoint2D(vayDuoi_StartP, lech, +BOTTOM_FIN_HEIGHT_2);
+        SKPoint2D vayDuoi_P3 = new SKPoint2D(vayDuoi_StartP, BOTTOM_FIN_WIDTH_2, BOTTOM_FIN_HEIGHT_2);
+        SKPoint2D vayDuoi_EndP = new SKPoint2D(vayDuoi_StartP, BOTTOM_FIN_WIDTH_2 - lech, 0);
 
         drawSegment(vayDuoi_StartP, vayDuoi_P2);
         drawSegment(vayDuoi_P2, vayDuoi_P3);
@@ -262,10 +336,10 @@ public class Fish extends Shape2D {
         //đuôi
         this.filledColor = new Color(0, 0, 0);
 
-        SKPoint2D duoi_StartP = new SKPoint2D(startPoint, radius_BodyF2X * 2 - 1, 0);
+        SKPoint2D duoi_StartP = new SKPoint2D(startPoint, RADIUS_BODY_F2_X * 2 - 1, 0);
 
-        SKPoint2D duoiTren_EndP1 = new SKPoint2D(duoi_StartP, tailWidth2, -tailHeight2);
-        SKPoint2D duoiDuoi_EndP = new SKPoint2D(duoi_StartP, tailWidth2, tailHeight2);
+        SKPoint2D duoiTren_EndP1 = new SKPoint2D(duoi_StartP, TAIL_WIDTH_2, -TAIL_HEIGHT_2);
+        SKPoint2D duoiDuoi_EndP = new SKPoint2D(duoi_StartP, TAIL_WIDTH_2, TAIL_HEIGHT_2);
         drawSegment(duoi_StartP, duoiTren_EndP1);
         drawSegment(duoi_StartP, duoiDuoi_EndP);
 
@@ -276,10 +350,10 @@ public class Fish extends Shape2D {
         SKPoint2D duoi_EndP = new SKPoint2D(duoi_StartP, 4, 0);
         drawSegment(duoiTren_StartP2, duoi_EndP);
 
-        SKPoint2D edge_duoiDuoi_CenterP = new SKPoint2D(edge_duoiTren_CenterP, 0, tailHeight2 * 2 - 4);
+        SKPoint2D edge_duoiDuoi_CenterP = new SKPoint2D(edge_duoiTren_CenterP, 0, TAIL_HEIGHT_2 * 2 - 4);
         this.drawOutlineEllipse(2, 2, edge_duoiDuoi_CenterP, false, true, false, true);
         //lấy tọa độ của edge_duoiTren_CenterP -4 ở trên -2 thêm 2 cho nhanh :3
-        SKPoint2D duoiDuoi_StartP2 = new SKPoint2D(duoiTren_StartP2.getCoordX(), edge_duoiTren_CenterP.getCoordY() + tailHeight2 * 2 - 6);
+        SKPoint2D duoiDuoi_StartP2 = new SKPoint2D(duoiTren_StartP2.getCoordX(), edge_duoiTren_CenterP.getCoordY() + TAIL_HEIGHT_2 * 2 - 6);
         drawSegment(duoiDuoi_StartP2, duoi_EndP);
 
     }
@@ -290,37 +364,37 @@ public class Fish extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, new Color(0, 182, 232));
         //tô vây và đuôi
         //lấy start của top Fin thêm 1 vài đơn vị để dịch vào trong, tương tự với những cái còn lại
-        SKPoint2D topFinPosToPaint = new SKPoint2D(startPoint, distance_FinF2X - 3 + 2, -radius_BodyF2Y - 1);
+        SKPoint2D topFinPosToPaint = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 3 + 2, -RADIUS_BODY_F2_Y - 1);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, new Color(0, 182, 232));
-        SKPoint2D botFinPosToPaint = new SKPoint2D(startPoint, distance_FinF2X - 1 + 2, radius_BodyF2Y + 1);
+        SKPoint2D botFinPosToPaint = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 1 + 2, RADIUS_BODY_F2_Y + 1);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, new Color(0, 182, 232));
 
-        SKPoint2D tailPosToPaint = new SKPoint2D(startPoint, radius_BodyF2X * 2 - 1 + 2, 0);
+        SKPoint2D tailPosToPaint = new SKPoint2D(startPoint, RADIUS_BODY_F2_X * 2 - 1 + 2, 0);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(0, 182, 232));
 
         //vẽ vân ở vây và đuôi
         this.filledColor = new Color(183, 250, 255);
         //vân trên
-        SKPoint2D first_TopFinFP_StartP = new SKPoint2D(startPoint, distance_FinF2X - 3 + 5, -radius_BodyF2Y - 1);
-        SKPoint2D first_TopFinFP_EndP = new SKPoint2D(first_TopFinFP_StartP, 2, -topFinHeight2 + 2);
+        SKPoint2D first_TopFinFP_StartP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 3 + 5, -RADIUS_BODY_F2_Y - 1);
+        SKPoint2D first_TopFinFP_EndP = new SKPoint2D(first_TopFinFP_StartP, 2, -TOP_FIN_HEIGHT_2 + 2);
         drawSegment(first_TopFinFP_StartP, first_TopFinFP_EndP);
         for (int i = 0; i < 3; i++) {
             first_TopFinFP_StartP = new SKPoint2D(first_TopFinFP_StartP, 3, 0);
-            first_TopFinFP_EndP = new SKPoint2D(first_TopFinFP_StartP, 2, -topFinHeight2 + 2);
+            first_TopFinFP_EndP = new SKPoint2D(first_TopFinFP_StartP, 2, -TOP_FIN_HEIGHT_2 + 2);
             drawSegment(first_TopFinFP_StartP, first_TopFinFP_EndP);
         }
         // vân dưới
-        SKPoint2D first_botFinFP_StartP = new SKPoint2D(startPoint, distance_FinF2X - 1 + 3, radius_BodyF2Y + 1);
-        SKPoint2D first_botFinFP_EndP = new SKPoint2D(first_botFinFP_StartP, 1, +botFinHeight2 - 2);
+        SKPoint2D first_botFinFP_StartP = new SKPoint2D(startPoint, DISTANCE_FIN_F2_X - 1 + 3, RADIUS_BODY_F2_Y + 1);
+        SKPoint2D first_botFinFP_EndP = new SKPoint2D(first_botFinFP_StartP, 1, +BOTTOM_FIN_HEIGHT_2 - 2);
         drawSegment(first_botFinFP_StartP, first_botFinFP_EndP);
         for (int i = 0; i < 2; i++) {
             first_botFinFP_StartP = new SKPoint2D(first_botFinFP_StartP, 3, 0);
-            first_botFinFP_EndP = new SKPoint2D(first_botFinFP_StartP, 1, +botFinHeight2 - 2);
+            first_botFinFP_EndP = new SKPoint2D(first_botFinFP_StartP, 1, +BOTTOM_FIN_HEIGHT_2 - 2);
             drawSegment(first_botFinFP_StartP, first_botFinFP_EndP);
         }
 
         // đuôi
-        SKPoint2D first_botTailFP_StartP = new SKPoint2D(startPoint, radius_BodyF2X * 2 - 1 + 6, 2);
+        SKPoint2D first_botTailFP_StartP = new SKPoint2D(startPoint, RADIUS_BODY_F2_X * 2 - 1 + 6, 2);
         SKPoint2D first_botTailFP_EndP = new SKPoint2D(first_botTailFP_StartP, 1, 3);
         drawSegment(first_botTailFP_StartP, first_botTailFP_EndP);
 
@@ -328,7 +402,7 @@ public class Fish extends Shape2D {
         SKPoint2D second_botTailFP_EndP = new SKPoint2D(second_botTailFP_StartP, 1, 3);
         drawSegment(second_botTailFP_StartP, second_botTailFP_EndP);
 
-        SKPoint2D first_topTailFP_StartP = new SKPoint2D(startPoint, radius_BodyF2X * 2 - 1 + 6, -2);
+        SKPoint2D first_topTailFP_StartP = new SKPoint2D(startPoint, RADIUS_BODY_F2_X * 2 - 1 + 6, -2);
         SKPoint2D first_topTailFP_EndP = new SKPoint2D(first_topTailFP_StartP, 1, -3);
         drawSegment(first_topTailFP_StartP, first_topTailFP_EndP);
 
@@ -344,10 +418,11 @@ public class Fish extends Shape2D {
                 } else {
                     this.filledColor = new Color(0, 0, 0);
                 }
-                markedChangeOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + distance_FinF2X / 2 + j] = true;
-                changedColorOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + distance_FinF2X / 2 + j] = filledColor;
+                markedChangeOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + DISTANCE_FIN_F2_X / 2 + j] = true;
+                changedColorOfBoard[(int) startPoint.getCoordY() - 2 + i][(int) startPoint.getCoordX() + DISTANCE_FIN_F2_X / 2 + j] = filledColor;
             }
         }
+
         //miệng
         markedChangeOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 1] = true;
         changedColorOfBoard[(int) startPoint.getCoordY() + 1][(int) startPoint.getCoordX() + 1] = new Color(180, 61, 59);

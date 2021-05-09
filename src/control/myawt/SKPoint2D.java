@@ -44,6 +44,14 @@ public class SKPoint2D {
         setLocation(other.coordX, other.coordY);
     }
 
+    public void setLocation(SKPoint2D other, double x, double y) {
+        setLocation(other.coordX + x, other.coordY + y);
+    }
+
+    public void setLocation(SKPoint2D other, int x, int y) {
+        setLocation(other.coordX + x, other.coordY + y);
+    }
+    
     public void setCoordX(int coordX) {
         this.coordX = coordX;
     }

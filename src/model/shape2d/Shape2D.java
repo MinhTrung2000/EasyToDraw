@@ -579,6 +579,10 @@ public abstract class Shape2D {
     protected boolean savePoint(double coordX, double coordY) {
         return savePoint((int) coordX, (int) coordY);
     }
+    
+    protected boolean savePoint(SKPoint2D point) {
+        return savePoint(point.getCoordX(), point.getCoordY());
+    }
 
     public abstract void saveCoordinates();
 

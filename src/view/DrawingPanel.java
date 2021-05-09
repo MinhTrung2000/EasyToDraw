@@ -1016,12 +1016,12 @@ public class DrawingPanel extends JPanel {
 //                        Cloud cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
 //                        cloud.drawCloud(startP_Cloud);
 
-                        fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        fish.drawFish1(startP_Fish1, new SKPoint2D(0, 0));
-                        fish.drawFish2(startP_Fish2, new SKPoint2D(0, 0));
-                        fish.paintFish1(startP_Fish1, new SKPoint2D(0, 0));
-                        fish.paintFish2(startP_Fish2, new SKPoint2D(0, 0));
-                        apply();
+//                        fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//                        fish.drawFish1(startP_Fish1, new SKPoint2D(0, 0));
+//                        fish.drawFish2(startP_Fish2, new SKPoint2D(0, 0));
+//                        fish.paintFish1(startP_Fish1, new SKPoint2D(0, 0));
+//                        fish.paintFish2(startP_Fish2, new SKPoint2D(0, 0));
+//                        apply();
 
                         resetChangedPropertyArray();
 //                        Volcano volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);

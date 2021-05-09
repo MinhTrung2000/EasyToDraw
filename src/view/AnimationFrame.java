@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-import model.shape2d.Vector2D;
 import model.shape2d.animation.AppleTree;
 import model.shape2d.animation.Cloud;
 import model.shape2d.animation.Fish;
@@ -87,8 +86,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointGround = new SKPoint2D(0, 56);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
         private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 10, 40);
-        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 80, 40);
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 20, 40);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 40);
 
         public AnimationPanel() {
         }
@@ -131,7 +130,9 @@ public class AnimationFrame extends javax.swing.JFrame {
             ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            
             fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+//            fish.setPropertyFish1(startPointFish1);
         }
 
         @Override
@@ -190,8 +191,10 @@ public class AnimationFrame extends javax.swing.JFrame {
             river.paintRiver(startPointRiver);
 
             /* FISH1, FISH2*/
-            fish.drawFish1(startPointFish1, new SKPoint2D(0, 0));
-            fish.paintFish1(startPointFish1, new SKPoint2D(0, 0));
+            
+            // Set property trong hàm setComponent
+            fish.setPropertyFish1(startPointFish1);
+            fish.drawFish1();
             
             fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
             fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
@@ -231,13 +234,13 @@ public class AnimationFrame extends javax.swing.JFrame {
 
     @Override
     public void setVisible(boolean b) {
-        super.setVisible(b); //To change body of generated methods, choose Tools | Templates.
+        super.setVisible(b);
         timer.start();
     }
 
     @Override
     public void dispose() {
-        super.dispose(); //To change body of generated methods, choose Tools | Templates.
+        super.dispose();
         timer.stop();
     }
 
