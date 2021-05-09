@@ -1,5 +1,7 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
+
 public class Vector2D {
 
     private double x;
@@ -15,9 +17,9 @@ public class Vector2D {
         this.y = y;
     }
 
-    public Vector2D(Point2D point_from, Point2D point_to) {
-        this.x = point_to.coordX - point_from.coordX;
-        this.y = point_to.coordY - point_from.coordY;
+    public Vector2D(SKPoint2D point_from, SKPoint2D point_to) {
+        this.x = point_to.getCoordX() - point_from.getCoordX();
+        this.y = point_to.getCoordY() - point_from.getCoordY();
     }
 
     public Vector2D(Vector2D other) {
@@ -149,11 +151,11 @@ public class Vector2D {
      * @param k
      * @return
      */
-    public Point2D getKTimesUnitPoint(Point2D startPoint, int k) {
+    public SKPoint2D getKTimesUnitPoint(SKPoint2D startPoint, int k) {
         Vector2D unitVector = this.getUnitVector();
-        Point2D result = new Point2D(
-                (int) (startPoint.coordX + unitVector.x * k + 0.5),
-                (int) (startPoint.coordY + unitVector.y * k + 0.5)
+        SKPoint2D result = new SKPoint2D(
+                (int) (startPoint.getCoordX() + unitVector.x * k + 0.5),
+                (int) (startPoint.getCoordY() + unitVector.y * k + 0.5)
         );
         return result;
     }

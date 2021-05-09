@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import view.MainFrame;
 
 /**
@@ -21,7 +21,7 @@ import view.MainFrame;
  *
  * @author DELL
  */
-public class FileHandle {
+public class FileController {
 
     public static void saveFile(String outputFileName, Color[][] boardColor, String[][] boardCoord) {
         int boardHeight = boardColor.length;
@@ -123,7 +123,7 @@ public class FileHandle {
                 }
 
                 for (k = 0; k < tempCoor.length; k += 2) {
-                    Point2D point = new Point2D(
+                    SKPoint2D point = new SKPoint2D(
                             tempCoor[k] + (SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE),
                             -tempCoor[k + 1] + (SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE)
                     );

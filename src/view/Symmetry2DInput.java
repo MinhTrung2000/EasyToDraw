@@ -6,13 +6,13 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.tuple.MyPair;
 import model.tuple.MyTriple;
 
 public class Symmetry2DInput extends javax.swing.JDialog implements ActionListener {
 
-    private Point2D acceptedPoint = new Point2D();
+    private SKPoint2D acceptedPoint = new SKPoint2D();
     private MyTriple acceptedLineCoeffs = new MyTriple();
 
     private InputVerifier inputVerifier = new ValidInputCheck();

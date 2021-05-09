@@ -2,7 +2,8 @@ package model.shape3d;
 
 import control.SettingConstants;
 import java.awt.Color;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint3D;
+import model.shape2d.Rectangle;
 import model.shape2d.Vector2D;
 
 /*
@@ -11,62 +12,58 @@ import model.shape2d.Vector2D;
 A --------- B
 |           |
 |           |
-|  C2       | D2
+|  D2       | C2
 |/          |/
-C-----------D
+D-----------C
 
-*/
-
+DC: width
+CC2: height
+BC: high
+ */
 public class Rectangular extends Shape3D {
-    
-    private Point2D pointA;
-    private Point2D pointB;
-    private Point2D pointC;
-    private Point2D pointD;
-    
-    private Point2D pointA2;
-    private Point2D pointB2;
-    private Point2D pointC2;
-    private Point2D pointD2;
-    
+
+    private SKPoint3D pointA = new SKPoint3D();
+    private SKPoint3D pointB = new SKPoint3D();
+    private SKPoint3D pointC = new SKPoint3D();
+    private SKPoint3D pointD = new SKPoint3D();
+
+    private SKPoint3D pointA2 = new SKPoint3D();
+    private SKPoint3D pointB2 = new SKPoint3D();
+    private SKPoint3D pointC2 = new SKPoint3D();
+    private SKPoint3D pointD2 = new SKPoint3D();
+
     public Rectangular(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        
-        pointA = new Point2D();
-        pointB = new Point2D();
-        pointC = new Point2D();
-        pointD = new Point2D();
-        pointA2 = new Point2D();
-        pointB2 = new Point2D();
-        pointC2 = new Point2D();
-        pointD2 = new Point2D();
     }
 
-    @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setProperty(double center_x, double center_y, double center_z, int width, int height, int high) {
+        this.centerPoint3D.setLocation(center_x, center_y, center_z);
+
+        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
+                this.centerPoint3D.getCoordY() + height / 2, this.centerPoint3D.getCoordZ(),
+                width, high, pointA, pointB, pointC, pointD
+        );
+
+        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
+                this.centerPoint3D.getCoordY() - height / 2, this.centerPoint3D.getCoordZ(),
+                width, high, pointA2, pointB2, pointC2, pointD2
+        );
     }
 
-    public void setProperty(Point2D centerPoint, int width, int height, int high) {
-        this.centerPoint.setCoord(centerPoint);
-        
-    }
-    
     @Override
     public void saveCoordinates() {
-        pointA.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointB.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointC.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointD.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointA2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointB2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointC2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
-        pointD2.rotate(rotatedAngle).saveCoord(changedCoordOfBoard);
+        pointA.saveCoord(changedCoordOfBoard);
+        pointB.saveCoord(changedCoordOfBoard);
+        pointC.saveCoord(changedCoordOfBoard);
+        pointD.saveCoord(changedCoordOfBoard);
+        pointA2.saveCoord(changedCoordOfBoard);
+        pointB2.saveCoord(changedCoordOfBoard);
+        pointC2.saveCoord(changedCoordOfBoard);
+        pointD2.saveCoord(changedCoordOfBoard);
     }
 
     @Override
     public void applyMove(Vector2D vector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -80,9 +77,9 @@ public class Rectangular extends Shape3D {
         drawSegment(pointB2, pointB, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointB2, pointC2, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointC2, pointC, SettingConstants.LineStyle.DEFAULT);
-        drawSegment(pointD, pointD2, SettingConstants.LineStyle.DASH);
-        drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DASH);
-        drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DASH);
+        drawSegment(pointD, pointD2, SettingConstants.LineStyle.DOT);
+        drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DOT);
+        drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DOT);
     }
-    
+
 }

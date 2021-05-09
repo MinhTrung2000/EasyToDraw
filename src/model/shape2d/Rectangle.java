@@ -1,5 +1,8 @@
 package model.shape2d;
 
+import control.SettingConstants;
+import control.myawt.SKPoint2D;
+import control.myawt.SKPoint3D;
 import java.awt.Color;
 
 public class Rectangle extends Shape2D {
@@ -9,57 +12,57 @@ public class Rectangle extends Shape2D {
         SQUARE
     }
 
-    private Point2D leftTopPoint;
-    private Point2D rightTopPoint;
-    private Point2D leftBottomPoint;
-    private Point2D rightBottomPoint;
+    private SKPoint2D leftTopPoint;
+    private SKPoint2D rightTopPoint;
+    private SKPoint2D leftBottomPoint;
+    private SKPoint2D rightBottomPoint;
 
     public Rectangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
-        leftTopPoint = new Point2D(-1, -1);
-        rightTopPoint = new Point2D(-1, -1);
-        leftBottomPoint = new Point2D(-1, -1);
-        rightBottomPoint = new Point2D(-1, -1);
+        leftTopPoint = new SKPoint2D(-1, -1);
+        rightTopPoint = new SKPoint2D(-1, -1);
+        leftBottomPoint = new SKPoint2D(-1, -1);
+        rightBottomPoint = new SKPoint2D(-1, -1);
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint, Modal modal) {
-        centerPoint = Point2D.midPoint(startPoint, endPoint);
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
+        centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
 
         if (modal == Modal.RECTANGLE) {
-            leftTopPoint.setCoord(startPoint);
-            rightBottomPoint.setCoord(endPoint);
+            leftTopPoint.setLocation(startPoint);
+            rightBottomPoint.setLocation(endPoint);
 
-            leftBottomPoint.setCoord(leftTopPoint.coordX, rightBottomPoint.coordY);
-            rightTopPoint.setCoord(rightBottomPoint.coordX, leftTopPoint.coordY);
+            leftBottomPoint.setLocation(leftTopPoint.getCoordX(), rightBottomPoint.getCoordY());
+            rightTopPoint.setLocation(rightBottomPoint.getCoordX(), leftTopPoint.getCoordY());
 
         } else {
-            int width = endPoint.getCoordX() - startPoint.getCoordX();
-            int height = endPoint.getCoordY() - startPoint.getCoordY();
+            int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
+            int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
             int widthDirection = this.getWidthDirection(width);
             int heightDirection = this.getHeightDirection(height);
             int preferedLength = this.getPreferredLength(width, height);
             if (preferedLength > 0) {
-                leftTopPoint.setCoord(startPoint);
-                leftBottomPoint.setCoord(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);
-                rightTopPoint.setCoord(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY());
-                rightBottomPoint.setCoord(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
+                leftTopPoint.setLocation(startPoint);
+                leftBottomPoint.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);
+                rightTopPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY());
+                rightBottomPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
 
             }
         }
     }
 
     @Override
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.RECTANGLE);
     }
 
     @Override
     public void saveCoordinates() {
-        leftTopPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightTopPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        leftBottomPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightBottomPoint.createRotationPoint(centerPoint, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
     }
 
     @Override
@@ -69,15 +72,15 @@ public class Rectangle extends Shape2D {
         leftBottomPoint.rotate(rotatedAngle).move(vector);
         rightBottomPoint.rotate(rotatedAngle).move(vector);
 
-        centerPoint.move(vector);
+        centerPoint2D.move(vector);
     }
 
     @Override
     public void drawOutline() {
-        Point2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        Point2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        Point2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint, this.rotatedAngle);
-        Point2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint, this.rotatedAngle);
+        SKPoint2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
         drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
@@ -85,4 +88,32 @@ public class Rectangle extends Shape2D {
         drawSegment(tempLeftBottomPoint, tempLeftTopPoint, lineStyle);
     }
 
+    public static void setFourPointSymmetricFromCenter(SKPoint2D centerPoint,
+            double width, double height, SKPoint3D ULPoint, SKPoint3D URPoint,
+            SKPoint3D LLPoint, SKPoint3D LRPoint) {
+        int cx = centerPoint.getCoordX();
+        int cy = centerPoint.getCoordY();
+        int cz = centerPoint.getCoordZ();
+        double half_w = width / 2 * SettingConstants.RECT_SIZE;
+        double half_h = height / 2 * SettingConstants.RECT_SIZE;
+
+        ULPoint.setLocation(cx - half_w, cy - half_h, cz);
+        URPoint.setLocation(cx + half_w, cy - half_h, cz);
+        LLPoint.setLocation(cx - half_w, cy + half_h, cz);
+        LRPoint.setLocation(cx + half_w, cy + half_h, cz);
+    }
+
+    public static void setFourPointSymmetricFromCenter(double center_x,
+            double center_y, double center_z, double width, double high,
+            SKPoint3D ULPoint, SKPoint3D URPoint, SKPoint3D LRPoint,
+            SKPoint3D LLPoint) {
+        double half_w = width / 2;
+        double half_h = high / 2;
+
+        // Set location in visual system coordinate mode.
+        ULPoint.setLocation(center_x - half_w, center_y, center_z + half_h);
+        URPoint.setLocation(center_x + half_w, center_y, center_z + half_h);
+        LLPoint.setLocation(center_x - half_w, center_y, center_z - half_h);
+        LRPoint.setLocation(center_x + half_w, center_y, center_z - half_h);
+    }
 }

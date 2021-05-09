@@ -1,10 +1,11 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.util.ArrayList;
 import control.SettingConstants;
+import control.myawt.SKPoint3D;
 import control.util.Ultility;
-import model.tuple.MyPair;
 
 public abstract class Shape2D {
 
@@ -51,17 +52,17 @@ public abstract class Shape2D {
     /**
      * Center point of shape.
      */
-    protected Point2D centerPoint;
+    protected SKPoint2D centerPoint2D;
 
     /**
      * The total of pixel number.
      */
     protected int pixelCounter;
 
-    protected Point2D startPoint;
-    protected Point2D endPoint;
+    protected SKPoint2D startPoint2D;
+    protected SKPoint2D endPoint2D;
 
-    protected ArrayList<Point2D> pointSet = new ArrayList<>();
+    protected ArrayList<SKPoint2D> pointSet = new ArrayList<>();
 
     public Shape2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
@@ -74,29 +75,33 @@ public abstract class Shape2D {
         rotatedAngle = DEFAULT_ANGLE;
         lineStyle = DEFAULT_LINE_STYLE;
 
-        centerPoint = new Point2D(0, 0);
+        centerPoint2D = new SKPoint2D(0, 0);
 
         pixelCounter = 0;
 
-        startPoint = new Point2D();
-        endPoint = new Point2D();
+        startPoint2D = new SKPoint2D();
+        endPoint2D = new SKPoint2D();
     }
 
     protected void normalizeStartEndPoint() {
-        int minX = Math.min(this.startPoint.coordX, this.endPoint.coordX);
-        int maxX = Math.max(this.startPoint.coordX, this.endPoint.coordX);
-        int minY = Math.min(this.startPoint.coordY, this.endPoint.coordY);
-        int maxY = Math.max(this.startPoint.coordY, this.endPoint.coordY);
-        this.startPoint.setCoord(minX, maxY);
-        this.endPoint.setCoord(maxX, minY);
+        double minX = Math.min(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
+        double maxX = Math.max(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
+        double minY = Math.min(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
+        double maxY = Math.max(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
+        this.startPoint2D.setLocation(minX, maxY);
+        this.endPoint2D.setLocation(maxX, minY);
     }
 
-    public Point2D getStartPoint() {
-        return this.startPoint;
+    public SKPoint2D getStartPoint() {
+        return this.startPoint2D;
     }
 
-    public Point2D getEndPoint() {
-        return this.endPoint;
+    public SKPoint2D getEndPoint() {
+        return this.endPoint2D;
+    }
+
+    public ArrayList<SKPoint2D> getPointSet() {
+        return pointSet;
     }
 
     public void setLineStyle(SettingConstants.LineStyle lineStyle) {
@@ -107,7 +112,7 @@ public abstract class Shape2D {
         this.filledColor = filledColor;
     }
 
-    public abstract void setProperty(Point2D startPoint, Point2D endPoint);
+    public abstract void setProperty(SKPoint2D startPoint, SKPoint2D endPoint);
 
     public int getWidthDirection(int width) {
         if (width < 0) {
@@ -137,13 +142,14 @@ public abstract class Shape2D {
     }
 
     /**
-     * Draw a segment from startPoint to endPoint by using Bresenham algorithm.
+     * Draw a segment from startPoint2D to endPoint2D by using Bresenham
+     * algorithm.
      *
      * @param startPoint
      * @param endPoint
      * @param lineStyle
      */
-    public void drawSegment(Point2D startPoint, Point2D endPoint, SettingConstants.LineStyle lineStyle) {
+    public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint, SettingConstants.LineStyle lineStyle) {
         pixelCounter = 1;
 
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
@@ -152,31 +158,31 @@ public abstract class Shape2D {
         int incx = 0, incy = 0;
         int balance = 0;
 
-        if (endPoint.coordX >= startPoint.coordX) {
-            dx = endPoint.coordX - startPoint.coordX;
+        if (endPoint.getCoordX() >= startPoint.getCoordX()) {
+            dx = (int) (endPoint.getCoordX() - startPoint.getCoordX());
             incx = 1;
         } else {
-            dx = startPoint.coordX - endPoint.coordX;
+            dx = (int) (startPoint.getCoordX() - endPoint.getCoordX());
             incx = -1;
         }
 
-        if (endPoint.coordY >= startPoint.coordY) {
-            dy = endPoint.coordY - startPoint.coordY;
+        if (endPoint.getCoordY() >= startPoint.getCoordY()) {
+            dy = (int) (endPoint.getCoordY() - startPoint.getCoordY());
             incy = 1;
         } else {
-            dy = startPoint.coordY - endPoint.coordY;
+            dy = (int) (startPoint.getCoordY() - endPoint.getCoordY());
             incy = -1;
         }
 
-        int x = startPoint.coordX;
-        int y = startPoint.coordY;
+        int x = (int) startPoint.getCoordX();
+        int y = (int) startPoint.getCoordY();
 
         if (dx >= dy) {
             dy <<= 1;
             balance = dy - dx;
             dx <<= 1;
 
-            while (x != endPoint.coordX) {
+            while (x != (int) endPoint.getCoordX()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
@@ -193,7 +199,7 @@ public abstract class Shape2D {
             balance = dx - dy;
             dy <<= 1;
 
-            while (y != endPoint.coordY) {
+            while (y != (int) endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
                 if (balance >= 0) {
@@ -217,8 +223,8 @@ public abstract class Shape2D {
 
                 double angleSegmentWithOx = vector.getAngleWithOx();
 
-                Point2D upPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY - extraLength);
-                Point2D downPoint = new Point2D(endPoint.coordX - extraLength, endPoint.coordY + extraLength);
+                SKPoint2D upPoint = new SKPoint2D(endPoint.getCoordX() - extraLength, endPoint.getCoordY() - extraLength);
+                SKPoint2D downPoint = new SKPoint2D(endPoint.getCoordX() - extraLength, endPoint.getCoordY() + extraLength);
 
                 upPoint.rotate(endPoint, angleSegmentWithOx);
                 downPoint.rotate(endPoint, angleSegmentWithOx);
@@ -228,16 +234,22 @@ public abstract class Shape2D {
             }
         }
     }
-    
-    public void drawZigZagS(ArrayList<Point2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
+
+    public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
+        SKPoint2D from = startPoint.get2DRelativePosition().convertViewToMachineCoord();
+        SKPoint2D to = endPoint.get2DRelativePosition().convertViewToMachineCoord();
+        drawSegment(from, to, lineStyle);
+    }
+
+    public void drawZigZagS(ArrayList<SKPoint2D> pointList, int[] roughNumberArray110, int[] roughNumberArray110_2) {
         int pointNumber = pointList.size();
 
         for (int i = 0; i < pointNumber - 1; i++) {
             drawSegmentS(pointList.get(i), pointList.get(i + 1), roughNumberArray110, roughNumberArray110_2);
         }
     }
-    
-    public void drawSegmentS(Point2D startPoint, Point2D endPoint, int[] roughNumberArray110, int[] roughNumberArray110_2) {
+
+    public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint, int[] roughNumberArray110, int[] roughNumberArray110_2) {
         pixelCounter = 1;
 
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
@@ -247,30 +259,30 @@ public abstract class Shape2D {
         int balance = 0;
 
         if (endPoint.getCoordX() >= startPoint.getCoordX()) {
-            dx = endPoint.getCoordX() - startPoint.getCoordX();
+            dx = (int) (endPoint.getCoordX() - startPoint.getCoordX());
             incx = 1;
         } else {
-            dx = startPoint.getCoordX() - endPoint.getCoordX();
+            dx = (int) (startPoint.getCoordX() - endPoint.getCoordX());
             incx = -1;
         }
 
         if (endPoint.getCoordY() >= startPoint.getCoordY()) {
-            dy = endPoint.getCoordY() - startPoint.getCoordY();
+            dy = (int) (endPoint.getCoordY() - startPoint.getCoordY());
             incy = 1;
         } else {
-            dy = startPoint.getCoordY() - endPoint.getCoordY();
+            dy = (int) (startPoint.getCoordY() - endPoint.getCoordY());
             incy = -1;
         }
 
-        int x = startPoint.getCoordX();
-        int y = startPoint.getCoordY();
+        int x = (int) startPoint.getCoordX();
+        int y = (int) startPoint.getCoordY();
 
         if (dx >= dy) {
             dy <<= 1;
             balance = dy - dx;
             dx <<= 1;
 
-            while (x != endPoint.getCoordX()) {
+            while (x != (int) endPoint.getCoordX()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
 
@@ -303,7 +315,7 @@ public abstract class Shape2D {
             balance = dx - dy;
             dy <<= 1;
 
-            while (y != endPoint.getCoordY()) {
+            while (y != (int) endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
 
@@ -334,26 +346,21 @@ public abstract class Shape2D {
         }
 
     }
-    
-    public void drawSegment(Point2D startPoint, Point2D endPoint) {
+
+    public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint) {
         drawSegment(startPoint, endPoint, this.lineStyle);
     }
-    
-     protected void drawOutlineCircle(int a, Point2D centerPoint, boolean Pos1, boolean Pos2, boolean Pos3,
-             boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7, boolean Pos8) {
+
+    protected void drawOutlineCircle(int a, SKPoint2D centerPoint, boolean Pos1, boolean Pos2, boolean Pos3,
+            boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7, boolean Pos8) {
         pointSet.clear();
 
-        // Save center point coordination
-  //      centerPoint.saveCoord(changedCoordOfBoard);
-//        markedChangeOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = true;
-//        changedColorOfBoard[centerPoint.getCoordY()][centerPoint.getCoordX()] = filledColor;
-        
-        double x = 0;
-        double y = a;
+        int x = 0;
+        int y = a;
 
         pixelCounter = 1;
-        pointSet.add(new Point2D((int) x, (int) y));
-        putSymmetricPoints_Circle((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+        pointSet.add(new SKPoint2D(x, y));
+        putSymmetricPoints_Circle(x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
 
         double p = 5 / 4.0 - a;
 
@@ -366,27 +373,132 @@ public abstract class Shape2D {
             }
             x++;
             pixelCounter++;
-            putSymmetricPoints_Circle((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+            putSymmetricPoints_Circle(x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
         }
     }
-    
-     
-     public void putSymmetricPoints_Circle(int x, int y, int center_x, int center_y, boolean Pos1, boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
-         boolean Pos6,boolean Pos7,boolean Pos8) {
-        if(Pos4)savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
-        if(Pos3)savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
-        if(Pos2)savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
-        if(Pos1)savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
-        if(Pos8)savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
-        if(Pos7)savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
-        if(Pos6)savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
-        if(Pos5)savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
+
+    /**
+     * Merge point set of shape without drawing.
+     *
+     * @param array
+     * @param centerPoint
+     * @param radius
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     * @param Pos5
+     * @param Pos6
+     * @param Pos7
+     * @param Pos8
+     */
+    public static void mergePointSetCircle(ArrayList<SKPoint2D> array,
+            SKPoint2D centerPoint, double radius, boolean Pos1, boolean Pos2,
+            boolean Pos3, boolean Pos4, boolean Pos5, boolean Pos6, boolean Pos7,
+            boolean Pos8) {
+        int x = 0;
+        int y = (int) radius;
+
+        addEightSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+
+        double p = 5 / 4.0 - radius;
+
+        while (x < y) {
+            if (p < 0) {
+                p += 2 * x + 3;
+            } else {
+                p += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+            addEightSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
+        }
     }
-    public void drawOutlineEllipse(int a, int b, Point2D centerPoint, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
+
+    /**
+     * Merge point set of shape without drawing.
+     *
+     * @param array
+     * @param centerPoint
+     * @param radius
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     */
+    public static void mergePointSetEllipse(ArrayList<SKPoint2D> array,
+            SKPoint2D centerPoint, double a, double b, boolean topLeft,
+            boolean topRight, boolean botLeft, boolean botRight) {
+        // Save center point coordination
+        double x = 0.0;
+        double y = b;
+
+        double fx = 0;
+        double fy = 2 * a * a * y;
+
+        addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+
+        double p = b * b - a * a * b + a * a * 0.25;
+
+        while (fx < fy) {
+            x++;
+            fx += 2 * b * b;
+            if (p < 0) {
+                p += b * b * (2 * x + 3);
+            } else {
+                p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
+                y--;
+                fy -= 2 * a * a;
+            }
+            addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+        }
+
+        p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
+
+        while (y >= 0) {
+            y--;
+            if (p < 0) {
+                p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
+                x++;
+            } else {
+                p += a * a * (3 - 2 * y);
+            }
+            addFourSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
+        }
+    }
+
+    public void putSymmetricPoints_Circle(double x, double y, double center_x, double center_y, boolean Pos1, boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
+            boolean Pos6, boolean Pos7, boolean Pos8) {
+        if (Pos4) {
+            savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos3) {
+            savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos2) {
+            savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos1) {
+            savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos8) {
+            savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos7) {
+            savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos6) {
+            savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
+        }
+        if (Pos5) {
+            savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
+        }
+    }
+
+    public void drawOutlineEllipse(int a, int b, SKPoint2D centerPoint, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
         pointSet.clear();
 
         // Save center point coordination
-        
         double x = 0.0;
         double y = b;
 
@@ -394,7 +506,7 @@ public abstract class Shape2D {
         double fy = 2 * a * a * y;
 
         pixelCounter = 1;
-        putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+        putSymmetricPoints(x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -409,7 +521,7 @@ public abstract class Shape2D {
                 fy -= 2 * a * a;
             }
             pixelCounter++;
-            putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+            putSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -423,27 +535,31 @@ public abstract class Shape2D {
                 p += a * a * (3 - 2 * y);
             }
             pixelCounter++;
-            putSymmetricPoints((int) x, (int) y, centerPoint.coordX, centerPoint.coordY, topLeft, topRight, botLeft, botRight);
+            putSymmetricPoints((int) x, (int) y, centerPoint.getCoordX(), centerPoint.getCoordY(), topLeft, topRight, botLeft, botRight);
         }
     }
-     
-     
-     
-     public void putSymmetricPoints(int x, int y, int center_x, int center_y, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
-        if(topLeft)  savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
-         
-        if(topRight) savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
-        if(botRight) savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
-        
-        if(botLeft)  savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
-        
+
+    public void putSymmetricPoints(double x, double y, double center_x, double center_y, boolean topLeft, boolean topRight, boolean botLeft, boolean botRight) {
+        if (topLeft) {
+            savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
+        }
+        if (topRight) {
+            savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
+        }
+        if (botRight) {
+            savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
+        }
+        if (botLeft) {
+            savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
+        }
     }
+
     /**
      * Drawing for a complex shape.
      *
      * @param pointList
      */
-    public void drawZigZag(ArrayList<Point2D> pointList) {
+    public void drawZigZag(ArrayList<SKPoint2D> pointList) {
         int pointNumber = pointList.size();
 
         for (int i = 0; i < pointNumber - 1; i++) {
@@ -452,11 +568,6 @@ public abstract class Shape2D {
     }
 
     public abstract void drawOutline();
-    
-    public void draw() {
-        drawOutline();
-//        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint, this.filledColor);
-    }
 
     /**
      * Mark the point coordinates in marked array and color array if they are in
@@ -474,6 +585,10 @@ public abstract class Shape2D {
         return false;
     }
 
+    protected boolean savePoint(double coordX, double coordY) {
+        return savePoint((int) coordX, (int) coordY);
+    }
+
     public abstract void saveCoordinates();
 
     /**
@@ -482,24 +597,53 @@ public abstract class Shape2D {
      *
      * @param coordX
      * @param coordY
+     * @param pixelCounter
      * @param lineStyle
+     * @return
      */
     public boolean savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordY][coordX] = true;
             changedColorOfBoard[coordY][coordX] = filledColor;
-            pointSet.add(new Point2D(coordX, coordY));
+            pointSet.add(new SKPoint2D(coordX, coordY));
             return true;
         }
         return false;
     }
-    
+
+    public boolean savePointWithLineStyleCheck(double coordX, double coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
+        return savePointWithLineStyleCheck((int) coordX, (int) coordY, pixelCounter, lineStyle);
+    }
+
     public void putFourSymmetricPoints(int x, int y, int center_x, int center_y) {
-        savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
+        pixelCounter++;
         savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter, lineStyle);
+    }
+
+    public void putFourSymmetricPoints(int x, int y, double center_x, double center_y) {
+        putFourSymmetricPoints(x, y, (int) center_x, (int) center_y);
+    }
+
+    public static void addFourSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+            double y, double center_x, double center_y, boolean topLeft,
+            boolean topRight, boolean botLeft, boolean botRight) {
+//        pixelCounter++;
+        if (topLeft) {
+            arr.add(new SKPoint2D(center_x - x, center_y - y));
+        }
+        if (topRight) {
+            arr.add(new SKPoint2D(center_x + x, center_y - y));
+        }
+        if (botRight) {
+            arr.add(new SKPoint2D(center_x + x, center_y + y));
+        }
+        if (botLeft) {
+            arr.add(new SKPoint2D(center_x - x, center_y + y));
+        }
     }
 
     /**
@@ -511,18 +655,68 @@ public abstract class Shape2D {
      * @param center_x
      * @param center_y
      */
-    public void putEightSymmetricPoints(int x, int y, int center_x, int center_y) {
-        savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+    public void putEightSymmetricPoints(double x, double y, double center_x, double center_y) {
+        pixelCounter++;
         savePointWithLineStyleCheck(y + center_x, -x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(x + center_x, -y + center_y, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(-y + center_x, x + center_y, pixelCounter, lineStyle);
         savePointWithLineStyleCheck(-x + center_x, y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(y + center_x, x + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(x + center_x, y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-x + center_x, -y + center_y, pixelCounter, lineStyle);
+        savePointWithLineStyleCheck(-y + center_x, -x + center_y, pixelCounter, lineStyle);
     }
 
-    public void drawVirtualRotation(Point2D centerPoint, double angle) {
+    /**
+     * Pos 1..8 follows counter-clockwise
+     *
+     * @param arr
+     * @param x
+     * @param y
+     * @param center_x
+     * @param center_y
+     * @param Pos1
+     * @param Pos2
+     * @param Pos3
+     * @param Pos4
+     * @param Pos5
+     * @param Pos6
+     * @param Pos7
+     * @param Pos8
+     */
+    public static void addEightSymmetricPoints(ArrayList<SKPoint2D> arr, double x,
+            double y, double center_x, double center_y, boolean Pos1,
+            boolean Pos2, boolean Pos3, boolean Pos4, boolean Pos5,
+            boolean Pos6, boolean Pos7, boolean Pos8) {
+//        pixelCounter++;
+
+        if (Pos4) {
+            arr.add(new SKPoint2D(x + center_x, y + center_y));
+        }
+        if (Pos3) {
+            arr.add(new SKPoint2D(y + center_x, x + center_y));
+        }
+        if (Pos2) {
+            arr.add(new SKPoint2D(y + center_x, -x + center_y));
+        }
+        if (Pos1) {
+            arr.add(new SKPoint2D(x + center_x, -y + center_y));
+        }
+        if (Pos8) {
+            arr.add(new SKPoint2D(-x + center_x, -y + center_y));
+        }
+        if (Pos7) {
+            arr.add(new SKPoint2D(-y + center_x, -x + center_y));
+        }
+        if (Pos6) {
+            arr.add(new SKPoint2D(-y + center_x, x + center_y));
+        }
+        if (Pos5) {
+            arr.add(new SKPoint2D(-x + center_x, y + center_y));
+        }
+    }
+
+    public void drawVirtualRotation(SKPoint2D centerPoint, double angle) {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -530,13 +724,13 @@ public abstract class Shape2D {
         double totalAngle = this.rotatedAngle + angle;
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D pt = pointSet.get(i).createRotationPoint(centerPoint, totalAngle);
+            SKPoint2D pt = pointSet.get(i).createRotationPoint(centerPoint, totalAngle);
             savePoint(pt.getCoordX(), pt.getCoordY());
         }
     }
 
     public void drawVirtualRotation(double angle) {
-        drawVirtualRotation(this.centerPoint, angle);
+        drawVirtualRotation(this.centerPoint2D, angle);
     }
 
     public void drawVirtualMove(Vector2D vector) {
@@ -545,8 +739,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createMovingPoint(vector);
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createMovingPoint(vector);
+            savePoint(point.getCoordX(), point.getCoordY());
         }
     }
 
@@ -562,8 +756,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createCenterOSymmetry();
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createCenterOSymmetry();
+            savePoint(point.getCoordX(), point.getCoordY());
         }
     }
 
@@ -572,8 +766,8 @@ public abstract class Shape2D {
             return;
         }
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createOXSymmetryPoint();
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createOXSymmetryPoint();
+            savePoint(point.getCoordX(), point.getCoordY());
         }
     }
 
@@ -583,19 +777,19 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createOYSymmetryPoint();
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createOYSymmetryPoint();
+            savePoint(point.getCoordX(), point.getCoordY());
         }
     }
 
-    public void drawPointSymmetry(Point2D basePoint) {
+    public void drawPointSymmetry(SKPoint2D basePoint) {
         if (pointSet.isEmpty()) {
             return;
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createSymmetryPoint(basePoint);
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createSymmetryPoint(basePoint);
+            savePoint(point.getCoordX(), point.getCoordY());
         }
     }
 
@@ -605,8 +799,17 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            Point2D point = pointSet.get(i).createLineSymmetryPoint(a, b, c);
-            savePoint(point.coordX, point.coordY);
+            SKPoint2D point = pointSet.get(i).createLineSymmetryPoint(a, b, c);
+            savePoint(point.getCoordX(), point.getCoordY());
         }
+    }
+
+    public void scale(int k) {
+        startPoint2D.scale(k);
+        endPoint2D.scale(k);
+    }
+
+    public void paint() {
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, this.filledColor);
     }
 }

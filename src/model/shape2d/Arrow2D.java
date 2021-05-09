@@ -1,5 +1,6 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.awt.Point;
 
@@ -25,45 +26,45 @@ import java.awt.Point;
  */
 public class Arrow2D extends Shape2D {
 
-    private Point2D pointA;
-    private Point2D pointB;
-    private Point2D pointC;
-    private Point2D pointD;
-    private Point2D pointE;
-    private Point2D pointF;
-    private Point2D pointG;
+    private SKPoint2D pointA;
+    private SKPoint2D pointB;
+    private SKPoint2D pointC;
+    private SKPoint2D pointD;
+    private SKPoint2D pointE;
+    private SKPoint2D pointF;
+    private SKPoint2D pointG;
 
     public Arrow2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
 
-        pointA = new Point2D();
-        pointB = new Point2D();
-        pointC = new Point2D();
-        pointD = new Point2D();
-        pointE = new Point2D();
-        pointF = new Point2D();
-        pointG = new Point2D();
+        pointA = new SKPoint2D();
+        pointB = new SKPoint2D();
+        pointC = new SKPoint2D();
+        pointD = new SKPoint2D();
+        pointE = new SKPoint2D();
+        pointF = new SKPoint2D();
+        pointG = new SKPoint2D();
     }
 
-    public void setProperty(Point2D startPoint, Point2D endPoint) {
-        centerPoint = Point2D.midPoint(startPoint, endPoint);
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
+        centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
 
-        int dx = (int) (endPoint.coordX - startPoint.coordX) / 5;
-        int dy = (int) (endPoint.coordY - startPoint.coordY) / 4;
+        int dx = (int) (endPoint.getCoordX() - startPoint.getCoordX()) / 5;
+        int dy = (int) (endPoint.getCoordY() - startPoint.getCoordY()) / 4;
 
-        pointA.setCoord(startPoint.coordX, startPoint.coordY + dy);
+        pointA.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + dy);
 
-        pointB.setCoord(startPoint.coordX, startPoint.coordY + 3 * dy);
+        pointB.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + 3 * dy);
 
-        pointC.setCoord(endPoint.coordX - dx, pointB.coordY);
+        pointC.setLocation(endPoint.getCoordX() - dx, pointB.getCoordY());
 
-        pointD.setCoord(pointC.coordX, pointA.coordY);
+        pointD.setLocation(pointC.getCoordX(), pointA.getCoordY());
 
-        pointE.setCoord(endPoint.coordX, startPoint.coordY + 2 * dy);
+        pointE.setLocation(endPoint.getCoordX(), startPoint.getCoordY() + 2 * dy);
 
-        pointF.setCoord(pointD.coordX, startPoint.coordY);
+        pointF.setLocation(pointD.getCoordX(), startPoint.getCoordY());
 
-        pointG.setCoord(pointC.coordX, endPoint.coordY);
+        pointG.setLocation(pointC.getCoordX(), endPoint.getCoordY());
     }
 
     @Override
@@ -86,7 +87,7 @@ public class Arrow2D extends Shape2D {
         pointE.rotate(rotatedAngle).move(vector);
         pointF.rotate(rotatedAngle).move(vector);
         pointG.rotate(rotatedAngle).move(vector);
-        centerPoint.move(vector);
+        centerPoint2D.move(vector);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package model.shape2d;
 
+import control.myawt.SKPoint2D;
+
 public class Transform2D {
     
     public static double[][] getMoveMat(double x, double y) {
@@ -52,12 +54,12 @@ public class Transform2D {
         };
     }
     
-    public static Point2D transform(Point2D point, double[][] m) {
-        int x = point.getCoordX();
-        int y = point.getCoordY();
+    public static SKPoint2D transform(SKPoint2D point, double[][] m) {
+        double x = point.getCoordX();
+        double y = point.getCoordY();
         
-        Point2D ret = new Point2D();
-        ret.setCoord(
+        SKPoint2D ret = new SKPoint2D();
+        ret.setLocation(
                 (int) (x * m[0][0] + y * m[1][0] + 1 * m[2][0]),
                 (int) (x * m[0][1] + y * m[1][1] + 1 * m[2][1])
         );

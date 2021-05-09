@@ -12,7 +12,7 @@ import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import model.shape2d.Point2D;
+import control.myawt.SKPoint2D;
 import model.tuple.MyPair;
 
 /**
@@ -24,7 +24,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
     /**
      * Input center-point.
      */
-    private Point2D acceptCenterPoint = new Point2D();
+    private SKPoint2D acceptCenterPoint = new SKPoint2D();
     
     /**
      * Input angle (radian).

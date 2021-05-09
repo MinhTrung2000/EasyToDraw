@@ -31,7 +31,7 @@ import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import static control.SettingConstants.*;
-import control.io.FileHandle;
+import control.io.FileController;
 import java.awt.AWTException;
 import java.awt.CardLayout;
 import javax.swing.SpinnerNumberModel;
@@ -48,7 +48,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private SettingConstants.DrawingToolMode saved3DShapeMode;
 
-    private AnimationDialog animationDialog = new AnimationDialog(this, true);
+    private AnimationFrame animationFrame = new AnimationFrame(this);
     private Shape3DInput shape3DInputDialog = new Shape3DInput(this);
 
     /**
@@ -287,7 +287,7 @@ public class MainFrame extends javax.swing.JFrame {
                     getDrawingPanel().repaint();
                     String inputFileName = chooser.getSelectedFile().getAbsolutePath();
 
-                    FileHandle.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
+                    FileController.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
 
                     repaint();
                 }
@@ -331,7 +331,7 @@ public class MainFrame extends javax.swing.JFrame {
                 if (reVal == JFileChooser.APPROVE_OPTION) {
                     String outputFileName = chooser.getSelectedFile().getAbsolutePath();
 
-                    FileHandle.saveFile(outputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
+                    FileController.saveFile(outputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
                 }
             }
         });
@@ -488,12 +488,12 @@ public class MainFrame extends javax.swing.JFrame {
         button_Animation.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-//                if (animationDialog.isShowing()) {
-//                    animationDialog.requestFocus();
-//                } else {
-//                    animationDialog.setVisible(true);
-//                }
-                   setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
+                if (animationFrame.isShowing()) {
+                    animationFrame.requestFocus();
+                } else {
+                    animationFrame.setVisible(true);
+                }
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
             }
         });
 
@@ -1862,7 +1862,11 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void run() {
                 try {
-                    new MainFrame().setVisible(true);
+                    MainFrame frame = new MainFrame();
+//                    frame.setVisible(true);
+
+//                    frame.getDrawingPanel().setCoordinateMode(CoordinateMode.MODE_3D);
+                    frame.animationFrame.setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -2,11 +2,16 @@ package view;
 
 import control.SettingConstants;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
-import javax.swing.InputVerifier;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -15,14 +20,13 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import model.shape3d.Point3D;
-import model.tuple.MyPair;
+import javax.swing.text.JTextComponent;
+import control.myawt.SKPoint3D;
 
 public class Shape3DInput extends javax.swing.JDialog implements ActionListener {
 
-    private InputVerifier inputVerifier = new ValidInputCheck();
     private GenTextForCubeMode genTextEngine = new GenTextForCubeMode();
-    private Point3D accepctedCenterPoint = new Point3D();
+    private SKPoint3D accepctedCenterPoint = new SKPoint3D();
 
     public Shape3DInput(java.awt.Frame parent) {
         super(parent, true);
@@ -56,16 +60,20 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         rbtRectangularMode.addActionListener(this);
         rbtCubeMode.addActionListener(this);
 
-        btnCancel.setInputVerifier(null);
         btnCancel.setRequestFocusEnabled(false);
         btnCancel.addActionListener(this);
-
         btnOK.addActionListener(this);
 
         for (Component panel : panelCustom.getComponents()) {
             for (Component comp : ((JPanel) panel).getComponents()) {
                 if (comp instanceof JTextField) {
-                    ((JTextField) comp).setInputVerifier(inputVerifier);
+                    ((JTextField) comp).addFocusListener(new FocusAdapter() {
+                        @Override
+                        public void focusGained(FocusEvent e) {
+                            ((JTextField) comp).setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TextField.border"));
+                        }
+
+                    });
                 }
             }
         }
@@ -75,7 +83,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     public void actionPerformed(ActionEvent evt) {
         Object source = evt.getSource();
 
-        // Do nothing if choose the current selected shape option.
+        // Do nothing if choose the current shape option.
         ButtonModel selectedObject = btnOptionGroup.getSelection();
         if (source instanceof JButton) {
             if (((JButton) source).getModel() == selectedObject) {
@@ -102,31 +110,89 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
             btnOptionGroup.setSelected(btnOptionSphere.getModel(), true);
             showCard(panelSphere.getName());
         } else if (source == btnOK) {
-            process();
+            if (!process()) {
+                return;
+            }
             dispose();
         } else if (source == btnCancel) {
             dispose();
         }
     }
 
-    private void process() {
+    private boolean process() {
         if (btnOptionRectangular.isSelected()) {
-            int width = Integer.parseInt(textfRectangularWidth.getText());
-            int height = Integer.parseInt(textfRectangularHeight.getText());
-            int high = Integer.parseInt(textfRectangularHigh.getText());
+            try {
+                int centerPointX = getValidInput(textfRectangularCenterPointCoordX);
+                int centerPointY = getValidInput(textfRectangularCenterPointCoordY);
+                int centerPointZ = getValidInput(textfRectangularCenterPointCoordZ);
+                int width = getValidInput(textfRectangularWidth);
+                int height = getValidInput(textfRectangularHeight);
+                int high = getValidInput(textfRectangularHigh);
 
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
         } else if (btnOptionCylinder.isSelected()) {
-            int radius = Integer.parseInt(textfCylinderRadius.getText());
-            int high = Integer.parseInt(textfCylinderHigh.getText());
+            try {
+                int centerPointX = getValidInput(textfCylinderCenterPointCoordX) * SettingConstants.RECT_SIZE;
+                int centerPointY = getValidInput(textfCylinderCenterPointCoordY) * SettingConstants.RECT_SIZE;
+                int centerPointZ = getValidInput(textfCylinderCenterPointCoordZ) * SettingConstants.RECT_SIZE;
+                int radius = getValidInput(textfCylinderRadius) * SettingConstants.RECT_SIZE;
+                int high = getValidInput(textfCylinderHigh) * SettingConstants.RECT_SIZE;
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         } else if (btnOptionPyramid.isSelected()) {
-            int edgeSize = Integer.parseInt(textfPyramidBottomEdge.getText());
-            int high = Integer.parseInt(textfPyramidHigh.getText());
+            try {
+                int centerPointX = getValidInput(textfPyramidCenterPointCoordX);
+                int centerPointY = getValidInput(textfPyramidCenterPointCoordY);
+                int centerPointZ = getValidInput(textfPyramidCenterPointCoordZ);
+                int edge = getValidInput(textfPyramidBottomEdge);
+                int high = getValidInput(textfPyramidHigh);
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapePyramid(centerPointX, centerPointY, centerPointZ, edge, high);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         } else if (btnOptionSphere.isSelected()) {
-            int radius = Integer.parseInt(textfSphereRadius.getText());
+            try {
+//                int centerPointX = getValidInput(textfSphereCenterPointCoordX) * SettingConstants.RECT_SIZE;
+//                int centerPointY = getValidInput(textfSphereCenterPointCoordY) * SettingConstants.RECT_SIZE;
+//                int centerPointZ = getValidInput(textfSphereCenterPointCoordZ) * SettingConstants.RECT_SIZE;
+//                int radius = getValidInput(textfSphereRadius) * SettingConstants.RECT_SIZE;
+                int centerPointX = 0;
+                int centerPointY = 0;
+                int centerPointZ = 0;
+                int radius = 10 * SettingConstants.RECT_SIZE;
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
+            } catch (NumberFormatException ex) {
+                return false;
+            }
 
         }
+
+        return true;
+    }
+
+    private int getValidInput(JTextComponent comp) {
+        int ret = -1;
+
+        String inpText = comp.getText();
+
+        try {
+            ret = Integer.parseInt(inpText);
+        } catch (NumberFormatException ex) {
+            comp.setBorder(BorderFactory.createLineBorder(Color.RED));
+            throw ex;
+        }
+
+        return ret * SettingConstants.RECT_SIZE;
     }
 
     private void setRectangularMode() {
@@ -199,85 +265,6 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
     }
 
-    private class ValidInputCheck extends InputVerifier {
-
-        public boolean isTextShapeParam(JComponent input) {
-            return (input == textfRectangularWidth
-                    || input == textfRectangularHeight
-                    || input == textfRectangularHigh
-                    || input == textfCylinderHigh
-                    || input == textfCylinderRadius
-                    || input == textfPyramidHigh
-                    || input == textfPyramidBottomEdge
-                    || input == textfSphereRadius);
-        }
-
-        public boolean checkCoordInBound(int coord, MyPair bound) {
-            if (coord < bound.x || coord > bound.y) {
-                JOptionPane.showMessageDialog(null, "Error: Coordinate out of bound!");
-                return false;
-            }
-
-            return true;
-        }
-
-        @Override
-        public boolean verify(JComponent input) {
-//            try {
-//                if (isTextfCoordX(input)) {
-//                    String coordXText = ((JTextField) input).getText();
-//
-//                    if (coordXText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "X coordinate is required!");
-//                        return false;
-//                    }
-//
-//                    int coordX = Integer.parseInt(coordXText);
-//
-//                    MyPair xBound = ((MainFrame) getParent()).getDrawingPanel().getXBound();
-//
-//                    if (!checkCoordInBound(coordX, xBound)) {
-//                        return false;
-//                    }
-//
-//                    accepctedCenterPoint.setCoordX(coordX);
-//                } else if (isTextfCoordY(input)) {
-//                    String coordYText = ((JTextField) input).getText();
-//
-//                    if (coordYText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "Y coordinate is required!");
-//                        return false;
-//                    }
-//
-//                    int coordY = Integer.parseInt(coordYText);
-//
-//                    MyPair yBound = ((MainFrame) getParent()).getDrawingPanel().getYBound();
-//
-//                    if (!checkCoordInBound(coordY, yBound)) {
-//                        return false;
-//                    }
-//
-//                    accepctedCenterPoint.setCoordY(coordY);
-//                } else if (isTextShapeParam(input)) {
-//                    String paramText = ((JTextField) input).getText();
-//
-//                    if (paramText.equals("")) {
-//                        JOptionPane.showMessageDialog(null, "All shape parameter are required!");
-//                        return false;
-//                    }
-//
-//                    Integer.parseInt(paramText);
-//                }
-//            } catch (NumberFormatException ex) {
-//                JOptionPane.showMessageDialog(null, "Please enter numeric number!");
-//                return false;
-//            }
-
-            return true;
-        }
-
-    }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -314,6 +301,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel10 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
         textfRectangularCenterPointCoordZ = new javax.swing.JTextField();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         panelCylinder = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -327,8 +315,9 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel17 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         textfCylinderHigh = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ1 = new javax.swing.JTextField();
+        textfCylinderCenterPointCoordZ = new javax.swing.JTextField();
         jLabel34 = new javax.swing.JLabel();
+        filler2 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         panelPyramid = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
@@ -342,8 +331,9 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         textfPyramidBottomEdge = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ2 = new javax.swing.JTextField();
+        textfPyramidCenterPointCoordZ = new javax.swing.JTextField();
         jLabel35 = new javax.swing.JLabel();
+        filler3 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         panelSphere = new javax.swing.JPanel();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
@@ -354,8 +344,9 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         textfSphereRadius = new javax.swing.JTextField();
-        textfRectangularCenterPointCoordZ3 = new javax.swing.JTextField();
+        textfSphereCenterPointCoordZ = new javax.swing.JTextField();
         jLabel36 = new javax.swing.JLabel();
+        filler4 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 30), new java.awt.Dimension(0, 30), new java.awt.Dimension(32767, 30));
         btnOK = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -423,49 +414,53 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         panelRectangularLayout.setHorizontalGroup(
             panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRectangularLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRectangularLayout.createSequentialGroup()
-                        .addComponent(jLabel6)
-                        .addGap(81, 81, 81)
-                        .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textfRectangularHeight)
-                            .addComponent(textfRectangularWidth)
-                            .addComponent(textfRectangularHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(panelRectangularLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textfRectangularCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(35, 35, 35)
-                        .addComponent(jLabel33)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(textfRectangularCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelRectangularLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(28, 28, 28)
-                        .addComponent(rbtRectangularMode)
-                        .addGap(30, 30, 30)
-                        .addComponent(rbtCubeMode))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRectangularLayout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(256, 256, 256)))
-                .addGap(111, 111, 111))
+                        .addContainerGap()
+                        .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelRectangularLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(81, 81, 81)
+                                .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(textfRectangularHeight)
+                                    .addComponent(textfRectangularWidth)
+                                    .addComponent(textfRectangularHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(panelRectangularLayout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(35, 35, 35)
+                                .addComponent(jLabel33)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(textfRectangularCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelRectangularLayout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(28, 28, 28)
+                                .addComponent(rbtRectangularMode)
+                                .addGap(30, 30, 30)
+                                .addComponent(rbtCubeMode))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelRectangularLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(256, 256, 256))))
+                    .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(104, 104, 104))
         );
         panelRectangularLayout.setVerticalGroup(
             panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelRectangularLayout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(filler1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelRectangularLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -529,49 +524,53 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         panelCylinderLayout.setHorizontalGroup(
             panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCylinderLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelCylinderLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel12)
-                            .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addGroup(panelCylinderLayout.createSequentialGroup()
-                                    .addComponent(jLabel18)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(textfCylinderHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(panelCylinderLayout.createSequentialGroup()
-                                    .addComponent(jLabel16)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(textfCylinderRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelCylinderLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfCylinderCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel34)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jLabel17))
-                .addGap(32, 32, 32))
+                                .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel15))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(panelCylinderLayout.createSequentialGroup()
+                                            .addComponent(jLabel18)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(textfCylinderHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(panelCylinderLayout.createSequentialGroup()
+                                            .addComponent(jLabel16)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(textfCylinderRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(panelCylinderLayout.createSequentialGroup()
+                                        .addComponent(jLabel13)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfCylinderCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel14)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfCylinderCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel34)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfCylinderCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLabel17)))
+                    .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         panelCylinderLayout.setVerticalGroup(
             panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelCylinderLayout.createSequentialGroup()
-                .addGap(21, 21, 21)
+                .addComponent(filler2, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel34)
-                        .addComponent(textfRectangularCenterPointCoordZ1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfCylinderCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelCylinderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel12)
                         .addComponent(jLabel13)
@@ -618,48 +617,52 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         panelPyramidLayout.setHorizontalGroup(
             panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPyramidLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel23)
                     .addGroup(panelPyramidLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel20)
-                            .addComponent(jLabel25))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23)
                             .addGroup(panelPyramidLayout.createSequentialGroup()
-                                .addComponent(jLabel26)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfPyramidBottomEdge, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelPyramidLayout.createSequentialGroup()
-                                .addComponent(jLabel21)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfPyramidCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel22)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel35)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelPyramidLayout.createSequentialGroup()
-                                .addComponent(jLabel24)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfPyramidHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(39, 39, 39))
+                                .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel20)
+                                    .addComponent(jLabel25))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelPyramidLayout.createSequentialGroup()
+                                        .addComponent(jLabel26)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfPyramidBottomEdge, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelPyramidLayout.createSequentialGroup()
+                                        .addComponent(jLabel21)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfPyramidCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel22)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfPyramidCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel35)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfPyramidCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelPyramidLayout.createSequentialGroup()
+                                        .addComponent(jLabel24)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfPyramidHigh, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addComponent(filler3, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         panelPyramidLayout.setVerticalGroup(
             panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPyramidLayout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(filler3, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel35)
-                        .addComponent(textfRectangularCenterPointCoordZ2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfPyramidCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelPyramidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel20)
                         .addComponent(jLabel21)
@@ -676,7 +679,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                     .addComponent(jLabel23)
                     .addComponent(jLabel24)
                     .addComponent(textfPyramidHigh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(126, Short.MAX_VALUE))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
 
         panelCustom.add(panelPyramid, "CardPyramid");
@@ -702,43 +705,47 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         panelSphereLayout.setHorizontalGroup(
             panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSphereLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(panelSphereLayout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel28)
-                            .addComponent(jLabel31))
-                        .addGap(18, 18, 18)
-                        .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(panelSphereLayout.createSequentialGroup()
-                                .addComponent(jLabel32)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfSphereRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(panelSphereLayout.createSequentialGroup()
-                                .addComponent(jLabel29)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfSphereCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(35, 35, 35)
-                                .addComponent(jLabel36)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(39, 39, 39))
+                                .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel28)
+                                    .addComponent(jLabel31))
+                                .addGap(18, 18, 18)
+                                .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelSphereLayout.createSequentialGroup()
+                                        .addComponent(jLabel32)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfSphereRadius, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(panelSphereLayout.createSequentialGroup()
+                                        .addComponent(jLabel29)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfSphereCenterPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel30)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfSphereCenterPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(35, 35, 35)
+                                        .addComponent(jLabel36)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(textfSphereCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addComponent(filler4, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         panelSphereLayout.setVerticalGroup(
             panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelSphereLayout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(filler4, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
                 .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel36)
-                        .addComponent(textfRectangularCenterPointCoordZ3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textfSphereCenterPointCoordZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelSphereLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel28)
                         .addComponent(jLabel29)
@@ -850,6 +857,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private javax.swing.JButton btnOptionRectangular;
     private javax.swing.JButton btnOptionSphere;
     private javax.swing.ButtonGroup btnRectangularModeGroup;
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.Box.Filler filler2;
+    private javax.swing.Box.Filler filler3;
+    private javax.swing.Box.Filler filler4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -895,23 +906,23 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     private javax.swing.JRadioButton rbtRectangularMode;
     private javax.swing.JTextField textfCylinderCenterPointCoordX;
     private javax.swing.JTextField textfCylinderCenterPointCoordY;
+    private javax.swing.JTextField textfCylinderCenterPointCoordZ;
     private javax.swing.JTextField textfCylinderHigh;
     private javax.swing.JTextField textfCylinderRadius;
     private javax.swing.JTextField textfPyramidBottomEdge;
     private javax.swing.JTextField textfPyramidCenterPointCoordX;
     private javax.swing.JTextField textfPyramidCenterPointCoordY;
+    private javax.swing.JTextField textfPyramidCenterPointCoordZ;
     private javax.swing.JTextField textfPyramidHigh;
     private javax.swing.JTextField textfRectangularCenterPointCoordX;
     private javax.swing.JTextField textfRectangularCenterPointCoordY;
     private javax.swing.JTextField textfRectangularCenterPointCoordZ;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ1;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ2;
-    private javax.swing.JTextField textfRectangularCenterPointCoordZ3;
     private javax.swing.JTextField textfRectangularHeight;
     private javax.swing.JTextField textfRectangularHigh;
     private javax.swing.JTextField textfRectangularWidth;
     private javax.swing.JTextField textfSphereCenterPointCoordX;
     private javax.swing.JTextField textfSphereCenterPointCoordY;
+    private javax.swing.JTextField textfSphereCenterPointCoordZ;
     private javax.swing.JTextField textfSphereRadius;
     // End of variables declaration//GEN-END:variables
 
