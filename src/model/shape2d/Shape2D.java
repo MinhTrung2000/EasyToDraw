@@ -399,7 +399,6 @@ public abstract class Shape2D {
         int x = 0;
         int y = (int) radius;
 
-        array.add(new SKPoint2D(x, y));
         addEightSymmetricPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
 
         double p = 5 / 4.0 - radius;
@@ -691,28 +690,28 @@ public abstract class Shape2D {
             boolean Pos6, boolean Pos7, boolean Pos8) {
 //        pixelCounter++;
 
-        if (Pos1) {
+        if (Pos4) {
             arr.add(new SKPoint2D(x + center_x, y + center_y));
         }
-        if (Pos2) {
+        if (Pos3) {
             arr.add(new SKPoint2D(y + center_x, x + center_y));
         }
-        if (Pos3) {
+        if (Pos2) {
             arr.add(new SKPoint2D(y + center_x, -x + center_y));
         }
-        if (Pos4) {
+        if (Pos1) {
             arr.add(new SKPoint2D(x + center_x, -y + center_y));
         }
-        if (Pos5) {
+        if (Pos8) {
             arr.add(new SKPoint2D(-x + center_x, -y + center_y));
         }
-        if (Pos6) {
+        if (Pos7) {
             arr.add(new SKPoint2D(-y + center_x, -x + center_y));
         }
-        if (Pos7) {
+        if (Pos6) {
             arr.add(new SKPoint2D(-y + center_x, x + center_y));
         }
-        if (Pos8) {
+        if (Pos5) {
             arr.add(new SKPoint2D(-x + center_x, y + center_y));
         }
     }

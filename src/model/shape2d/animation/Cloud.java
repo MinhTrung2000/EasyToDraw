@@ -5,8 +5,10 @@
  */
 package model.shape2d.animation;
 
+import control.SettingConstants;
 import java.awt.Color;
 import control.myawt.SKPoint2D;
+import control.util.Ultility;
 import model.shape2d.Segment2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
@@ -17,7 +19,11 @@ import model.shape2d.Vector2D;
  */
 public class Cloud extends Shape2D {
 
-    public final int COULD_WIDTH = 18;
+    public static final int COULD_WIDTH = 18;
+    public static final int SLIP_NUMBER = 20;
+    public static final Color CLOUD_COLOR = Color.CYAN;
+
+    private int slip = 0;
 
     public Cloud(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
@@ -25,30 +31,34 @@ public class Cloud extends Shape2D {
 
     public void setProperty(SKPoint2D centerPoint) {
         this.centerPoint2D = centerPoint;
-        
+
         pointSet.clear();
 
-//        this.drawSegment(this.centerPoint2D, new SKPoint2D(this.centerPoint2D, COULD_WIDTH, 0));
-//        this.drawSegment(new SKPoint2D(this.centerPoint2D, -1, -1), new SKPoint2D(this.centerPoint2D, -1, -1 - 3));
-//        this.drawSegment(new SKPoint2D(this.centerPoint2D, COULD_WIDTH + 1, -1), new SKPoint2D(this.centerPoint2D, COULD_WIDTH + 1, -1 - 3));
         Segment2D.mergePointSet(this.pointSet, this.centerPoint2D, new SKPoint2D(this.centerPoint2D, COULD_WIDTH, 0));
         Segment2D.mergePointSet(this.pointSet, new SKPoint2D(this.centerPoint2D, -1, -1), new SKPoint2D(this.centerPoint2D, -1, -1 - 3));
         Segment2D.mergePointSet(this.pointSet, new SKPoint2D(this.centerPoint2D, COULD_WIDTH + 1, -1), new SKPoint2D(this.centerPoint2D, COULD_WIDTH + 1, -1 - 3));
 
-//        this.drawOutlineCircle(6, new SKPoint2D(this.centerPoint2D, 5, -4), true, false, false, false, false, false, true, true);
-//        this.drawOutlineCircle(3, new SKPoint2D(this.centerPoint2D, COULD_WIDTH - 2, -4), true, true, false, false, false, false, false, true);
-//        this.drawOutlineCircle(3, new SKPoint2D(this.centerPoint2D, COULD_WIDTH - 6, -7), true, true, false, false, false, false, true, true);
-
-        mergePointSetCircle(this.pointSet, new SKPoint2D(this.centerPoint2D, 5, -4), 6, true, false, false, false, false, false, true, true);
+        mergePointSetCircle(this.pointSet, new SKPoint2D(this.centerPoint2D, 5, -4), 6, true, true, false, false, false, false, true, true);
         mergePointSetCircle(this.pointSet, new SKPoint2D(this.centerPoint2D, COULD_WIDTH - 2, -4), 3, true, true, false, false, false, false, false, true);
         mergePointSetCircle(this.pointSet, new SKPoint2D(this.centerPoint2D, COULD_WIDTH - 6, -7), 3, true, true, false, false, false, false, true, true);
     }
 
     public void drawCloud() {
+        Vector2D vectorSlip = new Vector2D(slip, 0);
+        SKPoint2D centerPointToPaint = this.centerPoint2D.createMovingPoint(vectorSlip);
+
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i);
+            SKPoint2D point = new SKPoint2D(pointSet.get(i));
+            point.move(vectorSlip);
             savePoint(point.getCoordX(), point.getCoordY());
         }
+        if (slip / SettingConstants.RECT_SIZE < SLIP_NUMBER) {
+            slip += SettingConstants.RECT_SIZE;
+        } else {
+            slip = 0;
+        }
+        
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerPointToPaint, 1, -1), CLOUD_COLOR);
     }
 
     @Override
