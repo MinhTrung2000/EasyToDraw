@@ -83,15 +83,6 @@ public abstract class Shape2D {
         endPoint2D = new SKPoint2D();
     }
 
-    protected void normalizeStartEndPoint() {
-        double minX = Math.min(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
-        double maxX = Math.max(this.startPoint2D.getCoordX(), this.endPoint2D.getCoordX());
-        double minY = Math.min(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
-        double maxY = Math.max(this.startPoint2D.getCoordY(), this.endPoint2D.getCoordY());
-        this.startPoint2D.setLocation(minX, maxY);
-        this.endPoint2D.setLocation(maxX, minY);
-    }
-
     public SKPoint2D getStartPoint() {
         return this.startPoint2D;
     }

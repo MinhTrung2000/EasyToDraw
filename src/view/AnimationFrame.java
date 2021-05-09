@@ -192,6 +192,7 @@ public class AnimationFrame extends javax.swing.JFrame {
             /* FISH1, FISH2*/
             fish.drawFish1(startPointFish1, new SKPoint2D(0, 0));
             fish.paintFish1(startPointFish1, new SKPoint2D(0, 0));
+            
             fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
             fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
 
