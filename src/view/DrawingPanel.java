@@ -26,7 +26,6 @@ import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
-import model.shape2d.animation.Fish;
 import model.shape3d.Cylinder;
 import model.shape3d.Pyramid;
 import model.shape3d.Rectangular;
@@ -953,88 +952,6 @@ public class DrawingPanel extends JPanel {
                     recentShape = null;
                 }
                 case TOOL_ANIMATION: {
-                    if (checkStartingPointAvailable()) {
-                        Fish fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        SKPoint2D startP = new SKPoint2D(50, 30);
-                        SKPoint2D endP = new SKPoint2D(70, 70);
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//                        copyColorValue(colorOfBoard, changedColorOfBoard, true);
-//                        fish.paintFish1(startP, endP);
-//                        fish.paintFish2(new SKPoint2D(30, 65), new SKPoint2D(110, 110));
-//
-                        SKPoint2D startP_Volcano = new SKPoint2D(80, 45);
-                        SKPoint2D endP_Volcano = new SKPoint2D(40, 105);
-
-                        SKPoint2D startP_Cloud = new SKPoint2D(35, 30);
-
-                        SKPoint2D startP_Ground = new SKPoint2D(0, 25);
-                        SKPoint2D startP_Smoke = new SKPoint2D(startP_Volcano, 15, -25);
-                        SKPoint2D startP_Sun = new SKPoint2D(startP_Volcano, -50, -30);
-                        SKPoint2D startP_Tree = new SKPoint2D(startP_Volcano, -30, 20);
-                        SKPoint2D startP_Fish1 = new SKPoint2D(startP_Volcano, 50, 50);
-                        SKPoint2D startP_Fish2 = new SKPoint2D(startP_Volcano, -30, 42);
-//                         
-//                        AppleTree tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        tree.drawAppleTree(startP_Tree);
-//                        tree.paintAppleTree(startP_Tree);
-//                        tree.paintApple();
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//
-//                        Sun sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//
-//                        sun.drawSun(startP_Sun);
-//                        apply();
-//                        resetChangedPropertyArray();
-//                        copyColorValue(colorOfBoard, changedColorOfBoard, true);
-//                        sun.paintSun(startP_Sun);
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//
-//                        Ground ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        ground.drawGround(startP_Ground);
-//                        ground.paintGround(startP_Ground);
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//
-//                        ground.drawAndPaintFlowers();
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//
-//                        River river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        river.drawRiver(new SKPoint2D(startP_Ground, 0, 26));
-//                        river.paintRiver(new SKPoint2D(startP_Ground, 0, 26));
-//
-//                        apply();
-//                        resetChangedPropertyArray();
-//                        Cloud cloud = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        cloud.drawCloud(startP_Cloud);
-
-//                        fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        fish.drawFish1(startP_Fish1, new SKPoint2D(0, 0));
-//                        fish.drawFish2(startP_Fish2, new SKPoint2D(0, 0));
-//                        fish.paintFish1(startP_Fish1, new SKPoint2D(0, 0));
-//                        fish.paintFish2(startP_Fish2, new SKPoint2D(0, 0));
-//                        apply();
-
-                        resetChangedPropertyArray();
-//                        Volcano volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//                        Smoke smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-
-//                        smoke.drawSmoke(startP_Smoke);
-//                        volcano.drawVolcano(startP_Volcano, endP_Volcano);
-//                        draw xong paint luôn, vì lúc này mảng tạm đã có dữ liệu (khác với vẽ chuột, lúc đó ko có dữ liệu, phải copyCoordValue)
-//                        volcano.paintVolcano(startP_Volcano);
-                        apply();
-                        resetChangedPropertyArray();
-                    }
-                    repaint();
                     recentShape = null;
                     break;
                 }

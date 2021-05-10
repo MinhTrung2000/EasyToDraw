@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import control.SettingConstants;
@@ -15,17 +10,14 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.shape2d.animation.AppleTree;
 import model.shape2d.animation.Cloud;
-import model.shape2d.animation.Fish;
+import model.shape2d.animation.Fish1;
+import model.shape2d.animation.Fish2;
 import model.shape2d.animation.Ground;
 import model.shape2d.animation.River;
 import model.shape2d.animation.Smoke;
 import model.shape2d.animation.Sun;
 import model.shape2d.animation.Volcano;
 
-/**
- *
- * @author DELL
- */
 public class AnimationFrame extends javax.swing.JFrame {
 
     private Timer timer;
@@ -74,7 +66,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         private Ground ground;
         private AppleTree tree;
         private River river;
-        private Fish fish;
+        private Fish1 fish1;
+        private Fish2 fish2;
 
         /* Object intial position */
         private SKPoint2D startPointSun = new SKPoint2D(70, 20);
@@ -93,6 +86,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void setComponent() {
+            System.out.println("view.AnimationFrame.AnimationPanel.setComponent()");
+
             widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
@@ -124,14 +119,15 @@ public class AnimationFrame extends javax.swing.JFrame {
             cloud1.setProperty(startPointCloud1);
             cloud2 = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             cloud2.setProperty(startPointCloud2);
-            
+
             volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
             river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            
-            fish = new Fish(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+
+            fish1 = new Fish1(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            fish2 = new Fish2(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
 //            fish.setPropertyFish1(startPointFish1);
         }
 
@@ -191,14 +187,12 @@ public class AnimationFrame extends javax.swing.JFrame {
             river.paintRiver(startPointRiver);
 
             /* FISH1, FISH2*/
-            
             // Set property trong hàm setComponent
-            fish.setPropertyFish1(startPointFish1);
-            fish.drawFish1();
-            
-            fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
-            fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
+            fish1.setPropertyFish1(startPointFish1);
+            fish1.drawFish1();
 
+//            fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
+//            fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
             this.repaint();
         }
 
