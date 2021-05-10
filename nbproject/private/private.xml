@@ -6,16 +6,18 @@
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Smoke.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Ground.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Symmetry2DInput.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Fish.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/util/Ultility.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/SettingConstants.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Line2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Transform2D.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Fish1.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Segment2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape3d/Pyramid.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Cloud.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape3d/Cylinder.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/GeoElement.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Fish2.java</file>
+            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/SKGraphic2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/ModeTrigger.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Triangle.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/Volcano.java</file>
@@ -27,7 +29,6 @@
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/SKPoint2D.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/Rotation2DInput.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/Rectangle.java</file>
-            <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/ComplexShape.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/view/AnimationFrame.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/control/myawt/ViewInterface.java</file>
             <file>file:/D:/CNTT/2021/KTDH/Repository%20KTDH/SketchPoint/src/model/shape2d/animation/AppleTree.java</file>

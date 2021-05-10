@@ -211,7 +211,7 @@ public class AnimationFrame extends javax.swing.JFrame {
             
             fish2.setPropertyFish2(startPointFish2);
             fish2.drawFish2();
-            fish2.paintFish2();
+            
             this.repaint();
         }
 
