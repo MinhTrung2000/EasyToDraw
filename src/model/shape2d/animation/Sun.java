@@ -26,6 +26,7 @@ public class Sun extends Shape2D {
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
 
     private Segment2D sunLine;
+    
 
     /**
      * Use for change sunny rotation mechanism.
@@ -82,19 +83,30 @@ public class Sun extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
     }
 
-    public void drawSunLight() {
-        if (!flip) {
+    public void drawSunLight(int rotation) {
+       // if (!flip) {
             sunLine.drawOutline();
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270));
-        } else {
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315));
-        }
-        flip = !flip;
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90));
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180));
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270));
+//            
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45));
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135));
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225));
+//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315));
+        //}
+        //else {
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(0+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270+rotation));
+            
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225+rotation));
+            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315+rotation));
+      //  }
+    //    flip = !flip;
     }
 
     @Override

@@ -805,6 +805,6 @@ public abstract class Shape2D {
     }
 
     public void paint() {
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, this.filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, this.filledColor, false);
     }
 }

@@ -48,7 +48,8 @@ public class AnimationFrame extends javax.swing.JFrame {
     }
 
     public class AnimationPanel extends JPanel {
-
+        
+        private int rotation = 0;
         private  int widthBoard;
         private  int heightBoard;
 
@@ -171,8 +172,9 @@ public class AnimationFrame extends javax.swing.JFrame {
             
             /* SUN */
             sun.drawSun();
-            sun.drawSunLight();
-
+            sun.drawSunLight(rotation);
+            rotation+=5;
+            if(rotation>45) rotation =0;
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
