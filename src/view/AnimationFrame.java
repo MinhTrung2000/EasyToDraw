@@ -190,9 +190,10 @@ public class AnimationFrame extends javax.swing.JFrame {
             // Set property trong hàm setComponent
             fish1.setPropertyFish1(startPointFish1);
             fish1.drawFish1();
-
-//            fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
-//            fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
+            
+            fish2.setPropertyFish2(startPointFish2);
+            fish2.drawFish2();
+            fish2.paintFish2();
             this.repaint();
         }
 

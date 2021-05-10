@@ -44,7 +44,7 @@ public class Fish1 extends Shape2D {
     private SKPoint2D savedPoint = new SKPoint2D();
 
     private SKPoint2D startPointFish1 = new SKPoint2D();
-    private SKPoint2D startPointFish2 = new SKPoint2D();
+    
 
     private SKPoint2D thanCa1_centerP = new SKPoint2D();
     private SKPoint2D dauCa1_CenterP = new SKPoint2D();
