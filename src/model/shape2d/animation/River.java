@@ -26,13 +26,13 @@ public class River extends Shape2D {
     int[] roughNumberArray110 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2};
     int[] roughNumberArray110_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2};
     int height1 = 22;
-    int height2 = height1 + 27 + 8;
+    int height2 = height1 + 45 ;
     Color surface = new Color(114, 204, 226);
     Color bottom = new Color(37, 188, 213);
 
     public void drawRiver(SKPoint2D startP) {
 
-        int realWidthLimit = SettingConstants.WIDTH_DRAW_AREA / SettingConstants.RECT_SIZE - 1;
+        int realWidthLimit = 1361 / SettingConstants.RECT_SIZE +3 -1;
         this.filledColor = new Color(101, 202, 225);
         //phân viền mặt nước
         this.drawSegment(startP, new SKPoint2D(startP, realWidthLimit, 0));
@@ -47,7 +47,7 @@ public class River extends Shape2D {
         pointList.add(new SKPoint2D(startP, 0, height1));
         pointList.add(new SKPoint2D(pointList.get(0), 40, -6));
         pointList.add(new SKPoint2D(pointList.get(1), 70, 8));
-        pointList.add(new SKPoint2D(pointList.get(2), 30, -5));
+        pointList.add(new SKPoint2D(pointList.get(2), 53, -5));
         pointList.add(new SKPoint2D(startP, realWidthLimit, height1));
 
         this.filledColor = new Color(137, 225, 255);
@@ -82,10 +82,10 @@ public class River extends Shape2D {
 
     public void paintRiver(SKPoint2D startP) {
         this.filledColor = surface;
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, 4), filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, 4), filledColor, false);
 
         this.filledColor = bottom;
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, height1 + 4), filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, height1 + 4), filledColor, false);
     }
 
     @Override

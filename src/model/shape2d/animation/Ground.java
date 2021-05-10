@@ -34,19 +34,19 @@ public class Ground extends Shape2D {
     public void drawGround(SKPoint2D startP) {
 //        int rY_Thickness = 15;
 //        int rX_Length = 30;
-        int realWidthLimit = SettingConstants.WIDTH_DRAW_AREA / SettingConstants.RECT_SIZE - 1;
+        int realWidthLimit = 1361 / SettingConstants.RECT_SIZE +3 -1;
         this.filledColor = new Color(15, 242, 22);
-        int flatGround1_Length = 30;
-        int slopeGround1_Length = 50;
-        int slopeGround2_Length = 45;
-        int flatGround2_Length = 50;
+        int flatGround1_Length = 40;
+        int slopeGround1_Length = 55;
+        int slopeGround2_Length = 43;
+        int flatGround2_Length = 60;
         int slopeGround3_Length = realWidthLimit - (flatGround1_Length + flatGround2_Length + slopeGround1_Length + slopeGround2_Length);
 
         ArrayList<SKPoint2D> pointList = new ArrayList<>();
         pointList.add(new SKPoint2D(startP, 0, 0));
         pointList.add(new SKPoint2D(startP, flatGround1_Length, 0));
         pointList.add(new SKPoint2D(pointList.get(1), slopeGround1_Length, 8));
-        pointList.add(new SKPoint2D(pointList.get(2), slopeGround2_Length, -15));
+        pointList.add(new SKPoint2D(pointList.get(2), slopeGround2_Length, -10));
         pointList.add(new SKPoint2D(pointList.get(3), flatGround2_Length, 0));
         pointList.add(new SKPoint2D(pointList.get(4), slopeGround3_Length, 3));
         this.drawZigZagS(pointList, roughNumberArray110, roughNumberArray110_2);
@@ -61,15 +61,15 @@ public class Ground extends Shape2D {
 
         //đặt trước vị trí vẽ hoa
         this.flower_CenterP.put(new SKPoint2D(startP, 20, -10), true);
-        this.flower_CenterP.put(new SKPoint2D(startP, 175, 4), false);
-        this.flower_CenterP.put(new SKPoint2D(startP, 42, 10), false);
-        this.flower_CenterP.put(new SKPoint2D(startP, 140, 7), true);
+        this.flower_CenterP.put(new SKPoint2D(startP, 100, -3), false);
+        this.flower_CenterP.put(new SKPoint2D(startP, 63, 10), false);
+        this.flower_CenterP.put(new SKPoint2D(startP, 17, 7), true);
 
     }
 
     public void paintGround(SKPoint2D startP) {
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 5, 5), grassColor);
-
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 5, 5), grassColor, false);
+        
     }
 
     public void drawFlower(SKPoint2D startP, boolean right) {
@@ -102,11 +102,11 @@ public class Ground extends Shape2D {
     public void paintFlower() {
         this.filledColor = new Color(252, 164, 237);
         for (Map.Entry<SKPoint2D, Boolean> centerP : flower_CenterP.entrySet()) {
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP.getKey(), new Color(249, 255, 135));
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), -3, 2), filledColor);
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), 3, 2), filledColor);
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), 3, -2), filledColor);
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), -3, -2), filledColor);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP.getKey(), new Color(249, 255, 135), false);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), -3, 2), filledColor, false);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), 3, 2), filledColor, false);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), 3, -2), filledColor, false);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerP.getKey(), -3, -2), filledColor, false);
         }
 
     }

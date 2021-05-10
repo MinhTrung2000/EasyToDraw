@@ -220,11 +220,11 @@ public class Fish1 extends Shape2D {
         savePoint(diemMat10);
 
         /* Tô màu */
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, headPosToPaint, new Color(243, 240, 161));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, new Color(202, 192, 50));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, new Color(254, 241, 2));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, new Color(254, 241, 2));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(254, 241, 2));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, headPosToPaint, new Color(243, 240, 161), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, new Color(202, 192, 50), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, new Color(254, 241, 2), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, new Color(254, 241, 2), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(254, 241, 2), false);
 
         setFilledColor(MAU_VAN_DUOI_CA);
 

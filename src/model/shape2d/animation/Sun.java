@@ -73,13 +73,13 @@ public class Sun extends Shape2D {
         this.filledColor = Color1;
 
         // tô nền => tạo viền => tô lại màu trong viền
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
 
         this.filledColor = Color2;
 
         this.drawZigZag(pointList);
 
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
     }
 
     public void drawSunLight() {

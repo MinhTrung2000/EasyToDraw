@@ -239,11 +239,11 @@ public class Fish2 extends Shape2D {
     public void paintFish2() {
         //tô thân
         
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, SKIN_COLOR);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, SKIN_COLOR, false);
         //tô vây và đuôi
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, SKIN_COLOR);  
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, SKIN_COLOR);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, SKIN_COLOR);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, SKIN_COLOR, false);  
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, SKIN_COLOR, false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, SKIN_COLOR, false);
 
         //vẽ vân ở vây và đuôi
         this.filledColor = FIN_SHAPE_COLOR;

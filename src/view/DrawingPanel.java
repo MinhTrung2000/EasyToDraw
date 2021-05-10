@@ -856,7 +856,7 @@ public class DrawingPanel extends JPanel {
                     copyColorValue(colorOfBoard, changedColorOfBoard, true);
                     SKPoint2D currentMousePos = new SKPoint2D();
                     currentMousePos.setLocation(event.getX() / SettingConstants.RECT_SIZE, event.getY() / SettingConstants.RECT_SIZE);
-                    Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor);
+                    Ultility.paint(changedColorOfBoard, markedChangeOfBoard, currentMousePos, selectedColor, false);
                     repaint();
                     recentShape = null;
                     break;

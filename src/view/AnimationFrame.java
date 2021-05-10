@@ -2,6 +2,7 @@ package view;
 
 import control.SettingConstants;
 import control.myawt.SKPoint2D;
+import control.util.Ultility;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
 
-        timer = new Timer(500, new ActionListener() {
+        timer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getAnimationPanel().animate();
@@ -48,8 +49,8 @@ public class AnimationFrame extends javax.swing.JFrame {
 
     public class AnimationPanel extends JPanel {
 
-        private int widthBoard;
-        private int heightBoard;
+        private  int widthBoard;
+        private  int heightBoard;
 
         private Color[][] colorOfBoard;
         private String[][] coordOfBoard;
@@ -70,17 +71,18 @@ public class AnimationFrame extends javax.swing.JFrame {
         private Fish2 fish2;
 
         /* Object intial position */
-        private SKPoint2D startPointSun = new SKPoint2D(70, 20);
+        private SKPoint2D startPointSun = new SKPoint2D(30, 20);
+        private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
+        private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
         private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
-        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 25);
-        private SKPoint2D startPointVolcano = new SKPoint2D(80, 45);
-        private SKPoint2D endPointVolcano = new SKPoint2D(40, 105);
-        private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -25);
-        private SKPoint2D startPointGround = new SKPoint2D(0, 56);
-        private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 20);
+ 
+        private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
+        private SKPoint2D startPointGround = new SKPoint2D(0, 70);
+        private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
         private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 20, 40);
-        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 40);
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 100, 35);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 57);
 
         public AnimationPanel() {
         }
@@ -160,10 +162,13 @@ public class AnimationFrame extends javax.swing.JFrame {
             resetChangedPropertyArray();
 
             /* VOLCANO */
-//            smoke.drawSmoke(startPointSmoke);
-//            volcano.drawVolcano(startPointVolcano, endPointVolcano);
-//            volcano.paintVolcano(startPointVolcano);
+            smoke.drawSmoke(startPointSmoke);
+            volcano.drawVolcano(startPointVolcano, endPointVolcano);
+            volcano.paintVolcano(startPointVolcano);
 
+            mergeColorValue();
+            resetChangedPropertyArray();
+            
             /* SUN */
             sun.drawSun();
             sun.drawSunLight();
@@ -172,15 +177,26 @@ public class AnimationFrame extends javax.swing.JFrame {
             cloud1.drawCloud();
             cloud2.drawCloud();
 
+           
+
             /* GROUND */
             ground.drawGround(startPointGround);
             ground.paintGround(startPointGround);
             ground.drawAndPaintFlowers();
-
-            /* APPLE TREE */
+            
+            mergeColorValue();
+            resetChangedPropertyArray();
+            
+             /* APPLE TREE */
             tree.drawAppleTree(startPointTree);
             tree.paintAppleTree(startPointTree);
             tree.paintApple();
+
+            mergeColorValue();
+            resetChangedPropertyArray();
+            
+            /* SKY */
+            Ultility.paint(colorOfBoard, markedChangeOfBoard, new SKPoint2D(startPointGround, 10, -10), new Color(205,249,255), true);
 
             /* RIVER */
             river.drawRiver(startPointRiver);
@@ -252,6 +268,8 @@ public class AnimationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        animationPanel.setPreferredSize(new java.awt.Dimension(1361, 972));
+
         javax.swing.GroupLayout animationPanelLayout = new javax.swing.GroupLayout(animationPanel);
         animationPanel.setLayout(animationPanelLayout);
         animationPanelLayout.setHorizontalGroup(
@@ -260,7 +278,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         );
         animationPanelLayout.setVerticalGroup(
             animationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 826, Short.MAX_VALUE)
+            .addGap(0, 960, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

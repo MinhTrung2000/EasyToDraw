@@ -91,7 +91,7 @@ public class Ultility {
      * @param point
      * @param chosenColor
      */
-    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, SKPoint2D point, Color chosenColor) {
+    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, SKPoint2D point, Color chosenColor, boolean paintOnRealBoard) {
         //  int coordX = point.getCoordX();
         //  int coordY = point.getCoordY();
 
@@ -104,7 +104,8 @@ public class Ultility {
         Color oldColor = colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()];
 
         if (!oldColor.equals(chosenColor)) {
-             markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
+            if(!paintOnRealBoard)  markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
+            
             colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()] = chosenColor;
             queue.add(new Pair<>((int) point.getCoordX(), (int) point.getCoordY()));
 
@@ -119,7 +120,7 @@ public class Ultility {
 
                     if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
                             && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
-                        markedArray[newCoordY][newCoordX] = true;
+                        if(!paintOnRealBoard) markedArray[newCoordY][newCoordX] = true;   
                         colorOfBoard[newCoordY][newCoordX] = chosenColor;
                         queue.add(new Pair<>(newCoordX, newCoordY));
 
