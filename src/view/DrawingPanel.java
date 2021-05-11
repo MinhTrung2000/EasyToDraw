@@ -701,7 +701,7 @@ public class DrawingPanel extends JPanel {
             return;
         }
 
-        recentShape.getPointSymInstance(centerPoint);
+        recentShape.createPointSymInstance(centerPoint);
         apply();
         repaint();
     }
@@ -711,7 +711,7 @@ public class DrawingPanel extends JPanel {
             return;
         }
 
-        recentShape.getLineSymInstance(a, b, c);
+        recentShape.createLineSymInstance(a, b, c);
         apply();
         repaint();
     }

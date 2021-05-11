@@ -791,7 +791,7 @@ public abstract class Shape2D {
         }
     }
 
-    public void getPointSymInstance(SKPoint2D basePoint) {
+    public void createPointSymInstance(SKPoint2D basePoint) {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -802,7 +802,7 @@ public abstract class Shape2D {
         }
     }
 
-    public void getLineSymInstance(double a, double b, double c) {
+    public void createLineSymInstance(double a, double b, double c) {
         if (pointSet.isEmpty()) {
             return;
         }

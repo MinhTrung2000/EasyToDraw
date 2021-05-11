@@ -130,8 +130,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
                 acceptCenterPoint.setCoordY(Ultility.getValidInputComponent(
                         textfPointCoordY, false, yBound));
 
-                acceptCenterPoint.convertToSystemCoord();
-
                 ((MainFrame) getParent()).getDrawingPanel()
                         .paintViaPointSymmetry(acceptCenterPoint);
             } catch (NumberFormatException ex) {
