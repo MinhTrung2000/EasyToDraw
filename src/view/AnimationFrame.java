@@ -72,11 +72,11 @@ public class AnimationFrame extends javax.swing.JFrame {
         private Fish2 fish2;
 
         /* Object intial position */
-        private SKPoint2D startPointSun = new SKPoint2D(30, 20);
+        private SKPoint2D startPointSun = new SKPoint2D(20, 20);
         private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
         private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
-        private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
-        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 20);
+        private SKPoint2D startPointCloud1 = new SKPoint2D(60, 35);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(70, 20);
         private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
         private SKPoint2D startPointGround = new SKPoint2D(0, 70);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
@@ -170,10 +170,10 @@ public class AnimationFrame extends javax.swing.JFrame {
             /* SUN */
             sun.drawSun();
             sun.drawSunLight(rotation);
-            rotation += 5;
-            if (rotation > 45) {
-                rotation = 0;
-            }
+
+            rotation+=10;
+            if(rotation>45) rotation =0;
+
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();

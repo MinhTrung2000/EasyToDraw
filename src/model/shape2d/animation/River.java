@@ -25,8 +25,8 @@ public class River extends Shape2D {
     public static final int HEIGHT_1 = 22;
     public static final int HEIGHT_2 = HEIGHT_1 + 45;
 
-    public static final Color SURFACE_COLOR = new Color(114, 204, 226);
-    public static final Color BOTTOM_COLOR = new Color(37, 188, 213);
+    public static final Color SURFACE_COLOR = new Color(151, 251, 251);
+    public static final Color BOTTOM_COLOR = new Color(120, 250, 250);
 
     public static final Color COLOR_1 = new Color(101, 202, 225);
     public static final Color COLOR_2 = new Color(137, 225, 255);
@@ -34,6 +34,14 @@ public class River extends Shape2D {
     public River(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
+
+
+    int[] roughNumberArray110 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2};
+    int[] roughNumberArray110_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2};
+    int height1 = 22;
+    int height2 = height1 + 45 ;
+
+
 
     public void drawRiver(SKPoint2D startP) {
         int realWidthLimit = 1361 / SettingConstants.RECT_SIZE + 3 - 1;

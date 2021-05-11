@@ -37,8 +37,8 @@ public class Fish2 extends Shape2D {
     public static final int LECH_TREN_2 = 4;
     public static final int LECH_DUOI_2 = 4;
     //COLOR
-    public static final Color FIN_SHAPE_COLOR = new Color(183, 250, 255);
-    public static final Color SKIN_COLOR = new Color(0, 182, 232);
+    public static final Color FIN_SHAPE_COLOR = new Color(210, 255, 255);   
+    public static final Color SKIN_COLOR = new Color(0, 152, 255);
     public static final Color FISH_MOUTH_COLOR = new Color(180, 61, 59);
 
     private SKPoint2D startPointFish2 = new SKPoint2D();
@@ -171,9 +171,9 @@ public class Fish2 extends Shape2D {
         BotFin_StartP[0] = new SKPoint2D(startPointFish2, widthDirection * (DISTANCE_FIN_F2_X - 1 + 3), RADIUS_BODY_F2_Y + 1);
         BotFin_EndP[0] = new SKPoint2D(BotFin_StartP[0], widthDirection * 1, +BOTTOM_FIN_HEIGHT_2 - 2);
         for (int i = 1; i < 3; i++) {
-            BotFin_StartP[i] = new SKPoint2D(BotFin_StartP[i - 1], widthDirection * 3, 0);
-            BotFin_EndP[i] = new SKPoint2D(BotFin_StartP[i], widthDirection * 1, BOTTOM_FIN_HEIGHT_2 - 2);
-            drawSegment(first_botFinFP_StartP, first_botFinFP_EndP);
+            BotFin_StartP[i] = new SKPoint2D(BotFin_StartP[i-1], widthDirection * 3, 0);
+            BotFin_EndP[i] = new SKPoint2D(BotFin_StartP[i], widthDirection *1, BOTTOM_FIN_HEIGHT_2 - 2);
+
         }
 
         first_botFinFP_StartP.setLocation(startPointFish2, widthDirection * (DISTANCE_FIN_F2_X - 1 + 3), RADIUS_BODY_F2_Y + 1);

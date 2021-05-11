@@ -106,8 +106,17 @@ public class SKPoint2D {
      * @param angle double (radian)
      * @return SKPoint2D
      */
+//<<<<<<< HEAD
+//    public  SKPoint2D createRotationPoint(SKPoint2D basePoint, double angle) {
+//        Vector2D vec = new Vector2D(basePoint, this);
+//
+//        vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
+//        SKPoint2D ret = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
+//        return ret;
+//=======
     public SKPoint2D getRotationPoint(SKPoint2D basePoint, double angle) {
         return Transform2D.getTransformPoint(this, Transform2D.getRotateFromPointMat(basePoint, angle));
+//>>>>>>> 80e675b92700a2147f9399b62ac5b2eb406401f5
     }
 
     public SKPoint2D getScalePoint(double sx, double sy) {
