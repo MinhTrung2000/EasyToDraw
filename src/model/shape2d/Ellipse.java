@@ -250,13 +250,64 @@ public class Ellipse extends Shape2D {
 
     @Override
     public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        super.createRotateInstance(centerPoint, angle); //To change body of generated methods, choose Tools | Templates.
-        
+        super.createRotateInstance(centerPoint, angle);
+
         double totalAngle = rotatedAngle + angle;
-        
+
         SKPoint2D newCenterPoint = this.centerPoint2D.createRotate(centerPoint, totalAngle);
-        
+
         newCenterPoint.saveCoord(changedCoordOfBoard);
         savePoint(newCenterPoint);
     }
+
+    @Override
+    public void createOCenterSymInstance() {
+        super.createOCenterSymInstance();
+
+        SKPoint2D newCenterPoint = this.centerPoint2D.createOCenterSym();
+
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
+    }
+
+    @Override
+    public void createOXSymInstance() {
+        super.createOXSymInstance();
+
+        SKPoint2D newCenterPoint = this.centerPoint2D.createOXSym();
+
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
+    }
+
+    @Override
+    public void createOYSymInstance() {
+        super.createOYSymInstance();
+
+        SKPoint2D newCenterPoint = this.centerPoint2D.createOYSym();
+
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
+    }
+
+    @Override
+    public void createPointSymInstance(SKPoint2D basePoint) {
+        super.createPointSymInstance(basePoint);
+
+        SKPoint2D newCenterPoint = this.centerPoint2D.createPointSym(basePoint);
+
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
+    }
+
+    @Override
+    public void createLineSymInstance(double a, double b, double c) {
+        super.createLineSymInstance(a, b, c);
+
+        SKPoint2D newCenterPoint = this.centerPoint2D.createLineSym(a, b, c);
+
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
+    }
+
 }

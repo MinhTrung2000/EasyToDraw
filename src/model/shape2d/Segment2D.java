@@ -189,73 +189,56 @@ public class Segment2D extends Shape2D {
 
     @Override
     public void createOCenterSymInstance() {
-        if (pointSet.isEmpty()) {
-            return;
-        }
+        super.createOCenterSymInstance();
+        
         SKPoint2D newStartPoint = startPoint2D.createOCenterSym();
         SKPoint2D newEndPoint = endPoint2D.createOCenterSym();
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
     }
 
     @Override
     public void createOXSymInstance() {
-        if (pointSet.isEmpty()) {
-            return;
-        }
+        super.createOXSymInstance();
+        
         SKPoint2D newStartPoint = startPoint2D.createOXSym();
         SKPoint2D newEndPoint = endPoint2D.createOXSym();
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
     }
 
     @Override
     public void createOYSymInstance() {
-        if (pointSet.isEmpty()) {
-            return;
-        }
+        super.createOYSymInstance();
+        
         SKPoint2D newStartPoint = startPoint2D.createOYSym();
         SKPoint2D newEndPoint = endPoint2D.createOYSym();
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
     }
 
     @Override
     public void createPointSymInstance(SKPoint2D basePoint) {
-        if (pointSet.isEmpty()) {
-            return;
-        }
-
+        super.createPointSymInstance(basePoint);
+        
         SKPoint2D newStartPoint = startPoint2D.createPointSym(basePoint);
         SKPoint2D newEndPoint = endPoint2D.createPointSym(basePoint);
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
     }
 
     @Override
     public void createLineSymInstance(double a, double b, double c) {
-        if (pointSet.isEmpty()) {
-            return;
-        }
+        super.createLineSymInstance(a, b, c);
 
         SKPoint2D newStartPoint = startPoint2D.createLineSym(a, b, c);
         SKPoint2D newEndPoint = endPoint2D.createLineSym(a, b, c);
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
     }
 }

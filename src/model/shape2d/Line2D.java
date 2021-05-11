@@ -158,7 +158,7 @@ public class Line2D extends Segment2D {
         if (pointSet.isEmpty()) {
             return;
         }
-        
+
         double totalAngle = this.rotatedAngle + angle;
 
         SKPoint2D newStartPoint = startPoint2D.createRotate(centerPoint, totalAngle);
@@ -171,4 +171,90 @@ public class Line2D extends Segment2D {
         line.drawOutline();
         line.saveCoordinates();
     }
+
+    @Override
+    public void createOCenterSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newStartPoint = startPoint2D.createOCenterSym();
+        SKPoint2D newEndPoint = endPoint2D.createOCenterSym();
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
+
+    @Override
+    public void createOXSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newStartPoint = startPoint2D.createOXSym();
+        SKPoint2D newEndPoint = endPoint2D.createOXSym();
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
+
+    @Override
+    public void createOYSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newStartPoint = startPoint2D.createOYSym();
+        SKPoint2D newEndPoint = endPoint2D.createOYSym();
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
+
+    @Override
+    public void createPointSymInstance(SKPoint2D basePoint) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newStartPoint = startPoint2D.createPointSym(basePoint);
+        SKPoint2D newEndPoint = endPoint2D.createPointSym(basePoint);
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
+
+    @Override
+    public void createLineSymInstance(double a, double b, double c) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newStartPoint = startPoint2D.createLineSym(a, b, c);
+        SKPoint2D newEndPoint = endPoint2D.createLineSym(a, b, c);
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
+
 }

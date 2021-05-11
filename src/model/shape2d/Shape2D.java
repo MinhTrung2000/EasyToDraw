@@ -777,7 +777,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i);
+            SKPoint2D point = pointSet.get(i).createVerticalSym(x);
+            savePoint(point);
         }
     }
 
@@ -787,7 +788,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i);
+            SKPoint2D point = pointSet.get(i).createHorizontalSym(y);
+            savePoint(point);
         }
     }
 

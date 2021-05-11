@@ -126,4 +126,70 @@ public class Triangle extends Shape2D {
         drawSegment(newPointB, newPointC);
         drawSegment(newPointC, newPointA);
     }
+
+    @Override
+    public void createOCenterSymInstance() {
+        super.createOCenterSymInstance();
+
+        SKPoint2D newPointA = pointA.createOCenterSym();
+        SKPoint2D newPointB = pointB.createOCenterSym();
+        SKPoint2D newPointC = pointC.createOCenterSym();
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOXSymInstance() {
+        super.createOXSymInstance();
+
+        SKPoint2D newPointA = pointA.createOXSym();
+        SKPoint2D newPointB = pointB.createOXSym();
+        SKPoint2D newPointC = pointC.createOXSym();
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOYSymInstance() {
+        super.createOYSymInstance();
+
+        SKPoint2D newPointA = pointA.createOYSym();
+        SKPoint2D newPointB = pointB.createOYSym();
+        SKPoint2D newPointC = pointC.createOYSym();
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createPointSymInstance(SKPoint2D basePoint) {
+        super.createPointSymInstance(basePoint);
+
+        SKPoint2D newPointA = pointA.createPointSym(basePoint);
+        SKPoint2D newPointB = pointB.createPointSym(basePoint);
+        SKPoint2D newPointC = pointC.createPointSym(basePoint);
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createLineSymInstance(double a, double b, double c) {
+        super.createLineSymInstance(a, b, c);
+        
+        SKPoint2D newPointA = pointA.createLineSym(a, b, c);
+        SKPoint2D newPointB = pointB.createLineSym(a, b, c);
+        SKPoint2D newPointC = pointC.createLineSym(a, b, c);
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+    }
+
 }

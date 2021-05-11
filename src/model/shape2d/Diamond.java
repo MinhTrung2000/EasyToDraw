@@ -95,7 +95,117 @@ public class Diamond extends Shape2D {
         drawSegment(newRightPoint, newBottomPoint);
         drawSegment(newBottomPoint, newLeftPoint);
         drawSegment(newLeftPoint, newTopPoint);
-        
+
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOCenterSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newTopPoint = topPoint.createOCenterSym();
+        SKPoint2D newBottomPoint = bottomPoint.createOCenterSym();
+        SKPoint2D newLeftPoint = leftPoint.createOCenterSym();
+        SKPoint2D newRightPoint = rightPoint.createOCenterSym();
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOXSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newTopPoint = topPoint.createOXSym();
+        SKPoint2D newBottomPoint = bottomPoint.createOXSym();
+        SKPoint2D newLeftPoint = leftPoint.createOXSym();
+        SKPoint2D newRightPoint = rightPoint.createOXSym();
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOYSymInstance() {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newTopPoint = topPoint.createOYSym();
+        SKPoint2D newBottomPoint = bottomPoint.createOYSym();
+        SKPoint2D newLeftPoint = leftPoint.createOYSym();
+        SKPoint2D newRightPoint = rightPoint.createOYSym();
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createPointSymInstance(SKPoint2D basePoint) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newTopPoint = topPoint.createPointSym(basePoint);
+        SKPoint2D newBottomPoint = bottomPoint.createPointSym(basePoint);
+        SKPoint2D newLeftPoint = leftPoint.createPointSym(basePoint);
+        SKPoint2D newRightPoint = rightPoint.createPointSym(basePoint);
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createLineSymInstance(double a, double b, double c) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        SKPoint2D newTopPoint = topPoint.createLineSym(a, b, c);
+        SKPoint2D newBottomPoint = bottomPoint.createLineSym(a, b, c);
+        SKPoint2D newLeftPoint = leftPoint.createLineSym(a, b, c);
+        SKPoint2D newRightPoint = rightPoint.createLineSym(a, b, c);
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+
         newTopPoint.saveCoord(changedCoordOfBoard);
         newBottomPoint.saveCoord(changedCoordOfBoard);
         newLeftPoint.saveCoord(changedCoordOfBoard);

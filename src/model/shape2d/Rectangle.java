@@ -12,22 +12,17 @@ public class Rectangle extends Shape2D {
         SQUARE
     }
 
-    private SKPoint2D leftTopPoint;
-    private SKPoint2D rightTopPoint;
-    private SKPoint2D leftBottomPoint;
-    private SKPoint2D rightBottomPoint;
+    private SKPoint2D leftTopPoint = new SKPoint2D();
+    private SKPoint2D rightTopPoint = new SKPoint2D();
+    private SKPoint2D leftBottomPoint = new SKPoint2D();
+    private SKPoint2D rightBottomPoint = new SKPoint2D();
 
     public Rectangle(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-
-        leftTopPoint = new SKPoint2D(-1, -1);
-        rightTopPoint = new SKPoint2D(-1, -1);
-        leftBottomPoint = new SKPoint2D(-1, -1);
-        rightBottomPoint = new SKPoint2D(-1, -1);
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
-        centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
+        centerPoint2D.setMidLocation(startPoint, endPoint);
 
         if (modal == Modal.RECTANGLE) {
             leftTopPoint.setLocation(startPoint);
@@ -122,23 +117,98 @@ public class Rectangle extends Shape2D {
         if (pointSet.isEmpty()) {
             return;
         }
-        
+
         double totalAngle = rotatedAngle + angle;
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createRotate(centerPoint, totalAngle);
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createRotate(centerPoint, totalAngle);
         SKPoint2D newRightTopPoint = rightTopPoint.createRotate(centerPoint, totalAngle);
         SKPoint2D newRightBottomPoint = rightBottomPoint.createRotate(centerPoint, totalAngle);
-        
+
         newLeftTopPoint.saveCoord(changedCoordOfBoard);
         newLeftBottomPoint.saveCoord(changedCoordOfBoard);
         newRightTopPoint.saveCoord(changedCoordOfBoard);
         newRightBottomPoint.saveCoord(changedCoordOfBoard);
-        
+
         drawSegment(newLeftTopPoint, newRightTopPoint);
         drawSegment(newRightTopPoint, newRightBottomPoint);
         drawSegment(newRightBottomPoint, newLeftBottomPoint);
         drawSegment(newLeftBottomPoint, newLeftTopPoint);
+    }
+
+    @Override
+    public void createOCenterSymInstance() {
+        super.createOCenterSymInstance();
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.createOCenterSym();
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createOCenterSym();
+        SKPoint2D newRightTopPoint = rightTopPoint.createOCenterSym();
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createOCenterSym();
+
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOXSymInstance() {
+        super.createOXSymInstance();
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.createOXSym();
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createOXSym();
+        SKPoint2D newRightTopPoint = rightTopPoint.createOXSym();
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createOXSym();
+
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createOYSymInstance() {
+        super.createOYSymInstance();
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.createOYSym();
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createOYSym();
+        SKPoint2D newRightTopPoint = rightTopPoint.createOYSym();
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createOYSym();
+
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createPointSymInstance(SKPoint2D basePoint) {
+        super.createPointSymInstance(basePoint);
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.createPointSym(basePoint);
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createPointSym(basePoint);
+        SKPoint2D newRightTopPoint = rightTopPoint.createPointSym(basePoint);
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createPointSym(basePoint);
+
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
+    }
+
+    @Override
+    public void createLineSymInstance(double a, double b, double c) {
+        super.createLineSymInstance(a, b, c);
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.createLineSym(a, b, c);
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createLineSym(a, b, c);
+        SKPoint2D newRightTopPoint = rightTopPoint.createLineSym(a, b, c);
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createLineSym(a, b, c);
+
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
     }
 
 }
