@@ -257,9 +257,11 @@ public class Fish2 extends Shape2D {
 
         drawSegment(duoiDuoi2_StartP2, duoi2_EndP);
 
-        //TÔ MÀU
+        /* TÔ MÀU */
+        
         //tô thân
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, SKIN_COLOR, false);
+
         //tô vây và đuôi
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, SKIN_COLOR, false);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, SKIN_COLOR, false);
@@ -267,8 +269,8 @@ public class Fish2 extends Shape2D {
 
         //vẽ vân ở vây và đuôi
         this.filledColor = FIN_SHAPE_COLOR;
-        //vân trên
 
+        //vân trên
         for (int i = 0; i < 4; i++) {
             drawSegment(TopFin_StartP[i], TopFin_EndP[i]);
         }
@@ -277,7 +279,7 @@ public class Fish2 extends Shape2D {
         for (int i = 0; i < 3; i++) {
             drawSegment(BotFin_StartP[i], BotFin_EndP[i]);
         }
-        
+
         // đuôi
         drawSegment(first_botTailFP_StartP, first_botTailFP_EndP);
 
