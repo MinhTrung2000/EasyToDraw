@@ -6,76 +6,67 @@ import java.awt.Color;
 public class Star extends Shape2D {
 
     // Five top points
-    private SKPoint2D pointA;
-    private SKPoint2D pointB;
-    private SKPoint2D pointC;
-    private SKPoint2D pointD;
-    private SKPoint2D pointE;
+    private SKPoint2D pointA = new SKPoint2D();
+    private SKPoint2D pointB = new SKPoint2D();
+    private SKPoint2D pointC = new SKPoint2D();
+    private SKPoint2D pointD = new SKPoint2D();
+    private SKPoint2D pointE = new SKPoint2D();
 
-    // File oppsite points of above
-    private SKPoint2D opPointA;
-    private SKPoint2D opPointB;
-    private SKPoint2D opPointC;
-    private SKPoint2D opPointD;
-    private SKPoint2D opPointE;
+    // Five oppsite points of above
+    private SKPoint2D opPointA = new SKPoint2D();
+    private SKPoint2D opPointB = new SKPoint2D();
+    private SKPoint2D opPointC = new SKPoint2D();
+    private SKPoint2D opPointD = new SKPoint2D();
+    private SKPoint2D opPointE = new SKPoint2D();
 
     public Star(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-
-        pointA = new SKPoint2D();
-        pointB = new SKPoint2D();
-        pointC = new SKPoint2D();
-        pointD = new SKPoint2D();
-        pointE = new SKPoint2D();
-
-        opPointA = new SKPoint2D();
-        opPointB = new SKPoint2D();
-        opPointC = new SKPoint2D();
-        opPointD = new SKPoint2D();
-        opPointE = new SKPoint2D();
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
-        this.startPoint2D = startPoint;
-        this.endPoint2D = endPoint;
-        
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
-        
-         int heightValue = Math.abs(height);
-            int widthValue = Math.abs(width);
-            int preferedLength;
-            if (heightValue >= widthValue) {
-                preferedLength = widthValue;
-            } else {
-                preferedLength = heightValue;
-            }
-        int widthDirection;
-            if (width < 0) {
-                widthDirection = -1;
-            } else {
-                widthDirection = 1;
-            }
 
-            int heightDirection;
-            if (height < 0) {
-                heightDirection = -1;
-            } else {
-                heightDirection = 1;
-            }
-            
-            
-        this.startPoint2D=startPoint;
+        int heightValue = Math.abs(height);
+
+        int widthValue = Math.abs(width);
+
+        int preferedLength;
+
+        if (heightValue >= widthValue) {
+            preferedLength = widthValue;
+        } else {
+            preferedLength = heightValue;
+        }
+
+        int widthDirection;
+
+        if (width < 0) {
+            widthDirection = -1;
+        } else {
+            widthDirection = 1;
+        }
+
+        int heightDirection;
+        if (height < 0) {
+            heightDirection = -1;
+        } else {
+            heightDirection = 1;
+        }
+
+        this.startPoint2D.setLocation(startPoint);
         this.endPoint2D.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
-        
-        centerPoint2D = SKPoint2D.midPoint(this.startPoint2D, this.endPoint2D);
-        if(widthDirection == 1 && heightDirection == 1 || widthDirection == -1 && heightDirection ==1){
+
+        centerPoint2D.setMidLocation(this.startPoint2D, this.endPoint2D);
+
+        if (widthDirection == 1 && heightDirection == 1 || widthDirection == -1 && heightDirection == 1) {
             pointA.setLocation(centerPoint2D.getCoordX(), this.startPoint2D.getCoordY());
-        }else{
+        } else {
             pointA.setLocation(centerPoint2D.getCoordX(), this.endPoint2D.getCoordY());
         }
-        
-        opPointA.setLocation(pointA.getCoordX(), pointA.getCoordY() + (int) ((centerPoint2D.getCoordY() - pointA.getCoordY()) * 3 / 2));
+
+        opPointA.setLocation(pointA.getCoordX(), pointA.getCoordY()
+                + (int) ((centerPoint2D.getCoordY() - pointA.getCoordY()) * 3 / 2));
 
         pointB = pointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
         opPointB = opPointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
@@ -129,4 +120,43 @@ public class Star extends Shape2D {
         pointD.saveCoord(changedCoordOfBoard);
         pointE.saveCoord(changedCoordOfBoard);
     }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        double totalAngle = rotatedAngle + angle;
+
+        SKPoint2D newPointA = pointA.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointB = pointB.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointC = pointC.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointD = pointD.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointE = pointE.getRotationPoint(centerPoint, totalAngle);
+
+        SKPoint2D newOpPointA = opPointA.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newOpPointB = opPointB.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newOpPointC = opPointC.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newOpPointD = opPointD.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newOpPointE = opPointE.getRotationPoint(centerPoint, totalAngle);
+
+        drawSegment(newPointA, newOpPointD);
+        drawSegment(newOpPointD, newPointB);
+        drawSegment(newPointB, newOpPointE);
+        drawSegment(newOpPointE, newPointC);
+        drawSegment(newPointC, newOpPointA);
+        drawSegment(newOpPointA, newPointD);
+        drawSegment(newPointD, newOpPointB);
+        drawSegment(newOpPointB, newPointE);
+        drawSegment(newPointE, newOpPointC);
+        drawSegment(newOpPointC, newPointA);
+        
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+        newPointD.saveCoord(changedCoordOfBoard);
+        newPointE.saveCoord(changedCoordOfBoard);
+    }
+
 }

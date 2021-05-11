@@ -5,57 +5,49 @@ import java.awt.Color;
 
 public class Diamond extends Shape2D {
 
-    private SKPoint2D startPoint;
-    private SKPoint2D endPoint;
-
-    private SKPoint2D leftPoint;
-    private SKPoint2D rightPoint;
-    private SKPoint2D topPoint;
-    private SKPoint2D bottomPoint;
+    private SKPoint2D leftPoint = new SKPoint2D();
+    private SKPoint2D rightPoint = new SKPoint2D();
+    private SKPoint2D topPoint = new SKPoint2D();
+    private SKPoint2D bottomPoint = new SKPoint2D();
 
     public enum Modal {
         COMMON_DIAMOND,
         SQUARE_DIAMOND,
     }
+
     public Diamond(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-
-        startPoint = new SKPoint2D();
-        endPoint = new SKPoint2D();
-        leftPoint = new SKPoint2D();
-        rightPoint = new SKPoint2D();
-        topPoint = new SKPoint2D();
-        bottomPoint = new SKPoint2D();
     }
 
-    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint,Modal modal) {
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
-        
-        this.startPoint = startPoint;
-        if(modal == Modal.COMMON_DIAMOND){
-            this.endPoint = endPoint;
+
+        this.startPoint2D.setLocation(startPoint);
+
+        if (modal == Modal.COMMON_DIAMOND) {
+            this.endPoint2D = endPoint;
         } else {
             int widthDirection = this.getWidthDirection(width);
             int heightDirection = this.getHeightDirection(height);
             int preferedLength = this.getPreferredLength(width, height);
-            
-            
-            this.endPoint.setLocation(this.startPoint.getCoordX()+widthDirection*preferedLength,this.startPoint.getCoordY()+heightDirection*preferedLength);
-        }
-        
-        
-        this.centerPoint2D = SKPoint2D.midPoint(this.startPoint, this.endPoint);
 
-        this.leftPoint.setLocation(this.startPoint.getCoordX(), this.centerPoint2D.getCoordY());
-        this.rightPoint.setLocation(this.endPoint.getCoordX(), this.centerPoint2D.getCoordY());
-        this.topPoint.setLocation(this.centerPoint2D.getCoordX(), this.startPoint.getCoordY());
-        this.bottomPoint.setLocation(this.centerPoint2D.getCoordX(), this.endPoint.getCoordY());
+            this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY() + heightDirection * preferedLength);
+        }
+
+        this.centerPoint2D = SKPoint2D.midPoint(this.startPoint2D, this.endPoint2D);
+
+        this.leftPoint.setLocation(this.startPoint2D.getCoordX(), this.centerPoint2D.getCoordY());
+        this.rightPoint.setLocation(this.endPoint2D.getCoordX(), this.centerPoint2D.getCoordY());
+        this.topPoint.setLocation(this.centerPoint2D.getCoordX(), this.startPoint2D.getCoordY());
+        this.bottomPoint.setLocation(this.centerPoint2D.getCoordX(), this.endPoint2D.getCoordY());
     }
+
     @Override
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
         setProperty(startPoint, endPoint, Modal.COMMON_DIAMOND);
     }
+
     @Override
     public void saveCoordinates() {
         this.leftPoint.saveCoord(changedCoordOfBoard);
@@ -84,5 +76,29 @@ public class Diamond extends Shape2D {
         leftPoint.rotate(rotatedAngle).move(vector);
         rightPoint.rotate(rotatedAngle).move(vector);
         centerPoint2D.move(vector);
+    }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        double totalAngle = rotatedAngle + angle;
+
+        SKPoint2D newTopPoint = topPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newBottomPoint = bottomPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newLeftPoint = leftPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newRightPoint = rightPoint.getRotationPoint(centerPoint, totalAngle);
+
+        drawSegment(newTopPoint, newRightPoint);
+        drawSegment(newRightPoint, newBottomPoint);
+        drawSegment(newBottomPoint, newLeftPoint);
+        drawSegment(newLeftPoint, newTopPoint);
+        
+        newTopPoint.saveCoord(changedCoordOfBoard);
+        newBottomPoint.saveCoord(changedCoordOfBoard);
+        newLeftPoint.saveCoord(changedCoordOfBoard);
+        newRightPoint.saveCoord(changedCoordOfBoard);
     }
 }

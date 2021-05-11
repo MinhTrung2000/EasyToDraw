@@ -26,7 +26,7 @@ public class Ellipse extends Shape2D {
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
-        
+
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
 
@@ -246,5 +246,17 @@ public class Ellipse extends Shape2D {
         }
 
         return ret;
+    }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        super.createRotateInstance(centerPoint, angle); //To change body of generated methods, choose Tools | Templates.
+        
+        double totalAngle = rotatedAngle + angle;
+        
+        SKPoint2D newCenterPoint = this.centerPoint2D.getRotationPoint(centerPoint, totalAngle);
+        
+        newCenterPoint.saveCoord(changedCoordOfBoard);
+        savePoint(newCenterPoint);
     }
 }

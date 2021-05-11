@@ -26,27 +26,22 @@ import java.awt.Point;
  */
 public class Arrow2D extends Shape2D {
 
-    private SKPoint2D pointA;
-    private SKPoint2D pointB;
-    private SKPoint2D pointC;
-    private SKPoint2D pointD;
-    private SKPoint2D pointE;
-    private SKPoint2D pointF;
-    private SKPoint2D pointG;
+    private SKPoint2D pointA = new SKPoint2D();
+    private SKPoint2D pointB = new SKPoint2D();
+    private SKPoint2D pointC = new SKPoint2D();
+    private SKPoint2D pointD = new SKPoint2D();
+    private SKPoint2D pointE = new SKPoint2D();
+    private SKPoint2D pointF = new SKPoint2D();
+    private SKPoint2D pointG = new SKPoint2D();
 
     public Arrow2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-
-        pointA = new SKPoint2D();
-        pointB = new SKPoint2D();
-        pointC = new SKPoint2D();
-        pointD = new SKPoint2D();
-        pointE = new SKPoint2D();
-        pointF = new SKPoint2D();
-        pointG = new SKPoint2D();
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
+        startPoint2D.setLocation(startPoint);
+        endPoint2D.setLocation(endPoint);
+
         centerPoint2D = SKPoint2D.midPoint(startPoint, endPoint);
 
         int dx = (int) (endPoint.getCoordX() - startPoint.getCoordX()) / 5;
@@ -100,4 +95,38 @@ public class Arrow2D extends Shape2D {
         pointF.saveCoord(changedCoordOfBoard);
         pointG.saveCoord(changedCoordOfBoard);
     }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        double totalAngle = rotatedAngle + angle;
+
+        SKPoint2D newPointA = pointA.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointB = pointB.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointC = pointC.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointD = pointD.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointE = pointE.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointF = pointF.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointG = pointG.getRotationPoint(centerPoint, totalAngle);
+
+        drawSegment(newPointA, newPointB);
+        drawSegment(newPointB, newPointC);
+        drawSegment(newPointC, newPointG);
+        drawSegment(newPointG, newPointE);
+        drawSegment(newPointE, newPointF);
+        drawSegment(newPointF, newPointD);
+        drawSegment(newPointD, newPointA);
+        
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+        newPointD.saveCoord(changedCoordOfBoard);
+        newPointE.saveCoord(changedCoordOfBoard);
+        newPointF.saveCoord(changedCoordOfBoard);
+        newPointG.saveCoord(changedCoordOfBoard);
+    }
+
 }

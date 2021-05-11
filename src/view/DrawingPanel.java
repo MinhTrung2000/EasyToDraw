@@ -127,7 +127,6 @@ public class DrawingPanel extends JPanel {
 
     private SKPoint2D eraserPos = new SKPoint2D();
 
-//    private boolean eraserIsSelected;
     public DrawingPanel() {
         this.colorOfBoard = new Color[HEIGHT_BOARD][WIDTH_BOARD];
         this.coordOfBoard = new String[HEIGHT_BOARD][WIDTH_BOARD];
@@ -812,19 +811,25 @@ public class DrawingPanel extends JPanel {
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard,
                                 changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        
                         if (Polygon_previousPoint == null) {
                             Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
                             Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
 
                             markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                             changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
+                            
                             startDrawingPoint.saveCoord(changedCoordOfBoard);
+                            
                             repaint();
                             return;
                         }
+                        
                         int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
                         int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
+                        
                         SKPoint2D neibourhoodPoint = new SKPoint2D();
+                        
                         boolean end = false;
 
                         for (int i = 0; i < 8; i++) {
@@ -837,6 +842,7 @@ public class DrawingPanel extends JPanel {
                                 break;
                             }
                         }
+                        
                         //chạy khi click vào điểm start mới
                         if (end == true || Polygon_previousPoint.equal(Polygon_firstPoint)) {
                             if (firstTimePolygon == true) {
@@ -865,9 +871,11 @@ public class DrawingPanel extends JPanel {
                         segment.drawOutline();
 
                         end = false;
+                        
                         if (startDrawingPoint.equal(Polygon_firstPoint)) {
                             end = true;
                         }
+                        
                         if (!end) {
                             for (int i = 0; i < 8; i++) {
                                 neibourhoodPoint.setLocation(startDrawingPoint.getCoordX() + D_X[i], startDrawingPoint.getCoordY() + D_Y[i]);
@@ -887,9 +895,10 @@ public class DrawingPanel extends JPanel {
 
                         markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                         changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
+                        
                         Polygon_firstPoint.saveCoord(changedCoordOfBoard);
+                        
                         repaint();
-
                         recentShape = null;
                     }
                     break;
@@ -926,7 +935,7 @@ public class DrawingPanel extends JPanel {
                     break;
                 }
             }
-            
+
             apply();
             repaint();
         }
@@ -1155,7 +1164,7 @@ public class DrawingPanel extends JPanel {
                 // để nó hiện lại những chỗ đã đi qua
                 resetChangedPropertyArray();
                 SKPoint2D hidePixelsPos = new SKPoint2D();
-                eraserPos.setLocation(e.getX() / SettingConstants.RECT_SIZE, 
+                eraserPos.setLocation(e.getX() / SettingConstants.RECT_SIZE,
                         e.getY() / SettingConstants.RECT_SIZE);
                 hidePixels(hidePixelsPos, false);
 
