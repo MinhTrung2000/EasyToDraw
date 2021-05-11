@@ -160,7 +160,6 @@ public class Transform2D {
 
         // Vector chi phuong cua (d): ax + by = c
         Vector2D vtcp = Vector2D.getVTCP(a, b, c);
-        System.out.println(vtcp);
 
         // Angle (CCW) with Ox from this line.
         double angleWithOx = Math.PI - vtcp.getAngleWithOx();
@@ -260,6 +259,6 @@ public class Transform2D {
     public static void main(String[] args) {
         System.out.println("Test: rotate by point");
         SKPoint2D p = new SKPoint2D(1, 4);
-        System.out.println(p.getRotationPoint(new SKPoint2D(0, 0), Math.toRadians(-30)));
+        System.out.println(p.createRotate(new SKPoint2D(0, 0), Math.toRadians(-30)));
     }
 }

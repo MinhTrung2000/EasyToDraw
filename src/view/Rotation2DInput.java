@@ -2,7 +2,6 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.InputVerifier;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import control.myawt.SKPoint2D;
@@ -10,9 +9,6 @@ import control.util.Ultility;
 import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
 import javax.swing.text.JTextComponent;
 import model.tuple.MyPair;
 
@@ -94,12 +90,10 @@ public class Rotation2DInput extends javax.swing.JDialog implements ActionListen
             acceptCenterPoint.setCoordY(Ultility.getValidInputComponent(
                     textfCenterPointCoordY, false, yBound));
 
-            acceptCenterPoint.convertToSystemCoord();
-
             double angle = Math.toRadians(Ultility.getValidInputComponent(
                     textfAngle, false, new MyPair(0, 360)));
 
-            if (rbtCCW.isSelected()) {
+            if (rbtCW.isSelected()) {
                 angle = -angle;
             }
 

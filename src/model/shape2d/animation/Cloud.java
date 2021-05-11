@@ -47,7 +47,7 @@ public class Cloud extends Shape2D {
 
     public void drawCloud() {
         Vector2D vectorSlip = new Vector2D(slip, 0);
-        SKPoint2D centerPointToPaint = this.centerPoint2D.getMovePoint(vectorSlip);
+        SKPoint2D centerPointToPaint = this.centerPoint2D.createMove(vectorSlip);
 
         for (int i = 0; i < pointSet.size(); i++) {
             SKPoint2D point = new SKPoint2D(pointSet.get(i));

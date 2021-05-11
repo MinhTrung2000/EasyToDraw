@@ -48,6 +48,7 @@ public class Star extends Shape2D {
         }
 
         int heightDirection;
+        
         if (height < 0) {
             heightDirection = -1;
         } else {
@@ -55,30 +56,37 @@ public class Star extends Shape2D {
         }
 
         this.startPoint2D.setLocation(startPoint);
-        this.endPoint2D.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
+
+        this.endPoint2D.setLocation(
+                startPoint.getCoordX() + widthDirection * preferedLength,
+                startPoint.getCoordY() + heightDirection * preferedLength
+        );
 
         centerPoint2D.setMidLocation(this.startPoint2D, this.endPoint2D);
 
-        if (widthDirection == 1 && heightDirection == 1 || widthDirection == -1 && heightDirection == 1) {
-            pointA.setLocation(centerPoint2D.getCoordX(), this.startPoint2D.getCoordY());
+        if ((widthDirection == 1 && heightDirection == 1) 
+                || (widthDirection == -1 && heightDirection == 1)) {
+            pointA.setLocation(centerPoint2D.getCoordX(), 
+                    this.startPoint2D.getCoordY());
         } else {
-            pointA.setLocation(centerPoint2D.getCoordX(), this.endPoint2D.getCoordY());
+            pointA.setLocation(centerPoint2D.getCoordX(), 
+                    this.endPoint2D.getCoordY());
         }
 
         opPointA.setLocation(pointA.getCoordX(), pointA.getCoordY()
                 + (int) ((centerPoint2D.getCoordY() - pointA.getCoordY()) * 3 / 2));
 
-        pointB = pointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointB = opPointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointB = pointA.createRotate(centerPoint2D, Math.toRadians(72));
+        opPointB = opPointA.createRotate(centerPoint2D, Math.toRadians(72));
 
-        pointC = pointB.getRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointC = opPointB.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointC = pointB.createRotate(centerPoint2D, Math.toRadians(72));
+        opPointC = opPointB.createRotate(centerPoint2D, Math.toRadians(72));
 
-        pointD = pointC.getRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointD = opPointC.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointD = pointC.createRotate(centerPoint2D, Math.toRadians(72));
+        opPointD = opPointC.createRotate(centerPoint2D, Math.toRadians(72));
 
-        pointE = pointD.getRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointE = opPointD.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointE = pointD.createRotate(centerPoint2D, Math.toRadians(72));
+        opPointE = opPointD.createRotate(centerPoint2D, Math.toRadians(72));
     }
 
     @Override
@@ -129,17 +137,17 @@ public class Star extends Shape2D {
 
         double totalAngle = rotatedAngle + angle;
 
-        SKPoint2D newPointA = pointA.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointB = pointB.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointC = pointC.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointD = pointD.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointE = pointE.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointA = pointA.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointB = pointB.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointC = pointC.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointD = pointD.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointE = pointE.createRotate(centerPoint, totalAngle);
 
-        SKPoint2D newOpPointA = opPointA.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newOpPointB = opPointB.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newOpPointC = opPointC.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newOpPointD = opPointD.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newOpPointE = opPointE.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newOpPointA = opPointA.createRotate(centerPoint, totalAngle);
+        SKPoint2D newOpPointB = opPointB.createRotate(centerPoint, totalAngle);
+        SKPoint2D newOpPointC = opPointC.createRotate(centerPoint, totalAngle);
+        SKPoint2D newOpPointD = opPointD.createRotate(centerPoint, totalAngle);
+        SKPoint2D newOpPointE = opPointE.createRotate(centerPoint, totalAngle);
 
         drawSegment(newPointA, newOpPointD);
         drawSegment(newOpPointD, newPointB);
@@ -151,7 +159,7 @@ public class Star extends Shape2D {
         drawSegment(newOpPointB, newPointE);
         drawSegment(newPointE, newOpPointC);
         drawSegment(newOpPointC, newPointA);
-        
+
         newPointA.saveCoord(changedCoordOfBoard);
         newPointB.saveCoord(changedCoordOfBoard);
         newPointC.saveCoord(changedCoordOfBoard);

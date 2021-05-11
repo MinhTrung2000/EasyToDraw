@@ -161,8 +161,8 @@ public class Line2D extends Segment2D {
         
         double totalAngle = this.rotatedAngle + angle;
 
-        SKPoint2D newStartPoint = startPoint2D.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newEndPoint = endPoint2D.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newStartPoint = startPoint2D.createRotate(centerPoint, totalAngle);
+        SKPoint2D newEndPoint = endPoint2D.createRotate(centerPoint, totalAngle);
 
         Line2D line = new Line2D(markedChangeOfBoard,
                 changedColorOfBoard, changedCoordOfBoard, this.filledColor);

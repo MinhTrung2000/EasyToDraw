@@ -104,13 +104,13 @@ public class Arrow2D extends Shape2D {
 
         double totalAngle = rotatedAngle + angle;
 
-        SKPoint2D newPointA = pointA.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointB = pointB.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointC = pointC.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointD = pointD.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointE = pointE.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointF = pointF.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newPointG = pointG.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointA = pointA.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointB = pointB.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointC = pointC.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointD = pointD.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointE = pointE.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointF = pointF.createRotate(centerPoint, totalAngle);
+        SKPoint2D newPointG = pointG.createRotate(centerPoint, totalAngle);
 
         drawSegment(newPointA, newPointB);
         drawSegment(newPointB, newPointC);

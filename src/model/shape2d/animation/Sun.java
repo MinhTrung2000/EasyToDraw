@@ -100,10 +100,10 @@ public class Sun extends Shape2D {
         
         this.filledColor = new Color (0,0,0);
         for(int i =0 ; i<8; i++){
-            sunLine_StartP[i] = traveringPoint_StartP.getRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine_EndP[i] = traveringPoint_EndP.getRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine2[i].setProperty(sunLine_StartP[i].getRotationPoint(this.centerPoint2D,Math.toRadians(rotation)),
-                   sunLine_EndP[i].getRotationPoint(this.centerPoint2D, Math.toRadians(rotation)));  
+            sunLine_StartP[i] = traveringPoint_StartP.createRotate(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine_EndP[i] = traveringPoint_EndP.createRotate(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine2[i].setProperty(sunLine_StartP[i].createRotate(this.centerPoint2D,Math.toRadians(rotation)),
+                   sunLine_EndP[i].createRotate(this.centerPoint2D, Math.toRadians(rotation)));  
             sunLine2[i].drawOutline();
             
         }

@@ -59,10 +59,10 @@ public class Rectangle extends Shape2D {
 
     @Override
     public void saveCoordinates() {
-        leftTopPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightTopPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        leftBottomPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightBottomPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftTopPoint.createRotate(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightTopPoint.createRotate(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftBottomPoint.createRotate(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightBottomPoint.createRotate(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
     }
 
     @Override
@@ -77,10 +77,10 @@ public class Rectangle extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempLeftTopPoint = leftTopPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempRightTopPoint = rightTopPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempLeftBottomPoint = leftBottomPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempRightBottomPoint = rightBottomPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftTopPoint = leftTopPoint.createRotate(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightTopPoint = rightTopPoint.createRotate(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftBottomPoint = leftBottomPoint.createRotate(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightBottomPoint = rightBottomPoint.createRotate(centerPoint2D, this.rotatedAngle);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
         drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);
@@ -125,10 +125,10 @@ public class Rectangle extends Shape2D {
         
         double totalAngle = rotatedAngle + angle;
         
-        SKPoint2D newLeftTopPoint = leftTopPoint.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newLeftBottomPoint = leftBottomPoint.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newRightTopPoint = rightTopPoint.getRotationPoint(centerPoint, totalAngle);
-        SKPoint2D newRightBottomPoint = rightBottomPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newLeftTopPoint = leftTopPoint.createRotate(centerPoint, totalAngle);
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.createRotate(centerPoint, totalAngle);
+        SKPoint2D newRightTopPoint = rightTopPoint.createRotate(centerPoint, totalAngle);
+        SKPoint2D newRightBottomPoint = rightBottomPoint.createRotate(centerPoint, totalAngle);
         
         newLeftTopPoint.saveCoord(changedCoordOfBoard);
         newLeftBottomPoint.saveCoord(changedCoordOfBoard);

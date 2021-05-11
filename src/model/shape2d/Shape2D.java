@@ -713,7 +713,7 @@ public abstract class Shape2D {
         double totalAngle = this.rotatedAngle + angle;
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D pt = pointSet.get(i).getRotationPoint(centerPoint, totalAngle);
+            SKPoint2D pt = pointSet.get(i).createRotate(centerPoint, totalAngle);
             savePoint(pt);
         }
     }
@@ -728,7 +728,7 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).getMovePoint(vector);
+            SKPoint2D point = pointSet.get(i).createMove(vector);
             savePoint(point.getCoordX(), point.getCoordY());
         }
     }
@@ -745,8 +745,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createCenterOSymmetry();
-            savePoint(point.getCoordX(), point.getCoordY());
+            SKPoint2D point = pointSet.get(i).createOCenterSym();
+            savePoint(point);
         }
     }
 
@@ -755,8 +755,8 @@ public abstract class Shape2D {
             return;
         }
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createOXSymmetryPoint();
-            savePoint(point.getCoordX(), point.getCoordY());
+            SKPoint2D point = pointSet.get(i).createOXSym();
+            savePoint(point);
         }
     }
 
@@ -766,8 +766,8 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createOYSymmetryPoint();
-            savePoint(point.getCoordX(), point.getCoordY());
+            SKPoint2D point = pointSet.get(i).createOYSym();
+            savePoint(point);
         }
     }
 
@@ -797,7 +797,7 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createSymmetryPoint(basePoint);
+            SKPoint2D point = pointSet.get(i).createPointSym(basePoint);
             savePoint(point.getCoordX(), point.getCoordY());
         }
     }
@@ -808,7 +808,7 @@ public abstract class Shape2D {
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).getLineSymPoint(a, b, c);
+            SKPoint2D point = pointSet.get(i).createLineSym(a, b, c);
             savePoint(point.getCoordX(), point.getCoordY());
         }
     }

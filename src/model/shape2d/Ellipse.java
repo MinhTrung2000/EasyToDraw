@@ -254,7 +254,7 @@ public class Ellipse extends Shape2D {
         
         double totalAngle = rotatedAngle + angle;
         
-        SKPoint2D newCenterPoint = this.centerPoint2D.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newCenterPoint = this.centerPoint2D.createRotate(centerPoint, totalAngle);
         
         newCenterPoint.saveCoord(changedCoordOfBoard);
         savePoint(newCenterPoint);

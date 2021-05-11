@@ -102,36 +102,37 @@ public class SKPoint2D {
      * Create a copy point rotated from <code>basePoint</code> by an
      * <code>angle</code>.
      *
-     * @param basePoint SKPoint2D
+     * @param basePoint SKPoint2D (in visual coordinate)
      * @param angle double (radian)
      * @return SKPoint2D
      */
-//<<<<<<< HEAD
-//    public  SKPoint2D createRotationPoint(SKPoint2D basePoint, double angle) {
-//        Vector2D vec = new Vector2D(basePoint, this);
-//
-//        vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));
-//        SKPoint2D ret = Transform2D.transform(basePoint, Transform2D.getMoveMat(vec.getCoordX(), vec.getCoordY()));
-//        return ret;
-//=======
-    public SKPoint2D getRotationPoint(SKPoint2D basePoint, double angle) {
-        return Transform2D.getTransformPoint(this, Transform2D.getRotateFromPointMat(basePoint, angle));
-//>>>>>>> 80e675b92700a2147f9399b62ac5b2eb406401f5
+    public SKPoint2D createRotate(SKPoint2D basePoint, double angle) {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getRotateFromPointMat(basePoint, angle));
+        result.convertToSystemCoord();
+        return result;
     }
 
-    public SKPoint2D getScalePoint(double sx, double sy) {
-        return Transform2D.getTransformPoint(this, Transform2D.getScaleMat(sx, sy));
+    public SKPoint2D createScale(double sx, double sy) {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getScaleMat(sx, sy));
+        result.convertToSystemCoord();
+        return result;
     }
 
     /**
      * Rotate point in place from basePoint by an angle.
      *
-     * @param basePoint
-     * @param angle
+     * @param basePoint (in visual coordinate)
+     * @param angle (radian)
      * @return
      */
     public SKPoint2D rotate(SKPoint2D basePoint, double angle) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getRotateFromPointMat(basePoint, angle));
+        convertToSystemCoord();
         return this;
     }
 
@@ -142,7 +143,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D rotate(double angle) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getRotateMat(angle));
+        convertToSystemCoord();
         return this;
     }
 
@@ -162,8 +165,12 @@ public class SKPoint2D {
      * @param basePoint SKPoint2D
      * @return SKPoint2D
      */
-    public SKPoint2D createSymmetryPoint(SKPoint2D basePoint) {
-        return Transform2D.getTransformPoint(this, Transform2D.getPointSymMat(basePoint));
+    public SKPoint2D createPointSym(SKPoint2D basePoint) {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getPointSymMat(basePoint));
+        result.convertToSystemCoord();
+        return result;
     }
 
     /**
@@ -171,10 +178,11 @@ public class SKPoint2D {
      *
      * @return
      */
-    public SKPoint2D createCenterOSymmetry() {
-        convertToVisualCoord();
-        SKPoint2D result = Transform2D.getTransformPoint(this, Transform2D.getOCenterSymMat());
-        convertToSystemCoord();
+    public SKPoint2D createOCenterSym() {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getOCenterSymMat());
+        result.convertToSystemCoord();
         return result;
     }
 
@@ -183,10 +191,11 @@ public class SKPoint2D {
      *
      * @return
      */
-    public SKPoint2D createOXSymmetryPoint() {
-        convertToVisualCoord();
-        SKPoint2D result = Transform2D.getTransformPoint(this, Transform2D.getOXSymMat());
-        convertToSystemCoord();
+    public SKPoint2D createOXSym() {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getOXSymMat());
+        result.convertToSystemCoord();
         return result;
     }
 
@@ -195,15 +204,20 @@ public class SKPoint2D {
      *
      * @return
      */
-    public SKPoint2D createOYSymmetryPoint() {
-        convertToVisualCoord();
-        SKPoint2D result = Transform2D.getTransformPoint(this, Transform2D.getOYSymMat());
-        convertToSystemCoord();
+    public SKPoint2D createOYSym() {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getOYSymMat());
+        result.convertToSystemCoord();
         return result;
     }
 
-    public SKPoint2D getLineSymPoint(double a, double b, double c) {
-        return Transform2D.getTransformPoint(this, Transform2D.getLineSymMat(a, b, c));
+    public SKPoint2D createLineSym(double a, double b, double c) {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getLineSymMat(a, b, c));
+        result.convertToSystemCoord();
+        return result;
     }
 
     /**
@@ -212,9 +226,13 @@ public class SKPoint2D {
      * @param vector
      * @return
      */
-    public SKPoint2D getMovePoint(Vector2D vector) {
-        return Transform2D.getTransformPoint(this, Transform2D.getMoveMat(
-                vector.getCoordX(), vector.getCoordY()));
+    public SKPoint2D createMove(Vector2D vector) {
+        SKPoint2D result = new SKPoint2D(this);
+        result.convertToVisualCoord();
+        Transform2D.transform(result, Transform2D.getMoveMat(vector.getCoordX(),
+                vector.getCoordY()));
+        result.convertToSystemCoord();
+        return result;
     }
 
     /**
@@ -224,8 +242,10 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D move(Vector2D vector) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getMoveMat(vector.getCoordX(),
                 vector.getCoordY()));
+        convertToSystemCoord();
         return this;
     }
 
@@ -235,7 +255,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D symOx() {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getOXSymMat());
+        convertToSystemCoord();
         return this;
     }
 
@@ -245,7 +267,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D symOy() {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getOYSymMat());
+        convertToSystemCoord();
         return this;
     }
 
@@ -254,8 +278,10 @@ public class SKPoint2D {
      *
      * @return
      */
-    public SKPoint2D symCenterO() {
+    public SKPoint2D symOCenter() {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getOCenterSymMat());
+        convertToSystemCoord();
         return this;
     }
 
@@ -266,7 +292,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D symPoint(SKPoint2D basePoint) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getPointSymMat(basePoint));
+        convertToSystemCoord();
         return this;
     }
 
@@ -279,7 +307,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D symLine(double a, double b, double c) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getLineSymMat(a, b, c));
+        convertToSystemCoord();
         return this;
     }
 
@@ -291,7 +321,9 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D scale(double sx, double sy) {
+        convertToVisualCoord();
         Transform2D.transform(this, Transform2D.getScaleMat(sx, sy));
+        convertToSystemCoord();
         return this;
     }
 
@@ -310,14 +342,14 @@ public class SKPoint2D {
         );
         return midPoint;
     }
-    
+
     public SKPoint2D setMidLocation(SKPoint2D pointA, SKPoint2D pointB) {
         setLocation(
                 Math.round((pointA.coordX + pointB.coordX) / 2),
                 Math.round((pointA.coordY + pointB.coordY) / 2)
         );
         return this;
-    } 
+    }
 
     public String toString() {
         return "(" + coordX + ", " + coordY + ")";
@@ -349,8 +381,8 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D convertToVisualCoord() {
-        coordX = coordX * SettingConstants.RECT_SIZE - SettingConstants.COORD_X_O;
-        coordY = coordY * (-SettingConstants.RECT_SIZE) + SettingConstants.COORD_Y_O;
+        coordX = coordX - SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
+        coordY = -coordY + SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE;
         return this;
     }
 }

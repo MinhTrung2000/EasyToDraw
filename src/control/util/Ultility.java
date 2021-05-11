@@ -150,7 +150,7 @@ public class Ultility {
             throw new NumberFormatException(message);
         }
 
-        if (ret < bound.x || ret > bound.y) {
+        if (bound != null && (ret < bound.x || ret > bound.y)) {
             component.setBorder(BorderFactory.createLineBorder(Color.RED));
             String message = component.getName() + " is out of bound!";
             throw new NumberFormatException(message);
