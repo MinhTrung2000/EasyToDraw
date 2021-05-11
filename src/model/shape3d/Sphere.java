@@ -58,7 +58,7 @@ public class Sphere extends Shape3D {
     }
 
     private void drawVirtualEllipse() {
-        SKPoint2D relativeCenterPoint = centerPoint3D.get2DRelativePosition().convertViewToMachineCoord();
+        SKPoint2D relativeCenterPoint = centerPoint3D.get2DRelativePosition().convertToSystemCoord();
         relativeCenterPoint.saveCoord(changedCoordOfBoard);
         
         radius /= SettingConstants.RECT_SIZE;

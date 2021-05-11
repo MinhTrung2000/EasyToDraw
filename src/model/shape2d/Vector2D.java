@@ -27,6 +27,28 @@ public class Vector2D {
         this.y = other.y;
     }
 
+    /**
+     * Lay vector chi phuong cua duong thang (d): ax + by = c
+     * @param a
+     * @param b
+     * @param c
+     * @return 
+     */
+    public static Vector2D getVTCP(double a, double b, double c) {
+        return new Vector2D(-b, a);
+    }
+    
+    /**
+     * Lay vector phap tuyen cua duong thang (d): ax + by = c
+     * @param a
+     * @param b
+     * @param c
+     * @return 
+     */
+    public static Vector2D getVTPT(double a, double b, double c) {
+        return new Vector2D(a, b);
+    }
+
     public double getCoordX() {
         return x;
     }
@@ -56,6 +78,10 @@ public class Vector2D {
      */
     public double getAngleWithOx() {
         return Math.atan2(this.y, this.x);
+    }
+
+    public static double getAngleWithOx(double vx, double vy) {
+        return Math.atan2(vy, vx);
     }
 
     /**
@@ -168,7 +194,12 @@ public class Vector2D {
         );
     }
 
-public static Vector2D getVectorMinus(Vector2D vec_a, Vector2D vec_b) {
+    public static Vector2D getVectorMinus(Vector2D vec_a, Vector2D vec_b) {
         return new Vector2D(vec_a.x - vec_b.x, vec_a.y - vec_b.y);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector(" + x + ", " + y + ")";
     }
 }

@@ -11,8 +11,10 @@ public interface SKShapeInterface {
     boolean containts(double x, double y);
 
     boolean contains(SKRectangleInterface rect);
-
-    boolean intersects(int x, int y, int width, int height);
+    
+    boolean contains(SKPoint2D point);
+    
+//    boolean intersects(int x, int y, int width, int height);
 
     boolean intersects(double x, double y, double width, double height);
 

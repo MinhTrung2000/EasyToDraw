@@ -34,6 +34,11 @@ public class SKAffineTranform implements SKAffineTranformInterface {
         impl.setTransform(m00, m10, m01, m11, m02, m12);
     }
 
+    /**
+     * Nạp chồng các phép biến đổi: [this] = [this] x [Tx]
+     *
+     * @param at
+     */
     public void concatenate(SKAffineTranformInterface at) {
         impl.concatenate(((SKAffineTranform) at).getImpl());
     }
@@ -69,6 +74,13 @@ public class SKAffineTranform implements SKAffineTranformInterface {
         return ((SKAffineTranform) at).getImpl();
     }
 
+    /**
+     * Returns a new Shape object defined by the geometry of the specified Shape
+     * after it has been transformed by this transform.
+     *
+     * @param shape
+     * @return
+     */
     @Override
     public SKShapeInterface createTranformedShape(SKShapeInterface shape) {
         Shape ret = null;
@@ -79,29 +91,40 @@ public class SKAffineTranform implements SKAffineTranformInterface {
     @Override
     public SKPoint2D transform(SKPoint2D point1, SKPoint2D point2) {
         Point2D point1_copy = new Point2D.Double(point1.getCoordX(), point1.getCoordY());
-        
+
         Point2D point2_copy = null;
-        
+
         if (point2 != null) {
             point2_copy = new Point2D.Double(point2.getCoordX(), point2.getCoordY());
         }
-        
+
         point2_copy = impl.transform(point1_copy, point2_copy);
-        
+
         if (point2 != null) {
-            point2.setCoordX((int) point2_copy.getX());
-            point2.setCoordY((int) point2_copy.getY());
+            point2.setLocation(point2_copy.getX(), point2_copy.getY());
             return point2;
         }
-        
+
         return new SKPoint2D(point2_copy.getX(), point2_copy.getY());
     }
 
     @Override
-    public void tranform(double[] labelCoords1, int i, double[] labelCoords2, int j, int k) {
-        impl.transform(labelCoords1, i, labelCoords2, j, k);
+    public void tranform(double[] srcPts, int srcOff, double[] dstPts, int dstOff, int numPts) {
+        impl.transform(srcPts, srcOff, dstPts, dstOff, numPts);
     }
 
+    /**
+     * Maps coordinates transformed by Tx back to their original coordinates. In
+     * other words, Tx'(Tx(p)) = p = Tx(Tx'(p)). If this transform maps all
+     * coordinates onto a point or a line then it will not have an inverse,
+     * since coordinates that do not lie on the destination point or line will
+     * not have an inverse mapping. The getDeterminant method can be used to
+     * determine if this transform has no inverse, in which case an exception
+     * will be thrown if the createInverse method is called.
+     *
+     * @return
+     * @throws Exception
+     */
     @Override
     public SKAffineTranformInterface createInverse() throws Exception {
         return new SKAffineTranform(impl.createInverse());
@@ -152,4 +175,13 @@ public class SKAffineTranform implements SKAffineTranformInterface {
         impl.getMatrix(m);
     }
 
+    @Override
+    public double getDeterminant() {
+        return impl.getDeterminant();
+    }
+
+    @Override
+    public void invert() throws Exception {
+        this.impl = this.impl.createInverse();
+    }
 }

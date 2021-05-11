@@ -2,6 +2,7 @@ package view;
 
 import control.SettingConstants;
 import control.myawt.SKPoint2D;
+import control.util.Ultility;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -34,7 +35,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
 
-        timer = new Timer(500, new ActionListener() {
+        timer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getAnimationPanel().animate();
@@ -70,24 +71,23 @@ public class AnimationFrame extends javax.swing.JFrame {
         private Fish2 fish2;
 
         /* Object intial position */
-        private SKPoint2D startPointSun = new SKPoint2D(70, 20);
+        private SKPoint2D startPointSun = new SKPoint2D(30, 20);
+        private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
+        private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
         private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
-        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 25);
-        private SKPoint2D startPointVolcano = new SKPoint2D(80, 45);
-        private SKPoint2D endPointVolcano = new SKPoint2D(40, 105);
-        private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -25);
-        private SKPoint2D startPointGround = new SKPoint2D(0, 56);
-        private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 30, -20);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 20);
+
+        private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
+        private SKPoint2D startPointGround = new SKPoint2D(0, 70);
+        private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
         private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 20, 40);
-        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 40);
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 100, 35);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 57);
 
         public AnimationPanel() {
         }
 
         public void setComponent() {
-            System.out.println("view.AnimationFrame.AnimationPanel.setComponent()");
-
             widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
@@ -160,9 +160,12 @@ public class AnimationFrame extends javax.swing.JFrame {
             resetChangedPropertyArray();
 
             /* VOLCANO */
-//            smoke.drawSmoke(startPointSmoke);
-//            volcano.drawVolcano(startPointVolcano, endPointVolcano);
-//            volcano.paintVolcano(startPointVolcano);
+            smoke.drawSmoke(startPointSmoke);
+            volcano.drawVolcano(startPointVolcano, endPointVolcano);
+            volcano.paintVolcano(startPointVolcano);
+
+            mergeColorValue();
+            resetChangedPropertyArray();
 
             /* SUN */
             sun.drawSun();
@@ -177,10 +180,19 @@ public class AnimationFrame extends javax.swing.JFrame {
             ground.paintGround(startPointGround);
             ground.drawAndPaintFlowers();
 
+            mergeColorValue();
+            resetChangedPropertyArray();
+
             /* APPLE TREE */
             tree.drawAppleTree(startPointTree);
             tree.paintAppleTree(startPointTree);
             tree.paintApple();
+
+            mergeColorValue();
+            resetChangedPropertyArray();
+
+            /* SKY */
+            Ultility.paint(colorOfBoard, markedChangeOfBoard, new SKPoint2D(startPointGround, 10, -10), new Color(205, 249, 255), true);
 
             /* RIVER */
             river.drawRiver(startPointRiver);
@@ -191,8 +203,8 @@ public class AnimationFrame extends javax.swing.JFrame {
             fish1.setPropertyFish1(startPointFish1);
             fish1.drawFish1();
 
-//            fish.drawFish2(startPointFish2, new SKPoint2D(0, 0));
-//            fish.paintFish2(startPointFish2, new SKPoint2D(0, 0));
+            fish2.setPropertyFish2(startPointFish2);
+            fish2.drawFish2();
             this.repaint();
         }
 

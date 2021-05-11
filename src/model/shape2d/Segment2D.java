@@ -63,8 +63,8 @@ public class Segment2D extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempStartPoint = startPoint2D.createRotationPoint(centerPoint2D, rotatedAngle);
-        SKPoint2D tempEndPoint = endPoint2D.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempStartPoint = startPoint2D.getRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempEndPoint = endPoint2D.getRotationPoint(centerPoint2D, rotatedAngle);
 
         drawSegment(tempStartPoint, tempEndPoint, lineStyle);
     }

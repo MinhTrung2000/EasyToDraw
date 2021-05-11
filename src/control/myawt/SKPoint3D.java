@@ -65,7 +65,7 @@ public class SKPoint3D extends SKPoint2D {
 
     @Override
     public void saveCoord(String[][] coordOfBoard) {
-        SKPoint2D relativePoint2D = this.get2DRelativePosition().convertViewToMachineCoord();
+        SKPoint2D relativePoint2D = this.get2DRelativePosition().convertToSystemCoord();
         if (Ultility.checkValidPoint(coordOfBoard, relativePoint2D.coordX, relativePoint2D.coordY)) {
             int x = (int) (coordX / SettingConstants.RECT_SIZE);
             int y = (int) (coordY / SettingConstants.RECT_SIZE);
@@ -84,7 +84,7 @@ public class SKPoint3D extends SKPoint2D {
         System.out.println("to 2d:" + p.get2DRelativePosition());
 
 //        SKPoint2D p2d = new SKPoint2D(26, 20);
-//        p2d.convertViewToMachineCoord();
-//        System.out.println(p2d.convertMachineToViewCoord());
+//        p2d.convertToSystemCoord();
+//        System.out.println(p2d.convertToVisualCoord());
     }
 }

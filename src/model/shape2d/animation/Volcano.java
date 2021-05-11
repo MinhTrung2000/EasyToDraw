@@ -76,10 +76,9 @@ public class Volcano extends Shape2D {
 
     public void paintVolcano(SKPoint2D startPoint) {
         this.filledColor = new Color(132, 127, 111);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 0, 7), new Color(123, 99, 99));
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 20, 10), new Color(123, 99, 99));
-
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 45, 30), new Color(123, 99, 99));
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 0, 7), new Color(123, 99, 99), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 20, 10), new Color(123, 99, 99), false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startPoint, 45, 30), new Color(123, 99, 99), false);
 
     }
 

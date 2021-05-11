@@ -13,11 +13,17 @@ public interface SKAffineTranformInterface {
     
     double getShearY();
     
+//    static SKAffineTranform getRotateInstance(double angle) {
+//        
+//    }
+    
     SKShapeInterface createTranformedShape(SKShapeInterface shape);
     
     SKPoint2D transform(SKPoint2D point1, SKPoint2D point2);
     
-    void tranform(double[] labelCoords1, int i, double[] labelCoords2, int j, int k);
+    void tranform(double[] srcPts, int srcOff, double[] dstPts, int dstOff, int numPts);
+    
+    void invert() throws Exception;
     
     SKAffineTranformInterface createInverse() throws Exception;
     
@@ -42,4 +48,6 @@ public interface SKAffineTranformInterface {
     boolean isIdentity();
     
     void getMatrix(double[] m);
+    
+    double getDeterminant();
 }

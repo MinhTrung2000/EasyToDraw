@@ -41,7 +41,6 @@ public class SKGenericShape implements SKShapeInterface {
         return impl.contains(SKRectangle.getAwtRectangular(rect));
     }
 
-    @Override
     public boolean intersects(int x, int y, int width, int height) {
         return impl.intersects(x, y, width, height);
     }
@@ -64,6 +63,11 @@ public class SKGenericShape implements SKShapeInterface {
     @Override
     public Shape getAwtShape() {
         return impl;
+    }
+
+    @Override
+    public boolean contains(SKPoint2D point) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

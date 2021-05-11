@@ -1,6 +1,7 @@
 package control.myawt;
 
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 public class SKRectangle implements SKRectangleInterface {
 
@@ -83,16 +84,91 @@ public class SKRectangle implements SKRectangleInterface {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void setSize(int width, int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public static Rectangle getAwtRectangular(SKRectangleInterface rect) {
         if (!(rect instanceof SKRectangle)) {
             return null;
         }
         return ((SKRectangle) rect).impl;
     }
-    
+
+    @Override
+    public double getMinX() {
+        return impl.getMinX();
+    }
+
+    @Override
+    public double getMaxX() {
+        return impl.getMaxX();
+    }
+
+    @Override
+    public double getMinY() {
+        return impl.getMinY();
+    }
+
+    @Override
+    public double getMaxY() {
+        return impl.getMaxY();
+    }
+
+    @Override
+    public void setRect(double x, double y, double width, double height) {
+        impl.setRect(x, y, width, height);
+    }
+
+    @Override
+    public void setFrame(double x, double y, double width, double height) {
+        impl.setFrame(x, y, width, height);
+    }
+
+    @Override
+    public SKRectangle createIntersection(SKRectangle rect) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean intersectsLine(double xc, double yc, double xe, double ye) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public SKRectangleInterface getBounds() {
+        return new SKRectangle(impl.getBounds());
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        return impl.contains(x, y);
+    }
+
+    @Override
+    public boolean containts(double x, double y) {
+        return impl.contains(x, y);
+    }
+
+    @Override
+    public boolean contains(SKRectangleInterface rect) {
+        return impl.contains(SKRectangle.getAwtRectangular(rect));
+    }
+
+    @Override
+    public boolean intersects(double x, double y, double width, double height) {
+        return impl.intersects(x, y, width, height);
+    }
+
+    @Override
+    public boolean intersects(SKRectangleInterface rect) {
+        return impl.intersects(SKRectangle.getAwtRectangular(rect));
+    }
+
+    @Override
+    public SKPathIteratorInterface getPathIterator(SKAffineTranformInterface at) {
+        return new SKPathIterator(impl.getPathIterator(SKAffineTranform.getAwtAffineTransform(at)));
+    }
+
+    @Override
+    public Shape getAwtShape() {
+        return impl;
+    }
+
 }

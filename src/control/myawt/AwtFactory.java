@@ -38,18 +38,18 @@ public abstract class AwtFactory {
 
     public abstract SKGeneralPath newGeneralPath(int rule);
 
-    public abstract SKBasicStroke newBasicStroke(double f, int cap, int join);
+    public abstract SKBasicStrokeInterface newBasicStroke(double f, int cap, int join);
 
-    public abstract SKBasicStroke newBasicStroke(double width, int endCap,
+    public abstract SKBasicStrokeInterface newBasicStroke(double width, int endCap,
             int lineJoin, double miterLimit, double[] dash);
 
-    public abstract SKBasicStroke newBasicStroke(double f);
+    public abstract SKBasicStrokeInterface newBasicStroke(double f);
 
-    public abstract SKLine2D newLine2D();
+    public abstract SKLine2DInterface newLine2D();
 
-    public abstract SKEllipse2DDouble newEllipse2DDouble();
+    public abstract SKEllipse2DDoubleInterface newEllipse2DDouble();
 
-    public abstract SKEllipse2DDouble newEllipse2DDouble(double x, double y,
+    public abstract SKEllipse2DDoubleInterface newEllipse2DDouble(double x, double y,
             double width, double height);
 
     public static SKAffineTranform getTranslateInstance(double tx, double ty) {

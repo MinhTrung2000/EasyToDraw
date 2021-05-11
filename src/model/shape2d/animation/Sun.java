@@ -73,26 +73,26 @@ public class Sun extends Shape2D {
         this.filledColor = Color1;
 
         // tô nền => tạo viền => tô lại màu trong viền
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
 
         this.filledColor = Color2;
 
         this.drawZigZag(pointList);
 
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
     }
 
     public void drawSunLight() {
         if (!flip) {
             sunLine.drawOutline();
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(90));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(180));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(270));
         } else {
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(45));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(135));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(225));
+            sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(315));
         }
         flip = !flip;
     }

@@ -21,7 +21,7 @@ public class Cloud extends Shape2D {
 
     public static final int COULD_WIDTH = 18;
     public static final int SLIP_NUMBER = 20;
-    public static final Color CLOUD_COLOR = Color.CYAN;
+    public static final Color CLOUD_COLOR = Color.WHITE;
 
     private int slip = 0;
 
@@ -45,7 +45,7 @@ public class Cloud extends Shape2D {
 
     public void drawCloud() {
         Vector2D vectorSlip = new Vector2D(slip, 0);
-        SKPoint2D centerPointToPaint = this.centerPoint2D.createMovingPoint(vectorSlip);
+        SKPoint2D centerPointToPaint = this.centerPoint2D.getMovePoint(vectorSlip);
 
         for (int i = 0; i < pointSet.size(); i++) {
             SKPoint2D point = new SKPoint2D(pointSet.get(i));
@@ -53,12 +53,12 @@ public class Cloud extends Shape2D {
             savePoint(point.getCoordX(), point.getCoordY());
         }
         if (slip / SettingConstants.RECT_SIZE < SLIP_NUMBER) {
-            slip += SettingConstants.RECT_SIZE;
+            slip += SettingConstants.RECT_SIZE - 4;
         } else {
             slip = 0;
         }
         
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerPointToPaint, 1, -1), CLOUD_COLOR);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerPointToPaint, 1, -1), CLOUD_COLOR, false);
     }
 
     @Override

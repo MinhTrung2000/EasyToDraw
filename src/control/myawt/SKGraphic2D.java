@@ -107,7 +107,7 @@ public interface SKGraphic2D {
      * @see GBasicStroke
      * @see #getStroke
      */
-    void setStroke(SKBasicStroke s);
+    void setStroke(SKBasicStrokeInterface s);
 
     /**
      * Concatenates the current <code>Graphics2D</code> <code>Transform</code>
@@ -182,7 +182,7 @@ public interface SKGraphic2D {
      * defines the line style.
      * @see #setStroke
      */
-    SKBasicStroke getStroke();
+    SKBasicStrokeInterface getStroke();
 
     Color getColor();
 

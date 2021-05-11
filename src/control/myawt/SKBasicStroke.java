@@ -1,24 +1,63 @@
 package control.myawt;
 
-public interface SKBasicStroke {
+import java.awt.BasicStroke;
+import java.awt.Shape;
+import java.awt.geom.Path2D;
 
-    int CAP_BUTT = 0; // Java & GWT
-    int CAP_ROUND = 1; // Java & GWT
-    int CAP_SQUARE = 2; // Java & GWT
-    int JOIN_MITER = 0; // Java
-    int JOIN_ROUND = 1; // Java
-    int JOIN_BEVEL = 2; // Java
+public class SKBasicStroke implements SKBasicStrokeInterface {
 
-    SKShapeInterface createStrokedShape(SKShapeInterface shape, int capacity);
+    private BasicStroke impl;
 
-    int getEndCap();
+    public SKBasicStroke(BasicStroke bs) {
+        this.impl = bs;
+    }
 
-    double getMiterLimit();
+    public SKBasicStroke(float width, int cap, int join) {
+        this.impl = new BasicStroke(width, cap, join);
+    }
 
-    int getLineJoin();
+    public SKBasicStroke(float width) {
+        this.impl = new BasicStroke(width);
+    }
 
-    double getLineWidth();
+    @Override
+    public SKShapeInterface createStrokedShape(SKShapeInterface shape, int capacity) {
+        Shape shapeD = SKGenericShape.getAwtShape(shape);
 
-    double[] getDashArray();
+        if (shapeD instanceof Path2D) {
+            Path2D p2d = (Path2D) shapeD;
+            if (p2d.getCurrentPoint() != null
+                    && Double.isNaN(p2d.getCurrentPoint().getX())) {
+                // Log.debug("fix kicks in");
+                return new SKGenericShape(shapeD);
+            }
+        }
+        return new SKGenericShape(impl.createStrokedShape(shapeD));
+    }
+
+    @Override
+    public int getEndCap() {
+        return impl.getEndCap();
+    }
+
+    @Override
+    public double getMiterLimit() {
+        return impl.getMiterLimit();
+    }
+
+    @Override
+    public int getLineJoin() {
+        return impl.getLineJoin();
+    }
+
+    @Override
+    public double getLineWidth() {
+        return impl.getLineWidth();
+    }
+
+    @Override
+    public float[] getDashArray() {
+        return impl.getDashArray();
+    }
 
 }

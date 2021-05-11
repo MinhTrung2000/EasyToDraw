@@ -91,9 +91,9 @@ public class AppleTree extends Shape2D {
 
     public void paintAppleTree(SKPoint2D startP) {
         this.filledColor = new Color(24, 203, 39);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, -3, -3), filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, -3, -3), filledColor, false);
         this.filledColor = new Color(102, 54, 4);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 0, 3), filledColor);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 0, 3), filledColor, false);
 
     }
 
@@ -108,7 +108,7 @@ public class AppleTree extends Shape2D {
     public void paintApple() {
         this.filledColor = new Color(247, 10, 10);
         for (SKPoint2D centerP : Apple_CenterP) {
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP, filledColor);
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP, filledColor, false);
         }
     }
 

@@ -88,9 +88,9 @@ public class Triangle extends Shape2D {
      */
     @Override
     public void drawOutline() {
-        SKPoint2D tempPointA = pointA.createRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempPointB = pointB.createRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempPointC = pointC.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempPointA = pointA.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempPointB = pointB.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempPointC = pointC.getRotationPoint(centerPoint2D, this.rotatedAngle);
 
         drawSegment(tempPointA, tempPointB);
         drawSegment(tempPointB, tempPointC);
