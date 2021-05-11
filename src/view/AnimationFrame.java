@@ -72,7 +72,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         private Fish2 fish2;
 
         /* Object intial position */
-        private SKPoint2D startPointSun = new SKPoint2D(30, 20);
+        private SKPoint2D startPointSun = new SKPoint2D(20, 20);
         private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
         private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
         private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
@@ -173,7 +173,7 @@ public class AnimationFrame extends javax.swing.JFrame {
             /* SUN */
             sun.drawSun();
             sun.drawSunLight(rotation);
-            rotation+=5;
+            rotation+=10;
             if(rotation>45) rotation =0;
             /* CLOUD */
             cloud1.drawCloud();

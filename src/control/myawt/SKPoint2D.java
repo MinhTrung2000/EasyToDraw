@@ -106,7 +106,7 @@ public class SKPoint2D {
      * @param angle double (radian)
      * @return SKPoint2D
      */
-    public SKPoint2D createRotationPoint(SKPoint2D basePoint, double angle) {
+    public  SKPoint2D createRotationPoint(SKPoint2D basePoint, double angle) {
         Vector2D vec = new Vector2D(basePoint, this);
 
         vec = Transform2D.transform(vec, Transform2D.getRotateMat(angle));

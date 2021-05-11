@@ -13,20 +13,22 @@ import model.shape2d.Segment2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
-/**
- *
- * @author Minh Tu
- */
+
 public class Sun extends Shape2D {
 
     public static final Color Color0 = new Color(245, 120, 60);
-    public static final Color Color1 = new Color(255, 247, 79);
-    public static final Color Color2 = new Color(255, 242, 0);
+    public static final Color Color1 = new Color(255, 255, 125);
+
+    public static final Color Color2 = new Color(255, 255, 0);
 
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
-
-    private Segment2D sunLine;
+ 
+    private SKPoint2D traveringPoint_StartP = new SKPoint2D();
+    private SKPoint2D traveringPoint_EndP = new SKPoint2D();
     
+    private SKPoint2D [] sunLine_StartP = new SKPoint2D[8];
+    private SKPoint2D [] sunLine_EndP = new SKPoint2D[8];
+    private Segment2D [] sunLine2 = new Segment2D[8];
 
     /**
      * Use for change sunny rotation mechanism.
@@ -35,7 +37,9 @@ public class Sun extends Shape2D {
 
     public Sun(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        sunLine = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+        for (int i = 0; i < 8; i++){
+            sunLine2[i] = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+        }
     }
 
     public void setProperty(SKPoint2D centerPoint) {
@@ -60,8 +64,15 @@ public class Sun extends Shape2D {
         pointList.add(new SKPoint2D(this.centerPoint2D, -3, 4));
         pointList.add(new SKPoint2D(this.centerPoint2D, -3, 5));
 
-        sunLine.setProperty(new SKPoint2D(this.centerPoint2D, 0, -10), new SKPoint2D(this.centerPoint2D, 0, -15));
-        sunLine.setFilledColor(Color0);
+
+        for(int i =0; i<8; i++){
+            sunLine2[i].setFilledColor(Color0);
+        }
+        
+         traveringPoint_StartP.setLocation(this.centerPoint2D,0,-12);
+         traveringPoint_EndP.setLocation(this.centerPoint2D,0,-18);
+        
+        
     }
 
     public void drawSun() {
@@ -84,30 +95,23 @@ public class Sun extends Shape2D {
     }
 
     public void drawSunLight(int rotation) {
-       // if (!flip) {
-            sunLine.drawOutline();
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90));
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180));
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270));
-//            
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45));
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135));
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225));
-//            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315));
-        //}
-        //else {
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(0+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(90+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(180+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(270+rotation));
+        
+        this.filledColor = new Color (0,0,0);
+        for(int i =0 ; i<8; i++){
+            sunLine_StartP[i] = traveringPoint_StartP.createRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine_EndP[i] = traveringPoint_EndP.createRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine2[i].setProperty(sunLine_StartP[i].createRotationPoint(this.centerPoint2D,Math.toRadians(rotation)),
+                   sunLine_EndP[i].createRotationPoint(this.centerPoint2D, Math.toRadians(rotation)));  
+            sunLine2[i].drawOutline();
             
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(45+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(135+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(225+rotation));
-            sunLine.drawVirtualRotation(this.centerPoint2D, Math.toRadians(315+rotation));
-      //  }
-    //    flip = !flip;
+        }
+            
     }
+        
+            
+            
+            
+    
 
     @Override
     public void applyMove(Vector2D vector) {

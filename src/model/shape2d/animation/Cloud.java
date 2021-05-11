@@ -20,10 +20,12 @@ import model.shape2d.Vector2D;
 public class Cloud extends Shape2D {
 
     public static final int COULD_WIDTH = 18;
-    public static final int SLIP_NUMBER = 20;
+    public static final int SLIP_NUMBER = 18;
     public static final Color CLOUD_COLOR = Color.WHITE;
 
     private int slip = 0;
+    private boolean forward = true;
+    private int test;
 
     public Cloud(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
@@ -52,10 +54,24 @@ public class Cloud extends Shape2D {
             point.move(vectorSlip);
             savePoint(point.getCoordX(), point.getCoordY());
         }
-        if (slip / SettingConstants.RECT_SIZE < SLIP_NUMBER) {
-            slip += SettingConstants.RECT_SIZE -4;
+        test = slip;
+        if (slip >= 0 && slip / SettingConstants.RECT_SIZE < SLIP_NUMBER && forward) {
+            if(test<= slip) {
+                forward = true;
+                slip += SettingConstants.RECT_SIZE -4;
+            }
+            
+            else {
+                forward = false;
+            }
+            
         } else {
-            slip = 0;
+            if(slip <= 0) forward = true;
+            else {
+                forward = false;
+                slip -= SettingConstants.RECT_SIZE -4;
+            }
+            
         }
         
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(centerPointToPaint, 1, -1), CLOUD_COLOR, false);

@@ -36,8 +36,8 @@ public class Fish2 extends Shape2D {
     public static final int LECH_TREN_2 = 4;
     public static final int LECH_DUOI_2 = 4;
     //COLOR
-    public static final Color FIN_SHAPE_COLOR = new Color(183, 250, 255);
-    public static final Color SKIN_COLOR = new Color(0, 182, 232);
+    public static final Color FIN_SHAPE_COLOR = new Color(195, 255, 255);   
+    public static final Color SKIN_COLOR = new Color(0, 152, 255);
     public static final Color FISH_MOUTH_COLOR = new Color(180, 61, 59);
     
     
@@ -190,7 +190,6 @@ public class Fish2 extends Shape2D {
         for (int i = 1; i < 3; i++) {
             BotFin_StartP[i] = new SKPoint2D(BotFin_StartP[i-1], widthDirection * 3, 0);
             BotFin_EndP[i] = new SKPoint2D(BotFin_StartP[i], widthDirection *1, BOTTOM_FIN_HEIGHT_2 - 2);
-            drawSegment(first_botFinFP_StartP, first_botFinFP_EndP);
         }
         
         

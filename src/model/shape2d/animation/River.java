@@ -27,8 +27,9 @@ public class River extends Shape2D {
     int[] roughNumberArray110_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2};
     int height1 = 22;
     int height2 = height1 + 45 ;
-    Color surface = new Color(114, 204, 226);
-    Color bottom = new Color(37, 188, 213);
+//    Color surface = new Color(114, 204, 226);
+    Color surface = new Color(151, 251, 251);
+    Color bottom = new Color(120, 250, 250);
 
     public void drawRiver(SKPoint2D startP) {
 
