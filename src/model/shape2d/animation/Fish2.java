@@ -37,7 +37,7 @@ public class Fish2 extends Shape2D {
     public static final int LECH_TREN_2 = 4;
     public static final int LECH_DUOI_2 = 4;
     //COLOR
-    public static final Color FIN_SHAPE_COLOR = new Color(195, 255, 255);   
+    public static final Color FIN_SHAPE_COLOR = new Color(210, 255, 255);   
     public static final Color SKIN_COLOR = new Color(0, 152, 255);
     public static final Color FISH_MOUTH_COLOR = new Color(180, 61, 59);
 
