@@ -65,7 +65,7 @@ public class Rotation2DInput extends javax.swing.JDialog {
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                acceptCenterPoint.convertViewToMachineCoord();
+                acceptCenterPoint.convertToSystemCoord();
                 ((MainFrame) getParent()).getDrawingPanel().paintRotation(acceptCenterPoint, acceptAngle);
                 dispose();
             }

@@ -150,7 +150,6 @@ public class GeneralPathClipped implements SKShapeInterface {
         return false;
     }
 
-    @Override
     public boolean intersects(int x, int y, int width, int height) {
         return false;
     }
@@ -173,6 +172,11 @@ public class GeneralPathClipped implements SKShapeInterface {
     @Override
     public Shape getAwtShape() {
         return null;
+    }
+
+    @Override
+    public boolean contains(SKPoint2D point) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

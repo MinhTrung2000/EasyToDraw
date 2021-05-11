@@ -77,17 +77,17 @@ public class Star extends Shape2D {
         
         opPointA.setLocation(pointA.getCoordX(), pointA.getCoordY() + (int) ((centerPoint2D.getCoordY() - pointA.getCoordY()) * 3 / 2));
 
-        pointB = pointA.createRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointB = opPointA.createRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointB = pointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        opPointB = opPointA.getRotationPoint(centerPoint2D, Math.toRadians(72));
 
-        pointC = pointB.createRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointC = opPointB.createRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointC = pointB.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        opPointC = opPointB.getRotationPoint(centerPoint2D, Math.toRadians(72));
 
-        pointD = pointC.createRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointD = opPointC.createRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointD = pointC.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        opPointD = opPointC.getRotationPoint(centerPoint2D, Math.toRadians(72));
 
-        pointE = pointD.createRotationPoint(centerPoint2D, Math.toRadians(72));
-        opPointE = opPointD.createRotationPoint(centerPoint2D, Math.toRadians(72));
+        pointE = pointD.getRotationPoint(centerPoint2D, Math.toRadians(72));
+        opPointE = opPointD.getRotationPoint(centerPoint2D, Math.toRadians(72));
     }
 
     @Override

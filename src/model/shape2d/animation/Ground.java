@@ -21,21 +21,22 @@ import model.shape2d.Vector2D;
  */
 public class Ground extends Shape2D {
 
-    int[] roughNumberArray110 = {2, 1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 1, 2, 1, 3, 2, 1, 1, 1, 1, 1, 3, 1, 2, 3, 2, 3, 1, 1, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 1, 3, 3, 3, 2, 1, 3, 3, 1, 3, 1, 3, 3, 1, 3, 1, 2, 3, 2, 3, 2, 3, 2, 1, 1, 2, 3, 3, 1, 3, 3, 1, 2, 1, 1, 2, 2, 3, 3, 3, 1, 2, 2, 1, 1, 3, 2, 3, 1, 3, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2};
-    int[] roughNumberArray110_2 = {3, 1, 2, 1, 1, 3, 3, 3, 2, 3, 1, 2, 3, 3, 1, 1, 2, 1, 2, 2, 2, 2, 3, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 3, 1, 3, 2, 3, 3, 3, 1, 1, 3, 1, 2, 1, 1, 3, 1, 1, 1, 2, 3, 3, 3, 1, 3, 1, 1, 1, 3, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 3, 1, 3, 1, 3, 1, 2, 2, 3, 2, 2, 3, 1, 2, 3, 3, 3, 3, 3, 3, 1, 1, 3, 2, 3, 1, 2, 1, 2, 3, 3, 2, 3, 2};
-    //  Color groundColor = new Color (120, 80, 47);
-    Color grassColor = new Color(15, 242, 22);
-    HashMap<SKPoint2D, Boolean> flower_CenterP = new HashMap<>();
+    public static final int[] ROUGH_NUMBER_ARRAY_1 = {2, 1, 1, 1, 2, 2, 2, 2, 2, 3, 2, 1, 2, 1, 3, 2, 1, 1, 1, 1, 1, 3, 1, 2, 3, 2, 3, 1, 1, 3, 2, 3, 2, 3, 3, 2, 3, 3, 2, 3, 3, 1, 3, 3, 3, 2, 1, 3, 3, 1, 3, 1, 3, 3, 1, 3, 1, 2, 3, 2, 3, 2, 3, 2, 1, 1, 2, 3, 3, 1, 3, 3, 1, 2, 1, 1, 2, 2, 3, 3, 3, 1, 2, 2, 1, 1, 3, 2, 3, 1, 3, 1, 1, 2, 2, 1, 2, 1, 2, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 2};
+    public static final int[] ROUGH_NUMBER_ARRAY_2 = {3, 1, 2, 1, 1, 3, 3, 3, 2, 3, 1, 2, 3, 3, 1, 1, 2, 1, 2, 2, 2, 2, 3, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 1, 1, 3, 1, 3, 2, 3, 3, 3, 1, 1, 3, 1, 2, 1, 1, 3, 1, 1, 1, 2, 3, 3, 3, 1, 3, 1, 1, 1, 3, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 3, 1, 3, 1, 3, 1, 2, 2, 3, 2, 2, 3, 1, 2, 3, 3, 3, 3, 3, 3, 1, 1, 3, 2, 3, 1, 2, 1, 2, 3, 3, 2, 3, 2};
+
+    public static final Color GRASS_COLOR = new Color(15, 242, 22);
+    public static final Color COLOR_1 = new Color(15, 242, 22);
+
+    private HashMap<SKPoint2D, Boolean> flower_CenterP = new HashMap<>();
 
     public Ground(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
     public void drawGround(SKPoint2D startP) {
-//        int rY_Thickness = 15;
-//        int rX_Length = 30;
-        int realWidthLimit = 1361 / SettingConstants.RECT_SIZE +3 -1;
-        this.filledColor = new Color(15, 242, 22);
+        int realWidthLimit = 1361 / SettingConstants.RECT_SIZE + 3 - 1;
+
+        setFilledColor(COLOR_1);
         int flatGround1_Length = 40;
         int slopeGround1_Length = 55;
         int slopeGround2_Length = 43;
@@ -49,9 +50,9 @@ public class Ground extends Shape2D {
         pointList.add(new SKPoint2D(pointList.get(2), slopeGround2_Length, -10));
         pointList.add(new SKPoint2D(pointList.get(3), flatGround2_Length, 0));
         pointList.add(new SKPoint2D(pointList.get(4), slopeGround3_Length, 3));
-        this.drawZigZagS(pointList, roughNumberArray110, roughNumberArray110_2);
+        this.drawZigZagS(pointList, ROUGH_NUMBER_ARRAY_1, ROUGH_NUMBER_ARRAY_2);
 
-        this.filledColor = grassColor;
+        this.filledColor = GRASS_COLOR;
         ArrayList<SKPoint2D> pointList2 = new ArrayList<>();
         pointList2.add(startP);
         pointList2.add(new SKPoint2D(startP, 0, 25));
@@ -68,8 +69,7 @@ public class Ground extends Shape2D {
     }
 
     public void paintGround(SKPoint2D startP) {
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 5, 5), grassColor, false);
-        
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 5, 5), GRASS_COLOR, false);
     }
 
     public void drawFlower(SKPoint2D startP, boolean right) {

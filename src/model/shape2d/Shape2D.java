@@ -37,12 +37,12 @@ public abstract class Shape2D {
     /**
      * The total angle of this shape after rotation.
      */
-    protected double rotatedAngle;
+    protected double rotatedAngle = DEFAULT_ANGLE;
 
     /**
      * The line style of shape.
      */
-    protected SettingConstants.LineStyle lineStyle;
+    protected SettingConstants.LineStyle lineStyle = DEFAULT_LINE_STYLE;
 
     /**
      * Color filled in shape.
@@ -52,15 +52,15 @@ public abstract class Shape2D {
     /**
      * Center point of shape.
      */
-    protected SKPoint2D centerPoint2D;
+    protected SKPoint2D centerPoint2D = new SKPoint2D();
 
     /**
      * The total of pixel number.
      */
-    protected int pixelCounter;
+    protected int pixelCounter = 0;
 
-    protected SKPoint2D startPoint2D;
-    protected SKPoint2D endPoint2D;
+    protected SKPoint2D startPoint2D = new SKPoint2D();
+    protected SKPoint2D endPoint2D = new SKPoint2D();
 
     protected ArrayList<SKPoint2D> pointSet = new ArrayList<>();
 
@@ -71,16 +71,6 @@ public abstract class Shape2D {
         this.changedCoordOfBoard = changedCoordOfBoard;
 
         this.filledColor = filledColor;
-
-        rotatedAngle = DEFAULT_ANGLE;
-        lineStyle = DEFAULT_LINE_STYLE;
-
-        centerPoint2D = new SKPoint2D(0, 0);
-
-        pixelCounter = 0;
-
-        startPoint2D = new SKPoint2D();
-        endPoint2D = new SKPoint2D();
     }
 
     public SKPoint2D getStartPoint() {
@@ -227,8 +217,8 @@ public abstract class Shape2D {
     }
 
     public void drawSegment(SKPoint3D startPoint, SKPoint3D endPoint, SettingConstants.LineStyle lineStyle) {
-        SKPoint2D from = startPoint.get2DRelativePosition().convertViewToMachineCoord();
-        SKPoint2D to = endPoint.get2DRelativePosition().convertViewToMachineCoord();
+        SKPoint2D from = startPoint.get2DRelativePosition().convertToSystemCoord();
+        SKPoint2D to = endPoint.get2DRelativePosition().convertToSystemCoord();
         drawSegment(from, to, lineStyle);
     }
 
@@ -350,7 +340,6 @@ public abstract class Shape2D {
         int y = a;
 
         pixelCounter = 1;
-        pointSet.add(new SKPoint2D(x, y));
         putSymmetricPoints_Circle(x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), Pos1, Pos2, Pos3, Pos4, Pos5, Pos6, Pos7, Pos8);
 
         double p = 5 / 4.0 - a;
@@ -579,7 +568,7 @@ public abstract class Shape2D {
     protected boolean savePoint(double coordX, double coordY) {
         return savePoint((int) coordX, (int) coordY);
     }
-    
+
     protected boolean savePoint(SKPoint2D point) {
         return savePoint(point.getCoordX(), point.getCoordY());
     }
@@ -711,7 +700,7 @@ public abstract class Shape2D {
         }
     }
 
-    public void drawVirtualRotation(SKPoint2D centerPoint, double angle) {
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -719,22 +708,22 @@ public abstract class Shape2D {
         double totalAngle = this.rotatedAngle + angle;
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D pt = pointSet.get(i).createRotationPoint(centerPoint, totalAngle);
+            SKPoint2D pt = pointSet.get(i).getRotationPoint(centerPoint, totalAngle);
             savePoint(pt.getCoordX(), pt.getCoordY());
         }
     }
 
-    public void drawVirtualRotation(double angle) {
-        drawVirtualRotation(this.centerPoint2D, angle);
+    public void createRotateInstance(double angle) {
+        Shape2D.this.createRotateInstance(this.centerPoint2D, angle);
     }
 
-    public void drawVirtualMove(Vector2D vector) {
+    public void createMoveInstance(Vector2D vector) {
         if (pointSet.isEmpty()) {
             return;
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createMovingPoint(vector);
+            SKPoint2D point = pointSet.get(i).getMovePoint(vector);
             savePoint(point.getCoordX(), point.getCoordY());
         }
     }
@@ -745,7 +734,7 @@ public abstract class Shape2D {
 
     public abstract void applyMove(Vector2D vector);
 
-    public void drawOCenterSymmetry() {
+    public void createOCenterSymInstance() {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -756,7 +745,7 @@ public abstract class Shape2D {
         }
     }
 
-    public void drawOXSymmetry() {
+    public void createOXSymInstance() {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -766,7 +755,7 @@ public abstract class Shape2D {
         }
     }
 
-    public void drawOYSymmetry() {
+    public void createOYSymInstance() {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -777,7 +766,27 @@ public abstract class Shape2D {
         }
     }
 
-    public void drawPointSymmetry(SKPoint2D basePoint) {
+    public void createVerticalSymInstance(int x) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            SKPoint2D point = pointSet.get(i);
+        }
+    }
+
+    public void createHorizontalSymInstance(int y) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            SKPoint2D point = pointSet.get(i);
+        }
+    }
+
+    public void getPointSymInstance(SKPoint2D basePoint) {
         if (pointSet.isEmpty()) {
             return;
         }
@@ -788,20 +797,15 @@ public abstract class Shape2D {
         }
     }
 
-    public void drawLineSymmetry(double a, double b, double c) {
+    public void getLineSymInstance(double a, double b, double c) {
         if (pointSet.isEmpty()) {
             return;
         }
 
         for (int i = 0; i < pointSet.size(); i++) {
-            SKPoint2D point = pointSet.get(i).createLineSymmetryPoint(a, b, c);
+            SKPoint2D point = pointSet.get(i).getLineSymPoint(a, b, c);
             savePoint(point.getCoordX(), point.getCoordY());
         }
-    }
-
-    public void scale(int k) {
-        startPoint2D.scale(k);
-        endPoint2D.scale(k);
     }
 
     public void paint() {

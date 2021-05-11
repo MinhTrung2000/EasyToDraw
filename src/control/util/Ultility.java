@@ -18,10 +18,6 @@ public class Ultility {
     public Ultility() {
     }
 
-    public static void fillCells(Graphics g, int coordX, int coordY, Color color) {
-        g.fillRect(coordX, coordY, coordX + 5, coordY + 5);
-    }
-
     public static void showPopMenuOfButton(JButton button, JPopupMenu popMenu) {
         popMenu.show(button,
                 (int) button.getAlignmentX() + button.getWidth(),
@@ -47,7 +43,7 @@ public class Ultility {
 
         return (0 <= x && x < width && 0 <= y && y < height);
     }
-    
+
     public static boolean checkValidPoint(Object[][] array, double x, double y) {
         return checkValidPoint(array, (int) x, (int) y);
     }
@@ -92,22 +88,20 @@ public class Ultility {
      * @param chosenColor
      */
     public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, SKPoint2D point, Color chosenColor, boolean paintOnRealBoard) {
-        //  int coordX = point.getCoordX();
-        //  int coordY = point.getCoordY();
-
         Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
         if (!checkValidPoint(colorOfBoard, point.getCoordX(), point.getCoordY())) {
             return;
         }
 
-        Color oldColor = colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()];
+        Color oldColor = colorOfBoard[point.getCoordY()][point.getCoordX()];
 
         if (!oldColor.equals(chosenColor)) {
-            if(!paintOnRealBoard)  markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
-            
-            colorOfBoard[(int) point.getCoordY()][(int) point.getCoordX()] = chosenColor;
-            queue.add(new Pair<>((int) point.getCoordX(), (int) point.getCoordY()));
+            if (!paintOnRealBoard) {
+                markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
+            }
+            colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
+            queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
 
             int newCoordX;
             int newCoordY;
@@ -120,7 +114,9 @@ public class Ultility {
 
                     if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
                             && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
-                        if(!paintOnRealBoard) markedArray[newCoordY][newCoordX] = true;   
+                        if (!paintOnRealBoard) {
+                            markedArray[newCoordY][newCoordX] = true;
+                        }
                         colorOfBoard[newCoordY][newCoordX] = chosenColor;
                         queue.add(new Pair<>(newCoordX, newCoordY));
 

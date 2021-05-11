@@ -48,10 +48,10 @@ public class AnimationFrame extends javax.swing.JFrame {
     }
 
     public class AnimationPanel extends JPanel {
-        
+
         private int rotation = 0;
-        private  int widthBoard;
-        private  int heightBoard;
+        private int widthBoard;
+        private int heightBoard;
 
         private Color[][] colorOfBoard;
         private String[][] coordOfBoard;
@@ -75,9 +75,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointSun = new SKPoint2D(20, 20);
         private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
         private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
-        private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
-        private SKPoint2D startPointCloud2 = new SKPoint2D(100, 20);
- 
+        private SKPoint2D startPointCloud1 = new SKPoint2D(60, 35);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(70, 20);
         private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
         private SKPoint2D startPointGround = new SKPoint2D(0, 70);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
@@ -89,8 +88,6 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void setComponent() {
-            System.out.println("view.AnimationFrame.AnimationPanel.setComponent()");
-
             widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
@@ -169,36 +166,36 @@ public class AnimationFrame extends javax.swing.JFrame {
 
             mergeColorValue();
             resetChangedPropertyArray();
-            
+
             /* SUN */
             sun.drawSun();
             sun.drawSunLight(rotation);
+
             rotation+=10;
             if(rotation>45) rotation =0;
+
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
-
-           
 
             /* GROUND */
             ground.drawGround(startPointGround);
             ground.paintGround(startPointGround);
             ground.drawAndPaintFlowers();
-            
+
             mergeColorValue();
             resetChangedPropertyArray();
-            
-             /* APPLE TREE */
+
+            /* APPLE TREE */
             tree.drawAppleTree(startPointTree);
             tree.paintAppleTree(startPointTree);
             tree.paintApple();
 
             mergeColorValue();
             resetChangedPropertyArray();
-            
+
             /* SKY */
-            Ultility.paint(colorOfBoard, markedChangeOfBoard, new SKPoint2D(startPointGround, 10, -10), new Color(205,249,255), true);
+            Ultility.paint(colorOfBoard, markedChangeOfBoard, new SKPoint2D(startPointGround, 10, -10), new Color(205, 249, 255), true);
 
             /* RIVER */
             river.drawRiver(startPointRiver);
@@ -208,10 +205,9 @@ public class AnimationFrame extends javax.swing.JFrame {
             // Set property trong hàm setComponent
             fish1.setPropertyFish1(startPointFish1);
             fish1.drawFish1();
-            
+
             fish2.setPropertyFish2(startPointFish2);
             fish2.drawFish2();
-            
             this.repaint();
         }
 

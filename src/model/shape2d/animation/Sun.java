@@ -21,6 +21,7 @@ public class Sun extends Shape2D {
 
     public static final Color Color2 = new Color(255, 255, 0);
 
+
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
  
     private SKPoint2D traveringPoint_StartP = new SKPoint2D();
@@ -29,6 +30,7 @@ public class Sun extends Shape2D {
     private SKPoint2D [] sunLine_StartP = new SKPoint2D[8];
     private SKPoint2D [] sunLine_EndP = new SKPoint2D[8];
     private Segment2D [] sunLine2 = new Segment2D[8];
+
 
     /**
      * Use for change sunny rotation mechanism.
@@ -98,14 +100,15 @@ public class Sun extends Shape2D {
         
         this.filledColor = new Color (0,0,0);
         for(int i =0 ; i<8; i++){
-            sunLine_StartP[i] = traveringPoint_StartP.createRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine_EndP[i] = traveringPoint_EndP.createRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine2[i].setProperty(sunLine_StartP[i].createRotationPoint(this.centerPoint2D,Math.toRadians(rotation)),
-                   sunLine_EndP[i].createRotationPoint(this.centerPoint2D, Math.toRadians(rotation)));  
+            sunLine_StartP[i] = traveringPoint_StartP.getRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine_EndP[i] = traveringPoint_EndP.getRotationPoint(this.centerPoint2D, Math.toRadians(i*45+rotation));
+            sunLine2[i].setProperty(sunLine_StartP[i].getRotationPoint(this.centerPoint2D,Math.toRadians(rotation)),
+                   sunLine_EndP[i].getRotationPoint(this.centerPoint2D, Math.toRadians(rotation)));  
             sunLine2[i].drawOutline();
             
         }
             
+
     }
         
             

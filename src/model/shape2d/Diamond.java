@@ -66,10 +66,10 @@ public class Diamond extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempTopPoint = topPoint.createRotationPoint(centerPoint2D, rotatedAngle);
-        SKPoint2D tempBottomPoint = bottomPoint.createRotationPoint(centerPoint2D, rotatedAngle);
-        SKPoint2D tempLeftPoint = leftPoint.createRotationPoint(centerPoint2D, rotatedAngle);
-        SKPoint2D tempRightPoint = rightPoint.createRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempTopPoint = topPoint.getRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempBottomPoint = bottomPoint.getRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempLeftPoint = leftPoint.getRotationPoint(centerPoint2D, rotatedAngle);
+        SKPoint2D tempRightPoint = rightPoint.getRotationPoint(centerPoint2D, rotatedAngle);
 
         drawSegment(tempTopPoint, tempRightPoint);
         drawSegment(tempRightPoint, tempBottomPoint);

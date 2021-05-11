@@ -168,17 +168,14 @@ public interface SettingConstants {
                 return "";
             }
         },
-        
         // Adding
-        
+
         // Perpendicular Line
         MODE_ORTHOGONAL(""),
         MODE_INTERSECT(""),
         MODE_DELETE(""),
         MODE_RELATION(""),
         MODE_MIDPOINT("");
-        
-        
 
         public final String toolTip;
 

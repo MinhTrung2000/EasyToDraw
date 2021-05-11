@@ -6,9 +6,6 @@ public class SKPathIterator implements SKPathIteratorInterface {
     
     PathIterator impl;
 
-    public SKPathIterator() {
-    }
-
     public SKPathIterator(PathIterator impl) {
         this.impl = impl;
     }

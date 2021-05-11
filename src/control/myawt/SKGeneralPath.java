@@ -105,11 +105,6 @@ public class SKGeneralPath implements SKGeneralPathInterface {
     }
 
     @Override
-    public boolean intersects(int x, int y, int width, int height) {
-        return impl.intersects(x, y, width, height);
-    }
-
-    @Override
     public boolean intersects(double x, double y, double width, double height) {
         return impl.intersects(x, y, width, height);
     }

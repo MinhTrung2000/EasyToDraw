@@ -24,7 +24,7 @@ public abstract class Shape3D extends Shape2D {
     }
 
     protected boolean savePoint(double x, double y, double z) {
-        SKPoint2D relativePoint = SKPoint3D.get2DRelativePosition(x, y, z).convertViewToMachineCoord();
+        SKPoint2D relativePoint = SKPoint3D.get2DRelativePosition(x, y, z).convertToSystemCoord();
 
         int px = relativePoint.getCoordX();
         int py = relativePoint.getCoordY();
@@ -38,7 +38,7 @@ public abstract class Shape3D extends Shape2D {
     }
 
     public boolean savePointWithLineStyleCheck(double x, double y, double z, int pixelCounter, SettingConstants.LineStyle lineStyle) {
-        SKPoint2D relativePoint = SKPoint3D.get2DRelativePosition(x, y, z).convertViewToMachineCoord();
+        SKPoint2D relativePoint = SKPoint3D.get2DRelativePosition(x, y, z).convertToSystemCoord();
 
         int px = relativePoint.getCoordX();
         int py = relativePoint.getCoordY();

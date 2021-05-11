@@ -1,6 +1,6 @@
 package control.myawt;
 
-public interface SKEllipse2DDouble {
+public interface SKEllipse2DDoubleInterface {
 
     void setFrame(double xUL, double yUL, double d, double e);
 

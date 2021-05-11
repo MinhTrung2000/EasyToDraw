@@ -59,10 +59,10 @@ public class Rectangle extends Shape2D {
 
     @Override
     public void saveCoordinates() {
-        leftTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightTopPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        leftBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
-        rightBottomPoint.createRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftTopPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightTopPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        leftBottomPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
+        rightBottomPoint.getRotationPoint(centerPoint2D, rotatedAngle).saveCoord(this.changedCoordOfBoard);
     }
 
     @Override
@@ -77,10 +77,10 @@ public class Rectangle extends Shape2D {
 
     @Override
     public void drawOutline() {
-        SKPoint2D tempLeftTopPoint = leftTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempRightTopPoint = rightTopPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempLeftBottomPoint = leftBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
-        SKPoint2D tempRightBottomPoint = rightBottomPoint.createRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftTopPoint = leftTopPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightTopPoint = rightTopPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempLeftBottomPoint = leftBottomPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
+        SKPoint2D tempRightBottomPoint = rightBottomPoint.getRotationPoint(centerPoint2D, this.rotatedAngle);
 
         drawSegment(tempLeftTopPoint, tempRightTopPoint, lineStyle);
         drawSegment(tempRightTopPoint, tempRightBottomPoint, lineStyle);

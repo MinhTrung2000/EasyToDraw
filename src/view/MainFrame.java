@@ -1866,7 +1866,7 @@ public class MainFrame extends javax.swing.JFrame {
                     frame.setVisible(true);
 
 //                    frame.getDrawingPanel().setCoordinateMode(CoordinateMode.MODE_3D);
-                    //frame.animationFrame.setVisible(true);
+//                    frame.animationFrame.setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
