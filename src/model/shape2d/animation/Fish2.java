@@ -3,6 +3,7 @@ package model.shape2d.animation;
 import control.myawt.SKPoint2D;
 import control.util.Ultility;
 import java.awt.Color;
+import java.util.ArrayList;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
@@ -33,7 +34,6 @@ public class Fish2 extends Shape2D {
 
     public static final int TAIL_WIDTH_2 = 10;
     public static final int TAIL_HEIGHT_2 = 8;
-
     public static final int LECH_TREN_2 = 4;
     public static final int LECH_DUOI_2 = 4;
     //COLOR
@@ -47,12 +47,10 @@ public class Fish2 extends Shape2D {
     private SKPoint2D skinShape2_CenterP1 = new SKPoint2D();
     private SKPoint2D skinShape2_CenterP2 = new SKPoint2D();
     private SKPoint2D skinShape2_CenterP3 = new SKPoint2D();
-
     private SKPoint2D vayTren2_StartP = new SKPoint2D();
     private SKPoint2D vayTren2_P2 = new SKPoint2D();
     private SKPoint2D vayTren2_P3 = new SKPoint2D();
     private SKPoint2D vayTren2_EndP = new SKPoint2D();
-
     private SKPoint2D vayDuoi2_StartP = new SKPoint2D();
     private SKPoint2D vayDuoi2_P2 = new SKPoint2D();
     private SKPoint2D vayDuoi2_P3 = new SKPoint2D();
@@ -61,7 +59,6 @@ public class Fish2 extends Shape2D {
     private SKPoint2D duoi2_StartP = new SKPoint2D();
     private SKPoint2D duoi2_EndP = new SKPoint2D();
 
-    //điểm kết thúc đường thẳng ngoài rìa
     private SKPoint2D duoiTren2_EndP = new SKPoint2D();
     private SKPoint2D duoiDuoi2_EndP = new SKPoint2D();
 
@@ -83,12 +80,8 @@ public class Fish2 extends Shape2D {
     private SKPoint2D[] TopFin_StartP = new SKPoint2D[4];
     private SKPoint2D[] TopFin_EndP = new SKPoint2D[4];
 
-    private SKPoint2D first_TopFinFP_StartP = new SKPoint2D();
-    private SKPoint2D first_TopFinFP_EndP = new SKPoint2D();
-
     private SKPoint2D first_botFinFP_StartP = new SKPoint2D();
     private SKPoint2D first_botFinFP_EndP = new SKPoint2D();
-
     private SKPoint2D[] BotFin_StartP = new SKPoint2D[3];
     private SKPoint2D[] BotFin_EndP = new SKPoint2D[3];
 
@@ -96,7 +89,6 @@ public class Fish2 extends Shape2D {
     private SKPoint2D first_botTailFP_EndP = new SKPoint2D();
     private SKPoint2D second_botTailFP_StartP = new SKPoint2D();
     private SKPoint2D second_botTailFP_EndP = new SKPoint2D();
-
     private SKPoint2D first_topTailFP_StartP = new SKPoint2D();
     private SKPoint2D first_topTailFP_EndP = new SKPoint2D();
     private SKPoint2D second_topTailFP_StartP = new SKPoint2D();
@@ -165,7 +157,6 @@ public class Fish2 extends Shape2D {
         //Paint
         bodyPosToPaint.setLocation(startPointFish2, widthDirection * 2, 0);
 
-        //lấy start của top Fin thêm 1 vài đơn vị để dịch vào trong, tương tự với những cái còn lại
         topFinPosToPaint.setLocation(startPointFish2, widthDirection * (DISTANCE_FIN_F2_X - 3 + 2), -RADIUS_BODY_F2_Y - 1);
         botFinPosToPaint.setLocation(startPointFish2, widthDirection * (DISTANCE_FIN_F2_X - 1 + 2), RADIUS_BODY_F2_Y + 1);
         tailPosToPaint.setLocation(startPointFish2, widthDirection * (RADIUS_BODY_F2_X * 2 - 1 + 2), 0);
@@ -187,7 +178,6 @@ public class Fish2 extends Shape2D {
 
         first_botFinFP_StartP.setLocation(startPointFish2, widthDirection * (DISTANCE_FIN_F2_X - 1 + 3), RADIUS_BODY_F2_Y + 1);
         first_botFinFP_EndP.setLocation(first_botFinFP_StartP, 1, +BOTTOM_FIN_HEIGHT_2 - 2);
-
         first_botTailFP_StartP.setLocation(startPointFish2, widthDirection * (RADIUS_BODY_F2_X * 2 - 1 + 6), 2);
         first_botTailFP_EndP.setLocation(first_botTailFP_StartP, widthDirection * 1, 3);
         second_botTailFP_StartP.setLocation(first_botTailFP_StartP, widthDirection * 3, 2);
@@ -212,12 +202,13 @@ public class Fish2 extends Shape2D {
     }
 
     public void drawFish2() {
+
         //thân
-        setFilledColor(Color.BLACK);
+        this.filledColor = Color.BLACK;
         this.drawOutlineEllipse(RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y, thanCa2_CenterP, true, true, true, true);
 
         //vây trên thân
-        setFilledColor(FIN_SHAPE_COLOR);
+        this.filledColor = FIN_SHAPE_COLOR;
         if (widthDirection == 1) {
             this.drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT2_CenterP, false, true, false, true);
         } else {
@@ -236,7 +227,7 @@ public class Fish2 extends Shape2D {
         }
 
         // vây trên
-        setFilledColor(Color.BLACK);
+        this.filledColor = Color.BLACK;
         drawSegment(vayTren2_StartP, vayTren2_P2);
         drawSegment(vayTren2_P2, vayTren2_P3);
         drawSegment(vayTren2_P3, vayTren2_EndP);
@@ -247,10 +238,9 @@ public class Fish2 extends Shape2D {
         drawSegment(vayDuoi2_P3, vayDuoi2_EndP);
 
         //đuôi
-        setFilledColor(Color.BLACK);
+        this.filledColor = Color.BLACK;
         drawSegment(duoi2_StartP, duoiTren2_EndP);
         drawSegment(duoi2_StartP, duoiDuoi2_EndP);
-
         if (widthDirection == 1) {
             this.drawOutlineEllipse(2, 2, edge_duoiTren2_CenterP, false, true, false, true);
         } else {
@@ -258,24 +248,26 @@ public class Fish2 extends Shape2D {
         }
 
         drawSegment(duoiTren2_StartP2, duoi2_EndP);
-
         if (widthDirection == 1) {
             this.drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, false, true, false, true);
         } else {
             this.drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, !false, !true, !false, !true);
         }
-
         //lấy tọa độ của edge_duoiTren_CenterP -4 ở trên -2 thêm 2 cho nhanh :3
+
         drawSegment(duoiDuoi2_StartP2, duoi2_EndP);
 
         //TÔ MÀU
         //tô thân
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, SKIN_COLOR, false);
-
         //tô vây và đuôi
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, topFinPosToPaint, SKIN_COLOR, false);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, botFinPosToPaint, SKIN_COLOR, false);
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, SKIN_COLOR, false);
+
+        //vẽ vân ở vây và đuôi
+        this.filledColor = FIN_SHAPE_COLOR;
+        //vân trên
 
         for (int i = 0; i < 4; i++) {
             drawSegment(TopFin_StartP[i], TopFin_EndP[i]);
@@ -285,7 +277,8 @@ public class Fish2 extends Shape2D {
         for (int i = 0; i < 3; i++) {
             drawSegment(BotFin_StartP[i], BotFin_EndP[i]);
         }
-
+        
+        // đuôi
         drawSegment(first_botTailFP_StartP, first_botTailFP_EndP);
 
         drawSegment(second_botTailFP_StartP, second_botTailFP_EndP);
@@ -293,7 +286,7 @@ public class Fish2 extends Shape2D {
         drawSegment(first_topTailFP_StartP, first_topTailFP_EndP);
 
         drawSegment(second_topTailFP_StartP, second_topTailFP_EndP);
-        
+
         /* Vẽ mắt */
         setFilledColor(Color.WHITE);
         savePoint(diemMat01);
@@ -301,7 +294,7 @@ public class Fish2 extends Shape2D {
         savePoint(diemMat11);
         savePoint(diemMat00);
         savePoint(diemMat10);
-        
+
         /* Vẽ miệng */
         setFilledColor(FISH_MOUTH_COLOR);
         savePoint(diemMieng1);
@@ -325,7 +318,8 @@ public class Fish2 extends Shape2D {
     }
 
     @Override
-    public void applyMove(Vector2D vector) {
+    public void applyMove(Vector2D vector
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

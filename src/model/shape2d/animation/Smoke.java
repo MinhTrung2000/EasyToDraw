@@ -26,52 +26,64 @@ public class Smoke extends Shape2D {
 //        this.filledColor = new Color(255, 0, 0);
 //        savePoint(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY());
         this.filledColor = new Color(0, 0, 0);
+        ArrayList<SKPoint2D> pointList_Inside = new ArrayList<>();
         //khói ở trong
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, -6, 2), false, false, false, false, false, true, true, true);
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, -6 - 2, 2 + 3), false, false, false, false, false, false, true, true);
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, -6, 2));
+        this.drawOutlineCircle(2, pointList_Inside.get(0), false, false, false, false, false, true, true, true);
+        
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, -6 - 2, 2 + 3));
+        this.drawOutlineCircle(2, pointList_Inside.get(1), false, false, false, false, false, false, true, true);
 
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 7, 8), true, true, true, false, false, false, false, false);
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, 7, 8));
+        this.drawOutlineCircle(4, pointList_Inside.get(2), true, true, true, false, false, false, false, false);
         //vòng tròn liên tiếp
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 4, -4), true, true, false, false, false, false, false, true);
-        this.drawOutlineCircle(2, new SKPoint2D(this.startPoint2D, 4 + 6, -4), true, true, true, false, false, false, false, true);
-
-        this.drawOutlineCircle(4, new SKPoint2D(this.startPoint2D, 0, 6), false, false, false, false, true, true, false, false);
+        
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, 4, -4));
+        this.drawOutlineCircle(4, pointList_Inside.get(3), true, true, false, false, false, false, false, true);
+        
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, 4 + 6, -4));
+        this.drawOutlineCircle(2, pointList_Inside.get(4), true, true, true, false, false, false, false, true);
+        
+        pointList_Inside.add(new SKPoint2D(this.startPoint2D, 0, 6));
+        this.drawOutlineCircle(4, pointList_Inside.get(5), false, false, false, false, true, true, false, false);
 
         //viền ngoài, theo chiều kim đồng hồ lồng nhau
         ArrayList<SKPoint2D> pointList_Border = new ArrayList<>();
         pointList_Border.add(new SKPoint2D(this.startPoint2D, -10, -1));
         this.drawOutlineCircle(7, pointList_Border.get(0), false, false, false, false, false, false, true, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(0), 4, -3));
-        this.drawOutlineCircle(6, pointList_Border.get(1), false, false, false, false, false, false, true, true);
+        pointList_Border.add(new SKPoint2D(startPoint2D, -6, -4));
+        this.drawOutlineCircle(5, pointList_Border.get(1), false, false, false, false, false, false, true, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(1), 3, -2));
-        this.drawOutlineCircle(7, pointList_Border.get(2), true, false, false, false, false, false, false, true);
+        pointList_Border.add(new SKPoint2D(startPoint2D, -3, -6));
+        this.drawOutlineCircle(7, pointList_Border.get(2), true, false, false, false, false, false, true, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(2), 6, -4));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 3, -10));
         this.drawOutlineCircle(5, pointList_Border.get(3), true, false, false, false, false, false, false, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(3), 5, 1));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 8, -9));
         this.drawOutlineCircle(7, pointList_Border.get(4), true, false, false, false, false, false, false, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(4), 5, 0));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 13, -9));
         this.drawOutlineCircle(7, pointList_Border.get(5), true, true, true, false, false, false, false, false);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(5), 3, 5));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 16, -4));
         this.drawOutlineCircle(5, pointList_Border.get(6), false, true, true, true, false, false, false, false);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(6), 1, 8));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 17, 4));
         this.drawOutlineCircle(5, pointList_Border.get(7), true, true, true, false, false, false, false, false);
 
         //quay về đầu, làm bên trái
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(0), -3, 6));
+        //-6 2
+        //-3 6
+        pointList_Border.add(new SKPoint2D(startPoint2D, -12, 5));
         this.drawOutlineCircle(7, pointList_Border.get(8), false, false, false, false, true, true, true, true);
 
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(8), 4, 4));
+        pointList_Border.add(new SKPoint2D(startPoint2D, -8, 9));
         this.drawOutlineCircle(7, pointList_Border.get(9), false, false, false, false, true, true, false, false);
 
         //quay lại bên phải làm cái cuối cùng trước khi vẽ ellipse
-        pointList_Border.add(new SKPoint2D(pointList_Border.get(7), -3, 4));
+        pointList_Border.add(new SKPoint2D(startPoint2D, 14, 8));
         this.drawOutlineCircle(6, pointList_Border.get(10), false, true, true, true, false, false, false, false);
 
         this.drawOutlineEllipse(6, 10, new SKPoint2D(pointList_Border.get(10), 2, 12), true, false, false, false);

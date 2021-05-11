@@ -8,7 +8,6 @@ import model.shape2d.Vector2D;
 
 public class Fish1 extends Shape2D {
 
-    /* FISH 1 */
     private int widthDirection = 1;
 
     /**
@@ -46,7 +45,6 @@ public class Fish1 extends Shape2D {
     private SKPoint2D savedPoint = new SKPoint2D();
 
     private SKPoint2D startPointFish1 = new SKPoint2D();
-    private SKPoint2D startPointFish2 = new SKPoint2D();
 
     private SKPoint2D thanCa1_centerP = new SKPoint2D();
     private SKPoint2D dauCa1_CenterP = new SKPoint2D();
@@ -128,8 +126,8 @@ public class Fish1 extends Shape2D {
         tailEdge1_CenterP.setLocation(duoi1_StartP, TAIL_WIDTH_1 * widthDirection, 0);
 
         savedPoint.setLocation(tailEdge1_CenterP);
-
         //điểm bắt đầu là góc dưới, bên trái hình bình hành
+
         vayTren1_StartP.setLocation(startPointFish1,
                 RADIUS_HEAD_F1_X * widthDirection * 2 + 2 * widthDirection,
                 -RADIUS_BODY_F1_Y);
@@ -146,7 +144,6 @@ public class Fish1 extends Shape2D {
 
         //góc trên bên trái
         vayDuoi1_StartP.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 2 * widthDirection, RADIUS_BODY_F1_Y);
-        //góc dưới bên trái
         vayDuoi1_P2.setLocation(vayDuoi1_StartP, LECH_DUOI_1 * widthDirection, BOTTOM_FIN_HEIGHT_1);
         //góc dưới bên phải
         vayDuoi1_P3.setLocation(vayDuoi1_StartP, BOTTOM_FIN_WIDTH_1 * widthDirection, BOTTOM_FIN_HEIGHT_1);
@@ -157,25 +154,23 @@ public class Fish1 extends Shape2D {
 
         // Set các điểm để paint
         headPosToPaint.setLocation(startPointFish1, 2 * widthDirection, 0);
+
         bodyPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 1 * widthDirection, 0);
         topFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 5 * widthDirection, -RADIUS_BODY_F1_Y - 1);
         botFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 5 * widthDirection, RADIUS_BODY_F1_Y + 1);
         tailPosToPaint.setLocation(startPointFish1, RADIUS_BODY_F1_X * widthDirection * 2 + 1 * widthDirection, -1);
-
-        // Set cac diem mat
         // Note: chỉ cần xét tọa độ cho điểm diemMat00
         diemMat00.setLocation(startPointFish1.getCoordX() + RADIUS_HEAD_F1_X * widthDirection, startPointFish1.getCoordY() - 2);
+
         diemMat01.setLocation(diemMat00.getCoordX() + 1 * widthDirection, diemMat00.getCoordY());
         diemMat10.setLocation(diemMat00.getCoordX(), diemMat00.getCoordY() + 1);
         diemMat11.setLocation(diemMat01.getCoordX(), diemMat10.getCoordY());
     }
 
     public void drawFish1() {
-        setFilledColor(Color.BLACK);
-
         /* Vẽ thân hình ellipse */
+        setFilledColor(Color.BLACK);
         this.drawOutlineEllipse(RADIUS_BODY_F1_X, RADIUS_BODY_F1_Y, thanCa1_centerP, true, true, true, true);
-
         /* Vẽ đầu hình ellipse */
         if (widthDirection == 1) {
             this.drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, false, true, false, true);
@@ -203,7 +198,6 @@ public class Fish1 extends Shape2D {
             drawOutlineEllipse(4, TAIL_HEIGHT_1, tailEdge1_CenterP, true, false, true, false);
         }
 
-        /* Vẽ 2 đường thẳng nối từ duoi_StartP tới hình ellipse nằm dọc ở trên */
         drawSegment(duoi1_StartP, duoiTren1_EndP);
         drawSegment(duoi1_StartP, duoiDuoi1_EndP);
 
@@ -245,8 +239,8 @@ public class Fish1 extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, new Color(254, 241, 2), false);
 
         setFilledColor(MAU_VAN_DUOI_CA);
-
         /* Vẽ đường vân ở đuôi */
+
         savedPoint.setLocation(savedPoint, -2 * widthDirection, 0);
         if (widthDirection == 1) {
             drawOutlineEllipse(3, TAIL_HEIGHT_1 - 3, savedPoint, false, true, false, true);
@@ -270,15 +264,14 @@ public class Fish1 extends Shape2D {
      * @param changedPosY
      */
     private void drawFishSkin1(SKPoint2D startPoint, int changedPosX, int changedPosY) {
-
         SKPoint2D newStartPoint = new SKPoint2D(startPoint, changedPosX, changedPosY);
 
         SKPoint2D endPoint1 = new SKPoint2D(
-                newStartPoint.getCoordX() - 1 * widthDirection, 
+                newStartPoint.getCoordX() - 1 * widthDirection,
                 newStartPoint.getCoordY() - 1 * widthDirection
         );
         SKPoint2D endPoint2 = new SKPoint2D(
-                newStartPoint.getCoordX() - 1 * widthDirection, 
+                newStartPoint.getCoordX() - 1 * widthDirection,
                 newStartPoint.getCoordY() + 1 * widthDirection
         );
 

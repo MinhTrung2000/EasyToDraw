@@ -53,6 +53,7 @@ public class River extends Shape2D {
         pointList.add(new SKPoint2D(pointList.get(0), 40, -6));
         pointList.add(new SKPoint2D(pointList.get(1), 70, 8));
         pointList.add(new SKPoint2D(pointList.get(2), 53, -5));
+
         pointList.add(new SKPoint2D(startP, realWidthLimit, HEIGHT_1));
 
         setFilledColor(COLOR_2);
@@ -77,7 +78,7 @@ public class River extends Shape2D {
 
         //phân viền dưới nước
         setLineStyle(DEFAULT_LINE_STYLE);
-        
+
         setFilledColor(BOTTOM_COLOR);
         drawSegment(new SKPoint2D(startP, 0, HEIGHT_1), new SKPoint2D(startP, 0, HEIGHT_2));
         drawSegment(new SKPoint2D(startP, realWidthLimit, HEIGHT_1), new SKPoint2D(startP, realWidthLimit, HEIGHT_2));

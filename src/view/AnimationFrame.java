@@ -49,6 +49,7 @@ public class AnimationFrame extends javax.swing.JFrame {
 
     public class AnimationPanel extends JPanel {
 
+        private int rotation = 0;
         private int widthBoard;
         private int heightBoard;
 
@@ -76,7 +77,6 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
         private SKPoint2D startPointCloud1 = new SKPoint2D(90, 35);
         private SKPoint2D startPointCloud2 = new SKPoint2D(100, 20);
-
         private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
         private SKPoint2D startPointGround = new SKPoint2D(0, 70);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
@@ -169,8 +169,11 @@ public class AnimationFrame extends javax.swing.JFrame {
 
             /* SUN */
             sun.drawSun();
-            sun.drawSunLight();
-
+            sun.drawSunLight(rotation);
+            rotation += 5;
+            if (rotation > 45) {
+                rotation = 0;
+            }
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
@@ -263,6 +266,8 @@ public class AnimationFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        animationPanel.setPreferredSize(new java.awt.Dimension(1361, 972));
+
         javax.swing.GroupLayout animationPanelLayout = new javax.swing.GroupLayout(animationPanel);
         animationPanel.setLayout(animationPanelLayout);
         animationPanelLayout.setHorizontalGroup(
@@ -271,7 +276,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         );
         animationPanelLayout.setVerticalGroup(
             animationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 826, Short.MAX_VALUE)
+            .addGap(0, 960, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

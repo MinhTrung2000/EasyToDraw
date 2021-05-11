@@ -70,7 +70,6 @@ public class Ground extends Shape2D {
 
     public void paintGround(SKPoint2D startP) {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 5, 5), GRASS_COLOR, false);
-
     }
 
     public void drawFlower(SKPoint2D startP, boolean right) {

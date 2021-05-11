@@ -82,7 +82,7 @@ public class Sun extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
     }
 
-    public void drawSunLight() {
+    public void drawSunLight(int rotation) {
         if (!flip) {
             sunLine.drawOutline();
             sunLine.createRotateInstance(this.centerPoint2D, Math.toRadians(90));
