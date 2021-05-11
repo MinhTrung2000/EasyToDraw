@@ -1,5 +1,6 @@
 package model.shape2d;
 
+import control.myawt.MyPoint;
 import control.myawt.SKPoint2D;
 
 public class Transform2D {
@@ -254,5 +255,11 @@ public class Transform2D {
         double new_y = Math.round(x * m[0][1] + y * m[1][1] + 1 * m[2][1]);
 
         vec.setCoord(new_x, new_y);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println("Test: rotate by point");
+        SKPoint2D p = new SKPoint2D(1, 4);
+        System.out.println(p.getRotationPoint(new SKPoint2D(0, 0), Math.toRadians(-30)));
     }
 }

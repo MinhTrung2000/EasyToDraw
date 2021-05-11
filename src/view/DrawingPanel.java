@@ -664,7 +664,6 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-
         recentShape.createRotateInstance(centerPoint, angle);
         apply();
         repaint();
@@ -921,6 +920,13 @@ public class DrawingPanel extends JPanel {
                 return;
             }
 
+            switch (selectedToolMode) {
+                case DRAWING_LINE_FREE: {
+                    endDrawingPoint.saveCoord(coordOfBoard);
+                    break;
+                }
+            }
+            
             apply();
             repaint();
         }
@@ -1004,7 +1010,6 @@ public class DrawingPanel extends JPanel {
                     repaint();
                     break;
                 }
-
                 case DRAWING_LINE_FREE: {
                     if (checkStartingPointAvailable()) {
                         Segment2D pixel = new Segment2D(markedChangeOfBoard,

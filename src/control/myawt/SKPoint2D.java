@@ -113,7 +113,7 @@ public class SKPoint2D {
     public SKPoint2D getScalePoint(double sx, double sy) {
         return Transform2D.getTransformPoint(this, Transform2D.getScaleMat(sx, sy));
     }
-    
+
     /**
      * Rotate point in place from basePoint by an angle.
      *
@@ -273,12 +273,13 @@ public class SKPoint2D {
         Transform2D.transform(this, Transform2D.getLineSymMat(a, b, c));
         return this;
     }
-    
+
     /**
      * Scale this point in place.
+     *
      * @param sx
      * @param sy
-     * @return 
+     * @return
      */
     public SKPoint2D scale(double sx, double sy) {
         Transform2D.transform(this, Transform2D.getScaleMat(sx, sy));
@@ -295,11 +296,19 @@ public class SKPoint2D {
     public static SKPoint2D midPoint(SKPoint2D pointA, SKPoint2D pointB) {
         SKPoint2D midPoint = new SKPoint2D();
         midPoint.setLocation(
-                (int) (pointA.coordX + pointB.coordX) / 2,
-                (int) (pointA.coordY + pointB.coordY) / 2
+                Math.round((pointA.coordX + pointB.coordX) / 2),
+                Math.round((pointA.coordY + pointB.coordY) / 2)
         );
         return midPoint;
     }
+    
+    public SKPoint2D setMidLocation(SKPoint2D pointA, SKPoint2D pointB) {
+        setLocation(
+                Math.round((pointA.coordX + pointB.coordX) / 2),
+                Math.round((pointA.coordY + pointB.coordY) / 2)
+        );
+        return this;
+    } 
 
     public String toString() {
         return "(" + coordX + ", " + coordY + ")";
@@ -320,8 +329,8 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D convertToSystemCoord() {
-        coordX = (coordX + SettingConstants.COORD_X_O) / SettingConstants.RECT_SIZE;
-        coordY = (coordY - SettingConstants.COORD_Y_O) / (-SettingConstants.RECT_SIZE);
+        coordX = coordX + SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
+        coordY = -coordY + SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE;
         return this;
     }
 

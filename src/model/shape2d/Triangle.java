@@ -23,7 +23,7 @@ public class Triangle extends Shape2D {
 
     /**
      * Set 3 points of triangle by using startPoint2D and endPoint2D The type of
- triangle is either common or equilateral depending on Modal
+     * triangle is either common or equilateral depending on Modal
      *
      * @param startPoint
      * @param endPoint
@@ -104,5 +104,26 @@ public class Triangle extends Shape2D {
         pointC.rotate(centerPoint2D, this.rotatedAngle).move(vector);
 
         centerPoint2D.move(vector);
+    }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        double totalAngle = rotatedAngle + angle;
+
+        SKPoint2D newPointA = pointA.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointB = pointB.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newPointC = pointC.getRotationPoint(centerPoint, totalAngle);
+
+        newPointA.saveCoord(changedCoordOfBoard);
+        newPointB.saveCoord(changedCoordOfBoard);
+        newPointC.saveCoord(changedCoordOfBoard);
+
+        drawSegment(newPointA, newPointB);
+        drawSegment(newPointB, newPointC);
+        drawSegment(newPointC, newPointA);
     }
 }

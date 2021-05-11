@@ -9,6 +9,10 @@ import javafx.util.Pair;
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import control.SettingConstants;
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.text.JTextComponent;
+import model.tuple.MyPair;
 
 public class Ultility {
 
@@ -125,5 +129,34 @@ public class Ultility {
             }
 
         }
+    }
+
+    public static int getValidInputComponent(JTextComponent component, boolean allowEmpty, MyPair bound) throws NumberFormatException {
+        int ret = -1;
+
+        String inpText = component.getText();
+
+        if (!allowEmpty && inpText.equals("")) {
+            component.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String message = component.getName() + " is required!";
+            throw new NumberFormatException(message);
+        }
+
+        try {
+            ret = Integer.parseInt(inpText);
+        } catch (NumberFormatException ex) {
+            component.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String message = component.getName() + " must be a number!";
+            throw new NumberFormatException(message);
+        }
+
+        if (ret < bound.x || ret > bound.y) {
+            component.setBorder(BorderFactory.createLineBorder(Color.RED));
+            String message = component.getName() + " is out of bound!";
+            throw new NumberFormatException(message);
+        }
+        
+//        return ret * SettingConstants.RECT_SIZE;
+        return ret;
     }
 }

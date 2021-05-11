@@ -22,17 +22,17 @@ public abstract class Shape2D {
     /**
      * This references to the marked coordinates of drawing board.
      */
-    protected boolean[][] markedChangeOfBoard;
+    protected static boolean[][] markedChangeOfBoard;
 
     /**
      * This references to the color value of points of drawing board.
      */
-    protected Color[][] changedColorOfBoard;
+    protected static Color[][] changedColorOfBoard;
 
     /**
      * This references to the coordinate property of points of drawing board.
      */
-    protected String[][] changedCoordOfBoard;
+    protected static String[][] changedCoordOfBoard;
 
     /**
      * The total angle of this shape after rotation.
@@ -93,7 +93,8 @@ public abstract class Shape2D {
         this.filledColor = filledColor;
     }
 
-    public abstract void setProperty(SKPoint2D startPoint, SKPoint2D endPoint);
+    public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
+    }
 
     public int getWidthDirection(int width) {
         if (width < 0) {
@@ -558,8 +559,10 @@ public abstract class Shape2D {
      */
     protected boolean savePoint(int coordX, int coordY) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)) {
-            markedChangeOfBoard[coordY][coordX] = true;
-            changedColorOfBoard[coordY][coordX] = filledColor;
+            if (!markedChangeOfBoard[coordY][coordX]) {
+                markedChangeOfBoard[coordY][coordX] = true;
+                changedColorOfBoard[coordY][coordX] = filledColor;
+            }
             return true;
         }
         return false;
@@ -588,9 +591,11 @@ public abstract class Shape2D {
     public boolean savePointWithLineStyleCheck(int coordX, int coordY, int pixelCounter, SettingConstants.LineStyle lineStyle) {
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
-            markedChangeOfBoard[coordY][coordX] = true;
-            changedColorOfBoard[coordY][coordX] = filledColor;
-            pointSet.add(new SKPoint2D(coordX, coordY));
+            if (!markedChangeOfBoard[coordY][coordX]) {
+                markedChangeOfBoard[coordY][coordX] = true;
+                changedColorOfBoard[coordY][coordX] = filledColor;
+                pointSet.add(new SKPoint2D(coordX, coordY));
+            }
             return true;
         }
         return false;
@@ -709,12 +714,12 @@ public abstract class Shape2D {
 
         for (int i = 0; i < pointSet.size(); i++) {
             SKPoint2D pt = pointSet.get(i).getRotationPoint(centerPoint, totalAngle);
-            savePoint(pt.getCoordX(), pt.getCoordY());
+            savePoint(pt);
         }
     }
 
     public void createRotateInstance(double angle) {
-        Shape2D.this.createRotateInstance(this.centerPoint2D, angle);
+        createRotateInstance(this.centerPoint2D, angle);
     }
 
     public void createMoveInstance(Vector2D vector) {

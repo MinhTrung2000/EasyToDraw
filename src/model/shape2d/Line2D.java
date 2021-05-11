@@ -152,4 +152,23 @@ public class Line2D extends Segment2D {
 
         return line;
     }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+        
+        double totalAngle = this.rotatedAngle + angle;
+
+        SKPoint2D newStartPoint = startPoint2D.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newEndPoint = endPoint2D.getRotationPoint(centerPoint, totalAngle);
+
+        Line2D line = new Line2D(markedChangeOfBoard,
+                changedColorOfBoard, changedCoordOfBoard, this.filledColor);
+        line.setLineStyle(this.lineStyle);
+        line.setProperty(newStartPoint, newEndPoint);
+        line.drawOutline();
+        line.saveCoordinates();
+    }
 }

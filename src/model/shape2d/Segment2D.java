@@ -2,9 +2,7 @@ package model.shape2d;
 
 import control.myawt.SKPoint2D;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
-import static control.SettingConstants.*;
 
 public class Segment2D extends Shape2D {
 
@@ -170,5 +168,22 @@ public class Segment2D extends Shape2D {
             }
             array.add(new SKPoint2D(x, y));
         }
+    }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+
+        double totalAngle = this.rotatedAngle + angle;
+        
+        SKPoint2D newStartPoint = startPoint2D.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newEndPoint = endPoint2D.getRotationPoint(centerPoint, totalAngle);
+        
+        newStartPoint.saveCoord(changedCoordOfBoard);
+        newEndPoint.saveCoord(changedCoordOfBoard);
+        
+        drawSegment(newStartPoint, newEndPoint);
     }
 }

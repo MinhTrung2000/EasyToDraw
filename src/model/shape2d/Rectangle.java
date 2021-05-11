@@ -116,4 +116,29 @@ public class Rectangle extends Shape2D {
         LLPoint.setLocation(center_x - half_w, center_y, center_z - half_h);
         LRPoint.setLocation(center_x + half_w, center_y, center_z - half_h);
     }
+
+    @Override
+    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
+        if (pointSet.isEmpty()) {
+            return;
+        }
+        
+        double totalAngle = rotatedAngle + angle;
+        
+        SKPoint2D newLeftTopPoint = leftTopPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newLeftBottomPoint = leftBottomPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newRightTopPoint = rightTopPoint.getRotationPoint(centerPoint, totalAngle);
+        SKPoint2D newRightBottomPoint = rightBottomPoint.getRotationPoint(centerPoint, totalAngle);
+        
+        newLeftTopPoint.saveCoord(changedCoordOfBoard);
+        newLeftBottomPoint.saveCoord(changedCoordOfBoard);
+        newRightTopPoint.saveCoord(changedCoordOfBoard);
+        newRightBottomPoint.saveCoord(changedCoordOfBoard);
+        
+        drawSegment(newLeftTopPoint, newRightTopPoint);
+        drawSegment(newRightTopPoint, newRightBottomPoint);
+        drawSegment(newRightBottomPoint, newLeftBottomPoint);
+        drawSegment(newLeftBottomPoint, newLeftTopPoint);
+    }
+
 }

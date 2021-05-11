@@ -11,16 +11,14 @@ public class Ellipse extends Shape2D {
         CIRLCE,
     }
 
-    private double a;
-    private double b;
+    private double a = 1.0;
+    private double b = 1.0;
 
-    private Modal modal;
+    private Modal modal = Modal.ELLIPSE;
 
     public Ellipse(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        a = b = 1.0;
-        modal = Modal.ELLIPSE;
     }
 
     public void setModal(Modal modal) {
@@ -28,6 +26,7 @@ public class Ellipse extends Shape2D {
     }
 
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint, Modal modal) {
+        
         int width = (int) (endPoint.getCoordX() - startPoint.getCoordX());
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
 
@@ -52,10 +51,7 @@ public class Ellipse extends Shape2D {
             b = a;
         }
 
-        centerPoint2D.setLocation(
-                (int) Math.round(this.startPoint2D.getCoordX() + this.endPoint2D.getCoordX()) / 2,
-                (int) Math.round(this.startPoint2D.getCoordY() + this.endPoint2D.getCoordY()) / 2
-        );
+        centerPoint2D.setMidLocation(startPoint2D, endPoint2D);
 
         this.modal = modal;
     }
@@ -75,8 +71,8 @@ public class Ellipse extends Shape2D {
 
         // Save center point coordination
         centerPoint2D.saveCoord(changedCoordOfBoard);
-        markedChangeOfBoard[(int) centerPoint2D.getCoordY()][(int) centerPoint2D.getCoordX()] = true;
-        changedColorOfBoard[(int) centerPoint2D.getCoordY()][(int) centerPoint2D.getCoordX()] = filledColor;
+        markedChangeOfBoard[centerPoint2D.getCoordY()][centerPoint2D.getCoordX()] = true;
+        changedColorOfBoard[centerPoint2D.getCoordY()][centerPoint2D.getCoordX()] = filledColor;
 
         double x = 0.0;
         double y = b;
