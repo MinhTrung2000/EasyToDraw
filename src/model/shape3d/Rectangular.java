@@ -7,7 +7,15 @@ import model.shape2d.Rectangle;
 import model.shape2d.Vector2D;
 
 /*
-    A2        B2
+    z
+    |
+    |
+  O +--------------x
+   /
+  /
+  y
+   
+   A2        B2
   /         /
 A --------- B
 |           |
@@ -39,15 +47,29 @@ public class Rectangular extends Shape3D {
     public void setProperty(double center_x, double center_y, double center_z, int width, int height, int high) {
         this.centerPoint3D.setLocation(center_x, center_y, center_z);
 
-        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
-                this.centerPoint3D.getCoordY() + height / 2, this.centerPoint3D.getCoordZ(),
-                width, high, pointA, pointB, pointC, pointD
-        );
+        double half_width = width / 2;
+        double half_height = height / 2;
+        double half_hight = high / 2;
 
-        Rectangle.setFourPointSymmetricFromCenter(this.centerPoint3D.getCoordX(),
-                this.centerPoint3D.getCoordY() - height / 2, this.centerPoint3D.getCoordZ(),
-                width, high, pointA2, pointB2, pointC2, pointD2
-        );
+        // Set location in visual system coordinate mode.
+        pointA.setLocation(center_x - half_width, center_y +  half_height, 
+                center_z + half_hight);
+        pointB.setLocation(center_x + half_width, center_y +  half_height, 
+                center_z + half_hight);
+        pointC.setLocation(center_x + half_width, center_y +  half_height, 
+                center_z - half_hight);
+        pointD.setLocation(center_x - half_width, center_y +  half_height, 
+                center_z - half_hight);
+
+        pointA2.setLocation(center_x - half_width, center_y -  half_height, 
+                center_z + half_hight);
+        pointB2.setLocation(center_x + half_width, center_y -  half_height, 
+                center_z + half_hight);
+        pointC2.setLocation(center_x + half_width, center_y -  half_height, 
+                center_z - half_hight);
+        pointD2.setLocation(center_x - half_width, center_y -  half_height, 
+                center_z - half_hight);
+
     }
 
     @Override
@@ -77,6 +99,7 @@ public class Rectangular extends Shape3D {
         drawSegment(pointB2, pointB, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointB2, pointC2, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointC2, pointC, SettingConstants.LineStyle.DEFAULT);
+        
         drawSegment(pointD, pointD2, SettingConstants.LineStyle.DOT);
         drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DOT);
         drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DOT);

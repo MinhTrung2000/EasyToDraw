@@ -31,8 +31,8 @@ public class Segment2D extends Shape2D {
             int widthValue = Math.abs(width);
             int heightValue = Math.abs(height);
 
-            int heightDirection = this.getHeightDirection(height);
-            int widthDirection = this.getWidthDirection(width);
+            int heightDirection = this.getDirectionHeight(height);
+            int widthDirection = this.getDirectionWidth(width);
             int preferedLength = this.getPreferredLength(width, height);
 
             this.startPoint2D = startPoint;
@@ -111,7 +111,8 @@ public class Segment2D extends Shape2D {
      * @param endPoint
      * @return
      */
-    public static void mergePointSet(ArrayList<SKPoint2D> array, SKPoint2D startPoint, SKPoint2D endPoint) {
+    public static void mergePointSet(ArrayList<SKPoint2D> array, 
+            SKPoint2D startPoint, SKPoint2D endPoint) {
         array.add(startPoint);
 
         int dx = 0, dy = 0;
@@ -171,8 +172,8 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        if (pointSet.isEmpty()) {
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -183,13 +184,13 @@ public class Segment2D extends Shape2D {
 
         newStartPoint.saveCoord(changedCoordOfBoard);
         newEndPoint.saveCoord(changedCoordOfBoard);
-
-        drawSegment(newStartPoint, newEndPoint);
+        
+        drawSegmentUnSave(newStartPoint, newEndPoint);
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        super.createOCenterSymInstance();
+    public void createSymOCenter() {
+        super.createSymOCenter();
         
         SKPoint2D newStartPoint = startPoint2D.createOCenterSym();
         SKPoint2D newEndPoint = endPoint2D.createOCenterSym();
@@ -199,8 +200,8 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        super.createOXSymInstance();
+    public void createSymOX() {
+        super.createSymOX();
         
         SKPoint2D newStartPoint = startPoint2D.createOXSym();
         SKPoint2D newEndPoint = endPoint2D.createOXSym();
@@ -210,8 +211,8 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        super.createOYSymInstance();
+    public void createSymOY() {
+        super.createSymOY();
         
         SKPoint2D newStartPoint = startPoint2D.createOYSym();
         SKPoint2D newEndPoint = endPoint2D.createOYSym();
@@ -221,8 +222,8 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        super.createPointSymInstance(basePoint);
+    public void createSymPoint(SKPoint2D basePoint) {
+        super.createSymPoint(basePoint);
         
         SKPoint2D newStartPoint = startPoint2D.createPointSym(basePoint);
         SKPoint2D newEndPoint = endPoint2D.createPointSym(basePoint);
@@ -232,8 +233,8 @@ public class Segment2D extends Shape2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        super.createLineSymInstance(a, b, c);
+    public void createSymLine(double a, double b, double c) {
+        super.createSymLine(a, b, c);
 
         SKPoint2D newStartPoint = startPoint2D.createLineSym(a, b, c);
         SKPoint2D newEndPoint = endPoint2D.createLineSym(a, b, c);

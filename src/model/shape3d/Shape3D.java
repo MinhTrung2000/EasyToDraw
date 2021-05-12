@@ -5,6 +5,7 @@ import control.myawt.SKPoint2D;
 import java.awt.Color;
 import control.myawt.SKPoint3D;
 import control.util.Ultility;
+import java.util.ArrayList;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
@@ -14,6 +15,9 @@ public abstract class Shape3D extends Shape2D {
     protected SKPoint3D endPoint3D = new SKPoint3D();
     protected SKPoint3D centerPoint3D = new SKPoint3D();
 
+    // Now use pointSet2D to be a container of relative point in 2D from this.
+    protected ArrayList<SKPoint3D> pointSet3D = new ArrayList<>();
+
     public Shape3D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
@@ -21,6 +25,97 @@ public abstract class Shape3D extends Shape2D {
     @Override
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
 
+    }
+
+    /**
+     * Save from pointSet3D to pointSet2D
+     */
+    public void setRelative2DPointSet() {
+        if (pointSet3D.isEmpty()) {
+            return;
+        }
+
+        pointSet2D.clear();
+
+        for (int i = 0; i < pointSet3D.size(); i++) {
+            pointSet2D.add(pointSet3D.get(i).get2DRelativePosition());
+        }
+    }
+
+    public SKPoint2D getLeftTopPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() < ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() < ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+    
+    public SKPoint2D getRightTopPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() > ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() < ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+    
+    public SKPoint2D getLeftBottomPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() < ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() > ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+    
+    public SKPoint2D getRightBottomPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() > ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() > ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
     }
 
     protected boolean savePoint(double x, double y, double z) {
@@ -47,35 +142,9 @@ public abstract class Shape3D extends Shape2D {
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[py][px] = true;
             changedColorOfBoard[py][px] = filledColor;
-            pointSet.add(relativePoint);
+            pointSet2D.add(relativePoint);
             return true;
         }
         return false;
-    }
-
-    public void putEightSymmetricPoints(double x, double y, double z, double center_x, double center_y, boolean mode2) {
-        pixelCounter++;
-        savePointWithLineStyleCheck(y + center_x, -x + center_y, z, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(x + center_x, -y + center_y, z, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(-y + center_x, x + center_y, z, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(-x + center_x, y + center_y, z, pixelCounter, lineStyle);
-
-        if (!mode2 || pixelCounter % 2 == 0) {
-            savePointWithLineStyleCheck(y + center_x, x + center_y, z, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(x + center_x, y + center_y, z, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(-x + center_x, -y + center_y, z, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(-y + center_x, -x + center_y, z, pixelCounter, lineStyle);
-        }
-    }
-
-    public void putFourSymmetricPoints(double x, double y, double z, double center_x, double center_y, boolean mode2) {
-        pixelCounter++;
-        savePointWithLineStyleCheck(center_x + x, center_y + y, z, pixelCounter, lineStyle);
-        savePointWithLineStyleCheck(center_x - x, center_y + y, z, pixelCounter, lineStyle);
-
-        if (!mode2 || pixelCounter % 2 == 0) {
-            savePointWithLineStyleCheck(center_x + x, center_y - y, z, pixelCounter, lineStyle);
-            savePointWithLineStyleCheck(center_x - x, center_y - y, z, pixelCounter, lineStyle);
-        }
     }
 }

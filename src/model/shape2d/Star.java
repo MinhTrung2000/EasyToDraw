@@ -130,8 +130,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        if (pointSet.isEmpty()) {
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -149,16 +149,16 @@ public class Star extends Shape2D {
         SKPoint2D newOpPointD = opPointD.createRotate(centerPoint, totalAngle);
         SKPoint2D newOpPointE = opPointE.createRotate(centerPoint, totalAngle);
 
-        drawSegment(newPointA, newOpPointD);
-        drawSegment(newOpPointD, newPointB);
-        drawSegment(newPointB, newOpPointE);
-        drawSegment(newOpPointE, newPointC);
-        drawSegment(newPointC, newOpPointA);
-        drawSegment(newOpPointA, newPointD);
-        drawSegment(newPointD, newOpPointB);
-        drawSegment(newOpPointB, newPointE);
-        drawSegment(newPointE, newOpPointC);
-        drawSegment(newOpPointC, newPointA);
+        drawSegmentUnSave(newPointA, newOpPointD);
+        drawSegmentUnSave(newOpPointD, newPointB);
+        drawSegmentUnSave(newPointB, newOpPointE);
+        drawSegmentUnSave(newOpPointE, newPointC);
+        drawSegmentUnSave(newPointC, newOpPointA);
+        drawSegmentUnSave(newOpPointA, newPointD);
+        drawSegmentUnSave(newPointD, newOpPointB);
+        drawSegmentUnSave(newOpPointB, newPointE);
+        drawSegmentUnSave(newPointE, newOpPointC);
+        drawSegmentUnSave(newOpPointC, newPointA);
 
         newPointA.saveCoord(changedCoordOfBoard);
         newPointB.saveCoord(changedCoordOfBoard);
@@ -168,8 +168,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        super.createOCenterSymInstance();
+    public void createSymOCenter() {
+        super.createSymOCenter();
 
         SKPoint2D newPointA = pointA.createOCenterSym();
         SKPoint2D newPointB = pointB.createOCenterSym();
@@ -185,8 +185,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        super.createOXSymInstance();
+    public void createSymOX() {
+        super.createSymOX();
 
         SKPoint2D newPointA = pointA.createOXSym();
         SKPoint2D newPointB = pointB.createOXSym();
@@ -202,8 +202,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        super.createOYSymInstance();
+    public void createSymOY() {
+        super.createSymOY();
 
         SKPoint2D newPointA = pointA.createOYSym();
         SKPoint2D newPointB = pointB.createOYSym();
@@ -219,8 +219,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        super.createPointSymInstance(basePoint);
+    public void createSymPoint(SKPoint2D basePoint) {
+        super.createSymPoint(basePoint);
 
         SKPoint2D newPointA = pointA.createPointSym(basePoint);
         SKPoint2D newPointB = pointB.createPointSym(basePoint);
@@ -236,8 +236,8 @@ public class Star extends Shape2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        super.createLineSymInstance(a, b, c);
+    public void createSymLine(double a, double b, double c) {
+        super.createSymLine(a, b, c);
 
         SKPoint2D newPointA = pointA.createLineSym(a, b, c);
         SKPoint2D newPointB = pointB.createLineSym(a, b, c);

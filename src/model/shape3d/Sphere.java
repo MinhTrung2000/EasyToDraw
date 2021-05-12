@@ -40,7 +40,7 @@ public class Sphere extends Shape3D {
         double x = 0;
         double z = radius;
 
-        pixelCounter = 1;
+//        pixelCounter = 1;
         put_x_z(x, z, centerPoint2D.getCoordX(), centerPoint2D.getCoordZ());
 
         double p = 5 / 4.0 - radius;
@@ -58,7 +58,7 @@ public class Sphere extends Shape3D {
     }
 
     private void drawVirtualEllipse() {
-        SKPoint2D relativeCenterPoint = centerPoint3D.get2DRelativePosition().convertToSystemCoord();
+        SKPoint2D relativeCenterPoint = centerPoint3D.get2DRelativePosition();
         relativeCenterPoint.saveCoord(changedCoordOfBoard);
         
         radius /= SettingConstants.RECT_SIZE;
@@ -72,9 +72,9 @@ public class Sphere extends Shape3D {
         double fx = 0;
         double fy = 2 * a * a * y;
 
-        pixelCounter = 0;
+//        pixelCounter = 0;
 
-        putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
+//        putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
 
         double p = b * b - a * a * b + a * a * 0.25;
 
@@ -88,7 +88,7 @@ public class Sphere extends Shape3D {
                 y--;
                 fy -= 2 * a * a;
             }
-            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
+//            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
         }
 
         p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
@@ -101,7 +101,7 @@ public class Sphere extends Shape3D {
             } else {
                 p += a * a * (3 - 2 * y);
             }
-            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
+//            putFourSymmetricPoints((int) x, (int) y, relativeCenterPoint.getCoordX(), relativeCenterPoint.getCoordY());
         }
     }
 

@@ -49,6 +49,11 @@ public class MainFrame extends javax.swing.JFrame {
     private SettingConstants.DrawingToolMode saved3DShapeMode;
 
     private AnimationFrame animationFrame = new AnimationFrame(this);
+
+    private Rotation2DInput rotationInputDialog = new Rotation2DInput(this);
+    
+    private Symmetry2DInput symmetryInputDialog = new Symmetry2DInput(this);
+
     private Shape3DInput shape3DInputDialog = new Shape3DInput(this);
 
     /**
@@ -1623,6 +1628,10 @@ public class MainFrame extends javax.swing.JFrame {
                         Ultility.showPopMenuOfButton(button, popMenu);
                         hideTooltip();
                     } else {
+                        if (SwingUtilities.isRightMouseButton(e)) {
+                            return;
+                        }
+                        
                         if (button == button_Transform) {
                             promptTranformInput();
                         } else if (button == button_3DShape) {
@@ -1753,12 +1762,10 @@ public class MainFrame extends javax.swing.JFrame {
 
         switch (selectedMode) {
             case DRAWING_TRANSFORM_ROTATION: {
-                Rotation2DInput rotationInputDialog = new Rotation2DInput(this);
                 rotationInputDialog.setVisible(true);
                 break;
             }
             case DRAWING_TRANSFORM_SYMMETRY: {
-                JDialog symmetryInputDialog = new Symmetry2DInput(this);
                 symmetryInputDialog.setVisible(true);
                 break;
             }
@@ -1865,7 +1872,19 @@ public class MainFrame extends javax.swing.JFrame {
                     MainFrame frame = new MainFrame();
                     frame.setVisible(true);
 
-//                    frame.getDrawingPanel().setCoordinateMode(CoordinateMode.MODE_3D);
+                    frame.getDrawingPanel().setCoordinateMode(CoordinateMode.MODE_3D);
+                    int centerPointX = 10;
+                    int centerPointY = 10;
+                    int centerPointZ = 10;
+                    int high = 40;
+                    int width = 40;
+                    int height = 40;
+                    int radius = 20;
+                    
+                    frame.getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
+
+//                    frame.getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
+
 //                    frame.animationFrame.setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();

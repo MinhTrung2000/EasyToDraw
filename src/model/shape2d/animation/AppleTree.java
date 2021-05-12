@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.shape2d.animation;
 
 import control.myawt.SKPoint2D;
@@ -12,49 +7,56 @@ import java.util.ArrayList;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
-/**
- *
- * @author Minh Tu
- */
 public class AppleTree extends Shape2D {
 
-    ArrayList<SKPoint2D> Apple_CenterP = new ArrayList<>();
+    public static final Color COLOR_1 = new Color(184, 133, 71);
+    public static final Color COLOR_2 = new Color(247, 10, 10);
+    public static final Color COLOR_3 = new Color(24, 203, 39);
+    public static final Color COLOR_4 = new Color(102, 54, 4);
 
-    public AppleTree(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
+    private ArrayList<SKPoint2D> appleCenterPointArray = new ArrayList<>();
+
+    private ArrayList<SKPoint2D> pointList = new ArrayList<>();
+    private ArrayList<SKPoint2D> pointList2 = new ArrayList<>();
+
+    public AppleTree(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
+            String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
     public void drawAppleTree(SKPoint2D startPoint) {
-        this.startPoint2D = startPoint;
-//        this.filledColor = new Color (255,0,0);
-//        savePoint(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY());
-        this.filledColor = new Color(0, 0, 0);
+        startPoint2D.setLocation(startPoint);
 
-        ArrayList<SKPoint2D> pointList = new ArrayList<>();
+        setFilledColor(Color.BLACK);
+
+        pointList.clear();
+
         pointList.add(new SKPoint2D(this.startPoint2D, -10, -4));
-        this.drawOutlineCircle(20, pointList.get(0), false, false, false, false, false, false, true, true);
+        drawOutlineCircle(20, pointList.get(0), false, false, false, false, false, false, true, true);
 
         pointList.add(new SKPoint2D(pointList.get(0), 10, -6));
-        this.drawOutlineCircle(20, pointList.get(1), true, false, false, false, false, false, false, true);
+        drawOutlineCircle(20, pointList.get(1), true, false, false, false, false, false, false, true);
 
         pointList.add(new SKPoint2D(pointList.get(1), 7, 3));
-        this.drawOutlineCircle(21, pointList.get(2), true, true, false, false, false, false, false, false);
+        drawOutlineCircle(21, pointList.get(2), true, true, false, false, false, false, false, false);
 
         pointList.add(new SKPoint2D(pointList.get(2), 0, 4));
-        this.drawOutlineCircle(20, pointList.get(3), false, true, true, true, false, false, false, false);
+        drawOutlineCircle(20, pointList.get(3), false, true, true, true, false, false, false, false);
 
         //về trái
         pointList.add(new SKPoint2D(pointList.get(0), -9, 6));
-        this.drawOutlineCircle(12, pointList.get(4), false, false, false, true, true, true, true, false);
+        drawOutlineCircle(12, pointList.get(4), false, false, false, true, true, true, true, false);
 
         // vẽ thân
         SKPoint2D trunkLeft_CenterP = new SKPoint2D(pointList.get(4), 8, 19);
         SKPoint2D trunkRight_CenterP = new SKPoint2D(pointList.get(4), 28, 19);
-        this.drawOutlineEllipse(3, 17, trunkLeft_CenterP, false, true, false, true);
-        this.drawOutlineEllipse(3, 17, trunkRight_CenterP, true, false, true, false);
+
+        drawOutlineEllipse(3, 17, trunkLeft_CenterP, false, true, false, true);
+        drawOutlineEllipse(3, 17, trunkRight_CenterP, true, false, true, false);
 
         //vẽ cành
-        ArrayList<SKPoint2D> pointList2 = new ArrayList<>();
+        pointList2.clear();
+
         pointList2.add(new SKPoint2D(trunkLeft_CenterP, 0, -17));
         pointList2.add(new SKPoint2D(pointList2.get(0), -7, -9));
         pointList2.add(new SKPoint2D(pointList2.get(1), 3, -3));
@@ -69,45 +71,52 @@ public class AppleTree extends Shape2D {
         drawZigZag(pointList2);
 
         //vẽ vân gỗ
-        this.filledColor = new Color(184, 133, 71);
+        setFilledColor(COLOR_1);
 
-        this.drawSegment(new SKPoint2D(pointList2.get(3), 3, 7), new SKPoint2D(pointList2.get(3), 1, 13));
-        this.drawSegment(new SKPoint2D(pointList2.get(3), 7, 15), new SKPoint2D(pointList2.get(3), 4, 22));
-        this.drawSegment(new SKPoint2D(pointList2.get(3), 11, -3), new SKPoint2D(pointList2.get(3), 9, 3));
-        this.drawSegment(new SKPoint2D(pointList2.get(3), 2, 17), new SKPoint2D(pointList2.get(3), 0, 22));
+        drawSegment(new SKPoint2D(pointList2.get(3), 3, 7), new SKPoint2D(pointList2.get(3), 1, 13));
+        drawSegment(new SKPoint2D(pointList2.get(3), 7, 15), new SKPoint2D(pointList2.get(3), 4, 22));
+        drawSegment(new SKPoint2D(pointList2.get(3), 11, -3), new SKPoint2D(pointList2.get(3), 9, 3));
+        drawSegment(new SKPoint2D(pointList2.get(3), 2, 17), new SKPoint2D(pointList2.get(3), 0, 22));
+
         //vẽ táo 
-        Apple_CenterP.add(new SKPoint2D(pointList2.get(3), 0, -20));
-        Apple_CenterP.add(new SKPoint2D(pointList2.get(3), -17, 0));
-        Apple_CenterP.add(new SKPoint2D(pointList2.get(3), 12, -24));
-        Apple_CenterP.add(new SKPoint2D(pointList2.get(3), 24, -6));
-        for (SKPoint2D centerP : Apple_CenterP) {
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 0, -20));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), -17, 0));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 12, -24));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 24, -6));
+
+        for (SKPoint2D centerP : appleCenterPointArray) {
             drawApple(centerP);
         }
 
         //giới hạn  chân để tô màu
-        this.filledColor = new Color(0, 0, 0);
-        this.drawSegment(new SKPoint2D(pointList.get(4), 9, 36), new SKPoint2D(pointList.get(4), 27, 36));
+        setFilledColor(Color.BLACK);
+        
+        drawSegment(new SKPoint2D(pointList.get(4), 9, 36), new SKPoint2D(pointList.get(4), 27, 36));
     }
 
     public void paintAppleTree(SKPoint2D startP) {
-        this.filledColor = new Color(24, 203, 39);
+        setFilledColor(COLOR_3);
+        
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, -3, -3), filledColor, false);
-        this.filledColor = new Color(102, 54, 4);
+       
+        setFilledColor(COLOR_4);
+        
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 0, 3), filledColor, false);
 
     }
 
     private void drawApple(SKPoint2D centerP) {
-
-        this.filledColor = new Color(0, 0, 0);
-        this.drawOutlineCircle(3, centerP, true, true, true, true, true, true, true, true);
-        this.drawSegment(new SKPoint2D(centerP, 4, -4), new SKPoint2D(centerP, 2, -2));
+        setFilledColor(Color.BLACK);
+        
+        drawOutlineCircle(3, centerP, true, true, true, true, true, true, true, true);
+        drawSegment(new SKPoint2D(centerP, 4, -4), new SKPoint2D(centerP, 2, -2));
 
     }
 
     public void paintApple() {
-        this.filledColor = new Color(247, 10, 10);
-        for (SKPoint2D centerP : Apple_CenterP) {
+        setFilledColor(COLOR_2);
+        
+        for (SKPoint2D centerP : appleCenterPointArray) {
             Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP, filledColor, false);
         }
     }

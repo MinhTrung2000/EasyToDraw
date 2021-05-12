@@ -11,8 +11,8 @@ public class Ellipse extends Shape2D {
         CIRLCE,
     }
 
-    private double a = 1.0;
-    private double b = 1.0;
+    private double majorRadius = 1.0;
+    private double minorRadius = 1.0;
 
     private Modal modal = Modal.ELLIPSE;
 
@@ -34,25 +34,25 @@ public class Ellipse extends Shape2D {
         double half_y = Math.abs(height) / 2.0;
 
         if (modal == Modal.ELLIPSE) {
-            this.startPoint2D = startPoint;
-            this.endPoint2D = endPoint;
-            a = half_x;
-            b = half_y;
+            this.startPoint2D.setLocation(startPoint);
+            this.endPoint2D.setLocation(endPoint);
+            majorRadius = half_x;
+            minorRadius = half_y;
 
         } else {
-
             int preferedLength = this.getPreferredLength(width, height);
-            int widthDirection = this.getWidthDirection(width);
-            int heightDirection = this.getHeightDirection(height);
+            int widthDirection = this.getDirectionWidth(width);
+            int heightDirection = this.getDirectionHeight(height);
 
-            this.startPoint2D = startPoint;
-            this.endPoint2D.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
-            a = preferedLength / 2;
-            b = a;
+            this.startPoint2D.setLocation(startPoint);
+            this.endPoint2D.setLocation(startPoint.getCoordX()
+                    + widthDirection * preferedLength, startPoint.getCoordY()
+                    + heightDirection * preferedLength);
+            majorRadius = preferedLength / 2;
+            minorRadius = majorRadius;
         }
 
-        centerPoint2D.setMidLocation(startPoint2D, endPoint2D);
-
+        centerPoint2D.setMidLocation(this.startPoint2D, this.endPoint2D);
         this.modal = modal;
     }
 
@@ -61,87 +61,18 @@ public class Ellipse extends Shape2D {
         setProperty(startPoint, endPoint, Modal.ELLIPSE);
     }
 
-    /**
-     * If mode2 flag is true, we have an ellipse with top half arc is dot style.
-     *
-     * @param mode2
-     */
     public void drawOutlineEllipse() {
-        pointSet.clear();
+        super.drawOutlineEllipse(this.majorRadius, this.minorRadius,
+                this.centerPoint2D, true, true, true, true);
 
-        // Save center point coordination
-        centerPoint2D.saveCoord(changedCoordOfBoard);
-        markedChangeOfBoard[centerPoint2D.getCoordY()][centerPoint2D.getCoordX()] = true;
-        changedColorOfBoard[centerPoint2D.getCoordY()][centerPoint2D.getCoordX()] = filledColor;
-
-        double x = 0.0;
-        double y = b;
-
-        double fx = 0;
-        double fy = 2 * a * a * y;
-
-        pixelCounter = 1;
-        putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
-
-        double p = b * b - a * a * b + a * a * 0.25;
-
-        while (fx < fy) {
-            x++;
-            fx += 2 * b * b;
-            if (p < 0) {
-                p += b * b * (2 * x + 3);
-            } else {
-                p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
-                y--;
-                fy -= 2 * a * a;
-            }
-            pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
-        }
-
-        p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
-
-        while (y >= 0) {
-            y--;
-            if (p < 0) {
-                p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
-                x++;
-            } else {
-                p += a * a * (3 - 2 * y);
-            }
-            pixelCounter++;
-            putFourSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
-        }
+        saveCoordinates();
     }
 
     public void drawOutlineCircle() {
-        pointSet.clear();
+        super.drawOutlineCircle(this.majorRadius, this.centerPoint2D,
+                true, true, true, true, true, true, true, true);
 
-        // Save center point coordination
-        centerPoint2D.saveCoord(changedCoordOfBoard);
-        markedChangeOfBoard[(int) centerPoint2D.getCoordY()][(int) centerPoint2D.getCoordX()] = true;
-        changedColorOfBoard[(int) centerPoint2D.getCoordY()][(int) centerPoint2D.getCoordX()] = filledColor;
-
-        double x = 0;
-        double y = a;
-
-        pixelCounter = 1;
-//        pointSet.add(new SKPoint2D((int) x, (int) y));
-        putEightSymmetricPoints(x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
-
-        double p = 5 / 4.0 - a;
-
-        while (x < y) {
-            if (p < 0) {
-                p += 2 * x + 3;
-            } else {
-                p += 2 * (x - y) + 5;
-                y--;
-            }
-            x++;
-            pixelCounter++;
-            putEightSymmetricPoints((int) x, (int) y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY());
-        }
+        saveCoordinates();
     }
 
     @Override
@@ -156,6 +87,7 @@ public class Ellipse extends Shape2D {
     @Override
     public void saveCoordinates() {
         centerPoint2D.saveCoord(changedCoordOfBoard);
+        savePoint(centerPoint2D);
     }
 
     @Override
@@ -163,94 +95,96 @@ public class Ellipse extends Shape2D {
         centerPoint2D.move(vector);
     }
 
-    public ArrayList<SKPoint2D> getSetOfAllPoints(boolean topPart, boolean bottomPart) {
+    public static ArrayList<SKPoint2D> getSetOfAllPointsEllipse(SKPoint2D centerPoint,
+            double majorRadius, double minorRadius, boolean quadrant1,
+            boolean quadrant2, boolean quadrant3, boolean quadrant4) {
         ArrayList<SKPoint2D> ret = new ArrayList<>();
 
-        if (modal == Modal.ELLIPSE) {
-            double x = 0.0;
-            double y = b;
+        double x = 0.0;
+        double y = minorRadius;
 
-            double fx = 0;
-            double fy = 2 * a * a * y;
+        double fx = 0;
+        double fy = 2 * majorRadius * majorRadius * y;
 
-            pixelCounter = 0;
+        addFourSymPoints(ret, x, y, centerPoint.getCoordX(),
+                centerPoint.getCoordY(), quadrant1, quadrant2,
+                quadrant3, quadrant4);
 
-            if (topPart) {
-                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
-            }
-            if (bottomPart) {
-                addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
-            }
+        double p = minorRadius * minorRadius - majorRadius * majorRadius
+                * minorRadius + majorRadius * majorRadius * 0.25;
 
-            double p = b * b - a * a * b + a * a * 0.25;
-
-            while (fx < fy) {
-                x++;
-                fx += 2 * b * b;
-                if (p < 0) {
-                    p += b * b * (2 * x + 3);
-                } else {
-                    p += b * b * (2 * x + 3) + a * a * (-2 * y + 2);
-                    y--;
-                    fy -= 2 * a * a;
-                }
-                if (topPart) {
-                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
-                }
-                if (bottomPart) {
-                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
-                }
-            }
-
-            p = b * b * (x + 0.5) * (x + 0.5) + a * a * (y - 1.0) * (y - 1.0) - a * a * b * b;
-
-            while (y >= 0) {
+        while (fx < fy) {
+            x++;
+            fx += 2 * minorRadius * minorRadius;
+            if (p < 0) {
+                p += minorRadius * minorRadius * (2 * x + 3);
+            } else {
+                p += minorRadius * minorRadius * (2 * x + 3)
+                        + majorRadius * majorRadius * (-2 * y + 2);
                 y--;
-                if (p < 0) {
-                    p += b * b * (2 * x + 2) + a * a * (-2 * y + 3);
-                    x++;
-                } else {
-                    p += a * a * (3 - 2 * y);
-                }
-
-                if (topPart) {
-                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, false, false, true);
-                }
-                if (bottomPart) {
-                    addFourSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, true, true, false);
-                }
+                fy -= 2 * majorRadius * majorRadius;
             }
-        } else {
-            double x = 0;
-            double y = a;
 
-            pixelCounter = 0;
-//            addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), mode2);
-            double p = 5 / 4.0 - a;
+            addFourSymPoints(ret, x, y, centerPoint.getCoordX(),
+                    centerPoint.getCoordY(), quadrant1, quadrant2,
+                    quadrant3, quadrant4);
+        }
 
-            while (x < y) {
-                if (p < 0) {
-                    p += 2 * x + 3;
-                } else {
-                    p += 2 * (x - y) + 5;
-                    y--;
-                }
+        p = minorRadius * minorRadius * (x + 0.5) * (x + 0.5) + majorRadius
+                * majorRadius * (y - 1.0) * (y - 1.0) - majorRadius * majorRadius
+                * minorRadius * minorRadius;
+
+        while (y >= 0) {
+            y--;
+            if (p < 0) {
+                p += minorRadius * minorRadius * (2 * x + 2) + majorRadius * majorRadius * (-2 * y + 3);
                 x++;
-                if (topPart) {
-                    addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), false, false, true, true, true, true, false, false);
-                }
-                if (bottomPart) {
-                    addEightSymmetricPoints(ret, x, y, centerPoint2D.getCoordX(), centerPoint2D.getCoordY(), true, true, false, false, false, false, true, true);
-                }
+            } else {
+                p += majorRadius * majorRadius * (3 - 2 * y);
             }
+
+            addFourSymPoints(ret, x, y, centerPoint.getCoordX(),
+                    centerPoint.getCoordY(), quadrant1, quadrant2,
+                    quadrant3, quadrant4);
+        }
+
+        return ret;
+    }
+
+    public static ArrayList<SKPoint2D> getSetOfAllPointsCircle(SKPoint2D centerPoint,
+            double radius, boolean rightTopPart1, boolean octant1, boolean octant2,
+            boolean octant3, boolean octant4, boolean octant5, boolean octant6,
+            boolean octant7, boolean octant8) {
+        ArrayList<SKPoint2D> ret = new ArrayList<>();
+
+        double x = 0;
+        double y = radius;
+
+        addEightSymPoints(ret, x, y, centerPoint.getCoordX(),
+                centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
+                octant5, octant6, octant7, octant8);
+
+        double p = 5 / 4.0 - radius;
+
+        while (x < y) {
+            if (p < 0) {
+                p += 2 * x + 3;
+            } else {
+                p += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+            addEightSymPoints(ret, x, y, centerPoint.getCoordX(),
+                    centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
+                    octant5, octant6, octant7, octant8);
         }
 
         return ret;
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        super.createRotateInstance(centerPoint, angle);
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        super.createRotate(centerPoint, angle);
 
         double totalAngle = rotatedAngle + angle;
 
@@ -261,8 +195,8 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        super.createOCenterSymInstance();
+    public void createSymOCenter() {
+        super.createSymOCenter();
 
         SKPoint2D newCenterPoint = this.centerPoint2D.createOCenterSym();
 
@@ -271,8 +205,8 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        super.createOXSymInstance();
+    public void createSymOX() {
+        super.createSymOX();
 
         SKPoint2D newCenterPoint = this.centerPoint2D.createOXSym();
 
@@ -281,8 +215,8 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        super.createOYSymInstance();
+    public void createSymOY() {
+        super.createSymOY();
 
         SKPoint2D newCenterPoint = this.centerPoint2D.createOYSym();
 
@@ -291,8 +225,8 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        super.createPointSymInstance(basePoint);
+    public void createSymPoint(SKPoint2D basePoint) {
+        super.createSymPoint(basePoint);
 
         SKPoint2D newCenterPoint = this.centerPoint2D.createPointSym(basePoint);
 
@@ -301,10 +235,10 @@ public class Ellipse extends Shape2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        super.createLineSymInstance(a, b, c);
+    public void createSymLine(double majorRadius, double minorRadius, double c) {
+        super.createSymLine(majorRadius, minorRadius, c);
 
-        SKPoint2D newCenterPoint = this.centerPoint2D.createLineSym(a, b, c);
+        SKPoint2D newCenterPoint = this.centerPoint2D.createLineSym(majorRadius, minorRadius, c);
 
         newCenterPoint.saveCoord(changedCoordOfBoard);
         savePoint(newCenterPoint);

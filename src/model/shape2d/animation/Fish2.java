@@ -202,32 +202,33 @@ public class Fish2 extends Shape2D {
     }
 
     public void drawFish2() {
-
         //thân
-        this.filledColor = Color.BLACK;
-        this.drawOutlineEllipse(RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y, thanCa2_CenterP, true, true, true, true);
+        setFilledColor(Color.BLACK);
+        
+        drawOutlineEllipse(RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y, thanCa2_CenterP, true, true, true, true);
 
         //vây trên thân
-        this.filledColor = FIN_SHAPE_COLOR;
+        setFilledColor(FIN_SHAPE_COLOR);
+        
         if (widthDirection == 1) {
-            this.drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT2_CenterP, false, true, false, true);
+            drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT2_CenterP, false, true, false, true);
         } else {
-            this.drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT2_CenterP, !false, !true, !false, !true);
+            drawOutlineEllipse(RADIUS_FIN_F2_X, RADIUS_FIN_F2_Y, vayTT2_CenterP, true, false, true, false);
         }
 
         // da trên thân
         if (widthDirection == 1) {
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP1, true, false, true, false);
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP2, true, false, true, false);
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP3, true, false, true, false);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP1, true, false, true, false);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP2, true, false, true, false);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP3, true, false, true, false);
         } else {
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP1, !true, !false, !true, !false);
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP2, !true, !false, !true, !false);
-            this.drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP3, !true, !false, !true, !false);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP1, false, true, false, true);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP2, false, true, false, true);
+            drawOutlineEllipse(SKIN_SHAPE_F2_X, SKIN_SHAPE_F2_Y, skinShape2_CenterP3, false, true, false, true);
         }
 
         // vây trên
-        this.filledColor = Color.BLACK;
+        setFilledColor(Color.BLACK);
         drawSegment(vayTren2_StartP, vayTren2_P2);
         drawSegment(vayTren2_P2, vayTren2_P3);
         drawSegment(vayTren2_P3, vayTren2_EndP);
@@ -238,27 +239,29 @@ public class Fish2 extends Shape2D {
         drawSegment(vayDuoi2_P3, vayDuoi2_EndP);
 
         //đuôi
-        this.filledColor = Color.BLACK;
+        setFilledColor(Color.BLACK);
+        
         drawSegment(duoi2_StartP, duoiTren2_EndP);
         drawSegment(duoi2_StartP, duoiDuoi2_EndP);
+
         if (widthDirection == 1) {
-            this.drawOutlineEllipse(2, 2, edge_duoiTren2_CenterP, false, true, false, true);
+            drawOutlineEllipse(2, 2, edge_duoiTren2_CenterP, false, true, false, true);
         } else {
-            this.drawOutlineEllipse(2, 2, edge_duoiTren2_CenterP, !false, !true, !false, !true);
+            drawOutlineEllipse(2, 2, edge_duoiTren2_CenterP, true, false, true, false);
         }
 
         drawSegment(duoiTren2_StartP2, duoi2_EndP);
-        if (widthDirection == 1) {
-            this.drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, false, true, false, true);
-        } else {
-            this.drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, !false, !true, !false, !true);
-        }
-        //lấy tọa độ của edge_duoiTren_CenterP -4 ở trên -2 thêm 2 cho nhanh :3
 
+        if (widthDirection == 1) {
+            drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, false, true, false, true);
+        } else {
+            drawOutlineEllipse(2, 2, edge_duoiDuoi2_CenterP, true, false, true, false);
+        }
+
+        //lấy tọa độ của edge_duoiTren_CenterP -4 ở trên -2 thêm 2 cho nhanh :3
         drawSegment(duoiDuoi2_StartP2, duoi2_EndP);
 
         /* TÔ MÀU */
-        
         //tô thân
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, bodyPosToPaint, SKIN_COLOR, false);
 
@@ -268,8 +271,8 @@ public class Fish2 extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, tailPosToPaint, SKIN_COLOR, false);
 
         //vẽ vân ở vây và đuôi
-        this.filledColor = FIN_SHAPE_COLOR;
-
+        setFilledColor(FIN_SHAPE_COLOR);
+        
         //vân trên
         for (int i = 0; i < 4; i++) {
             drawSegment(TopFin_StartP[i], TopFin_EndP[i]);
@@ -292,6 +295,7 @@ public class Fish2 extends Shape2D {
         /* Vẽ mắt */
         setFilledColor(Color.WHITE);
         savePoint(diemMat01);
+        
         setFilledColor(Color.BLACK);
         savePoint(diemMat11);
         savePoint(diemMat00);

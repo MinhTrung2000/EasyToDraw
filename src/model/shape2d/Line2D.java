@@ -154,8 +154,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        if (pointSet.isEmpty()) {
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -173,8 +173,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOCenter() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -190,8 +190,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOX() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -207,8 +207,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOY() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -224,8 +224,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        if (pointSet.isEmpty()) {
+    public void createSymPoint(SKPoint2D basePoint) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -241,8 +241,8 @@ public class Line2D extends Segment2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        if (pointSet.isEmpty()) {
+    public void createSymLine(double a, double b, double c) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 

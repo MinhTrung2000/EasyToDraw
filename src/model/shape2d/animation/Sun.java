@@ -13,34 +13,36 @@ import model.shape2d.Segment2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
-
 public class Sun extends Shape2D {
 
-    public static final Color Color0 = new Color(245, 120, 60);
-    public static final Color Color1 = new Color(255, 255, 125);
+    public static final int SUNLINE_NUM = 8;
 
-    public static final Color Color2 = new Color(255, 255, 0);
-
+    public static final Color COLOR_0 = new Color(245, 120, 60);
+    public static final Color COLOR_1 = new Color(255, 255, 125);
+    public static final Color COLOR_2 = new Color(255, 255, 0);
 
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
- 
+
     private SKPoint2D traveringPoint_StartP = new SKPoint2D();
     private SKPoint2D traveringPoint_EndP = new SKPoint2D();
-    
-    private SKPoint2D [] sunLine_StartP = new SKPoint2D[8];
-    private SKPoint2D [] sunLine_EndP = new SKPoint2D[8];
-    private Segment2D [] sunLine2 = new Segment2D[8];
 
+    private SKPoint2D[] sunLine_StartP = new SKPoint2D[SUNLINE_NUM];
+    private SKPoint2D[] sunLine_EndP = new SKPoint2D[SUNLINE_NUM];
+    private Segment2D[] sunLine2 = new Segment2D[SUNLINE_NUM];
 
     /**
      * Use for change sunny rotation mechanism.
      */
     private boolean flip = false;
 
-    public Sun(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        for (int i = 0; i < 8; i++){
-            sunLine2[i] = new Segment2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+    public Sun(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
+            String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard,
+                filledColor);
+
+        for (int i = 0; i < SUNLINE_NUM; i++) {
+            sunLine2[i] = new Segment2D(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, filledColor);
         }
     }
 
@@ -66,55 +68,49 @@ public class Sun extends Shape2D {
         pointList.add(new SKPoint2D(this.centerPoint2D, -3, 4));
         pointList.add(new SKPoint2D(this.centerPoint2D, -3, 5));
 
-
-        for(int i =0; i<8; i++){
-            sunLine2[i].setFilledColor(Color0);
+        for (int i = 0; i < 8; i++) {
+            sunLine2[i].setFilledColor(COLOR_0);
         }
-        
-         traveringPoint_StartP.setLocation(this.centerPoint2D,0,-12);
-         traveringPoint_EndP.setLocation(this.centerPoint2D,0,-18);
-        
-        
+
+        traveringPoint_StartP.setLocation(this.centerPoint2D, 0, -12);
+        traveringPoint_EndP.setLocation(this.centerPoint2D, 0, -18);
+
     }
 
     public void drawSun() {
-        this.filledColor = Color0;
-        this.drawOutlineCircle(7, this.centerPoint2D, true, true, true, true, true, true, true, true);
+        setFilledColor(COLOR_0);
+
+        drawOutlineCircle(7, this.centerPoint2D, true, true, true, true, true, true, true, true);
         paintSun();
     }
 
     public void paintSun() {
-        this.filledColor = Color1;
+        setFilledColor(COLOR_1);
 
         // tô nền => tạo viền => tô lại màu trong viền
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
 
-        this.filledColor = Color2;
+        setFilledColor(COLOR_2);
 
-        this.drawZigZag(pointList);
+        drawZigZag(pointList);
 
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, filledColor, false);
     }
 
     public void drawSunLight(int rotation) {
+
+        setFilledColor(Color.BLACK);
         
-        this.filledColor = new Color (0,0,0);
-        for(int i =0 ; i<8; i++){
-            sunLine_StartP[i] = traveringPoint_StartP.createRotate(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine_EndP[i] = traveringPoint_EndP.createRotate(this.centerPoint2D, Math.toRadians(i*45+rotation));
-            sunLine2[i].setProperty(sunLine_StartP[i].createRotate(this.centerPoint2D,Math.toRadians(rotation)),
-                   sunLine_EndP[i].createRotate(this.centerPoint2D, Math.toRadians(rotation)));  
+        for (int i = 0; i < 8; i++) {
+            sunLine_StartP[i] = traveringPoint_StartP.createRotate(this.centerPoint2D, Math.toRadians(i * 45 + rotation));
+            sunLine_EndP[i] = traveringPoint_EndP.createRotate(this.centerPoint2D, Math.toRadians(i * 45 + rotation));
+            sunLine2[i].setProperty(sunLine_StartP[i].createRotate(this.centerPoint2D, Math.toRadians(rotation)),
+                    sunLine_EndP[i].createRotate(this.centerPoint2D, Math.toRadians(rotation)));
             sunLine2[i].drawOutline();
-            
+
         }
-            
 
     }
-        
-            
-            
-            
-    
 
     @Override
     public void applyMove(Vector2D vector) {

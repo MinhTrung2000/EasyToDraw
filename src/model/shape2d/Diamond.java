@@ -28,8 +28,8 @@ public class Diamond extends Shape2D {
         if (modal == Modal.COMMON_DIAMOND) {
             this.endPoint2D = endPoint;
         } else {
-            int widthDirection = this.getWidthDirection(width);
-            int heightDirection = this.getHeightDirection(height);
+            int widthDirection = this.getDirectionWidth(width);
+            int heightDirection = this.getDirectionHeight(height);
             int preferedLength = this.getPreferredLength(width, height);
 
             this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY() + heightDirection * preferedLength);
@@ -79,8 +79,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        if (pointSet.isEmpty()) {
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -91,10 +91,10 @@ public class Diamond extends Shape2D {
         SKPoint2D newLeftPoint = leftPoint.createRotate(centerPoint, totalAngle);
         SKPoint2D newRightPoint = rightPoint.createRotate(centerPoint, totalAngle);
 
-        drawSegment(newTopPoint, newRightPoint);
-        drawSegment(newRightPoint, newBottomPoint);
-        drawSegment(newBottomPoint, newLeftPoint);
-        drawSegment(newLeftPoint, newTopPoint);
+        drawSegmentUnSave(newTopPoint, newRightPoint);
+        drawSegmentUnSave(newRightPoint, newBottomPoint);
+        drawSegmentUnSave(newBottomPoint, newLeftPoint);
+        drawSegmentUnSave(newLeftPoint, newTopPoint);
 
         newTopPoint.saveCoord(changedCoordOfBoard);
         newBottomPoint.saveCoord(changedCoordOfBoard);
@@ -103,8 +103,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOCenter() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -125,8 +125,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOX() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -147,8 +147,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        if (pointSet.isEmpty()) {
+    public void createSymOY() {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -169,8 +169,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        if (pointSet.isEmpty()) {
+    public void createSymPoint(SKPoint2D basePoint) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -191,8 +191,8 @@ public class Diamond extends Shape2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        if (pointSet.isEmpty()) {
+    public void createSymLine(double a, double b, double c) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 

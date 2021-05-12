@@ -33,8 +33,8 @@ public class Triangle extends Shape2D {
         int height = (int) (endPoint.getCoordY() - startPoint.getCoordY());
 
         int adjustingValue;
-        int widthDirection = this.getWidthDirection(width);
-        int heightDirection = this.getHeightDirection(height);
+        int widthDirection = this.getDirectionWidth(width);
+        int heightDirection = this.getDirectionHeight(height);
 
         if (modal == Modal.COMMON_TRIANGLE) {
             this.startPoint2D = startPoint;
@@ -107,8 +107,8 @@ public class Triangle extends Shape2D {
     }
 
     @Override
-    public void createRotateInstance(SKPoint2D centerPoint, double angle) {
-        if (pointSet.isEmpty()) {
+    public void createRotate(SKPoint2D centerPoint, double angle) {
+        if (pointSet2D.isEmpty()) {
             return;
         }
 
@@ -122,14 +122,14 @@ public class Triangle extends Shape2D {
         newPointB.saveCoord(changedCoordOfBoard);
         newPointC.saveCoord(changedCoordOfBoard);
 
-        drawSegment(newPointA, newPointB);
-        drawSegment(newPointB, newPointC);
-        drawSegment(newPointC, newPointA);
+        drawSegmentUnSave(newPointA, newPointB);
+        drawSegmentUnSave(newPointB, newPointC);
+        drawSegmentUnSave(newPointC, newPointA);
     }
 
     @Override
-    public void createOCenterSymInstance() {
-        super.createOCenterSymInstance();
+    public void createSymOCenter() {
+        super.createSymOCenter();
 
         SKPoint2D newPointA = pointA.createOCenterSym();
         SKPoint2D newPointB = pointB.createOCenterSym();
@@ -141,8 +141,8 @@ public class Triangle extends Shape2D {
     }
 
     @Override
-    public void createOXSymInstance() {
-        super.createOXSymInstance();
+    public void createSymOX() {
+        super.createSymOX();
 
         SKPoint2D newPointA = pointA.createOXSym();
         SKPoint2D newPointB = pointB.createOXSym();
@@ -154,8 +154,8 @@ public class Triangle extends Shape2D {
     }
 
     @Override
-    public void createOYSymInstance() {
-        super.createOYSymInstance();
+    public void createSymOY() {
+        super.createSymOY();
 
         SKPoint2D newPointA = pointA.createOYSym();
         SKPoint2D newPointB = pointB.createOYSym();
@@ -167,8 +167,8 @@ public class Triangle extends Shape2D {
     }
 
     @Override
-    public void createPointSymInstance(SKPoint2D basePoint) {
-        super.createPointSymInstance(basePoint);
+    public void createSymPoint(SKPoint2D basePoint) {
+        super.createSymPoint(basePoint);
 
         SKPoint2D newPointA = pointA.createPointSym(basePoint);
         SKPoint2D newPointB = pointB.createPointSym(basePoint);
@@ -180,8 +180,8 @@ public class Triangle extends Shape2D {
     }
 
     @Override
-    public void createLineSymInstance(double a, double b, double c) {
-        super.createLineSymInstance(a, b, c);
+    public void createSymLine(double a, double b, double c) {
+        super.createSymLine(a, b, c);
         
         SKPoint2D newPointA = pointA.createLineSym(a, b, c);
         SKPoint2D newPointB = pointB.createLineSym(a, b, c);

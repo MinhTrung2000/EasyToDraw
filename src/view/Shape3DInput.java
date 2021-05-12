@@ -10,7 +10,6 @@ import java.awt.event.FocusEvent;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -72,6 +71,30 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 }
             }
         }
+
+        textfRectangularCenterPointCoordX.setName("Input x coordinate of center point");
+        textfRectangularCenterPointCoordY.setName("Input y coordinate of center point");
+        textfRectangularCenterPointCoordZ.setName("Input z coordinate of center point");
+        textfRectangularHeight.setName("Input rectangular height");
+        textfRectangularWidth.setName("Input rectangular width");
+        textfRectangularHigh.setName("Input rectangular high");
+
+        textfCylinderCenterPointCoordX.setName("Input x coordinate of center point");
+        textfCylinderCenterPointCoordY.setName("Input y coordinate of center point");
+        textfCylinderCenterPointCoordZ.setName("Input z coordinate of center point");
+        textfCylinderHigh.setName("Input cylinder high");
+        textfCylinderRadius.setName("Input cylinder radius");
+        
+        textfPyramidCenterPointCoordX.setName("Input x coordinate of center point");
+        textfPyramidCenterPointCoordY.setName("Input y coordinate of center point");
+        textfPyramidCenterPointCoordZ.setName("Input z coordinate of center point");
+        textfPyramidBottomEdge.setName("Input pyramid bottom edge");
+        textfPyramidHigh.setName("Input pyramid high");
+        
+        textfSphereCenterPointCoordX.setName("Input x coordinate of center point");
+        textfSphereCenterPointCoordY.setName("Input y coordinate of center point");
+        textfSphereCenterPointCoordZ.setName("Input z coordinate of center point");
+        textfSphereRadius.setName("Input sphere radius");
     }
 
     @Override
@@ -105,76 +128,83 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
             btnOptionGroup.setSelected(btnOptionSphere.getModel(), true);
             showCard(panelSphere.getName());
         } else if (source == btnOK) {
-//            if (!process()) {
-//                return;
-//            }
+            if (!process()) {
+                return;
+            }
             dispose();
         } else if (source == btnCancel) {
             dispose();
         }
     }
-//
-//    private boolean process() {
-//        if (btnOptionRectangular.isSelected()) {
-//            try {
-//                int centerPointX = Ultility.getValidInputComponent(textfRectangularCenterPointCoordX);
-//                int centerPointY = Ultility.getValidInputComponent(textfRectangularCenterPointCoordY);
-//                int centerPointZ = Ultility.getValidInputComponent(textfRectangularCenterPointCoordZ);
-//                int width = Ultility.getValidInputComponent(textfRectangularWidth);
-//                int height = Ultility.getValidInputComponent(textfRectangularHeight);
-//                int high = Ultility.getValidInputComponent(textfRectangularHigh);
-//
-//                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
-//            } catch (NumberFormatException ex) {
-//                JOptionPane.showMessageDialog(null, ex.getMessage());
-//                return false;
-//            }
-//        } else if (btnOptionCylinder.isSelected()) {
-//            try {
-//                int centerPointX = Ultility.getValidInputComponent(textfCylinderCenterPointCoordX) * SettingConstants.RECT_SIZE;
-//                int centerPointY = Ultility.getValidInputComponent(textfCylinderCenterPointCoordY) * SettingConstants.RECT_SIZE;
-//                int centerPointZ = Ultility.getValidInputComponent(textfCylinderCenterPointCoordZ) * SettingConstants.RECT_SIZE;
-//                int radius = Ultility.getValidInputComponent(textfCylinderRadius) * SettingConstants.RECT_SIZE;
-//                int high = Ultility.getValidInputComponent(textfCylinderHigh) * SettingConstants.RECT_SIZE;
-//
-//                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
-//            } catch (NumberFormatException ex) {
-//                return false;
-//            }
-//
-//        } else if (btnOptionPyramid.isSelected()) {
-//            try {
-//                int centerPointX = Ultility.getValidInputComponent(textfPyramidCenterPointCoordX);
-//                int centerPointY = Ultility.getValidInputComponent(textfPyramidCenterPointCoordY);
-//                int centerPointZ = Ultility.getValidInputComponent(textfPyramidCenterPointCoordZ);
-//                int edge = Ultility.getValidInputComponent(textfPyramidBottomEdge);
-//                int high = Ultility.getValidInputComponent(textfPyramidHigh);
-//
-//                ((MainFrame) getParent()).getDrawingPanel().draw3DShapePyramid(centerPointX, centerPointY, centerPointZ, edge, high);
-//            } catch (NumberFormatException ex) {
-//                return false;
-//            }
-//
-//        } else if (btnOptionSphere.isSelected()) {
-//            try {
-////                int centerPointX = Ultility.getValidInputComponent(textfSphereCenterPointCoordX) * SettingConstants.RECT_SIZE;
-////                int centerPointY = Ultility.getValidInputComponent(textfSphereCenterPointCoordY) * SettingConstants.RECT_SIZE;
-////                int centerPointZ = Ultility.getValidInputComponent(textfSphereCenterPointCoordZ) * SettingConstants.RECT_SIZE;
-////                int radius = Ultility.getValidInputComponent(textfSphereRadius) * SettingConstants.RECT_SIZE;
-//                int centerPointX = 0;
-//                int centerPointY = 0;
-//                int centerPointZ = 0;
-//                int radius = 10 * SettingConstants.RECT_SIZE;
-//
-//                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
-//            } catch (NumberFormatException ex) {
-//                return false;
-//            }
-//
-//        }
-//
-//        return true;
-//    }
+//s
+
+    /*
+    WARNING: Not check for x, y is out of bound.
+     */
+    private boolean process() {
+        if (btnOptionRectangular.isSelected()) {
+            try {
+                int centerPointX = Ultility.getValidInputComponent(textfRectangularCenterPointCoordX, false, null);
+                int centerPointY = Ultility.getValidInputComponent(textfRectangularCenterPointCoordY, false, null);
+                int centerPointZ = Ultility.getValidInputComponent(textfRectangularCenterPointCoordZ, false, null);
+                int width = Ultility.getValidInputComponent(textfRectangularWidth, false, null);
+                int height = Ultility.getValidInputComponent(textfRectangularHeight, false, null);
+                int high = Ultility.getValidInputComponent(textfRectangularHigh, false, null);
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                return false;
+            }
+        } else if (btnOptionCylinder.isSelected()) {
+            try {
+                int centerPointX = Ultility.getValidInputComponent(textfCylinderCenterPointCoordX, false, null);
+                int centerPointY = Ultility.getValidInputComponent(textfCylinderCenterPointCoordY, false, null);
+                int centerPointZ = Ultility.getValidInputComponent(textfCylinderCenterPointCoordZ, false, null);
+                int radius = Ultility.getValidInputComponent(textfCylinderRadius, false, null);
+                int high = Ultility.getValidInputComponent(textfCylinderHigh, false, null);
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                return false;
+            }
+
+        } else if (btnOptionPyramid.isSelected()) {
+            try {
+                int centerPointX = Ultility.getValidInputComponent(textfPyramidCenterPointCoordX, false, null);
+                int centerPointY = Ultility.getValidInputComponent(textfPyramidCenterPointCoordY, false, null);
+                int centerPointZ = Ultility.getValidInputComponent(textfPyramidCenterPointCoordZ, false, null);
+                int edge = Ultility.getValidInputComponent(textfPyramidBottomEdge, false, null);
+                int high = Ultility.getValidInputComponent(textfPyramidHigh, false, null);
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapePyramid(centerPointX, centerPointY, centerPointZ, edge, high);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                return false;
+            }
+
+        } else if (btnOptionSphere.isSelected()) {
+            try {
+//                int centerPointX = Ultility.getValidInputComponent(textfSphereCenterPointCoordX);
+//                int centerPointY = Ultility.getValidInputComponent(textfSphereCenterPointCoordY);
+//                int centerPointZ = Ultility.getValidInputComponent(textfSphereCenterPointCoordZ);
+//                int radius = Ultility.getValidInputComponent(textfSphereRadius);
+                int centerPointX = 0;
+                int centerPointY = 0;
+                int centerPointZ = 0;
+                int radius = 10;
+
+                ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage());
+                return false;
+            }
+
+        }
+
+        return true;
+    }
 
     private void setRectangularMode() {
         textfRectangularHeight.setEnabled(true);
@@ -803,15 +833,11 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
     public static void main(String args[]) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Shape3DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Shape3DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Shape3DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Shape3DInput.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the dialog */

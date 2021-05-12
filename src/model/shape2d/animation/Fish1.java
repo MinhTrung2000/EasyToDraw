@@ -149,19 +149,17 @@ public class Fish1 extends Shape2D {
         vayDuoi1_P3.setLocation(vayDuoi1_StartP, BOTTOM_FIN_WIDTH_1 * widthDirection, BOTTOM_FIN_HEIGHT_1);
         //góc trên bên phải
         vayDuoi1_EndP.setLocation(vayDuoi1_StartP, BOTTOM_FIN_WIDTH_1 * widthDirection - LECH_DUOI_1 * widthDirection, 0);
-
         skinShape1_Start.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 3 * widthDirection, 0);
 
         // Set các điểm để paint
         headPosToPaint.setLocation(startPointFish1, 2 * widthDirection, 0);
-
         bodyPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 1 * widthDirection, 0);
         topFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 5 * widthDirection, -RADIUS_BODY_F1_Y - 1);
         botFinPosToPaint.setLocation(startPointFish1, RADIUS_HEAD_F1_X * widthDirection * 2 + 5 * widthDirection, RADIUS_BODY_F1_Y + 1);
         tailPosToPaint.setLocation(startPointFish1, RADIUS_BODY_F1_X * widthDirection * 2 + 1 * widthDirection, -1);
-        // Note: chỉ cần xét tọa độ cho điểm diemMat00
+        
+// Note: chỉ cần xét tọa độ cho điểm diemMat00
         diemMat00.setLocation(startPointFish1.getCoordX() + RADIUS_HEAD_F1_X * widthDirection, startPointFish1.getCoordY() - 2);
-
         diemMat01.setLocation(diemMat00.getCoordX() + 1 * widthDirection, diemMat00.getCoordY());
         diemMat10.setLocation(diemMat00.getCoordX(), diemMat00.getCoordY() + 1);
         diemMat11.setLocation(diemMat01.getCoordX(), diemMat10.getCoordY());
@@ -170,12 +168,12 @@ public class Fish1 extends Shape2D {
     public void drawFish1() {
         /* Vẽ thân hình ellipse */
         setFilledColor(Color.BLACK);
-        this.drawOutlineEllipse(RADIUS_BODY_F1_X, RADIUS_BODY_F1_Y, thanCa1_centerP, true, true, true, true);
+        drawOutlineEllipse(RADIUS_BODY_F1_X, RADIUS_BODY_F1_Y, thanCa1_centerP, true, true, true, true);
         /* Vẽ đầu hình ellipse */
         if (widthDirection == 1) {
-            this.drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, false, true, false, true);
+            drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, false, true, false, true);
         } else {
-            this.drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, true, false, true, false);
+            drawOutlineEllipse(RADIUS_HEAD_F1_X, RADIUS_HEAD_F1_Y, dauCa1_CenterP, true, false, true, false);
         }
 
         /* Vẽ các điểm ở miệng */
@@ -270,6 +268,7 @@ public class Fish1 extends Shape2D {
                 newStartPoint.getCoordX() - 1 * widthDirection,
                 newStartPoint.getCoordY() - 1 * widthDirection
         );
+        
         SKPoint2D endPoint2 = new SKPoint2D(
                 newStartPoint.getCoordX() - 1 * widthDirection,
                 newStartPoint.getCoordY() + 1 * widthDirection

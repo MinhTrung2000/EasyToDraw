@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model.shape2d.animation;
 
 import control.SettingConstants;
@@ -13,10 +8,6 @@ import control.myawt.SKPoint2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Vector2D;
 
-/**
- *
- * @author Minh Tu
- */
 public class River extends Shape2D {
 
     public static final int[] ROUGH_NUMBER_ARRAY_1 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2};
@@ -30,18 +21,12 @@ public class River extends Shape2D {
 
     public static final Color COLOR_1 = new Color(101, 202, 225);
     public static final Color COLOR_2 = new Color(137, 225, 255);
+    
+    private ArrayList<SKPoint2D> pointList = new ArrayList<>();
 
     public River(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
-
-
-    int[] roughNumberArray110 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2};
-    int[] roughNumberArray110_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2};
-    int height1 = 22;
-    int height2 = height1 + 45 ;
-
-
 
     public void drawRiver(SKPoint2D startP) {
         int realWidthLimit = 1361 / SettingConstants.RECT_SIZE + 3 - 1;
@@ -56,12 +41,12 @@ public class River extends Shape2D {
         drawSegment(new SKPoint2D(startP, realWidthLimit, 0), new SKPoint2D(startP, realWidthLimit, HEIGHT_1));
 
         // vẽ gợn sóng trên mặt nước
-        ArrayList<SKPoint2D> pointList = new ArrayList<>();
+        pointList.clear();
+        
         pointList.add(new SKPoint2D(startP, 0, HEIGHT_1));
         pointList.add(new SKPoint2D(pointList.get(0), 40, -6));
         pointList.add(new SKPoint2D(pointList.get(1), 70, 8));
         pointList.add(new SKPoint2D(pointList.get(2), 53, -5));
-
         pointList.add(new SKPoint2D(startP, realWidthLimit, HEIGHT_1));
 
         setFilledColor(COLOR_2);

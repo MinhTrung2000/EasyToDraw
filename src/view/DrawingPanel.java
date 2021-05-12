@@ -663,7 +663,7 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-        recentShape.createRotateInstance(centerPoint, angle);
+        recentShape.createRotate(centerPoint, angle);
         apply();
         repaint();
     }
@@ -672,7 +672,7 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-        recentShape.createOCenterSymInstance();
+        recentShape.createSymOCenter();
         apply();
         repaint();
     }
@@ -681,7 +681,7 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-        recentShape.createOXSymInstance();
+        recentShape.createSymOX();
         apply();
         repaint();
     }
@@ -691,7 +691,7 @@ public class DrawingPanel extends JPanel {
             return;
         }
 
-        recentShape.createOYSymInstance();
+        recentShape.createSymOY();
         apply();
         repaint();
     }
@@ -701,7 +701,7 @@ public class DrawingPanel extends JPanel {
             return;
         }
 
-        recentShape.createPointSymInstance(centerPoint);
+        recentShape.createSymPoint(centerPoint);
         apply();
         repaint();
     }
@@ -711,7 +711,7 @@ public class DrawingPanel extends JPanel {
             return;
         }
 
-        recentShape.createLineSymInstance(a, b, c);
+        recentShape.createSymLine(a, b, c);
         apply();
         repaint();
     }
