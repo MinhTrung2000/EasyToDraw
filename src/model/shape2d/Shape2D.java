@@ -234,9 +234,10 @@ public abstract class Shape2D {
 
     /**
      * Draw segment without saving point to current point set.
+     *
      * @param startPoint
      * @param endPoint
-     * @param lineStyle 
+     * @param lineStyle
      */
     public void drawSegmentUnSave(SKPoint2D startPoint, SKPoint2D endPoint,
             SettingConstants.LineStyle lineStyle) {
@@ -753,7 +754,17 @@ public abstract class Shape2D {
         }
     }
 
-    public abstract void drawOutline();
+    public void drawOutline() {
+        int pixelCounter = 0;
+        
+        for (int i = 0; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+            pixelCounter++;
+            savePointWithLineStyleCheck(p.getCoordX(), p.getCoordY(), pixelCounter, lineStyle);
+        }
+        
+        saveCoordinates();
+    }
 
     /**
      * Mark the point coordinates in marked array and color array if they are in
@@ -998,5 +1009,107 @@ public abstract class Shape2D {
 
     public void paint() {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, this.centerPoint2D, this.filledColor, false);
+    }
+
+    public void drawArc(ArrayList<SKPoint2D> pointSet, SettingConstants.LineStyle lineStyle) {
+        int pixelCounter = 0;
+
+        for (int i = 0; i < pointSet.size(); i++) {
+            SKPoint2D p = pointSet.get(i);
+            pixelCounter++;
+            savePointWithLineStyleCheck(p.getCoordX(), p.getCoordY(), pixelCounter, lineStyle);
+        }
+    }
+
+    /**
+     * Get left top point follows system coordinate.
+     * @return 
+     */
+    public SKPoint2D getLeftTopPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() < ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() < ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Get right top point follows system coordinate.
+     * @return 
+     */
+    public SKPoint2D getRightTopPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() > ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() < ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Get left bottom point follows system coordinate.
+     * @return 
+     */
+    public SKPoint2D getLeftBottomPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() < ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() > ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
+    }
+
+    /**
+     * Get right bottom point follows system coordinate.
+     * @return 
+     */
+    public SKPoint2D getRightBottomPoint() {
+        if (pointSet2D.isEmpty()) {
+            return null;
+        }
+
+        SKPoint2D ret = pointSet2D.get(0);
+
+        for (int i = 1; i < pointSet2D.size(); i++) {
+            SKPoint2D p = pointSet2D.get(i);
+
+            if ((p.getCoordX() > ret.getCoordX())
+                    || (p.getCoordX() == ret.getCoordX() && p.getCoordY() > ret.getCoordY())) {
+                ret = p;
+            }
+        }
+
+        return ret;
     }
 }

@@ -186,14 +186,10 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
 
         } else if (btnOptionSphere.isSelected()) {
             try {
-//                int centerPointX = Ultility.getValidInputComponent(textfSphereCenterPointCoordX);
-//                int centerPointY = Ultility.getValidInputComponent(textfSphereCenterPointCoordY);
-//                int centerPointZ = Ultility.getValidInputComponent(textfSphereCenterPointCoordZ);
-//                int radius = Ultility.getValidInputComponent(textfSphereRadius);
-                int centerPointX = 0;
-                int centerPointY = 0;
-                int centerPointZ = 0;
-                int radius = 10;
+                int centerPointX = Ultility.getValidInputComponent(textfSphereCenterPointCoordX, false, null);
+                int centerPointY = Ultility.getValidInputComponent(textfSphereCenterPointCoordY, false, null);
+                int centerPointZ = Ultility.getValidInputComponent(textfSphereCenterPointCoordZ, false, null);
+                int radius = Ultility.getValidInputComponent(textfSphereRadius, false, null);
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
             } catch (NumberFormatException ex) {

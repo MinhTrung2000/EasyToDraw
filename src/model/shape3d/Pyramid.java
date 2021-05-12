@@ -30,20 +30,28 @@ public class Pyramid extends Shape3D {
     private SKPoint3D pointC = new SKPoint3D();
     private SKPoint3D pointD = new SKPoint3D();
     
-    public Pyramid(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+    public Pyramid(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, 
+            String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, 
+                filledColor);
     }
     
-    public void setProperty(double center_x, double center_y, double center_z, double edge, double high) {
+    public void setProperty(double center_x, double center_y, double center_z, 
+            double edge, double high) {
         double half_edge = edge / 2;
         
         centerPoint3D.setLocation(center_x, center_y, center_z);
         
-        pointTop.setLocation(centerPoint3D.getCoordX(), centerPoint3D.getCoordY(), centerPoint3D.getCoordZ() + high);
-        pointA.setLocation(centerPoint3D.getCoordX() - half_edge, centerPoint3D.getCoordY() + half_edge, centerPoint3D.getCoordZ());
-        pointB.setLocation(centerPoint3D.getCoordX() + half_edge, centerPoint3D.getCoordY() + half_edge, centerPoint3D.getCoordZ());
-        pointC.setLocation(centerPoint3D.getCoordX() + half_edge, centerPoint3D.getCoordY() - half_edge, centerPoint3D.getCoordZ());
-        pointD.setLocation(centerPoint3D.getCoordX() - half_edge, centerPoint3D.getCoordY() - half_edge, centerPoint3D.getCoordZ());
+        pointTop.setLocation(centerPoint3D.getCoordX(), centerPoint3D.getCoordY(), 
+                centerPoint3D.getCoordZ() + high);
+        pointA.setLocation(centerPoint3D.getCoordX() - half_edge, 
+                centerPoint3D.getCoordY() + half_edge, centerPoint3D.getCoordZ());
+        pointB.setLocation(centerPoint3D.getCoordX() + half_edge, 
+                centerPoint3D.getCoordY() + half_edge, centerPoint3D.getCoordZ());
+        pointC.setLocation(centerPoint3D.getCoordX() + half_edge, 
+                centerPoint3D.getCoordY() - half_edge, centerPoint3D.getCoordZ());
+        pointD.setLocation(centerPoint3D.getCoordX() - half_edge, 
+                centerPoint3D.getCoordY() - half_edge, centerPoint3D.getCoordZ());
     }
 
     @Override
@@ -70,7 +78,6 @@ public class Pyramid extends Shape3D {
 
     @Override
     public void applyMove(Vector2D vector) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
