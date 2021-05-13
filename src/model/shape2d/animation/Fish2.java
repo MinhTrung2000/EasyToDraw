@@ -355,38 +355,38 @@ public class Fish2 extends Shape2D {
         //thân
         setFilledColor(Color.BLACK);
 
-        drawOutlineEllipse(thanCaCenterPoint, RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y,
+        drawOutlineEllipseUnSave(thanCaCenterPoint, RADIUS_BODY_F2_X, RADIUS_BODY_F2_Y,
                 true, true, true, true);
 
         //vây trên thân
         setFilledColor(FIN_SHAPE_COLOR);
 
         if (widthDirection == 1) {
-            drawOutlineEllipse(vayTT2CenterPoint, RADIUS_FIN_F2_X,
+            drawOutlineEllipseUnSave(vayTT2CenterPoint, RADIUS_FIN_F2_X,
                     RADIUS_FIN_F2_Y, true, true, false, false);
         } else {
-            drawOutlineEllipse(vayTT2CenterPoint, RADIUS_FIN_F2_X,
+            drawOutlineEllipseUnSave(vayTT2CenterPoint, RADIUS_FIN_F2_X,
                     RADIUS_FIN_F2_Y, false, false, true, true);
         }
 
         // da trên thân
         if (widthDirection == 1) {
-            drawOutlineEllipse(skinShapeCenterPoint1, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint1, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, false, false, true, true);
 
-            drawOutlineEllipse(skinShapeCenterPoint2, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint2, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, false, false, true, true);
 
-            drawOutlineEllipse(skinShapeCenterPoint3, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint3, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, false, false, true, true);
         } else {
-            drawOutlineEllipse(skinShapeCenterPoint1, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint1, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, true, true, false, false);
 
-            drawOutlineEllipse(skinShapeCenterPoint2, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint2, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, true, true, false, false);
 
-            drawOutlineEllipse(skinShapeCenterPoint3, SKIN_SHAPE_F2_X,
+            drawOutlineEllipseUnSave(skinShapeCenterPoint3, SKIN_SHAPE_F2_X,
                     SKIN_SHAPE_F2_Y, true, true, false, false);
         }
 
@@ -408,20 +408,20 @@ public class Fish2 extends Shape2D {
         drawSegmentUnSave(duoiStartPoint, duoiDuoiEndPoint);
 
         if (widthDirection == 1) {
-            drawOutlineEllipse(edgeDuoiTrenCenterPoint, 2, 2, true, true, false,
+            drawOutlineEllipseUnSave(edgeDuoiTrenCenterPoint, 2, 2, true, true, false,
                     false);
         } else {
-            drawOutlineEllipse(edgeDuoiTrenCenterPoint, 2, 2, false, false, true,
+            drawOutlineEllipseUnSave(edgeDuoiTrenCenterPoint, 2, 2, false, false, true,
                     true);
         }
 
         drawSegmentUnSave(duoiTrenStartPoint2, duoiEndPoint);
 
         if (widthDirection == 1) {
-            drawOutlineEllipse(edgeDuoiDuoiCenterPoint, 2, 2, true, true, false,
+            drawOutlineEllipseUnSave(edgeDuoiDuoiCenterPoint, 2, 2, true, true, false,
                     false);
         } else {
-            drawOutlineEllipse(edgeDuoiDuoiCenterPoint, 2, 2, false, false, true,
+            drawOutlineEllipseUnSave(edgeDuoiDuoiCenterPoint, 2, 2, false, false, true,
                     true);
         }
 
