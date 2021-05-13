@@ -17,8 +17,6 @@ public class Cylinder extends Shape3D {
     private double radius = 0.0;
     private double high = 0.0;
     
-    private SKPoint2D ULPoint2D;
-
     public Cylinder(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
@@ -37,10 +35,10 @@ public class Cylinder extends Shape3D {
 
         circlePointList.clear();
 
-        mergePointSetCircle(circlePointList, centerPoint3D, radius, true, true, 
+        mergePointSetCircle(circlePointList, centerPoint3D, this.radius, true, true, 
                 true, true, true, true, true, true);
 
-        double half_high = high / 2;
+        double half_high = this.high / 2;
 
         pointSet3D.clear();
 

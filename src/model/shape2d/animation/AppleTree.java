@@ -19,42 +19,29 @@ public class AppleTree extends Shape2D {
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
     private ArrayList<SKPoint2D> pointList2 = new ArrayList<>();
 
+    private SKPoint2D trunkLeft_CenterP = new SKPoint2D();
+    private SKPoint2D trunkRight_CenterP = new SKPoint2D();
+
     public AppleTree(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
-    public void drawAppleTree(SKPoint2D startPoint) {
+    public void setProperty(SKPoint2D startPoint) {
         startPoint2D.setLocation(startPoint);
-
-        setFilledColor(Color.BLACK);
 
         pointList.clear();
 
         pointList.add(new SKPoint2D(this.startPoint2D, -10, -4));
-        drawOutlineCircle(20, pointList.get(0), false, false, false, false, false, false, true, true);
-
         pointList.add(new SKPoint2D(pointList.get(0), 10, -6));
-        drawOutlineCircle(20, pointList.get(1), true, false, false, false, false, false, false, true);
-
         pointList.add(new SKPoint2D(pointList.get(1), 7, 3));
-        drawOutlineCircle(21, pointList.get(2), true, true, false, false, false, false, false, false);
-
         pointList.add(new SKPoint2D(pointList.get(2), 0, 4));
-        drawOutlineCircle(20, pointList.get(3), false, true, true, true, false, false, false, false);
-
         //về trái
         pointList.add(new SKPoint2D(pointList.get(0), -9, 6));
-        drawOutlineCircle(12, pointList.get(4), false, false, false, true, true, true, true, false);
 
-        // vẽ thân
-        SKPoint2D trunkLeft_CenterP = new SKPoint2D(pointList.get(4), 8, 19);
-        SKPoint2D trunkRight_CenterP = new SKPoint2D(pointList.get(4), 28, 19);
+        trunkLeft_CenterP.setLocation(pointList.get(4), 8, 19);
+        trunkRight_CenterP.setLocation(pointList.get(4), 28, 19);
 
-        drawOutlineEllipse(3, 17, trunkLeft_CenterP, false, true, false, true);
-        drawOutlineEllipse(3, 17, trunkRight_CenterP, true, false, true, false);
-
-        //vẽ cành
         pointList2.clear();
 
         pointList2.add(new SKPoint2D(trunkLeft_CenterP, 0, -17));
@@ -68,57 +55,90 @@ public class AppleTree extends Shape2D {
         pointList2.add(new SKPoint2D(pointList2.get(7), 5, -10));
         pointList2.add(new SKPoint2D(pointList2.get(8), 3, 0));
         pointList2.add(new SKPoint2D(pointList2.get(9), -4, 17));
+
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 0, -20));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), -17, 0));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 12, -24));
+        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 24, -6));
+    }
+
+//    public void drawAppleTree(SKPoint2D startPoint) {
+    public void drawAppleTree() {
+        setFilledColor(Color.BLACK);
+
+        drawOutlineCircle(pointList.get(0), 20, 
+                false, false, false, false, false, false, true, true);
+
+        drawOutlineCircle(pointList.get(1), 20, 
+                true, false, false, false, false, false, false, true);
+
+        drawOutlineCircle(pointList.get(2), 21, 
+                true, true, false, false, false, false, false, false);
+
+        drawOutlineCircle(pointList.get(3), 20, 
+                false, true, true, true, false, false, false, false);
+
+        //về trái
+        drawOutlineCircle(pointList.get(4), 12, 
+                false, false, false, true, true, true, true, false);
+
+        // vẽ thân
+        drawOutlineEllipse(trunkLeft_CenterP, 3, 17, true, true, false, false);
+        drawOutlineEllipse(trunkRight_CenterP, 3, 17, false, false, true, true);
+
+        //vẽ cành 
         drawZigZag(pointList2);
 
         //vẽ vân gỗ
         setFilledColor(COLOR_1);
 
-        drawSegment(new SKPoint2D(pointList2.get(3), 3, 7), new SKPoint2D(pointList2.get(3), 1, 13));
-        drawSegment(new SKPoint2D(pointList2.get(3), 7, 15), new SKPoint2D(pointList2.get(3), 4, 22));
-        drawSegment(new SKPoint2D(pointList2.get(3), 11, -3), new SKPoint2D(pointList2.get(3), 9, 3));
-        drawSegment(new SKPoint2D(pointList2.get(3), 2, 17), new SKPoint2D(pointList2.get(3), 0, 22));
+        drawSegmentUnSave(new SKPoint2D(pointList2.get(3), 3, 7),
+                new SKPoint2D(pointList2.get(3), 1, 13));
+        drawSegmentUnSave(new SKPoint2D(pointList2.get(3), 7, 15), 
+                new SKPoint2D(pointList2.get(3), 4, 22));
+        drawSegmentUnSave(new SKPoint2D(pointList2.get(3), 11, -3), 
+                new SKPoint2D(pointList2.get(3), 9, 3));
+        drawSegmentUnSave(new SKPoint2D(pointList2.get(3), 2, 17), 
+                new SKPoint2D(pointList2.get(3), 0, 22));
 
         //vẽ táo 
-        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 0, -20));
-        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), -17, 0));
-        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 12, -24));
-        appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 24, -6));
-
         for (SKPoint2D centerP : appleCenterPointArray) {
             drawApple(centerP);
         }
 
         //giới hạn  chân để tô màu
         setFilledColor(Color.BLACK);
-        
-        drawSegment(new SKPoint2D(pointList.get(4), 9, 36), new SKPoint2D(pointList.get(4), 27, 36));
-    }
 
-    public void paintAppleTree(SKPoint2D startP) {
+        drawSegmentUnSave(new SKPoint2D(pointList.get(4), 9, 36), 
+                new SKPoint2D(pointList.get(4), 27, 36));
+
+        /* To mau */
         setFilledColor(COLOR_3);
-        
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, -3, -3), filledColor, false);
-       
-        setFilledColor(COLOR_4);
-        
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 0, 3), filledColor, false);
 
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, 
+                new SKPoint2D(this.startPoint2D, -3, -3), filledColor, false);
+
+        setFilledColor(COLOR_4);
+
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, 
+                new SKPoint2D(this.startPoint2D, 0, 3), filledColor, false);
+
+        // To mau cac qua tao
+        setFilledColor(COLOR_2);
+
+        for (SKPoint2D centerP : appleCenterPointArray) {
+            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP, 
+                    filledColor, false);
+        }
     }
 
     private void drawApple(SKPoint2D centerP) {
         setFilledColor(Color.BLACK);
-        
-        drawOutlineCircle(3, centerP, true, true, true, true, true, true, true, true);
-        drawSegment(new SKPoint2D(centerP, 4, -4), new SKPoint2D(centerP, 2, -2));
 
-    }
-
-    public void paintApple() {
-        setFilledColor(COLOR_2);
-        
-        for (SKPoint2D centerP : appleCenterPointArray) {
-            Ultility.paint(changedColorOfBoard, markedChangeOfBoard, centerP, filledColor, false);
-        }
+        drawOutlineCircle(centerP, 3, 
+                true, true, true, true, true, true, true, true);
+        drawSegmentUnSave(new SKPoint2D(centerP, 4, -4),
+                new SKPoint2D(centerP, 2, -2));
     }
 
     @Override

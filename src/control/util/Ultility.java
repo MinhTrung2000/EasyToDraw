@@ -91,7 +91,8 @@ public class Ultility {
      * @param point
      * @param chosenColor
      */
-    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray, SKPoint2D point, Color chosenColor, boolean paintOnRealBoard) {
+    public static void paint(Color[][] colorOfBoard, boolean[][] markedArray,
+            SKPoint2D point, Color chosenColor, boolean paintOnRealBoard) {
         Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
         if (!checkValidPoint(colorOfBoard, point.getCoordX(), point.getCoordY())) {
@@ -100,34 +101,33 @@ public class Ultility {
 
         Color oldColor = colorOfBoard[point.getCoordY()][point.getCoordX()];
 
-        if (!oldColor.equals(chosenColor)) {
-            if (!paintOnRealBoard) {
-                markedArray[(int) point.getCoordY()][(int) point.getCoordX()] = true;
-            }
-            colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
-            queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
+        if (oldColor.equals(chosenColor)) {
+            return;
+        }
 
-            int newCoordX;
-            int newCoordY;
-            while (queue.size() > 0) {
-                Pair<Integer, Integer> frontQueue = queue.poll();
+        if (!paintOnRealBoard) {
+            markedArray[point.getCoordY()][point.getCoordX()] = true;
+        }
 
-                for (int i = 0; i < 4; i++) {
-                    newCoordX = frontQueue.getKey() + D_X[i];
-                    newCoordY = frontQueue.getValue() + D_Y[i];
+        colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
+        queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
 
-                    if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
-                            && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
-                        if (!paintOnRealBoard) {
-                            markedArray[newCoordY][newCoordX] = true;
-                        }
-                        colorOfBoard[newCoordY][newCoordX] = chosenColor;
-                        queue.add(new Pair<>(newCoordX, newCoordY));
+        while (queue.size() > 0) {
+            Pair<Integer, Integer> frontQueue = queue.poll();
 
+            for (int i = 0; i < 4; i++) {
+                int newCoordX = frontQueue.getKey() + D_X[i];
+                int newCoordY = frontQueue.getValue() + D_Y[i];
+
+                if (checkValidPoint(colorOfBoard, newCoordX, newCoordY)
+                        && colorOfBoard[newCoordY][newCoordX].equals(oldColor)) {
+                    if (!paintOnRealBoard) {
+                        markedArray[newCoordY][newCoordX] = true;
                     }
+                    colorOfBoard[newCoordY][newCoordX] = chosenColor;
+                    queue.add(new Pair<>(newCoordX, newCoordY));
                 }
             }
-
         }
     }
 
@@ -155,8 +155,7 @@ public class Ultility {
             String message = component.getName() + " is out of bound!";
             throw new NumberFormatException(message);
         }
-        
-//        return ret * SettingConstants.RECT_SIZE;
+
         return ret;
     }
 }

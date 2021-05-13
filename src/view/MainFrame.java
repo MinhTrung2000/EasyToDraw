@@ -1870,9 +1870,7 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 try {
                     MainFrame frame = new MainFrame();
-//                    frame.setVisible(true);
-
-                    frame.animationFrame.setVisible(true);
+                    frame.setVisible(true);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

@@ -257,8 +257,7 @@ public class Transform2D {
     }
     
     public static void main(String[] args) {
-        System.out.println("Test: rotate by point");
-        SKPoint2D p = new SKPoint2D(1, 4);
-        System.out.println(p.createRotate(new SKPoint2D(0, 0), Math.toRadians(-30)));
+        SKPoint2D p = new SKPoint2D(2, 5);
+        System.out.println(Transform2D.getTransformPoint(p, Transform2D.getVerSymMat(7)));
     }
 }

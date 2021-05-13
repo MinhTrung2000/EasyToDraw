@@ -62,14 +62,13 @@ public class Ellipse extends Shape2D {
     }
 
     public void drawOutlineEllipse() {
-        super.drawOutlineEllipse(this.majorRadius, this.minorRadius,
-                this.centerPoint2D, true, true, true, true);
+        super.drawOutlineEllipse(this.centerPoint2D, this.majorRadius, this.minorRadius, true, true, true, true);
 
         saveCoordinates();
     }
 
     public void drawOutlineCircle() {
-        super.drawOutlineCircle(this.majorRadius, this.centerPoint2D,
+        super.drawOutlineCircle(this.centerPoint2D, this.majorRadius,
                 true, true, true, true, true, true, true, true);
 
         saveCoordinates();

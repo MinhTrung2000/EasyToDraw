@@ -21,71 +21,104 @@ public class River extends Shape2D {
 
     public static final Color COLOR_1 = new Color(101, 202, 225);
     public static final Color COLOR_2 = new Color(137, 225, 255);
-    
+
+    private int widthLimit = 0;
+
     private ArrayList<SKPoint2D> pointList = new ArrayList<>();
 
-    public River(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
-        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
+    public River(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
+            String[][] changedCoordOfBoard, Color filledColor) {
+        super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard,
+                filledColor);
     }
 
-    public void drawRiver(SKPoint2D startP) {
-        int realWidthLimit = 1361 / SettingConstants.RECT_SIZE + 3 - 1;
+    public void setProperty(int widthLimit, SKPoint2D startP) {
+        this.widthLimit = widthLimit;
+        this.startPoint2D.setLocation(startP);
 
-        //phân viền mặt nước
-        setFilledColor(COLOR_1);
-        drawSegment(startP, new SKPoint2D(startP, realWidthLimit, 0));
-        drawSegment(new SKPoint2D(startP, 0, 1), new SKPoint2D(startP, realWidthLimit, 1));
-
-        setFilledColor(SURFACE_COLOR);
-        drawSegment(startP, new SKPoint2D(startP, 0, HEIGHT_1));
-        drawSegment(new SKPoint2D(startP, realWidthLimit, 0), new SKPoint2D(startP, realWidthLimit, HEIGHT_1));
-
-        // vẽ gợn sóng trên mặt nước
         pointList.clear();
-        
+
         pointList.add(new SKPoint2D(startP, 0, HEIGHT_1));
         pointList.add(new SKPoint2D(pointList.get(0), 40, -6));
         pointList.add(new SKPoint2D(pointList.get(1), 70, 8));
         pointList.add(new SKPoint2D(pointList.get(2), 53, -5));
-        pointList.add(new SKPoint2D(startP, realWidthLimit, HEIGHT_1));
+        pointList.add(new SKPoint2D(startP, this.widthLimit, HEIGHT_1));
+    }
 
+    public void drawRiver() {
+        //phân viền mặt nước
+        setFilledColor(COLOR_1);
+        
+        drawSegmentUnSave(this.startPoint2D, new SKPoint2D(this.startPoint2D, 
+                this.widthLimit, 0));
+        
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, 0, 1), 
+                new SKPoint2D(this.startPoint2D, this.widthLimit, 1));
+
+        setFilledColor(SURFACE_COLOR);
+        
+        drawSegmentUnSave(this.startPoint2D, new SKPoint2D(this.startPoint2D, 0, 
+                HEIGHT_1));
+        
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, this.widthLimit, 0), 
+                new SKPoint2D(this.startPoint2D, this.widthLimit, HEIGHT_1));
+
+        // vẽ gợn sóng trên mặt nước
         setFilledColor(COLOR_2);
+        
         drawZigZagS(pointList, ROUGH_NUMBER_ARRAY_1, ROUGH_NUMBER_ARRAY_2);
 
         int length = 27;
         int posX = 23;
+        
         setLineStyle(SettingConstants.LineStyle.DASH);
 
-        drawOutlineEllipse(length / 2 + 1, 3, new SKPoint2D(startP, posX, 7), true, true, false, false);
-        drawOutlineEllipse(length / 2 + 1, 5, new SKPoint2D(startP, posX + length, 7), false, false, true, true);
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX, 7), length / 2 + 1, 3, false, true, true, false);
+        
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX + length, 7), length / 2 + 1, 5, true, false, false, true);
 
-        posX = 80;
         length = 20;
-        drawOutlineEllipse(length / 2 + 1, 2, new SKPoint2D(startP, posX, 12), true, true, false, false);
-        drawOutlineEllipse(length / 2 + 1, 4, new SKPoint2D(startP, posX + length, 12), false, false, true, true);
+        posX = 80;
+        
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX, 12), length / 2 + 1, 2, false, true, true, false);
+        
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX + length, 12), length / 2 + 1, 4, true, false, false, true);
 
-        posX = 140;
         length = 22;
-        drawOutlineEllipse(length / 2 + 1, 2, new SKPoint2D(startP, posX, 9), true, true, false, false);
-        drawOutlineEllipse(length / 2 + 1, 4, new SKPoint2D(startP, posX + length, 9), false, false, true, true);
+        posX = 140;
+        
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX, 9), length / 2 + 1, 2, false, true, true, false);
+        
+        drawOutlineEllipse(new SKPoint2D(this.startPoint2D, 
+                posX + length, 9), length / 2 + 1, 4, true, false, false, true);
 
         //phân viền dưới nước
         setLineStyle(DEFAULT_LINE_STYLE);
 
         setFilledColor(BOTTOM_COLOR);
-        drawSegment(new SKPoint2D(startP, 0, HEIGHT_1), new SKPoint2D(startP, 0, HEIGHT_2));
-        drawSegment(new SKPoint2D(startP, realWidthLimit, HEIGHT_1), new SKPoint2D(startP, realWidthLimit, HEIGHT_2));
+        
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, 0, HEIGHT_1), 
+                new SKPoint2D(this.startPoint2D, 0, HEIGHT_2));
+        
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, this.widthLimit, HEIGHT_1), 
+                new SKPoint2D(this.startPoint2D, this.widthLimit, HEIGHT_2));
+        
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, 0, HEIGHT_2), 
+                new SKPoint2D(this.startPoint2D, this.widthLimit, HEIGHT_2));
 
-        drawSegment(new SKPoint2D(startP, 0, HEIGHT_2), new SKPoint2D(startP, realWidthLimit, HEIGHT_2));
-
-    }
-
-    public void paintRiver(SKPoint2D startP) {
         setFilledColor(SURFACE_COLOR);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, 4), filledColor, false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard,
+                new SKPoint2D(this.startPoint2D, 4, 4), filledColor, false);
 
         setFilledColor(BOTTOM_COLOR);
-        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, new SKPoint2D(startP, 4, HEIGHT_1 + 4), filledColor, false);
+        Ultility.paint(changedColorOfBoard, markedChangeOfBoard, 
+                new SKPoint2D(this.startPoint2D, 4, HEIGHT_1 + 4), filledColor, 
+                false);
     }
 
     @Override

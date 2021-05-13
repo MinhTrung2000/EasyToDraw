@@ -21,8 +21,9 @@ import model.shape2d.animation.Volcano;
 
 public class AnimationFrame extends javax.swing.JFrame {
 
+    public static final int TIME_DELAY = 300;
+
     private Timer timer;
-    private int timeUnit = 0;
 
     /**
      * Creates new form AnimationFrame
@@ -35,7 +36,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         setLocationRelativeTo(parent);
         setAlwaysOnTop(false);
 
-        timer = new Timer(150, new ActionListener() {
+        timer = new Timer(TIME_DELAY, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 getAnimationPanel().animate();
@@ -47,9 +48,10 @@ public class AnimationFrame extends javax.swing.JFrame {
         return ((AnimationPanel) this.animationPanel);
     }
 
-    public class AnimationPanel extends JPanel {
+    public static class AnimationPanel extends JPanel {
 
-        private int rotation = 0;
+        public static final Color SKY_COLOR = new Color(205, 249, 255);
+        
         private int widthBoard;
         private int heightBoard;
 
@@ -81,9 +83,10 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointGround = new SKPoint2D(0, 70);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
         private SKPoint2D startPointRiver = new SKPoint2D(startPointGround, 0, 26);
-        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 100, 35);
-        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 100, 57);
-
+        private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 0, 55);
+        private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 0, 35);
+        private SKPoint2D skyPaintPoint = new SKPoint2D(startPointGround, 10, -10);
+        
         public AnimationPanel() {
         }
 
@@ -97,38 +100,48 @@ public class AnimationFrame extends javax.swing.JFrame {
             this.changedCoordOfBoard = new String[heightBoard][widthBoard];
             this.markedChangeOfBoard = new boolean[heightBoard][widthBoard];
 
-            for (int i = 0; i < this.heightBoard; i++) {
-                for (int j = 0; j < this.widthBoard; j++) {
-                    colorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
-                    coordOfBoard[i][j] = null;
-                }
-            }
+            resetSavedPropertyArray();
+            resetChangedPropertyArray();
 
-            for (int i = 0; i < this.heightBoard; i++) {
-                for (int j = 0; j < this.widthBoard; j++) {
-                    markedChangeOfBoard[i][j] = false;
-                    changedColorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
-                    changedCoordOfBoard[i][j] = null;
-                }
-            }
-
-            sun = new Sun(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            sun = new Sun(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
             sun.setProperty(startPointSun);
 
-            cloud1 = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            cloud1 = new Cloud(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
             cloud1.setProperty(startPointCloud1);
-            cloud2 = new Cloud(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+
+            cloud2 = new Cloud(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
             cloud2.setProperty(startPointCloud2);
 
-            volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            ground = new Ground(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            river = new River(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
+            volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            volcano.setProperty(startPointVolcano, endPointVolcano);
 
-            fish1 = new Fish1(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-            fish2 = new Fish2(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, Color.BLACK);
-//            fish.setPropertyFish1(startPointFish1);
+            smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            smoke.setProperty(startPointSmoke);
+
+            ground = new Ground(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            ground.setProperty(this.widthBoard, startPointGround);
+
+            tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            tree.setProperty(startPointTree);
+
+            river = new River(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            river.setProperty(this.widthBoard, startPointRiver);
+
+            fish1 = new Fish1(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            fish1.setPropertyFish1(this.widthBoard, startPointFish1);
+
+            fish2 = new Fish2(markedChangeOfBoard, changedColorOfBoard,
+                    changedCoordOfBoard, Color.BLACK);
+            fish2.setPropertyFish2(this.widthBoard, startPointFish2);
         }
 
         @Override
@@ -140,7 +153,7 @@ public class AnimationFrame extends javax.swing.JFrame {
 
             for (int i = 0; i < this.heightBoard; i++) {
                 for (int j = 0; j < this.widthBoard; j++) {
-                    if (markedChangeOfBoard[i][j] == true) {
+                    if (markedChangeOfBoard[i][j]) {
                         graphic.setColor(changedColorOfBoard[i][j]);
                     } else {
                         graphic.setColor(colorOfBoard[i][j]);
@@ -160,67 +173,77 @@ public class AnimationFrame extends javax.swing.JFrame {
             resetChangedPropertyArray();
 
             /* VOLCANO */
-            smoke.drawSmoke(startPointSmoke);
-            volcano.drawVolcano(startPointVolcano, endPointVolcano);
-            volcano.paintVolcano(startPointVolcano);
+            volcano.drawVolcano();
+
+            /* SMOKE */
+            smoke.drawSmoke();
 
             mergeColorValue();
             resetChangedPropertyArray();
 
             /* SUN */
             sun.drawSun();
-            sun.drawSunLight(rotation);
 
-            rotation+=10;
-            if(rotation>45) rotation =0;
+            mergeColorValue();
+            resetChangedPropertyArray();
 
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
 
+            mergeColorValue();
+            resetChangedPropertyArray();
+
             /* GROUND */
-            ground.drawGround(startPointGround);
-            ground.paintGround(startPointGround);
-            ground.drawAndPaintFlowers();
+            ground.drawGround();
 
             mergeColorValue();
             resetChangedPropertyArray();
 
             /* APPLE TREE */
-            tree.drawAppleTree(startPointTree);
-            tree.paintAppleTree(startPointTree);
-            tree.paintApple();
+            tree.drawAppleTree();
 
             mergeColorValue();
             resetChangedPropertyArray();
 
             /* SKY */
-            Ultility.paint(colorOfBoard, markedChangeOfBoard, new SKPoint2D(startPointGround, 10, -10), new Color(205, 249, 255), true);
+            Ultility.paint(colorOfBoard, markedChangeOfBoard, 
+                    skyPaintPoint, SKY_COLOR, true);
+
+            mergeColorValue();
+            resetChangedPropertyArray();
 
             /* RIVER */
-            river.drawRiver(startPointRiver);
-            river.paintRiver(startPointRiver);
+            river.drawRiver();
 
             /* FISH1, FISH2*/
-            // Set property trong hàm setComponent
-            fish1.setPropertyFish1(startPointFish1);
             fish1.drawFish1();
 
-            fish2.setPropertyFish2(startPointFish2);
+            mergeColorValue();
+            resetChangedPropertyArray();
+
             fish2.drawFish2();
-            this.repaint();
+
+            repaint();
         }
 
+        /**
+         * Merge new color drawn from new shape to saved color array.
+         */
         private void mergeColorValue() {
             for (int i = 0; i < this.heightBoard; i++) {
                 for (int j = 0; j < this.widthBoard; j++) {
-                    if (markedChangeOfBoard[i][j] == true) {
+                    if (markedChangeOfBoard[i][j]) {
                         colorOfBoard[i][j] = new Color(changedColorOfBoard[i][j].getRGB());
                     }
                 }
             }
         }
 
+        /**
+         * We need to reset the buffer array because a new shape can override
+         * the old one.
+         */
         public void resetSavedPropertyArray() {
             for (int i = 0; i < this.heightBoard; i++) {
                 for (int j = 0; j < this.widthBoard; j++) {

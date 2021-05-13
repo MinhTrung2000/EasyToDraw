@@ -224,6 +224,13 @@ public class SKPoint2D {
         result.convertToSystemCoord();
         return result;
     }
+
+    public SKPoint2D symVertical(int k) {
+        convertToVisualCoord();
+        Transform2D.transform(this, Transform2D.getVerSymMat(k));
+        convertToSystemCoord();
+        return this;
+    }
     
     /**
      * Create a copy symmetric point from line y = k
@@ -236,6 +243,13 @@ public class SKPoint2D {
         Transform2D.transform(result, Transform2D.getHorSymMat(k));
         result.convertToSystemCoord();
         return result;
+    }
+
+    public SKPoint2D symHorizontal(int k) {
+        convertToVisualCoord();
+        Transform2D.transform(this, Transform2D.getHorSymMat(k));
+        convertToSystemCoord();
+        return this;
     }
 
     public SKPoint2D createLineSym(double a, double b, double c) {

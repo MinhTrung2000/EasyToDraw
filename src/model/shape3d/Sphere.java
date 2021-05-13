@@ -17,7 +17,6 @@ public class Sphere extends Shape3D {
             changedCoordOfBoard, filledColor);
 
     private ArrayList<SKPoint2D> circlePointList = new ArrayList<>();
-    private ArrayList<SKPoint2D> circlePointList2 = new ArrayList<>();
 
     public Sphere(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
@@ -61,10 +60,10 @@ public class Sphere extends Shape3D {
         double a = Math.abs(p0.getCoordX() - p1.getCoordX()) / 2;
         double b = Math.abs(p0.getCoordY() - p1.getCoordY()) / 2;
 
-        drawOutlineEllipse(a, b, centerPoint3D.get2DRelativePosition(), true, false, false, true);
+        drawOutlineEllipse(centerPoint3D.get2DRelativePosition(), a, b, false, true, true, false);
 
         setLineStyle(SettingConstants.LineStyle.DOT);
-        drawOutlineEllipse(a, b, centerPoint3D.get2DRelativePosition(), false, true, true, false);
+        drawOutlineEllipse(centerPoint3D.get2DRelativePosition(), a, b, true, false, false, true);
 
         setLineStyle(DEFAULT_LINE_STYLE);
     }
