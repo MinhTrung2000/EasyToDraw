@@ -223,8 +223,8 @@ public abstract class Shape2D {
                 SKPoint2D downPoint = new SKPoint2D(endPoint.getCoordX() - extraLength,
                         endPoint.getCoordY() + extraLength);
 
-                upPoint.rotate(endPoint, angleSegmentWithOx);
-                downPoint.rotate(endPoint, angleSegmentWithOx);
+                Transform2D.transform(upPoint, Transform2D.getRotateFromPointMat(endPoint, angleSegmentWithOx));
+                Transform2D.transform(downPoint, Transform2D.getRotateFromPointMat(endPoint, angleSegmentWithOx));
 
                 drawSegment(endPoint, upPoint, SettingConstants.LineStyle.DEFAULT);
                 drawSegment(endPoint, downPoint, SettingConstants.LineStyle.DEFAULT);
