@@ -121,7 +121,6 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
 
         setDefaultVisualOption();
-        setDefaultFormatOption();
         setDefaultColorOption();
         setDefaultDrawingToolOption();
     }
@@ -189,14 +188,7 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu.add(menuItem);
     }
 
-    private void setDefaultFormatOption() {
-        spinner_SizeLize.setModel(new SpinnerNumberModel(
-                MIN_LINE_SIZE,
-                MIN_LINE_SIZE,
-                MAX_LINE_SIZE,
-                STEP_LINE_SIZE)
-        );
-    }
+
 
     private void setDefaultVisualOption() {
         checkBox_showGridlines.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_GRID);
@@ -398,13 +390,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        spinner_SizeLize.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent event) {
-                int selectedLineSize = (Integer) ((JSpinner) event.getSource()).getValue();
-                ((DrawingPanel) panel_DrawingArea).setSelectedLineSize(selectedLineSize);
-            }
-        });
+        
 
     }
 
@@ -758,9 +744,6 @@ public class MainFrame extends javax.swing.JFrame {
         panel_Format = new javax.swing.JPanel();
         label_StyleLine = new javax.swing.JLabel();
         comboBox_StyleLine = new javax.swing.JComboBox<>();
-        label_SizeLine = new javax.swing.JLabel();
-        spinner_SizeLize = new javax.swing.JSpinner();
-        label_Pixel = new javax.swing.JLabel();
         panel_Tool = new javax.swing.JPanel();
         button_ColorPicker = new javax.swing.JButton();
         button_FillColor = new javax.swing.JButton();
@@ -866,21 +849,18 @@ public class MainFrame extends javax.swing.JFrame {
         button_OpenFile.setContentAreaFilled(false);
         button_OpenFile.setFocusable(false);
         button_OpenFile.setRequestFocusEnabled(false);
-        button_OpenFile.setRolloverEnabled(false);
 
         button_CreateNewFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/createNew.png"))); // NOI18N
         button_CreateNewFile.setToolTipText("Create a new file");
         button_CreateNewFile.setContentAreaFilled(false);
         button_CreateNewFile.setFocusable(false);
         button_CreateNewFile.setRequestFocusEnabled(false);
-        button_CreateNewFile.setRolloverEnabled(false);
 
         button_SaveFile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/save.png"))); // NOI18N
         button_SaveFile.setToolTipText("Save file");
         button_SaveFile.setContentAreaFilled(false);
         button_SaveFile.setFocusable(false);
         button_SaveFile.setRequestFocusEnabled(false);
-        button_SaveFile.setRolloverEnabled(false);
 
         button_Undo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/undo.png"))); // NOI18N
         button_Undo.setToolTipText("Undo");
@@ -889,7 +869,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_Undo.setEnabled(false);
         button_Undo.setFocusable(false);
         button_Undo.setRequestFocusEnabled(false);
-        button_Undo.setRolloverEnabled(false);
         button_Undo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         button_Redo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/redo.png"))); // NOI18N
@@ -900,7 +879,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_Redo.setEnabled(false);
         button_Redo.setFocusable(false);
         button_Redo.setRequestFocusEnabled(false);
-        button_Redo.setRolloverEnabled(false);
         button_Redo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
 
         jSeparator9.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -999,46 +977,24 @@ public class MainFrame extends javax.swing.JFrame {
         comboBox_StyleLine.setToolTipText("Choose line style");
         comboBox_StyleLine.setFocusable(false);
 
-        label_SizeLine.setText("Size:");
-
-        spinner_SizeLize.setToolTipText("Choose line size");
-        spinner_SizeLize.setEnabled(false);
-        spinner_SizeLize.setFocusable(false);
-        spinner_SizeLize.setRequestFocusEnabled(false);
-
-        label_Pixel.setText("px");
-
         javax.swing.GroupLayout panel_FormatLayout = new javax.swing.GroupLayout(panel_Format);
         panel_Format.setLayout(panel_FormatLayout);
         panel_FormatLayout.setHorizontalGroup(
             panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panel_FormatLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_FormatLayout.createSequentialGroup()
-                        .addComponent(label_StyleLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panel_FormatLayout.createSequentialGroup()
-                        .addComponent(label_SizeLine)
-                        .addGap(18, 18, 18)
-                        .addComponent(spinner_SizeLize, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(label_Pixel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_FormatLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(label_StyleLine)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
         );
         panel_FormatLayout.setVerticalGroup(
             panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_FormatLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(41, 41, 41)
                 .addGroup(panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_StyleLine))
-                .addGap(25, 25, 25)
-                .addGroup(panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label_SizeLine)
-                    .addComponent(spinner_SizeLize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(label_Pixel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1096,11 +1052,11 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(button_FillColor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_ColorPicker, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(button_ColorPicker, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_ClearAll, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(button_Eraser, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                    .addComponent(button_Eraser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_Select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_Animation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1263,7 +1219,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(panel_View, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel_Format, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_Format, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel_Tool, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1288,12 +1244,10 @@ public class MainFrame extends javax.swing.JFrame {
         button_2DMode.setText("2D");
         button_2DMode.setFocusable(false);
         button_2DMode.setRequestFocusEnabled(false);
-        button_2DMode.setRolloverEnabled(false);
 
         button_3DMode.setText("3D");
         button_3DMode.setFocusable(false);
         button_3DMode.setRequestFocusEnabled(false);
-        button_3DMode.setRolloverEnabled(false);
 
         javax.swing.GroupLayout panel_SelectCoordinateLayout = new javax.swing.GroupLayout(panel_SelectCoordinate);
         panel_SelectCoordinate.setLayout(panel_SelectCoordinateLayout);
@@ -1479,7 +1433,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(label_CoordIcon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(label_CoordValue)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
         panel_CoordinateCursorLayout.setVerticalGroup(
             panel_CoordinateCursorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1501,7 +1455,7 @@ public class MainFrame extends javax.swing.JFrame {
         panel_StatusBarLayout.setHorizontalGroup(
             panel_StatusBarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_StatusBarLayout.createSequentialGroup()
-                .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panel_CoordinateCursor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jSeparator8, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1921,8 +1875,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel label_CoordIcon;
     private javax.swing.JLabel label_CoordValue;
     private javax.swing.JLabel label_CurrentColor;
-    private javax.swing.JLabel label_Pixel;
-    private javax.swing.JLabel label_SizeLine;
     private javax.swing.JLabel label_StyleLine;
     private javax.swing.JLabel label_ToolTip;
     private javax.swing.JMenuItem menuItem_3DCylinder;
@@ -1961,6 +1913,5 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPopupMenu popMenu_Polygon;
     private javax.swing.JPopupMenu popMenu_Shape;
     private javax.swing.JPopupMenu popMenu_Transform;
-    private javax.swing.JSpinner spinner_SizeLize;
     // End of variables declaration//GEN-END:variables
 }
