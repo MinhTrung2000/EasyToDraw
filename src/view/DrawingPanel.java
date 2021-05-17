@@ -118,7 +118,6 @@ public class DrawingPanel extends JPanel {
     /**
      * User customized line size.
      */
-    private Integer selectedLineSize = SettingConstants.DEFAULT_LINE_SIZE;
 
     private SKPoint2D Polygon_previousPoint = new SKPoint2D();
     private SKPoint2D Polygon_firstPoint = new SKPoint2D();
@@ -211,14 +210,6 @@ public class DrawingPanel extends JPanel {
         return this.selectedToolMode;
     }
 
-    /**
-     * Set selected line size.
-     *
-     * @param lineSize
-     */
-    public void setSelectedLineSize(int lineSize) {
-        selectedLineSize = lineSize;
-    }
 
     /**
      * Set selected line style.
