@@ -276,9 +276,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 };
 
-                int i, j;
-                int count = 0;
-
                 getDrawingPanel().resetSavedPropertyArray();
 
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
