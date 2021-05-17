@@ -51,7 +51,7 @@ public class AnimationFrame extends javax.swing.JFrame {
     public static class AnimationPanel extends JPanel {
 
         public static final Color SKY_COLOR = new Color(205, 249, 255);
-        
+
         private int widthBoard;
         private int heightBoard;
 
@@ -77,8 +77,8 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointSun = new SKPoint2D(20, 20);
         private SKPoint2D startPointVolcano = new SKPoint2D(80, 40);
         private SKPoint2D endPointVolcano = new SKPoint2D(30, 100);
-        private SKPoint2D startPointCloud1 = new SKPoint2D(60, 35);
-        private SKPoint2D startPointCloud2 = new SKPoint2D(70, 20);
+        private SKPoint2D startPointCloud1 = new SKPoint2D(130, 35);
+        private SKPoint2D startPointCloud2 = new SKPoint2D(140, 20);
         private SKPoint2D startPointSmoke = new SKPoint2D(startPointVolcano, 15, -22);
         private SKPoint2D startPointGround = new SKPoint2D(0, 70);
         private SKPoint2D startPointTree = new SKPoint2D(startPointGround, 180, -20);
@@ -86,7 +86,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         private SKPoint2D startPointFish1 = new SKPoint2D(startPointRiver, 0, 55);
         private SKPoint2D startPointFish2 = new SKPoint2D(startPointRiver, 0, 35);
         private SKPoint2D skyPaintPoint = new SKPoint2D(startPointGround, 10, -10);
-        
+
         public AnimationPanel() {
         }
 
@@ -121,7 +121,7 @@ public class AnimationFrame extends javax.swing.JFrame {
 
             smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard,
                     changedCoordOfBoard, Color.BLACK);
-            smoke.setProperty(startPointSmoke);
+            smoke.setProperty(startPointSmoke, SKY_COLOR);
 
             ground = new Ground(markedChangeOfBoard, changedColorOfBoard,
                     changedCoordOfBoard, Color.BLACK);
@@ -207,7 +207,7 @@ public class AnimationFrame extends javax.swing.JFrame {
             resetChangedPropertyArray();
 
             /* SKY */
-            Ultility.paint(colorOfBoard, markedChangeOfBoard, 
+            Ultility.paint(colorOfBoard, markedChangeOfBoard,
                     skyPaintPoint, SKY_COLOR, true);
 
             mergeColorValue();
