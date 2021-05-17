@@ -27,12 +27,20 @@ public class FileController {
         int boardHeight = boardColor.length;
         int boardWidth = boardColor[0].length;
 
-        BufferedImage bufferedImage = new BufferedImage(boardHeight, boardWidth, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(boardWidth, boardHeight, BufferedImage.TYPE_INT_RGB);
 
-        for (int i = 0; i < bufferedImage.getHeight(); i++) {
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                if (Ultility.checkValidPoint(boardColor, j, i)) {
-                    bufferedImage.setRGB(i, j, boardColor[i][j].getRGB());
+        for (int i = 0; i < bufferedImage.getWidth(); i++) {
+            for (int j = 0; j < bufferedImage.getHeight(); j++) {
+                for (int tempI = -1; tempI < RECT_SIZE; tempI++) {
+                    for (int tempJ = -1; tempJ < RECT_SIZE; tempJ++) {
+                        if (Ultility.checkValidPoint(boardColor, j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1)) {
+                            bufferedImage.setRGB(
+                                    j * RECT_SIZE + tempJ + 1,
+                                    i * RECT_SIZE + tempI + 1,
+                                    boardColor[i][j].getRGB()
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -81,11 +89,12 @@ public class FileController {
 
             if (myFile.getHeight() == boardHeight && myFile.getWidth() == boardWidth) {
 
-                for (int i = 0; i < boardHeight; i++) {
-                    for (int j = 0; j < boardWidth; j++) {
-                        if (Ultility.checkValidPoint(boardColor, i, j)) {
-                            Color c = new Color(myFile.getRGB(i, j), true);
-                            boardColor[i][j] = c;
+                for (int i = 0; i < boardWidth / RECT_SIZE; i++) {
+                    for (int j = 0; j < boardHeight / RECT_SIZE; j++) {
+                        if (Ultility.checkValidPoint(boardColor, i * RECT_SIZE + 1, j * RECT_SIZE + 1)) {
+                            Color c = new Color(myFile.getRGB(i * RECT_SIZE + 1, j * RECT_SIZE + 1), true);
+
+                            boardColor[j][i] = c;
                         }
                     }
                 }
