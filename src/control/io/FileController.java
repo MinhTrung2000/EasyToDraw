@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import control.myawt.SKPoint2D;
+import view.DrawingPanel;
 import view.MainFrame;
 
 /**
@@ -27,16 +28,16 @@ public class FileController {
         int boardHeight = boardColor.length;
         int boardWidth = boardColor[0].length;
 
-        BufferedImage bufferedImage = new BufferedImage(boardWidth, boardHeight, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(boardWidth*RECT_SIZE, boardHeight*RECT_SIZE, BufferedImage.TYPE_INT_RGB);
 
         for (int i = 0; i < bufferedImage.getWidth(); i++) {
             for (int j = 0; j < bufferedImage.getHeight(); j++) {
-                for (int tempI = -1; tempI < RECT_SIZE; tempI++) {
-                    for (int tempJ = -1; tempJ < RECT_SIZE; tempJ++) {
-                        if (Ultility.checkValidPoint(boardColor, j * RECT_SIZE + tempJ + 1, i * RECT_SIZE + tempI + 1)) {
+                for (int tempI = 0; tempI < RECT_SIZE; tempI++) {
+                    for (int tempJ =0; tempJ < RECT_SIZE; tempJ++) {
+                        if (Ultility.checkValidPoint(boardColor, j, i )) {
                             bufferedImage.setRGB(
-                                    j * RECT_SIZE + tempJ + 1,
-                                    i * RECT_SIZE + tempI + 1,
+                                    j * RECT_SIZE + tempJ,
+                                    i * RECT_SIZE + tempI,
                                     boardColor[i][j].getRGB()
                             );
                         }
@@ -87,17 +88,19 @@ public class FileController {
         try {
             BufferedImage myFile = ImageIO.read(new File(inputFileName));
 
-            if (myFile.getHeight() == boardHeight && myFile.getWidth() == boardWidth) {
+            if (myFile.getHeight() == boardHeight*RECT_SIZE && myFile.getWidth() == boardWidth*RECT_SIZE) {
 
-                for (int i = 0; i < boardWidth / RECT_SIZE; i++) {
-                    for (int j = 0; j < boardHeight / RECT_SIZE; j++) {
-                        if (Ultility.checkValidPoint(boardColor, i * RECT_SIZE + 1, j * RECT_SIZE + 1)) {
-                            Color c = new Color(myFile.getRGB(i * RECT_SIZE + 1, j * RECT_SIZE + 1), true);
+                for (int i = 0; i < boardWidth; i++) {
+                    for (int j = 0; j < boardHeight; j++) {
+                        if (Ultility.checkValidPoint(boardColor, i,j)) {
+                            Color c = new Color(myFile.getRGB(i*RECT_SIZE ,j*RECT_SIZE ), true);
 
                             boardColor[j][i] = c;
                         }
                     }
                 }
+              
+                
 
                 String filenameSavedCoor = inputFileName.substring(0, inputFileName.length() - 4) + ".dat";
 

@@ -21,7 +21,7 @@ import model.shape2d.animation.Volcano;
 
 public class AnimationFrame extends javax.swing.JFrame {
 
-    public static final int TIME_DELAY = 300;
+    public static final int TIME_DELAY = 75;
 
     private Timer timer;
 
@@ -172,6 +172,10 @@ public class AnimationFrame extends javax.swing.JFrame {
             resetSavedPropertyArray();
             resetChangedPropertyArray();
 
+            /* SKY */
+            Ultility.paint(colorOfBoard, markedChangeOfBoard,
+                    skyPaintPoint, SKY_COLOR, true);
+            
             /* VOLCANO */
             volcano.drawVolcano();
 
@@ -184,34 +188,22 @@ public class AnimationFrame extends javax.swing.JFrame {
             /* SUN */
             sun.drawSun();
 
-            mergeColorValue();
-            resetChangedPropertyArray();
+            
+            /* GROUND */
+            ground.drawGround();
 
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
-
+            
             mergeColorValue();
             resetChangedPropertyArray();
-
-            /* GROUND */
-            ground.drawGround();
-
-            mergeColorValue();
-            resetChangedPropertyArray();
-
+            
+            
+            //cây đè lên Ground + Cloud
+            
             /* APPLE TREE */
             tree.drawAppleTree();
-
-            mergeColorValue();
-            resetChangedPropertyArray();
-
-            /* SKY */
-            Ultility.paint(colorOfBoard, markedChangeOfBoard,
-                    skyPaintPoint, SKY_COLOR, true);
-
-            mergeColorValue();
-            resetChangedPropertyArray();
 
             /* RIVER */
             river.drawRiver();

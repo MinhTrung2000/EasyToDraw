@@ -12,7 +12,7 @@ public class Cloud extends Shape2D {
 
     public static final int COULD_WIDTH = 18;
     public static final int SLIP_NUMBER = 10;
-    public static final Color CLOUD_COLOR = Color.WHITE;
+    public static final Color CLOUD_COLOR = new Color (254,254,254);
 
     private int slip = 0;
     private boolean forward = true;
