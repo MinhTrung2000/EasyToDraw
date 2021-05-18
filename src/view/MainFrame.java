@@ -27,16 +27,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JSpinner;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import static control.SettingConstants.*;
 import control.io.FileController;
 import java.awt.AWTException;
 import java.awt.CardLayout;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class MainFrame extends javax.swing.JFrame {
@@ -268,9 +264,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 };
 
-                int i, j;
-                int count = 0;
-
                 getDrawingPanel().resetSavedPropertyArray();
 
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
@@ -465,14 +458,6 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ERASER);
-            }
-        });
-
-        button_Select.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_SELECT);
-
             }
         });
 
@@ -752,7 +737,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_FillColor = new javax.swing.JButton();
         button_ClearAll = new javax.swing.JButton();
         button_Eraser = new javax.swing.JButton();
-        button_Select = new javax.swing.JButton();
         button_Animation = new javax.swing.JButton();
         panel_Color = new javax.swing.JPanel();
         button_ColorSave_1 = new javax.swing.JButton();
@@ -984,17 +968,17 @@ public class MainFrame extends javax.swing.JFrame {
         panel_Format.setLayout(panel_FormatLayout);
         panel_FormatLayout.setHorizontalGroup(
             panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_FormatLayout.createSequentialGroup()
-                .addContainerGap(12, Short.MAX_VALUE)
+            .addGroup(panel_FormatLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(label_StyleLine)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         panel_FormatLayout.setVerticalGroup(
             panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_FormatLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
+                .addContainerGap()
                 .addGroup(panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_StyleLine))
@@ -1019,11 +1003,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_Eraser.setToolTipText("Eraser");
         button_Eraser.setFocusPainted(false);
 
-        button_Select.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/select.png"))); // NOI18N
-        button_Select.setToolTipText("Select");
-        button_Select.setEnabled(false);
-        button_Select.setFocusPainted(false);
-
         button_Animation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/animation.png"))); // NOI18N
         button_Animation.setToolTipText("Animations");
         button_Animation.setFocusPainted(false);
@@ -1040,13 +1019,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panel_ToolLayout.createSequentialGroup()
-                        .addComponent(button_Select)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_Animation))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_ToolLayout.createSequentialGroup()
                         .addComponent(button_FillColor)
-                        .addGap(7, 7, 7)
-                        .addComponent(button_ClearAll)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_ClearAll))
+                    .addComponent(button_Animation))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_ToolLayout.setVerticalGroup(
@@ -1060,7 +1036,6 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(button_Eraser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Select, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(button_Animation, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -1859,7 +1834,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton button_Polygon;
     private javax.swing.JButton button_Redo;
     private javax.swing.JButton button_SaveFile;
-    private javax.swing.JButton button_Select;
     private javax.swing.JButton button_Shape;
     private javax.swing.JButton button_Transform;
     public static javax.swing.JButton button_Undo;

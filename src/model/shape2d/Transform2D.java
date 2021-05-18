@@ -1,6 +1,5 @@
 package model.shape2d;
 
-import control.myawt.MyPoint;
 import control.myawt.SKPoint2D;
 
 public class Transform2D {
