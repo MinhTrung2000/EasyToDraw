@@ -195,6 +195,8 @@ public class DrawingPanel extends JPanel {
                 JOptionPane.showMessageDialog(this.getParent(), "Draw your object before using transformation!");
                 return false;
             }
+        } else if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_CLEAR_ALL) {
+            recentShape = null;
         }
 
         this.selectedToolMode = selectedToolMode;

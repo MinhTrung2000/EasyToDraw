@@ -34,17 +34,17 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-        setPointEnable(false);
-        setLineEnable(false);
+//        setPointEnable(false);
+//        setLineEnable(false);
 
         Object source = evt.getSource();
 
         if (source == rbtnOCenterOption || source == rbtnOXOption || source == rbtnOYOption) {
             btnOK.requestFocus();
-        } else if (source == rbtnPointOption) {
-            setPointEnable(true);
-        } else if (source == rbtnLineOption) {
-            setLineEnable(true);
+//        } else if (source == rbtnPointOption) {
+//            setPointEnable(true);
+//        } else if (source == rbtnLineOption) {
+//            setLineEnable(true);
         } else if (source == btnCancel) {
             dispose();
         } else if (source == btnOK) {
@@ -64,8 +64,8 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
 
         btnGroupOption.setSelected(rbtnOCenterOption.getModel(), true);
 
-        setPointEnable(false);
-        setLineEnable(false);
+//        setPointEnable(false);
+//        setLineEnable(false);
 
         rbtnOCenterOption.addActionListener(this);
         rbtnOXOption.addActionListener(this);
@@ -273,23 +273,23 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
                 .addGap(18, 18, 18)
                 .addComponent(rbtnOYOption)
                 .addGap(18, 18, 18)
-                .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnPointOption)
+                .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(textfPointCoordX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(textfPointCoordY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel1)
-                        .addComponent(jLabel2)))
+                        .addComponent(jLabel2))
+                    .addComponent(rbtnPointOption))
                 .addGap(18, 18, 18)
-                .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtnLineOption)
+                .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(textfLineCoeffA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel4)
                         .addComponent(textfLineCoeffB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)
-                        .addComponent(textfLineCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textfLineCoeffC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rbtnLineOption))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(pnInnerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnOK)

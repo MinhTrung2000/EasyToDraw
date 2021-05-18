@@ -278,8 +278,6 @@ public class MainFrame extends javax.swing.JFrame {
                     String inputFileName = chooser.getSelectedFile().getAbsolutePath();
 
                     FileController.openFile(inputFileName, getDrawingPanel().getColorOfBoard(), getDrawingPanel().getCoordOfBoard());
-
-                    repaint();
                 }
             }
         });
@@ -451,6 +449,7 @@ public class MainFrame extends javax.swing.JFrame {
                 getDrawingPanel().resetChangedPropertyArray();
                 getDrawingPanel().resetSavedPropertyArray();
                 getDrawingPanel().repaint();
+                setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_CLEAR_ALL);
             }
         });
 
