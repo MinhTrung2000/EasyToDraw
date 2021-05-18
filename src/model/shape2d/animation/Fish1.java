@@ -80,8 +80,8 @@ public class Fish1 extends Shape2D {
     public static final int LECH_TREN_1 = 3;
     public static final int LECH_DUOI_1 = 3;
     
-    public static final int MOVE_HOR_PIXEL_NUM = 20;
-    public static final int MOVE_VER_PIXEL_NUM = 1;
+    public static final int MOVE_HOR_PIXEL_NUM = 5;
+    public static final int MOVE_VER_PIXEL_NUM = 2;
 
     public static final Vector2D VECTOR_MOVE_HOR_RIGHT = new Vector2D(MOVE_HOR_PIXEL_NUM, 0);
     public static final Vector2D VECTOR_MOVE_HOR_LEFT = new Vector2D(-MOVE_HOR_PIXEL_NUM, 0);

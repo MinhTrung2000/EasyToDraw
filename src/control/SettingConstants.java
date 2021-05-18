@@ -207,10 +207,7 @@ public interface SettingConstants {
 
     public static final int COORD_X_O = (int) (WIDTH_DRAW_AREA / 2) - 1;
     public static final int COORD_Y_O = (int) (HEIGHT_DRAW_AREA / 2) - 1;
-<<<<<<< HEAD
 
-=======
->>>>>>> 0a4aa6fab1635c8e32ab3371e7ac8e5d92b0ed11
 
     public static final boolean DEFAULT_VISUAL_SHOW_GRID = true;
     public static final boolean DEFAULT_VISUAL_SHOW_COORDINATE = true;

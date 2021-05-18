@@ -49,7 +49,7 @@ public class Fish2 extends Shape2D {
     public static final int[] FISH_MOUTH_ADJUSTMENT_PIXEL_2 = {1, 2};
     public static final int[] FISH_MOUTH_ADJUSTMENT_PIXEL_3 = {0, 3};
 
-    public static int MOVE_HOR_PIXEL_NUM = 10;
+    public static int MOVE_HOR_PIXEL_NUM = 3;
 
     public static Vector2D VECTOR_MOVE_HOR_RIGHT = new Vector2D(MOVE_HOR_PIXEL_NUM, 0);
     public static Vector2D VECTOR_MOVE_HOR_LEFT = new Vector2D(-MOVE_HOR_PIXEL_NUM, 0);
