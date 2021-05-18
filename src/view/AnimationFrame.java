@@ -21,7 +21,7 @@ import model.shape2d.animation.Volcano;
 
 public class AnimationFrame extends javax.swing.JFrame {
 
-    public static final int TIME_DELAY = 100;
+    public static final int TIME_DELAY = 75;
 
     private Timer timer;
 

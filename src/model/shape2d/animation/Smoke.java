@@ -148,7 +148,7 @@ public class Smoke extends Shape2D {
         if (levelScale >= 1.3) {
             levelScale = LEVEL_SCALE_START;
         } else {
-            levelScale += 0.08;
+            levelScale += 0.04;
         }
 
     }
