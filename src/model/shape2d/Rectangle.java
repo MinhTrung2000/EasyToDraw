@@ -42,7 +42,6 @@ public class Rectangle extends Shape2D {
                 leftBottomPoint.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);
                 rightTopPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY());
                 rightBottomPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
-
             }
         }
     }
@@ -110,7 +109,7 @@ public class Rectangle extends Shape2D {
     @Override
     public void createSymOCenter() {
         super.createSymOCenter();
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createOCenterSym();
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createOCenterSym();
         SKPoint2D newRightTopPoint = rightTopPoint.createOCenterSym();
@@ -125,7 +124,7 @@ public class Rectangle extends Shape2D {
     @Override
     public void createSymOX() {
         super.createSymOX();
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createOXSym();
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createOXSym();
         SKPoint2D newRightTopPoint = rightTopPoint.createOXSym();
@@ -140,7 +139,7 @@ public class Rectangle extends Shape2D {
     @Override
     public void createSymOY() {
         super.createSymOY();
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createOYSym();
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createOYSym();
         SKPoint2D newRightTopPoint = rightTopPoint.createOYSym();
@@ -155,7 +154,7 @@ public class Rectangle extends Shape2D {
     @Override
     public void createSymPoint(SKPoint2D basePoint) {
         super.createSymPoint(basePoint);
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createPointSym(basePoint);
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createPointSym(basePoint);
         SKPoint2D newRightTopPoint = rightTopPoint.createPointSym(basePoint);
@@ -170,7 +169,7 @@ public class Rectangle extends Shape2D {
     @Override
     public void createSymLine(double a, double b, double c) {
         super.createSymLine(a, b, c);
-        
+
         SKPoint2D newLeftTopPoint = leftTopPoint.createLineSym(a, b, c);
         SKPoint2D newLeftBottomPoint = leftBottomPoint.createLineSym(a, b, c);
         SKPoint2D newRightTopPoint = rightTopPoint.createLineSym(a, b, c);

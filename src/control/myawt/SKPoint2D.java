@@ -410,7 +410,7 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D convertToSystemCoord() {
-        coordX = coordX + SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
+        coordX += SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
         coordY = -coordY + SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE;
         return this;
     }
@@ -421,7 +421,7 @@ public class SKPoint2D {
      * @return
      */
     public SKPoint2D convertToVisualCoord() {
-        coordX = coordX - SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
+        coordX -= SettingConstants.COORD_X_O / SettingConstants.RECT_SIZE;
         coordY = -coordY + SettingConstants.COORD_Y_O / SettingConstants.RECT_SIZE;
         return this;
     }

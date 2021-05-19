@@ -71,4 +71,12 @@ public abstract class Shape3D extends Shape2D {
         }
         return false;
     }
+
+    @Override
+    public void saveCoordinates() {
+        centerPoint3D.saveCoord(changedCoordOfBoard);
+        SKPoint2D centerPointRelative2D = centerPoint3D.get2DRelativePosition();
+        savePoint(centerPointRelative2D);
+    }
+
 }

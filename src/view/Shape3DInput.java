@@ -84,13 +84,13 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
         textfCylinderCenterPointCoordZ.setName("Input z coordinate of center point");
         textfCylinderHigh.setName("Input cylinder high");
         textfCylinderRadius.setName("Input cylinder radius");
-        
+
         textfPyramidCenterPointCoordX.setName("Input x coordinate of center point");
         textfPyramidCenterPointCoordY.setName("Input y coordinate of center point");
         textfPyramidCenterPointCoordZ.setName("Input z coordinate of center point");
         textfPyramidBottomEdge.setName("Input pyramid bottom edge");
         textfPyramidHigh.setName("Input pyramid high");
-        
+
         textfSphereCenterPointCoordX.setName("Input x coordinate of center point");
         textfSphereCenterPointCoordY.setName("Input y coordinate of center point");
         textfSphereCenterPointCoordZ.setName("Input z coordinate of center point");
@@ -152,6 +152,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int high = Ultility.getValidInputComponent(textfRectangularHigh, false, null);
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeRectangular(centerPointX, centerPointY, centerPointZ, width, height, high);
+                ((MainFrame) getParent()).setIconDraw3DShapeButton(SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 return false;
@@ -165,6 +166,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int high = Ultility.getValidInputComponent(textfCylinderHigh, false, null);
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeCylinder(centerPointX, centerPointY, centerPointZ, radius, high);
+                ((MainFrame) getParent()).setIconDraw3DShapeButton(SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_CYLINDER);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 return false;
@@ -179,6 +181,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int high = Ultility.getValidInputComponent(textfPyramidHigh, false, null);
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapePyramid(centerPointX, centerPointY, centerPointZ, edge, high);
+                ((MainFrame) getParent()).setIconDraw3DShapeButton(SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_PYRAMID);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 return false;
@@ -192,6 +195,7 @@ public class Shape3DInput extends javax.swing.JDialog implements ActionListener 
                 int radius = Ultility.getValidInputComponent(textfSphereRadius, false, null);
 
                 ((MainFrame) getParent()).getDrawingPanel().draw3DShapeSphere(centerPointX, centerPointY, centerPointZ, radius);
+                ((MainFrame) getParent()).setIconDraw3DShapeButton(SettingConstants.DrawingToolMode.DRAWING_3DSHAPE_SPHERE);
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
                 return false;

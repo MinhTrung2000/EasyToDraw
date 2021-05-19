@@ -34,17 +34,11 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
 
     @Override
     public void actionPerformed(ActionEvent evt) {
-//        setPointEnable(false);
-//        setLineEnable(false);
 
         Object source = evt.getSource();
 
         if (source == rbtnOCenterOption || source == rbtnOXOption || source == rbtnOYOption) {
             btnOK.requestFocus();
-//        } else if (source == rbtnPointOption) {
-//            setPointEnable(true);
-//        } else if (source == rbtnLineOption) {
-//            setLineEnable(true);
         } else if (source == btnCancel) {
             dispose();
         } else if (source == btnOK) {
@@ -63,9 +57,6 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
         btnGroupOption.add(rbtnLineOption);
 
         btnGroupOption.setSelected(rbtnOCenterOption.getModel(), true);
-
-//        setPointEnable(false);
-//        setLineEnable(false);
 
         rbtnOCenterOption.addActionListener(this);
         rbtnOXOption.addActionListener(this);

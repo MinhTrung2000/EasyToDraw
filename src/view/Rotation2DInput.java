@@ -68,7 +68,6 @@ public class Rotation2DInput extends javax.swing.JDialog implements ActionListen
         Object source = event.getSource();
 
         if (source == btnOK) {
-            acceptCenterPoint.convertToSystemCoord();
             if (!process()) {
                 return;
             }

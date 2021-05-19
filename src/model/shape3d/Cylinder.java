@@ -76,10 +76,6 @@ public class Cylinder extends Shape3D {
     }
 
     @Override
-    public void saveCoordinates() {
-    }
-
-    @Override
     public void applyMove(Vector2D vector) {
     }
 

@@ -184,8 +184,6 @@ public class MainFrame extends javax.swing.JFrame {
         popMenu.add(menuItem);
     }
 
-
-
     private void setDefaultVisualOption() {
         checkBox_showGridlines.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_GRID);
         checkBox_showCoordinate.setSelected(SettingConstants.DEFAULT_VISUAL_SHOW_COORDINATE);
@@ -383,8 +381,6 @@ public class MainFrame extends javax.swing.JFrame {
                 }
             }
         });
-
-        
 
     }
 
@@ -1683,6 +1679,37 @@ public class MainFrame extends javax.swing.JFrame {
             promptTranformInput();
             prompt3DShapeInput();
         }
+    }
+
+    public void setIconDraw3DShapeButton(SettingConstants.DrawingToolMode shape3DMode) {
+        switch (shape3DMode) {
+            case DRAWING_3DSHAPE_RECTANGULAR: {
+                setSelectedToolMode(DrawingToolMode.DRAWING_3DSHAPE_RECTANGULAR);
+                button_3DShape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/3DShape_Rectangular.png")));
+                break;
+            }
+            case DRAWING_3DSHAPE_CYLINDER: {
+                setSelectedToolMode(DrawingToolMode.DRAWING_3DSHAPE_CYLINDER);
+                button_3DShape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/3DShape_Cylinder.png")));
+                break;
+            }
+            case DRAWING_3DSHAPE_PYRAMID: {
+                setSelectedToolMode(DrawingToolMode.DRAWING_3DSHAPE_PYRAMID);
+                button_3DShape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/3DShape_Pyramid.png")));
+                break;
+            }
+            case DRAWING_3DSHAPE_SPHERE: {
+                setSelectedToolMode(DrawingToolMode.DRAWING_3DSHAPE_SPHERE);
+                button_3DShape.setIcon(new ImageIcon(getClass()
+                        .getResource("/img/3DShape_Sphere.png")));
+                break;
+            }
+        }
+
+        System.out.println("I set mode: " + getDrawingPanel().getSelectedToolMode());
     }
 
     public void promptTranformInput() {

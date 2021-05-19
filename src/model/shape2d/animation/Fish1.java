@@ -14,7 +14,6 @@ import model.shape2d.Vector2D;
 
 public class Fish1 extends Shape2D {
 
-//    private int widthDirection = 1;
     private int widthDirection = -1;
 
     /**
@@ -79,7 +78,7 @@ public class Fish1 extends Shape2D {
      */
     public static final int LECH_TREN_1 = 3;
     public static final int LECH_DUOI_1 = 3;
-    
+
     public static final int MOVE_HOR_PIXEL_NUM = 4;
     public static final int MOVE_VER_PIXEL_NUM = 2;
 
@@ -146,9 +145,6 @@ public class Fish1 extends Shape2D {
     private boolean animatePeriod3 = false;
     private boolean animatePeriod4 = false;
     private boolean animatePeriod5 = false;
-    
-    
-    
 
     public Fish1(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
@@ -168,7 +164,7 @@ public class Fish1 extends Shape2D {
 
         // start point is used for anchoring shape
         pointSet2D.add(this.startPoint2D);
-        
+
         pointSet2D.add(this.centerPoint2D);
 
         pointSet2D.add(thanCaCenterPoint);
@@ -226,7 +222,7 @@ public class Fish1 extends Shape2D {
 
         //điểm bắt đầu là góc dưới, bên trái hình bình hành
         vayTrenStartPoint.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X *2 +2),
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 2),
                 -RADIUS_BODY_F1_Y);
         //góc trên bên trái
         vayTrenPoint2.setLocation(vayTrenStartPoint, LECH_TREN_1 * widthDirection,
@@ -243,7 +239,7 @@ public class Fish1 extends Shape2D {
 
         //góc trên bên trái
         vayDuoiStartPoint.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X * 2 +2),
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 2),
                 RADIUS_BODY_F1_Y);
 
         vayDuoiPoint2.setLocation(vayDuoiStartPoint, LECH_DUOI_1 * widthDirection,
@@ -256,27 +252,27 @@ public class Fish1 extends Shape2D {
         //góc trên bên phải
         vayDuoiEndPoint.setLocation(vayDuoiStartPoint,
                 widthDirection * (BOTTOM_FIN_WIDTH_1 - LECH_DUOI_1), 0);
-       
+
         skinShapeStartPoint.setLocation(this.startPoint2D,
-               widthDirection * (RADIUS_HEAD_F1_X *2 +3), 0);
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 3), 0);
 
         // Set các điểm để paint
         headPosToPaint.setLocation(this.startPoint2D, 1 * widthDirection, 0);
 
         bodyPosToPaint1.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X +2), -RADIUS_HEAD_F1_Y);
-        
+                widthDirection * (RADIUS_HEAD_F1_X + 2), -RADIUS_HEAD_F1_Y);
+
         bodyPosToPaint2.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X +2), RADIUS_HEAD_F1_Y);
+                widthDirection * (RADIUS_HEAD_F1_X + 2), RADIUS_HEAD_F1_Y);
 
         topFinPosToPaint.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X *2 +5),
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 5),
                 -RADIUS_BODY_F1_Y - 1);
-        
+
         botFinPosToPaint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_HEAD_F1_X * 2 + 5),
                 RADIUS_BODY_F1_Y + 1);
-        
+
         tailPosToPaint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_BODY_F1_X * 2 + 1), -1);
 
@@ -413,7 +409,7 @@ public class Fish1 extends Shape2D {
 
         if (animatePeriod1) {
             move(VECTOR_MOVE_HOR_RIGHT);
-            
+
             if (this.startPoint2D.getCoordX() >= (widthLimit * 3 / 4)) {
                 reflectSelf();
                 animatePeriod1 = false;
@@ -490,26 +486,28 @@ public class Fish1 extends Shape2D {
 
         this.widthDirection = -this.widthDirection;
     }
-    private void movePaintPosToTailDirection(){
-        headPosToPaint.setLocation(this.startPoint2D, (1 +RADIUS_HEAD_F1_X*2 - 2)  * widthDirection, 0);
+
+    private void movePaintPosToTailDirection() {
+        headPosToPaint.setLocation(this.startPoint2D, (1 + RADIUS_HEAD_F1_X * 2 - 2) * widthDirection, 0);
 
         bodyPosToPaint1.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_BODY_F1_X * 2 -1), 0);
-        
+                widthDirection * (RADIUS_BODY_F1_X * 2 - 1), 0);
+
         bodyPosToPaint2.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_BODY_F1_X * 2 -1), 0);
+                widthDirection * (RADIUS_BODY_F1_X * 2 - 1), 0);
 
         topFinPosToPaint.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X * 2 + 5 +1),
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 5 + 1),
                 -RADIUS_BODY_F1_Y - 1);
 
         botFinPosToPaint.setLocation(this.startPoint2D,
-                widthDirection * (RADIUS_HEAD_F1_X * 2 + 5 +4),
+                widthDirection * (RADIUS_HEAD_F1_X * 2 + 5 + 4),
                 RADIUS_BODY_F1_Y + 1);
 
         tailPosToPaint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_BODY_F1_X * 2 + TAIL_WIDTH_1 + 2), -1);
     }
+
     @Override
     public void drawOutline() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

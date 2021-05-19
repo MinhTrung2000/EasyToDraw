@@ -69,6 +69,7 @@ public class Pyramid extends Shape3D {
 
     @Override
     public void saveCoordinates() {
+        super.saveCoordinates();
         pointTop.saveCoord(changedCoordOfBoard);
         pointA.saveCoord(changedCoordOfBoard);
         pointB.saveCoord(changedCoordOfBoard);
