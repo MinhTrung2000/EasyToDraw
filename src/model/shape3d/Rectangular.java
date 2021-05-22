@@ -74,6 +74,7 @@ public class Rectangular extends Shape3D {
 
     @Override
     public void saveCoordinates() {
+        super.saveCoordinates();
         pointA.saveCoord(changedCoordOfBoard);
         pointB.saveCoord(changedCoordOfBoard);
         pointC.saveCoord(changedCoordOfBoard);

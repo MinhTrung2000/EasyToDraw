@@ -70,9 +70,7 @@ public class Sphere extends Shape3D {
 
     @Override
     public void saveCoordinates() {
-        centerPoint3D.saveCoord(changedCoordOfBoard);
-        SKPoint2D centerPointRelative2D = centerPoint3D.get2DRelativePosition();
-        savePoint(centerPointRelative2D);
+        super.saveCoordinates();
     }
 
     @Override

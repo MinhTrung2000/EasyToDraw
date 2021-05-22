@@ -159,8 +159,8 @@ public class AnimationFrame extends javax.swing.JFrame {
                         graphic.setColor(colorOfBoard[i][j]);
                     }
 
-                    graphic.fillRect(j * SettingConstants.RECT_SIZE + 1,
-                            i * SettingConstants.RECT_SIZE + 1,
+                    graphic.fillRect(j * SettingConstants.RECT_SIZE+1,
+                            i * SettingConstants.RECT_SIZE+1,
                             SettingConstants.SIZE,
                             SettingConstants.SIZE
                     );

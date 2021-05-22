@@ -118,7 +118,6 @@ public class DrawingPanel extends JPanel {
     /**
      * User customized line size.
      */
-
     private SKPoint2D Polygon_previousPoint = new SKPoint2D();
     private SKPoint2D Polygon_firstPoint = new SKPoint2D();
 
@@ -195,6 +194,8 @@ public class DrawingPanel extends JPanel {
                 JOptionPane.showMessageDialog(this.getParent(), "Draw your object before using transformation!");
                 return false;
             }
+        } else if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_CLEAR_ALL) {
+            recentShape = null;
         }
 
         this.selectedToolMode = selectedToolMode;
@@ -209,7 +210,6 @@ public class DrawingPanel extends JPanel {
     public SettingConstants.DrawingToolMode getSelectedToolMode() {
         return this.selectedToolMode;
     }
-
 
     /**
      * Set selected line style.
@@ -773,6 +773,10 @@ public class DrawingPanel extends JPanel {
                 return;
             }
 
+            if (coordinateMode == SettingConstants.CoordinateMode.MODE_3D) {
+                return;
+            }
+
             startDrawingPoint.setLocation(event.getX() / SettingConstants.RECT_SIZE,
                     event.getY() / SettingConstants.RECT_SIZE);
 
@@ -802,25 +806,25 @@ public class DrawingPanel extends JPanel {
                     if (checkStartingPointAvailable()) {
                         Segment2D segment = new Segment2D(markedChangeOfBoard,
                                 changedColorOfBoard, changedCoordOfBoard, selectedColor);
-                        
+
                         if (Polygon_previousPoint == null) {
                             Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
                             Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
 
                             markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                             changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
-                            
+
                             startDrawingPoint.saveCoord(changedCoordOfBoard);
-                            
+
                             repaint();
                             return;
                         }
-                        
+
                         int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
                         int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
-                        
+
                         SKPoint2D neibourhoodPoint = new SKPoint2D();
-                        
+
                         boolean end = false;
 
                         for (int i = 0; i < 8; i++) {
@@ -833,7 +837,7 @@ public class DrawingPanel extends JPanel {
                                 break;
                             }
                         }
-                        
+
                         //chạy khi click vào điểm start mới
                         if (end == true || Polygon_previousPoint.equal(Polygon_firstPoint)) {
                             if (firstTimePolygon == true) {
@@ -862,11 +866,11 @@ public class DrawingPanel extends JPanel {
                         segment.drawOutline();
 
                         end = false;
-                        
+
                         if (startDrawingPoint.equal(Polygon_firstPoint)) {
                             end = true;
                         }
-                        
+
                         if (!end) {
                             for (int i = 0; i < 8; i++) {
                                 neibourhoodPoint.setLocation(startDrawingPoint.getCoordX() + D_X[i], startDrawingPoint.getCoordY() + D_Y[i]);
@@ -886,9 +890,9 @@ public class DrawingPanel extends JPanel {
 
                         markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
                         changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
-                        
+
                         Polygon_firstPoint.saveCoord(changedCoordOfBoard);
-                        
+
                         repaint();
                         recentShape = null;
                     }
@@ -971,6 +975,10 @@ public class DrawingPanel extends JPanel {
                 return;
             }
 
+            if (coordinateMode == SettingConstants.CoordinateMode.MODE_3D) {
+                return;
+            }
+            
             endDrawingPoint.setLocation(event.getX() / SettingConstants.RECT_SIZE,
                     event.getY() / SettingConstants.RECT_SIZE);
 
