@@ -22,17 +22,17 @@ public abstract class Shape2D {
     /**
      * This references to the marked coordinates of drawing board.
      */
-    protected static boolean[][] markedChangeOfBoard;
+    protected  boolean[][] markedChangeOfBoard;
 
     /**
      * This references to the color value of points of drawing board.
      */
-    protected static Color[][] changedColorOfBoard;
+    protected  Color[][] changedColorOfBoard;
 
     /**
      * This references to the coordinate property of points of drawing board.
      */
-    protected static String[][] changedCoordOfBoard;
+    protected  String[][] changedCoordOfBoard;
 
     /**
      * The total angle of this shape after rotation.
