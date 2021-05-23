@@ -973,7 +973,7 @@ public class MainFrame extends javax.swing.JFrame {
         panel_FormatLayout.setVerticalGroup(
             panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_FormatLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(47, 47, 47)
                 .addGroup(panel_FormatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(comboBox_StyleLine, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label_StyleLine))
@@ -1008,16 +1008,18 @@ public class MainFrame extends javax.swing.JFrame {
             panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel_ToolLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(button_ColorPicker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(button_Eraser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(panel_ToolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(panel_ToolLayout.createSequentialGroup()
+                        .addComponent(button_ColorPicker)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_FillColor)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_ClearAll))
-                    .addComponent(button_Animation))
+                    .addGroup(panel_ToolLayout.createSequentialGroup()
+                        .addComponent(button_Eraser)
+                        .addGap(18, 18, 18)
+                        .addComponent(button_Animation)
+                        .addGap(26, 26, 26)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panel_ToolLayout.setVerticalGroup(
@@ -1041,6 +1043,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_1.setToolTipText("Recent color");
         button_ColorSave_1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_1.setContentAreaFilled(false);
+        button_ColorSave_1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_1.setFocusable(false);
         button_ColorSave_1.setOpaque(true);
 
@@ -1048,6 +1051,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_2.setToolTipText("Recent color");
         button_ColorSave_2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_2.setContentAreaFilled(false);
+        button_ColorSave_2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_2.setFocusable(false);
         button_ColorSave_2.setOpaque(true);
 
@@ -1055,6 +1059,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_3.setToolTipText("Recent color");
         button_ColorSave_3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_3.setContentAreaFilled(false);
+        button_ColorSave_3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_3.setFocusable(false);
         button_ColorSave_3.setOpaque(true);
 
@@ -1062,6 +1067,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_4.setToolTipText("Recent color");
         button_ColorSave_4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_4.setContentAreaFilled(false);
+        button_ColorSave_4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_4.setFocusable(false);
         button_ColorSave_4.setOpaque(true);
 
@@ -1069,6 +1075,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_5.setToolTipText("Recent color");
         button_ColorSave_5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_5.setContentAreaFilled(false);
+        button_ColorSave_5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_5.setFocusable(false);
         button_ColorSave_5.setOpaque(true);
 
@@ -1076,6 +1083,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_6.setToolTipText("Recent color");
         button_ColorSave_6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_6.setContentAreaFilled(false);
+        button_ColorSave_6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_6.setFocusable(false);
         button_ColorSave_6.setOpaque(true);
 
@@ -1083,6 +1091,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_7.setToolTipText("Recent color");
         button_ColorSave_7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_7.setContentAreaFilled(false);
+        button_ColorSave_7.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_7.setFocusable(false);
         button_ColorSave_7.setOpaque(true);
 
@@ -1090,6 +1099,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_ColorSave_8.setToolTipText("Recent color");
         button_ColorSave_8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         button_ColorSave_8.setContentAreaFilled(false);
+        button_ColorSave_8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         button_ColorSave_8.setFocusable(false);
         button_ColorSave_8.setOpaque(true);
 
