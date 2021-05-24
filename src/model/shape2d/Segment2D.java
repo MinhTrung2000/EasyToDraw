@@ -34,16 +34,20 @@ public class Segment2D extends Shape2D {
             int heightDirection = this.getDirectionHeight(height);
             int widthDirection = this.getDirectionWidth(width);
             int preferedLength = this.getPreferredLength(width, height);
-
+            int remainingLength;
+            
+            if (preferedLength == widthValue) remainingLength = heightValue;
+            else remainingLength = widthValue;
+            
             this.startPoint2D = startPoint;
 
             double ratio = (double) widthValue / (double) heightValue;
-            if (ratio <= 0.3) {
-                this.endPoint2D.setLocation(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY() + heightDirection * preferedLength);
-            } else if (ratio > 0.3 && ratio <= 1.5) {
+            if (ratio <= 0.3) {//dọc
+                this.endPoint2D.setLocation(this.startPoint2D.getCoordX(), this.startPoint2D.getCoordY() + heightDirection * remainingLength);
+            } else if (ratio > 0.3 && ratio <= 1.5) {//chéo
                 this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY() + heightDirection * preferedLength);
-            } else {
-                this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY());
+            } else {//ngang
+                this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * remainingLength, this.startPoint2D.getCoordY());
             }
 
         }

@@ -34,10 +34,15 @@ public class Line2D extends Segment2D {
 
     @Override
     public void setProperty(SKPoint2D startPoint, SKPoint2D endPoint) {
-
+        //Ax + By + C = 0
+        /* x - x1     y - y1
+           ------  =  ------
+           x2 - x1    y2 - y1
+        */
         coeffA = startPoint.getCoordY() - endPoint.getCoordY();
         coeffB = -(startPoint.getCoordX() - endPoint.getCoordX());
         coeffC = -(coeffA * startPoint.getCoordX() + coeffB * startPoint.getCoordY());
+        //coeffC dùng bộ x, y của start hay end để tìm đều dc
 
         //2 điểm trùng nhau => ko xác định được hướng
         if (startPoint.equal(endPoint)) {
@@ -48,7 +53,9 @@ public class Line2D extends Segment2D {
 
         int widthLimit = (control.SettingConstants.WIDTH_DRAW_AREA / control.SettingConstants.RECT_SIZE) - 1;
         int heightLimit = (control.SettingConstants.HEIGHT_DRAW_AREA / control.SettingConstants.RECT_SIZE) - 1;
-
+        
+        
+        //Tìm điểm giới hạn (x: Top, Bot hoặc y: Left, Right)
         int limitTop = (int) Math.round((-coeffC - coeffB * 0) / coeffA);
         int limitLeft = (int) Math.round((-coeffC - coeffA * 0) / coeffB);
         int limitBot = (int) Math.round((-coeffC - coeffB * (heightLimit)) / coeffA);
@@ -62,38 +69,44 @@ public class Line2D extends Segment2D {
             this.startPoint2D = new SKPoint2D(0, limitLeft);
             this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
         }
-
-        if (limitBot >= 0 && limitBot <= widthLimit) {
-            if (this.startPoint2D == null) {
-                this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
-            } else if (this.endPoint2D == null) {
-                this.endPoint2D = new SKPoint2D(limitBot, heightLimit);
-            }
-        }
-
-        if (limitTop >= 0 && limitTop <= widthLimit) {
-            if (this.startPoint2D == null) {
-                this.startPoint2D = new SKPoint2D(limitTop, 0);
-            } else if (this.endPoint2D == null) {
-                this.endPoint2D = new SKPoint2D(limitTop, 0);
-            }
-        }
-
-        if (limitLeft >= 0 && limitLeft <= heightLimit) {
-            if (this.startPoint2D == null) {
-                this.startPoint2D = new SKPoint2D(0, limitLeft);
-            } else if (this.endPoint2D == null) {
-                this.endPoint2D = new SKPoint2D(0, limitLeft);
-            }
-        }
-
-        if (limitRight >= 0 && limitRight <= heightLimit) {
-            if (this.startPoint2D == null) {
-                this.startPoint2D = new SKPoint2D(widthLimit, limitRight);
-            } else if (this.endPoint2D == null) {
-                this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
-            }
-        }
+        //Vào 2 trong 4
+        this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
+        this.endPoint2D = new SKPoint2D(limitTop, 0);
+//        if (limitBot >= 0 && limitBot <= widthLimit) {
+//            System.out.println("limit Bot");
+//            if (this.startPoint2D == null) {
+//                this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
+//            } else if (this.endPoint2D == null) {
+//                this.endPoint2D = new SKPoint2D(limitBot, heightLimit);
+//            }
+//        }
+//
+//        if (limitTop >= 0 && limitTop <= widthLimit) {
+//            System.out.println("limit Top");
+//            if (this.startPoint2D == null) {
+//                this.startPoint2D = new SKPoint2D(limitTop, 0);
+//            } else if (this.endPoint2D == null) {
+//                this.endPoint2D = new SKPoint2D(limitTop, 0);
+//            }
+//        }
+//
+//        if (limitLeft >= 0 && limitLeft <= heightLimit) {
+//            System.out.println("limit left");
+//            if (this.startPoint2D == null) {
+//                this.startPoint2D = new SKPoint2D(0, limitLeft);
+//            } else if (this.endPoint2D == null) {
+//                this.endPoint2D = new SKPoint2D(0, limitLeft);
+//            }
+//        }
+//
+//        if (limitRight >= 0 && limitRight <= heightLimit) {
+//            System.out.println("limit right");
+//            if (this.startPoint2D == null) {
+//                this.startPoint2D = new SKPoint2D(widthLimit, limitRight);
+//            } else if (this.endPoint2D == null) {
+//                this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
+//            }
+//        }
 
     }
 
