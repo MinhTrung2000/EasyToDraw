@@ -389,8 +389,9 @@ public class DrawingPanel extends JPanel {
         redoCoordOfBoardStack.push(tempBoard);
     }
 
-    private void hidePixels(SKPoint2D hidePixelsPos, boolean dragged) {
-        if (!dragged) {
+    private void hidePixels(boolean delete) {
+        SKPoint2D hidePixelsPos = new SKPoint2D();
+        if (!delete) {
             for (int i = -1; i <= 1; i++) {
                 for (int j = -1; j <= 1; j++) {
                     hidePixelsPos.setLocation(eraserPos.getCoordX() + i, eraserPos.getCoordY() + j);
@@ -478,8 +479,7 @@ public class DrawingPanel extends JPanel {
         // Save the changed coordinate into board.
         mergeCoordValue(changedCoordOfBoard, coordOfBoard);
 
-        // Reset marked change array.
-        // resetChangedPropertyArray();
+       
     }
 
     private boolean isNotSelected() {
@@ -610,7 +610,7 @@ public class DrawingPanel extends JPanel {
         }
 
         if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
-            graphic.setColor(Color.BLACK);
+            graphic.setColor(Color.BLACK);//-1 để dịch ra ngoài lưới pixel!
             graphic.drawRect((int) (eraserPos.getCoordX() - 1) * SettingConstants.RECT_SIZE, (int) (eraserPos.getCoordY() - 1) * SettingConstants.RECT_SIZE,
                     SettingConstants.RECT_SIZE * 3, SettingConstants.RECT_SIZE * 3);
         }
@@ -868,10 +868,10 @@ public class DrawingPanel extends JPanel {
                 case TOOL_ERASER: {
                     //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
                     if (checkStartingPointAvailable()) {
-                        SKPoint2D hidePixelsPos = new SKPoint2D();
+                        
                         eraserPos.setLocation(event.getX() / SettingConstants.RECT_SIZE,
                                 event.getY() / SettingConstants.RECT_SIZE);
-                        hidePixels(hidePixelsPos, true);
+                        hidePixels(true);
                     }
                     repaint();
                     recentShape = null;
@@ -1110,11 +1110,10 @@ public class DrawingPanel extends JPanel {
                 }
                 case TOOL_ERASER: {
                     //Không resetChangedProperty vì đây là đè, cố ý muốn xóa
-                    if (checkStartingPointAvailable()) {
-                        SKPoint2D hidePixelsPos = new SKPoint2D();
+                    if (checkStartingPointAvailable()) {                     
                         eraserPos.setLocation(event.getX() / SettingConstants.RECT_SIZE,
                                 event.getY() / SettingConstants.RECT_SIZE);
-                        hidePixels(hidePixelsPos, true);
+                        hidePixels(true);
                     }
                     repaint();
                 }
@@ -1129,10 +1128,9 @@ public class DrawingPanel extends JPanel {
             if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_ERASER) {
                 // để nó hiện lại những chỗ đã đi qua
                 resetChangedPropertyArray();
-                SKPoint2D hidePixelsPos = new SKPoint2D();
                 eraserPos.setLocation(e.getX() / SettingConstants.RECT_SIZE,
                         e.getY() / SettingConstants.RECT_SIZE);
-                hidePixels(hidePixelsPos, false);
+                hidePixels(false);
 
                 repaint();
 
