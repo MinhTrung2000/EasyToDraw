@@ -18,6 +18,9 @@ public class Cylinder extends Shape3D {
     private double radius = 0.0;
     private double high = 0.0;
     
+    private SKPoint3D topCenter;
+    private SKPoint3D botCenter;
+    
     public Cylinder(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
@@ -38,30 +41,24 @@ public class Cylinder extends Shape3D {
 
         mergePointSetCircle(circlePointList, centerPoint3D, this.radius, true, true, 
                 true, true, true, true, true, true);
-
+        
+        
         double half_high = this.high / 2;
 
         pointSet3D.clear();
         
-        
-        int pixelCounter = 0;
         for (int i = 0; i < circlePointList.size(); i++) {
             SKPoint2D p2d = circlePointList.get(i);
             pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
-                    this.centerPoint3D.getCoordZ() + half_high));
-            
-            
-            
-            if(p2d.getCoordY() - 5 < this.centerPoint3D.getCoordY()){
-                if(pixelCounter %2 !=0){
-                    pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
-                    this.centerPoint3D.getCoordZ() - half_high)); 
-                }
-                pixelCounter++;
-            }else{
-               pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
-                    this.centerPoint3D.getCoordZ() - half_high)); 
-            }
+                    this.centerPoint3D.getCoordZ() + half_high));          
+        }
+        circlePointList.clear();
+        merPointSetCircleS(circlePointList, centerPoint3D, this.radius);
+        
+        for (int i = 0; i < circlePointList.size(); i++) {
+            SKPoint2D p2d = circlePointList.get(i);
+            pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
+                    this.centerPoint3D.getCoordZ() - half_high));          
         }
 
         pointSet2D.clear();
@@ -69,6 +66,16 @@ public class Cylinder extends Shape3D {
         for (int i = 0; i < pointSet3D.size(); i++) {
             pointSet2D.add(pointSet3D.get(i).get2DRelativePosition());
         }
+        
+        topCenter = new SKPoint3D(centerPoint3D.getCoordX(),centerPoint3D.getCoordY(), 
+                centerPoint3D.getCoordZ()- this.high/2);
+        botCenter = new SKPoint3D(centerPoint3D.getCoordX(),centerPoint3D.getCoordY(), 
+                centerPoint3D.getCoordZ()+ this.high/2);
+        
+        
+        pointSet2D.add(topCenter.get2DRelativePosition());
+        pointSet2D.add(botCenter.get2DRelativePosition());
+        
     }
 
     private void customSaveCoord(SKPoint2D pos, SKPoint3D coord, String[][] coordOfBoard){
@@ -106,8 +113,7 @@ public class Cylinder extends Shape3D {
         ,this.centerPoint3D.getCoordZ() - this.high/2 );
         
         customSaveCoord(rightBottomPointToDraw, rightBottomPoint, changedCoordOfBoard);
-        
-        this.filledColor = Color.RED;
+            
         drawSegmentUnSave(leftTopPointToDraw, leftBottomPointToDraw);
         drawSegmentUnSave(rightTopPointToDraw, rightBottomPointToDraw);
         
@@ -117,6 +123,14 @@ public class Cylinder extends Shape3D {
 
     @Override
     public void applyMove(Vector2D vector) {
+    }
+    
+    @Override
+    public void saveCoordinates(){
+        super.saveCoordinates();
+        topCenter.saveCoord(changedCoordOfBoard);
+        botCenter.saveCoord(changedCoordOfBoard);
+        
     }
 
 }

@@ -577,6 +577,28 @@ public abstract class Shape2D {
         }
     }
 
+    public static void merPointSetCircleS(ArrayList<SKPoint2D> array,
+           SKPoint2D centerPoint, double radius){
+           int x = 0;
+        int y = (int) radius;
+        int pixelCounter =0;
+        pixelCounter++;
+        addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
+
+        double p = 5 / 4.0 - radius;
+
+        while (x < y) {
+            if (p < 0) {
+                p += 2 * x + 3;
+            } else {
+                p += 2 * (x - y) + 5;
+                y--;
+            }
+            x++;
+        pixelCounter++;
+        addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
+        }
+    }
     /**
      * Merge point set of ellipse without drawing.
      *
@@ -1053,6 +1075,24 @@ public abstract class Shape2D {
         if (octant5) {
             arr.add(new SKPoint2D(-x + center_x, y + center_y));
         }
+    }
+    
+    public static void addEightSymPoints_Special(ArrayList<SKPoint2D> arr, double x,
+            double y, double center_x, double center_y, int pixelCounter) {
+            arr.add(new SKPoint2D(x + center_x, y + center_y));
+            arr.add(new SKPoint2D(y + center_x, x + center_y));
+            arr.add(new SKPoint2D(-y + center_x, x + center_y));
+            arr.add(new SKPoint2D(-x + center_x, y + center_y));
+        
+        if (pixelCounter %2 !=0) {//phần 1, 2, 7, 8 bị ẩn đi các pixel tạo thành dot style
+            arr.add(new SKPoint2D(y + center_x, -x + center_y));
+            arr.add(new SKPoint2D(x + center_x, -y + center_y));
+            arr.add(new SKPoint2D(-x + center_x, -y + center_y));
+            arr.add(new SKPoint2D(-y + center_x, -x + center_y));
+        }
+        
+            
+        
     }
 
     public void createRotate(SKPoint2D centerPoint, double angle) {
