@@ -56,9 +56,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         private int heightBoard;
 
         private Color[][] colorOfBoard;
-        private String[][] coordOfBoard;
         private Color[][] changedColorOfBoard;
-        private String[][] changedCoordOfBoard;
         private boolean[][] markedChangeOfBoard;
 
         /* Animation objects */
@@ -95,52 +93,50 @@ public class AnimationFrame extends javax.swing.JFrame {
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
             this.colorOfBoard = new Color[heightBoard][widthBoard];
-            this.coordOfBoard = new String[heightBoard][widthBoard];
-            this.changedColorOfBoard = new Color[heightBoard][widthBoard];
-            this.changedCoordOfBoard = new String[heightBoard][widthBoard];
+            this.changedColorOfBoard = new Color[heightBoard][widthBoard];            
             this.markedChangeOfBoard = new boolean[heightBoard][widthBoard];
 
             resetSavedPropertyArray();
             resetChangedPropertyArray();
 
             sun = new Sun(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             sun.setProperty(startPointSun);
 
             cloud1 = new Cloud(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             cloud1.setProperty(startPointCloud1);
 
             cloud2 = new Cloud(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             cloud2.setProperty(startPointCloud2);
 
             volcano = new Volcano(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             volcano.setProperty(startPointVolcano, endPointVolcano);
 
             smoke = new Smoke(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             smoke.setProperty(startPointSmoke, SKY_COLOR);
 
             ground = new Ground(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             ground.setProperty(this.widthBoard, startPointGround);
 
             tree = new AppleTree(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             tree.setProperty(startPointTree);
 
             river = new River(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             river.setProperty(this.widthBoard, startPointRiver);
 
             fish1 = new Fish1(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             fish1.setPropertyFish1(this.widthBoard, startPointFish1);
 
             fish2 = new Fish2(markedChangeOfBoard, changedColorOfBoard,
-                    changedCoordOfBoard, Color.BLACK);
+                    null, Color.BLACK);
             fish2.setPropertyFish2(this.widthBoard, startPointFish2);
         }
 
@@ -240,7 +236,6 @@ public class AnimationFrame extends javax.swing.JFrame {
             for (int i = 0; i < this.heightBoard; i++) {
                 for (int j = 0; j < this.widthBoard; j++) {
                     colorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
-                    coordOfBoard[i][j] = null;
                 }
             }
         }
@@ -250,7 +245,6 @@ public class AnimationFrame extends javax.swing.JFrame {
                 for (int j = 0; j < this.widthBoard; j++) {
                     markedChangeOfBoard[i][j] = false;
                     changedColorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
-                    changedCoordOfBoard[i][j] = null;
                 }
             }
         }
