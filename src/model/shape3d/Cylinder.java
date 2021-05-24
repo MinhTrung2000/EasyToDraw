@@ -3,6 +3,7 @@ package model.shape3d;
 import control.SettingConstants;
 import control.myawt.SKPoint2D;
 import control.myawt.SKPoint3D;
+import control.util.Ultility;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -41,13 +42,26 @@ public class Cylinder extends Shape3D {
         double half_high = this.high / 2;
 
         pointSet3D.clear();
-
+        
+        
+        int pixelCounter = 0;
         for (int i = 0; i < circlePointList.size(); i++) {
             SKPoint2D p2d = circlePointList.get(i);
             pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
                     this.centerPoint3D.getCoordZ() + half_high));
-            pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
-                    this.centerPoint3D.getCoordZ() - half_high));
+            
+            
+            
+            if(p2d.getCoordY() - 5 < this.centerPoint3D.getCoordY()){
+                if(pixelCounter %2 !=0){
+                    pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
+                    this.centerPoint3D.getCoordZ() - half_high)); 
+                }
+                pixelCounter++;
+            }else{
+               pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(), 
+                    this.centerPoint3D.getCoordZ() - half_high)); 
+            }
         }
 
         pointSet2D.clear();
@@ -57,22 +71,48 @@ public class Cylinder extends Shape3D {
         }
     }
 
+    private void customSaveCoord(SKPoint2D pos, SKPoint3D coord, String[][] coordOfBoard){
+         if (Ultility.checkValidPoint(coordOfBoard, pos.getCoordX(), pos.getCoordY())){
+             coordOfBoard[pos.getCoordY()][pos.getCoordX()] = "(" + coord.getCoordX() + ", " + coord.getCoordY() + ", " + coord.getCoordZ() + ")";
+         }
+    }
+    
     @Override
     public void drawOutline() {
         super.drawOutline();
         
-        SKPoint2D leftTopPoint = getLeftTopPoint();
-        SKPoint2D rightTopPoint = getRightTopPoint();
-        SKPoint2D rightBottomPoint = getRightBottomPoint();
-        SKPoint2D leftBottomPoint = getLeftBottomPoint();
+        SKPoint2D leftTopPointToDraw = getLeftTopPoint();
+        SKPoint2D rightTopPointToDraw = getRightTopPoint();
+        SKPoint2D rightBottomPointToDraw = getRightBottomPoint();
+        SKPoint2D leftBottomPointToDraw = getLeftBottomPoint();
         
-        drawSegmentUnSave(leftTopPoint, leftBottomPoint);
-        drawSegmentUnSave(rightTopPoint, rightBottomPoint);
+        SKPoint3D leftTopPoint = new SKPoint3D(this.centerPoint3D.getCoordX() - radius , this.centerPoint3D.getCoordY()
+        ,this.centerPoint3D.getCoordZ() + this.high/2 );
         
-        leftTopPoint.saveCoord(changedCoordOfBoard);
-        rightTopPoint.saveCoord(changedCoordOfBoard);
-        rightBottomPoint.saveCoord(changedCoordOfBoard);
-        leftBottomPoint.saveCoord(changedCoordOfBoard);
+        customSaveCoord(leftTopPointToDraw, leftTopPoint, changedCoordOfBoard);
+        
+        
+        SKPoint3D leftBottomPoint = new SKPoint3D(this.centerPoint3D.getCoordX() - radius , this.centerPoint3D.getCoordY()
+        ,this.centerPoint3D.getCoordZ() - this.high/2 );
+        
+        customSaveCoord(leftBottomPointToDraw, leftBottomPoint, changedCoordOfBoard);
+        
+        SKPoint3D rightTopPoint = new SKPoint3D(this.centerPoint3D.getCoordX() + radius , this.centerPoint3D.getCoordY()
+        ,this.centerPoint3D.getCoordZ() + this.high/2 );
+        
+        customSaveCoord(rightTopPointToDraw, rightTopPoint, changedCoordOfBoard);
+        
+        SKPoint3D rightBottomPoint = new SKPoint3D(this.centerPoint3D.getCoordX() + radius , this.centerPoint3D.getCoordY()
+        ,this.centerPoint3D.getCoordZ() - this.high/2 );
+        
+        customSaveCoord(rightBottomPointToDraw, rightBottomPoint, changedCoordOfBoard);
+        
+        this.filledColor = Color.RED;
+        drawSegmentUnSave(leftTopPointToDraw, leftBottomPointToDraw);
+        drawSegmentUnSave(rightTopPointToDraw, rightBottomPointToDraw);
+        
+        
+        
     }
 
     @Override

@@ -51,9 +51,10 @@ public class SKPoint3D extends SKPoint2D {
      * @return SKPoint2D
      */
     public SKPoint2D get2DRelativePosition() {
+        //cabinet, f = 1/2 => y = y/2
         SKPoint2D ret = new SKPoint2D();
-        int tempX = (int) (this.coordX - Math.round(this.coordY * Math.cos(Math.toRadians(45))));
-        int tempY = (int) (this.coordZ - Math.round(this.coordY * Math.sin(Math.toRadians(45))));
+        int tempX = (int) (this.coordX - Math.round(this.coordY/2 * Math.cos(Math.toRadians(45))));
+        int tempY = (int) (this.coordZ - Math.round(this.coordY/2 * Math.sin(Math.toRadians(45))));
         ret.setLocation(tempX, tempY);
         ret.convertToSystemCoord();
         return ret;
@@ -61,8 +62,8 @@ public class SKPoint3D extends SKPoint2D {
 
     public static SKPoint2D get2DRelativePosition(double x, double y, double z) {
         SKPoint2D ret = new SKPoint2D();
-        int tempX = (int) (x - Math.round(y * COS_DEGREE_45));
-        int tempY = (int) (z - Math.round(y * SIN_DEGREE_45));
+        int tempX = (int) (x - Math.round(y/2 * COS_DEGREE_45));
+        int tempY = (int) (z - Math.round(y/2 * SIN_DEGREE_45));
         ret.setLocation(tempX, tempY);
         ret.convertToSystemCoord();
         return ret;
