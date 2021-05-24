@@ -28,16 +28,16 @@ public class FileController {
         int boardHeight = boardColor.length;
         int boardWidth = boardColor[0].length;
 
-        BufferedImage bufferedImage = new BufferedImage(boardWidth*5, boardHeight*5, BufferedImage.TYPE_INT_RGB);
+        BufferedImage bufferedImage = new BufferedImage(boardWidth*SettingConstants.SIZE, boardHeight*SettingConstants.SIZE, BufferedImage.TYPE_INT_RGB);
 
         for (int i = 0; i < bufferedImage.getWidth(); i++) {
             for (int j = 0; j < bufferedImage.getHeight(); j++) {
-                for (int tempI = 0; tempI <5; tempI++) {
-                    for (int tempJ =0; tempJ <5; tempJ++) {
+                for (int tempI = 0; tempI <SettingConstants.SIZE; tempI++) {
+                    for (int tempJ =0; tempJ <SettingConstants.SIZE; tempJ++) {
                         if (Ultility.checkValidPoint(boardColor, j, i )) {
                             bufferedImage.setRGB(
-                                    j *5 + tempJ,
-                                    i *5 + tempI,
+                                    j *SettingConstants.SIZE + tempJ,
+                                    i *SettingConstants.SIZE + tempI,
                                     boardColor[i][j].getRGB()
                             );
                         }
@@ -88,12 +88,12 @@ public class FileController {
         try {
             BufferedImage myFile = ImageIO.read(new File(inputFileName));
 
-            if (myFile.getHeight() == boardHeight*5 && myFile.getWidth() == boardWidth*5) {
+            if (myFile.getHeight() == boardHeight*SettingConstants.SIZE && myFile.getWidth() == boardWidth*SettingConstants.SIZE) {
 
                 for (int i = 0; i < boardWidth; i++) {
                     for (int j = 0; j < boardHeight; j++) {
                         if (Ultility.checkValidPoint(boardColor, i,j)) {
-                            Color c = new Color(myFile.getRGB(i*5 ,j*5 ), true);
+                            Color c = new Color(myFile.getRGB(i*SettingConstants.SIZE ,j*SettingConstants.SIZE), true);
 
                             boardColor[j][i] = c;
                         }
