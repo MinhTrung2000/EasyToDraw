@@ -70,43 +70,37 @@ public class Line2D extends Segment2D {
             this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
         }
         //Vào 2 trong 4
-        this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
-        this.endPoint2D = new SKPoint2D(limitTop, 0);
-//        if (limitBot >= 0 && limitBot <= widthLimit) {
-//            System.out.println("limit Bot");
-//            if (this.startPoint2D == null) {
-//                this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
-//            } else if (this.endPoint2D == null) {
-//                this.endPoint2D = new SKPoint2D(limitBot, heightLimit);
-//            }
-//        }
-//
-//        if (limitTop >= 0 && limitTop <= widthLimit) {
-//            System.out.println("limit Top");
-//            if (this.startPoint2D == null) {
-//                this.startPoint2D = new SKPoint2D(limitTop, 0);
-//            } else if (this.endPoint2D == null) {
-//                this.endPoint2D = new SKPoint2D(limitTop, 0);
-//            }
-//        }
-//
-//        if (limitLeft >= 0 && limitLeft <= heightLimit) {
-//            System.out.println("limit left");
-//            if (this.startPoint2D == null) {
-//                this.startPoint2D = new SKPoint2D(0, limitLeft);
-//            } else if (this.endPoint2D == null) {
-//                this.endPoint2D = new SKPoint2D(0, limitLeft);
-//            }
-//        }
-//
-//        if (limitRight >= 0 && limitRight <= heightLimit) {
-//            System.out.println("limit right");
-//            if (this.startPoint2D == null) {
-//                this.startPoint2D = new SKPoint2D(widthLimit, limitRight);
-//            } else if (this.endPoint2D == null) {
-//                this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
-//            }
-//        }
+        if (limitBot >= 0 && limitBot <= widthLimit) {
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(limitBot, heightLimit);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(limitBot, heightLimit);
+            }
+        }
+
+        if (limitTop >= 0 && limitTop <= widthLimit) {
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(limitTop, 0);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(limitTop, 0);
+            }
+        }
+
+        if (limitLeft >= 0 && limitLeft <= heightLimit) {
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(0, limitLeft);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(0, limitLeft);
+            }
+        }
+
+        if (limitRight >= 0 && limitRight <= heightLimit) {
+            if (this.startPoint2D == null) {
+                this.startPoint2D = new SKPoint2D(widthLimit, limitRight);
+            } else if (this.endPoint2D == null) {
+                this.endPoint2D = new SKPoint2D(widthLimit, limitRight);
+            }
+        }
 
     }
 

@@ -49,14 +49,14 @@ public class Triangle extends Shape2D {
             this.endPoint2D.setLocation(this.startPoint2D.getCoordX() + widthDirection * preferedLength, this.startPoint2D.getCoordY() + heightDirection * preferedLength);
 
         }
-
+        //cố định đỉnh cao nhất của tam giác là đỉnh A (B, C cùng độ cao)
         double Ay, By, Cy;
-        if (this.endPoint2D.getCoordY() < this.startPoint2D.getCoordY()) {
+        if (this.endPoint2D.getCoordY() < this.startPoint2D.getCoordY()) {//kéo lên
             Ay = this.endPoint2D.getCoordY();
             By = this.startPoint2D.getCoordY();
             Cy = this.startPoint2D.getCoordY();
         } else {
-            Ay = this.startPoint2D.getCoordY();
+            Ay = this.startPoint2D.getCoordY();//kéo xuống
             By = this.endPoint2D.getCoordY();
             Cy = this.endPoint2D.getCoordY();
         }

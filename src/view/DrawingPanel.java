@@ -118,10 +118,10 @@ public class DrawingPanel extends JPanel {
     /**
      * User customized line size.
      */
-    private SKPoint2D Polygon_previousPoint = new SKPoint2D();
-    private SKPoint2D Polygon_firstPoint = new SKPoint2D();
+    private SKPoint2D Polygon_previousPoint = null;
+    private SKPoint2D Polygon_firstPoint = null;
 
-    private boolean firstTimePolygon = true;
+    
 
     private SKPoint2D eraserPos = new SKPoint2D();
 
@@ -196,6 +196,9 @@ public class DrawingPanel extends JPanel {
             }
         } else if (selectedToolMode == SettingConstants.DrawingToolMode.TOOL_CLEAR_ALL) {
             recentShape = null;
+        }else if (selectedToolMode != SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE){
+            Polygon_firstPoint = null;
+            Polygon_previousPoint = null;
         }
 
         this.selectedToolMode = selectedToolMode;
@@ -279,11 +282,6 @@ public class DrawingPanel extends JPanel {
                 changedColorOfBoard[i][j] = SettingConstants.DEFAULT_PIXEL_COLOR;
                 changedCoordOfBoard[i][j] = null;
             }
-        }
-        if (getSelectedToolMode() != SettingConstants.DrawingToolMode.DRAWING_POLYGON_FREE) {
-            firstTimePolygon = true;
-            Polygon_firstPoint = null;
-            Polygon_previousPoint = null;
         }
     }
 
@@ -804,97 +802,66 @@ public class DrawingPanel extends JPanel {
                 }
                 case DRAWING_POLYGON_FREE: {
                     if (checkStartingPointAvailable()) {
-                        Segment2D segment = new Segment2D(markedChangeOfBoard,
-                                changedColorOfBoard, changedCoordOfBoard, selectedColor);
-
+                        
+                        //nếu như đây là 1 chu trình polygon mới
                         if (Polygon_previousPoint == null) {
                             Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
-                            Polygon_firstPoint = new SKPoint2D(Polygon_previousPoint);
+                            Polygon_firstPoint = new SKPoint2D(startDrawingPoint);
 
                             markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
-                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
+                            changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = Color.RED;
 
-                            startDrawingPoint.saveCoord(changedCoordOfBoard);
+                            Polygon_firstPoint.saveCoord(changedCoordOfBoard);
 
                             repaint();
                             return;
                         }
+                        
+                        //không phải chu trình mới thì vẽ đoạn thẳng
+                        Segment2D segment = new Segment2D(markedChangeOfBoard,
+                                changedColorOfBoard, changedCoordOfBoard, selectedColor);
+                        segment.setProperty(Polygon_previousPoint, startDrawingPoint,
+                                Segment2D.Modal.STRAIGHT_LINE);
 
+                        segment.setLineStyle(selectedLineStyle);
+                        segment.drawOutline();
+                        
+                        
+                        //vẽ lại chấm đỏ phòng trường hợp bị đè mất
+                        markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
+                        changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = Color.RED;
+                        
+                        //kiểm tra xem đây có phải đoạn thẳng kết thúc chu trình
+                        boolean end = false;
                         int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
                         int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
-
+                        
+                        if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
+                        
+                        //điểm lân cận 1 pixel cũng tính là first point
                         SKPoint2D neibourhoodPoint = new SKPoint2D();
-
-                        boolean end = false;
-
                         for (int i = 0; i < 8; i++) {
                             neibourhoodPoint.setLocation(
-                                    Polygon_previousPoint.getCoordX() + D_X[i],
-                                    Polygon_previousPoint.getCoordY() + D_Y[i]
+                                    startDrawingPoint.getCoordX() + D_X[i],
+                                    startDrawingPoint.getCoordY() + D_Y[i]
                             );
                             if (neibourhoodPoint.equal(Polygon_firstPoint)) {
                                 end = true;
                                 break;
                             }
                         }
-
-                        //chạy khi click vào điểm start mới
-                        if (end == true || Polygon_previousPoint.equal(Polygon_firstPoint)) {
-                            if (firstTimePolygon == true) {
-                                firstTimePolygon = false;
-
-                            } else {
-                                Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
-                                Polygon_firstPoint.setLocation(Polygon_previousPoint);
-                                firstTimePolygon = true;
-
-                                markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
-                                changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
-
-                                startDrawingPoint.saveCoord(changedCoordOfBoard);
-
-                                repaint();
-                                return;
-                            }
-
-                        }
-
-                        segment.setProperty(Polygon_previousPoint, startDrawingPoint,
-                                Segment2D.Modal.STRAIGHT_LINE);
-
-                        segment.setLineStyle(selectedLineStyle);
-                        segment.drawOutline();
-
-                        end = false;
-
-                        if (startDrawingPoint.equal(Polygon_firstPoint)) {
-                            end = true;
-                        }
-
-                        if (!end) {
-                            for (int i = 0; i < 8; i++) {
-                                neibourhoodPoint.setLocation(startDrawingPoint.getCoordX() + D_X[i], startDrawingPoint.getCoordY() + D_Y[i]);
-                                if (neibourhoodPoint.equal(Polygon_firstPoint)) {
-                                    end = true;
-                                    break;
-                                }
-                            }
-                        }
-
-                        if (!end) {
+                        
+                     
+                        if(end == false) {
                             segment.saveCoordinates();
+                            Polygon_previousPoint.setLocation(startDrawingPoint);
                         }
-
-                        recentShape = segment;
-                        Polygon_previousPoint.setLocation(startDrawingPoint);
-
-                        markedChangeOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = true;
-                        changedColorOfBoard[Polygon_firstPoint.getCoordY()][Polygon_firstPoint.getCoordX()] = new Color(255, 0, 0);
-
-                        Polygon_firstPoint.saveCoord(changedCoordOfBoard);
-
-                        repaint();
-                        recentShape = null;
+                        else{
+                            Polygon_previousPoint = null;
+                            Polygon_firstPoint = null;
+                        }
+                        
+                        
                     }
                     break;
                 }

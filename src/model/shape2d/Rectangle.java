@@ -37,12 +37,12 @@ public class Rectangle extends Shape2D {
             int widthDirection = this.getDirectionWidth(width);
             int heightDirection = this.getDirectionHeight(height);
             int preferedLength = this.getPreferredLength(width, height);
-            if (preferedLength > 0) {
-                leftTopPoint.setLocation(startPoint);
-                leftBottomPoint.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);
-                rightTopPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY());
-                rightBottomPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
-            }
+            //chỉ còn đơn thuần là 4 điểm để lưu, ko còn theo tên (vẫn đúng với 2 direction = 1)
+            leftTopPoint.setLocation(startPoint);
+            leftBottomPoint.setLocation(startPoint.getCoordX(), startPoint.getCoordY() + heightDirection * preferedLength);
+            rightTopPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY());
+            rightBottomPoint.setLocation(startPoint.getCoordX() + widthDirection * preferedLength, startPoint.getCoordY() + heightDirection * preferedLength);
+            
         }
     }
 
