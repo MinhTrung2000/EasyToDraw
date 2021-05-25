@@ -10,13 +10,14 @@ import model.shape2d.Vector2D;
 
 public class River extends Shape2D {
 
-    public static final int[] ROUGH_NUMBER_ARRAY_1 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2};
-    public static final int[] ROUGH_NUMBER_ARRAY_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 2};
+    public static final int[] ROUGH_NUMBER_ARRAY_1 = {1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 2, 1, 2, 1, 2, 2, 2, 1, 1, 2, 2, 1, 2, 2, 2, 1, 2, 2, 2, 1, 1, 1, 1, 2, 2, 1, 2, 2, 1, 1, 2, 1, 1, 2, 1, 1, 1, 1, 2, 1, 2, 2, 2, 1, 1, 1, 1, 1, 2, 1, 2, 2, 1, 2, 2, 1, 1, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2};
+    public static final int[] ROUGH_NUMBER_ARRAY_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2};
 
     public static final int HEIGHT_1 = 22;
-    public static final int HEIGHT_2 = HEIGHT_1 + 45;
+    public static final int HEIGHT_2 = HEIGHT_1 + 42;
 
     public static final Color SURFACE_COLOR = new Color(151, 251, 251);
+ //   public static final Color SURFACE_COLOR = new Color(0, 0, 0);
     public static final Color BOTTOM_COLOR = new Color(120, 250, 250);
 
     public static final Color COLOR_1 = new Color(101, 202, 225);
@@ -33,9 +34,9 @@ public class River extends Shape2D {
     }
 
     public void setProperty(int widthLimit, SKPoint2D startP) {
-        this.widthLimit = widthLimit;
+        this.widthLimit = widthLimit - 1;
         this.startPoint2D.setLocation(startP);
-
+        System.out.println(startPoint2D.getCoordX() + " " + startPoint2D.getCoordY());
         pointList.clear();
 
         pointList.add(new SKPoint2D(startP, 0, HEIGHT_1));
@@ -51,16 +52,15 @@ public class River extends Shape2D {
         
         drawSegmentUnSave(this.startPoint2D, new SKPoint2D(this.startPoint2D, 
                 this.widthLimit, 0));
-        
         drawSegmentUnSave(new SKPoint2D(this.startPoint2D, 0, 1), 
                 new SKPoint2D(this.startPoint2D, this.widthLimit, 1));
 
         setFilledColor(SURFACE_COLOR);
         
-        drawSegmentUnSave(this.startPoint2D, new SKPoint2D(this.startPoint2D, 0, 
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D,0,2), new SKPoint2D(this.startPoint2D, 0, 
                 HEIGHT_1));
         
-        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, this.widthLimit, 0), 
+        drawSegmentUnSave(new SKPoint2D(this.startPoint2D, this.widthLimit, 2), 
                 new SKPoint2D(this.startPoint2D, this.widthLimit, HEIGHT_1));
 
         // vẽ gợn sóng trên mặt nước

@@ -92,8 +92,6 @@ public class Fish2 extends Shape2D {
     private SKPoint2D[] topFinStartPoints = new SKPoint2D[4];
     private SKPoint2D[] topFinEndPoints = new SKPoint2D[4];
 
-    private SKPoint2D firstBotFinFPStartPoint = new SKPoint2D();
-    private SKPoint2D firstBotFinFPEndPoint = new SKPoint2D();
     private SKPoint2D[] botFinStartPoints = new SKPoint2D[3];
     private SKPoint2D[] botFinEndPoints = new SKPoint2D[3];
 
@@ -242,11 +240,7 @@ public class Fish2 extends Shape2D {
                     widthDirection * 1, BOTTOM_FIN_HEIGHT_2 - 2);
         }
 
-        firstBotFinFPStartPoint.setLocation(this.startPoint2D,
-                widthDirection * (DISTANCE_FIN_F2_X - 1 + 3), RADIUS_BODY_F2_Y + 1);
 
-        firstBotFinFPEndPoint.setLocation(firstBotFinFPStartPoint, 1,
-                BOTTOM_FIN_HEIGHT_2 - 2);
 
         firstBotTailFPStartPoint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_BODY_F2_X * 2 - 1 + 6), 2);
@@ -329,9 +323,16 @@ public class Fish2 extends Shape2D {
         pointSet2D.add(topFinPosToPaint);
         pointSet2D.add(botFinPosToPaint);
         pointSet2D.add(tailPosToPaint);
-
-        pointSet2D.add(firstBotFinFPStartPoint);
-        pointSet2D.add(firstBotFinFPStartPoint);
+        
+        for(int i = 0; i < 3; i++){
+            pointSet2D.add(botFinStartPoints[i]);
+            pointSet2D.add(botFinEndPoints[i]);
+        }
+        for(int i = 0; i < 4; i++){
+            pointSet2D.add(topFinStartPoints[i]);
+            pointSet2D.add(topFinEndPoints[i]);
+        }
+            
         pointSet2D.add(firstBotTailFPStartPoint);
         pointSet2D.add(firstBotTailFPEndPoint);
         pointSet2D.add(secondBotTailFPStartPoint);
@@ -445,7 +446,7 @@ public class Fish2 extends Shape2D {
 
         //vẽ vân ở vây và đuôi
         setFilledColor(FIN_SHAPE_COLOR);
-
+     
         //vân trên
         for (int i = 0; i < 4; i++) {
             drawSegmentUnSave(topFinStartPoints[i], topFinEndPoints[i]);

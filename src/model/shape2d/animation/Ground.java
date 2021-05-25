@@ -43,7 +43,7 @@ public class Ground extends Shape2D {
     public void setProperty(int widthLimit, SKPoint2D startP) {
         this.startPoint2D.setLocation(startP);
 
-        slopeGround3_Length = widthLimit - (FLAT_GROUND_LENGTH_1
+        slopeGround3_Length = widthLimit -1 - (FLAT_GROUND_LENGTH_1
                 + FLAT_GROUND_LENGTH_2 + SLOPE_GROUND_LENGTH_1 + SLOPE_GROUND_LENGTH_2);
 
         pointList.clear();
@@ -56,10 +56,11 @@ public class Ground extends Shape2D {
         pointList.add(new SKPoint2D(pointList.get(4), slopeGround3_Length, 3));
 
         pointList2.clear();
-
+        
+        //viền của đất cỏ, tránh tô màu bị loang
         pointList2.add(this.startPoint2D);
         pointList2.add(new SKPoint2D(this.startPoint2D, 0, 25));
-        pointList2.add(new SKPoint2D(pointList2.get(1), widthLimit, 0));
+        pointList2.add(new SKPoint2D(pointList2.get(1), widthLimit - 1, 0));
         pointList2.add(new SKPoint2D(pointList2.get(2), 0, -27));
 
         //đặt trước vị trí vẽ hoa
@@ -75,7 +76,7 @@ public class Ground extends Shape2D {
         drawZigZagS(pointList, ROUGH_NUMBER_ARRAY_1, ROUGH_NUMBER_ARRAY_2);
 
         setFilledColor(GRASS_COLOR);
-
+        
         drawZigZag(pointList2);
 
         /* To mau dat */
