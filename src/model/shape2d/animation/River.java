@@ -14,7 +14,7 @@ public class River extends Shape2D {
     public static final int[] ROUGH_NUMBER_ARRAY_2 = {2, 1, 1, 2, 1, 2, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 2, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 2, 1, 1, 2, 2, 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 2, 1, 2, 2, 2, 1, 2, 1, 2, 1, 2, 2, 1, 2, 2};
 
     public static final int HEIGHT_1 = 22;
-    public static final int HEIGHT_2 = HEIGHT_1 + 42;
+    public static final int HEIGHT_2 = HEIGHT_1 + 45;
 
     public static final Color SURFACE_COLOR = new Color(151, 251, 251);
  //   public static final Color SURFACE_COLOR = new Color(0, 0, 0);
