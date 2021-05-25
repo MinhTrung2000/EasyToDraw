@@ -75,6 +75,9 @@ public class DrawingPanel extends JPanel {
     private Stack<String[][]> redoCoordOfBoardStack = new Stack<>();
     private Stack<Color[][]> redoColorOfBoardStack = new Stack<>();
 
+    
+    private Stack<SKPoint2D> undoPreviousPointStack = new Stack<>();
+    private Stack<SKPoint2D> redoPreviousPointStack = new Stack<>();
     /**
      * Showing grid lines flag.
      */
@@ -255,6 +258,9 @@ public class DrawingPanel extends JPanel {
         redoCoordOfBoardStack.clear();
         undoColorOfBoardStack.clear();
         undoCoordOfBoardStack.clear();
+        
+        undoPreviousPointStack.clear();
+        redoPreviousPointStack.clear();
     }
 
     /**
@@ -369,6 +375,8 @@ public class DrawingPanel extends JPanel {
         String[][] tempBoard = new String[HEIGHT_BOARD][WIDTH_BOARD];
         copyCoordValue(coordOfBoard, tempBoard);
         undoCoordOfBoardStack.push(tempBoard);
+        
+        
     }
 
     /**
@@ -378,6 +386,8 @@ public class DrawingPanel extends JPanel {
         Color[][] tempBoard = new Color[HEIGHT_BOARD][WIDTH_BOARD];
         copyColorValue(colorOfBoard, tempBoard, false);
         redoColorOfBoardStack.push(tempBoard);
+        
+        redoPreviousPointStack.push(Polygon_previousPoint);
     }
 
     /**
@@ -443,6 +453,11 @@ public class DrawingPanel extends JPanel {
             saveCurrentCoordBoardToRedoStack();
             copyCoordValue(undoCoordOfBoardStack.pop(), coordOfBoard);
         }
+        if(!undoPreviousPointStack.empty()) {
+            Polygon_previousPoint = undoPreviousPointStack.pop();
+         //   System.out.println("Pop previous: " + Polygon_previousPoint.getCoordX() +" " + Polygon_previousPoint.getCoordY());
+        }
+        
     }
 
     /**
@@ -461,6 +476,9 @@ public class DrawingPanel extends JPanel {
         if (!redoCoordOfBoardStack.empty()) {
             saveCurrentCoordBoardToUndoStack();
             copyCoordValue(redoCoordOfBoardStack.pop(), coordOfBoard);
+        }
+        if (!redoPreviousPointStack.empty()) {
+            Polygon_previousPoint = redoPreviousPointStack.pop();
         }
         repaint();
     }
@@ -777,7 +795,7 @@ public class DrawingPanel extends JPanel {
 
             startDrawingPoint.setLocation(event.getX() / SettingConstants.RECT_SIZE,
                     event.getY() / SettingConstants.RECT_SIZE);
-
+     //       System.out.println("startDrawing: " +startDrawingPoint.getCoordX() + " " + startDrawingPoint.getCoordY());
             resetChangedPropertyArray();
 
             switch (selectedToolMode) {
@@ -833,28 +851,36 @@ public class DrawingPanel extends JPanel {
                         
                         //kiểm tra xem đây có phải đoạn thẳng kết thúc chu trình
                         boolean end = false;
-                        int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
-                        int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
+//                        int D_X[] = {-1, 0, 0, 1, -1, 1, 1, -1};
+//                        int D_Y[] = {0, -1, 1, 0, 1, 1, -1, -1};
                         
                         if(startDrawingPoint.equal(Polygon_firstPoint)) end = true;
                         
                         //điểm lân cận 1 pixel cũng tính là first point
                         SKPoint2D neibourhoodPoint = new SKPoint2D();
-                        for (int i = 0; i < 8; i++) {
-                            neibourhoodPoint.setLocation(
-                                    startDrawingPoint.getCoordX() + D_X[i],
-                                    startDrawingPoint.getCoordY() + D_Y[i]
+                        for (int i = -1; i <= 1; i++) {
+                            for (int j = -1; j<= 1; j++){
+                                neibourhoodPoint.setLocation(
+                                    startDrawingPoint.getCoordX() + i,
+                                    startDrawingPoint.getCoordY() + j
                             );
                             if (neibourhoodPoint.equal(Polygon_firstPoint)) {
                                 end = true;
                                 break;
                             }
+                            }
+                            
                         }
                         
                      
                         if(end == false) {
                             segment.saveCoordinates();
-                            Polygon_previousPoint.setLocation(startDrawingPoint);
+         
+                          //  System.out.println("push previous point: " + Polygon_previousPoint.getCoordX() + " "+ Polygon_previousPoint.getCoordY());
+                            undoPreviousPointStack.push(Polygon_previousPoint);
+        
+                            
+                            Polygon_previousPoint = new SKPoint2D(startDrawingPoint);
                         }
                         else{
                             Polygon_previousPoint = null;
