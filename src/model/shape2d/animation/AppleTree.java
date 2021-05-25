@@ -39,11 +39,13 @@ public class AppleTree extends Shape2D {
         //về trái
         pointList.add(new SKPoint2D(pointList.get(0), -9, 6));
 
+        
+        //thân cây là hình ellipse (cong nhẹ)
         trunkLeft_CenterP.setLocation(pointList.get(4), 8, 19);
         trunkRight_CenterP.setLocation(pointList.get(4), 28, 19);
 
         pointList2.clear();
-
+        //cành cây (xuất phát từ trái)
         pointList2.add(new SKPoint2D(trunkLeft_CenterP, 0, -17));
         pointList2.add(new SKPoint2D(pointList2.get(0), -7, -9));
         pointList2.add(new SKPoint2D(pointList2.get(1), 3, -3));
@@ -56,6 +58,7 @@ public class AppleTree extends Shape2D {
         pointList2.add(new SKPoint2D(pointList2.get(8), 3, 0));
         pointList2.add(new SKPoint2D(pointList2.get(9), -4, 17));
 
+        //táo
         appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 0, -20));
         appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), -17, 0));
         appleCenterPointArray.add(new SKPoint2D(pointList2.get(3), 12, -24));

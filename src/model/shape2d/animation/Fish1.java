@@ -220,7 +220,7 @@ public class Fish1 extends Shape2D {
         tailEdgeCenterPoint.setLocation(duoiStartPoint,
                 TAIL_WIDTH_1 * widthDirection, 0);
 
-        //điểm bắt đầu là góc dưới, bên trái hình bình hành
+        //set điểm bắt đầu là góc dưới, bên trái hình bình hành
         vayTrenStartPoint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_HEAD_F1_X * 2 + 2),
                 -RADIUS_BODY_F1_Y);
@@ -236,7 +236,7 @@ public class Fish1 extends Shape2D {
         vayTrenEndPoint.setLocation(vayTrenStartPoint,
                 widthDirection * (TOP_FIN_WIDTH_1 - LECH_TREN_1),
                 0);
-
+        //---------------
         //góc trên bên trái
         vayDuoiStartPoint.setLocation(this.startPoint2D,
                 widthDirection * (RADIUS_HEAD_F1_X * 2 + 2),

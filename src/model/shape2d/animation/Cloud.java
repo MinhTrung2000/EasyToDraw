@@ -15,7 +15,7 @@ public class Cloud extends Shape2D {
     public static final Color CLOUD_COLOR = new Color (254,254,254);
 
     private int slip = 0;
-    private boolean forward = true;
+    private boolean nextMoveIsForward = true;
     private int test;
 
     public Cloud(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
@@ -64,21 +64,17 @@ public class Cloud extends Shape2D {
             savePoint(point.getCoordX(), point.getCoordY());
         }
 
-        test = slip;
 
         if (slip >= 0 && slip / SettingConstants.RECT_SIZE < SLIP_NUMBER
-                && forward) {
-            if (test <= slip) {
-                forward = true;
+                && nextMoveIsForward) {
                 slip += SettingConstants.RECT_SIZE - 4;
-            } else {
-                forward = false;
-            }
+            
         } else {
             if (slip <= 0) {
-                forward = true;
+                nextMoveIsForward = true;
+                slip += SettingConstants.RECT_SIZE - 4;
             } else {
-                forward = false;
+                nextMoveIsForward = false;
                 slip -= SettingConstants.RECT_SIZE - 4;
             }
 
