@@ -994,9 +994,7 @@ public abstract class Shape2D {
      */
     public boolean savePointWithLineStyleCheck(int coordX, int coordY,
             int pixelCounter, SettingConstants.LineStyle lineStyle) {
-        System.out.println("----");
-        System.out.println(pixelCounter);
-        System.out.println("sus: "  + coordX + " " + coordY);
+        
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordY][coordX] = true;
