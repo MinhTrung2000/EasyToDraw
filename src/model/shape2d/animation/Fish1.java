@@ -88,19 +88,34 @@ public class Fish1 extends Shape2D {
     public static final Vector2D VECTOR_MOVE_VER_DOWN = new Vector2D(0, -MOVE_VER_PIXEL_NUM);
 
     private SKPoint2D thanCaCenterPoint = new SKPoint2D();
+    public  SKPoint2D getThanCaCenterPoint(){
+        return this.thanCaCenterPoint;
+    }
     private SKPoint2D dauCaCenterPoint = new SKPoint2D();
-
+    public  SKPoint2D getDauCaCenterPoint(){
+        return this.dauCaCenterPoint;
+    }
     private SKPoint2D duoiStartPoint = new SKPoint2D();
     private SKPoint2D duoiTrenEndPoint = new SKPoint2D();
     private SKPoint2D duoiDuoiEndPoint = new SKPoint2D();
+    
     private SKPoint2D tailEdgeCenterPoint = new SKPoint2D();
+    public  SKPoint2D getTailEdgeCenterPoint(){
+        return this.tailEdgeCenterPoint;
+    }
 
     private SKPoint2D vayTrenStartPoint = new SKPoint2D();
+    public  SKPoint2D getVayTrenStartPoint(){
+        return this.vayTrenStartPoint;
+    }
     private SKPoint2D vayTrenEndPoint = new SKPoint2D();
     private SKPoint2D vayTrenPoint2 = new SKPoint2D();
     private SKPoint2D vayTrenPoint3 = new SKPoint2D();
 
     private SKPoint2D vayDuoiStartPoint = new SKPoint2D();
+    public  SKPoint2D getVayDuoiStartPoint(){
+        return this.vayDuoiStartPoint;
+    }
     private SKPoint2D vayDuoiPoint2 = new SKPoint2D();
     private SKPoint2D vayDuoiPoint3 = new SKPoint2D();
     private SKPoint2D vayDuoiEndPoint = new SKPoint2D();

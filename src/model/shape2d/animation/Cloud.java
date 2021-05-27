@@ -16,7 +16,7 @@ public class Cloud extends Shape2D {
 
     private int slip = 0;
     private boolean nextMoveIsForward = true;
-    private int test;
+    public SKPoint2D movingCenterPoint;
 
     public Cloud(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
@@ -57,7 +57,7 @@ public class Cloud extends Shape2D {
         Vector2D vectorSlip = new Vector2D(slip, 0);
 
         SKPoint2D centerPointToPaint = this.centerPoint2D.createMove(vectorSlip);
-
+        movingCenterPoint = centerPointToPaint;
         for (int i = 0; i < pointSet2D.size(); i++) {
             SKPoint2D point = new SKPoint2D(pointSet2D.get(i));
             point.move(vectorSlip);

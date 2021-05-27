@@ -7,6 +7,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 import model.shape2d.animation.AppleTree;
@@ -48,9 +50,9 @@ public class AnimationFrame extends javax.swing.JFrame {
         return ((AnimationPanel) this.animationPanel);
     }
 
-    public static class AnimationPanel extends JPanel {
+    public  class AnimationPanel extends JPanel {
 
-        public static final Color SKY_COLOR = new Color(205, 249, 255);
+        public  final Color SKY_COLOR = new Color(205, 249, 255);
 
         private int widthBoard;
         private int heightBoard;
@@ -89,7 +91,7 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void setComponent() {
-            widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
+            widthBoard = (this.getWidth()) / SettingConstants.RECT_SIZE + 3;
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
             this.colorOfBoard = new Color[heightBoard][widthBoard];
@@ -174,23 +176,40 @@ public class AnimationFrame extends javax.swing.JFrame {
             
             /* VOLCANO */
             volcano.drawVolcano();
-
+            label_StartP_Volca.setText(volcano.getStartPoint().saveCoordToString());
+            label_EndP_Volca.setText(volcano.getEndPoint().saveCoordToString());
+            
+            
             /* SMOKE */
+            Double scaleLevel = smoke.getLevelScale();
+            scaleLevel = BigDecimal.valueOf(scaleLevel)
+    .setScale(3, RoundingMode.HALF_UP)
+    .doubleValue();
+            
             smoke.drawSmoke();
-
+            label_CenterP_Smoke.setText(smoke.getStartPoint().saveCoordToString());
+            label_ScaleLevel_Smoke.setText(scaleLevel.toString());
+            
+            
             mergeColorValue();
             resetChangedPropertyArray();
 
+            
             /* SUN */
+            
             sun.drawSun();
-
+            label_CenterP_Sun.setText(sun.getCenterPoint2D().saveCoordToString());
+            label_Angle_Sun.setText(Integer.toString(sun.getRotatedAngle()));
             
             /* GROUND */
             ground.drawGround();
-
+            label_StartP_ground.setText(ground.getStartPoint().saveCoordToString());
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
+            label_CenterP_C1.setText(cloud1.movingCenterPoint.saveCoordToString());
+            label_CenterP_C2.setText(cloud2.movingCenterPoint.saveCoordToString());
+            
             
             mergeColorValue();
             resetChangedPropertyArray();
@@ -200,18 +219,35 @@ public class AnimationFrame extends javax.swing.JFrame {
             
             /* APPLE TREE */
             tree.drawAppleTree();
-
+            label_StartP_Tree.setText(tree.getStartPoint().saveCoordToString());
+            
             /* RIVER */
             river.drawRiver();
-
+            label_StartP_river.setText(river.getStartPoint().saveCoordToString());
+            
             /* FISH1, FISH2*/
             fish1.drawFish1();
-
+            
+            label_StartP_F1.setText(fish1.getStartPoint().saveCoordToString());
+            label_BodyCenterP_F1.setText(fish1.getThanCaCenterPoint().saveCoordToString());
+            label_HeadCenterP_F1.setText(fish1.getDauCaCenterPoint().saveCoordToString());
+            label_TopFinStartP_F1.setText(fish1.getVayTrenStartPoint().saveCoordToString());
+            label_BotFinStartP_F1.setText(fish1.getVayDuoiStartPoint().saveCoordToString());
+            label_TailECenterP_F1.setText(fish1.getTailEdgeCenterPoint().saveCoordToString());
+            
             mergeColorValue();
             resetChangedPropertyArray();
 
             fish2.drawFish2();
-
+            
+            label_StartP_F2.setText(fish2.getStartPoint().saveCoordToString());
+            label_BodyCenterP_F2.setText(fish2.getThanCaCenterPoint().saveCoordToString());
+            label_FoBCenterP_F2.setText(fish2.getVayTT2CenterPoint().saveCoordToString());
+            label_TopFinStartP_F2.setText(fish2.getTopFinStartPoints().saveCoordToString());
+            label_BotFinStartP_F2.setText(fish2.getBotFinStartPoints().saveCoordToString());
+            label_TailStartP_F2.setText(fish2.getDuoiStartPoint().saveCoordToString());
+            
+            
             repaint();
         }
 
@@ -272,6 +308,72 @@ public class AnimationFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         animationPanel = new AnimationPanel();
+        coordinatePanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        Fish1Title = new javax.swing.JLabel();
+        SmokeTitle = new javax.swing.JLabel();
+        GroundTitle = new javax.swing.JLabel();
+        TreeTitle = new javax.swing.JLabel();
+        Fish2Title = new javax.swing.JLabel();
+        CloudTitle = new javax.swing.JLabel();
+        RiverTitle = new javax.swing.JLabel();
+        Fish1Panel = new javax.swing.JPanel();
+        F2_StartDraw1 = new javax.swing.JLabel();
+        label_StartP_F1 = new javax.swing.JLabel();
+        label_BodyCenterP_F1 = new javax.swing.JLabel();
+        F2_Body1 = new javax.swing.JLabel();
+        label_TopFinStartP_F1 = new javax.swing.JLabel();
+        F2_TopFin1 = new javax.swing.JLabel();
+        F2_Head1 = new javax.swing.JLabel();
+        label_HeadCenterP_F1 = new javax.swing.JLabel();
+        F2_BotFin1 = new javax.swing.JLabel();
+        label_BotFinStartP_F1 = new javax.swing.JLabel();
+        label_TailECenterP_F1 = new javax.swing.JLabel();
+        F2_TailStartP1 = new javax.swing.JLabel();
+        VolcanoTitle = new javax.swing.JLabel();
+        Fish2Panel = new javax.swing.JPanel();
+        F2_StartDraw2 = new javax.swing.JLabel();
+        label_StartP_F2 = new javax.swing.JLabel();
+        label_BodyCenterP_F2 = new javax.swing.JLabel();
+        F2_Body2 = new javax.swing.JLabel();
+        label_TopFinStartP_F2 = new javax.swing.JLabel();
+        F2_TopFin2 = new javax.swing.JLabel();
+        F2_Head2 = new javax.swing.JLabel();
+        label_FoBCenterP_F2 = new javax.swing.JLabel();
+        F2_BotFin2 = new javax.swing.JLabel();
+        label_BotFinStartP_F2 = new javax.swing.JLabel();
+        label_TailStartP_F2 = new javax.swing.JLabel();
+        F2_TailStartP2 = new javax.swing.JLabel();
+        VolcanoPanel = new javax.swing.JPanel();
+        F2_StartDraw3 = new javax.swing.JLabel();
+        label_StartP_Volca = new javax.swing.JLabel();
+        label_EndP_Volca = new javax.swing.JLabel();
+        F2_Body3 = new javax.swing.JLabel();
+        GroundPanel = new javax.swing.JPanel();
+        F2_StartDraw4 = new javax.swing.JLabel();
+        label_StartP_ground = new javax.swing.JLabel();
+        panelFish7 = new javax.swing.JPanel();
+        F2_StartDraw5 = new javax.swing.JLabel();
+        label_CenterP_Smoke = new javax.swing.JLabel();
+        label_ScaleLevel_Smoke = new javax.swing.JLabel();
+        F2_Body4 = new javax.swing.JLabel();
+        TreePanel = new javax.swing.JPanel();
+        F2_StartDraw6 = new javax.swing.JLabel();
+        label_StartP_Tree = new javax.swing.JLabel();
+        SunPanel = new javax.swing.JPanel();
+        F2_StartDraw7 = new javax.swing.JLabel();
+        label_CenterP_Sun = new javax.swing.JLabel();
+        label_Angle_Sun = new javax.swing.JLabel();
+        F2_Body5 = new javax.swing.JLabel();
+        CloudPanel = new javax.swing.JPanel();
+        F2_StartDraw8 = new javax.swing.JLabel();
+        label_CenterP_C1 = new javax.swing.JLabel();
+        label_CenterP_C2 = new javax.swing.JLabel();
+        F2_Body6 = new javax.swing.JLabel();
+        RiverPanel = new javax.swing.JPanel();
+        F2_StartDraw9 = new javax.swing.JLabel();
+        label_StartP_river = new javax.swing.JLabel();
+        SunTitle = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -281,22 +383,689 @@ public class AnimationFrame extends javax.swing.JFrame {
         animationPanel.setLayout(animationPanelLayout);
         animationPanelLayout.setHorizontalGroup(
             animationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1361, Short.MAX_VALUE)
+            .addGap(0, 1362, Short.MAX_VALUE)
         );
         animationPanelLayout.setVerticalGroup(
             animationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 960, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        coordinatePanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("DETAILS");
+
+        Fish1Title.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        Fish1Title.setForeground(new java.awt.Color(255, 0, 0));
+        Fish1Title.setText("Fish 1");
+
+        SmokeTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        SmokeTitle.setForeground(new java.awt.Color(255, 0, 0));
+        SmokeTitle.setText("Smoke");
+
+        GroundTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        GroundTitle.setForeground(new java.awt.Color(255, 0, 0));
+        GroundTitle.setText("Ground");
+
+        TreeTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        TreeTitle.setForeground(new java.awt.Color(255, 0, 0));
+        TreeTitle.setText("Apple Tree");
+
+        Fish2Title.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        Fish2Title.setForeground(new java.awt.Color(255, 0, 0));
+        Fish2Title.setText("Fish 2");
+
+        CloudTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        CloudTitle.setForeground(new java.awt.Color(255, 0, 0));
+        CloudTitle.setText("Cloud");
+
+        RiverTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        RiverTitle.setForeground(new java.awt.Color(255, 0, 0));
+        RiverTitle.setText("River");
+
+        Fish1Panel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw1.setText("Drawing StartP");
+
+        label_StartP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_F1.setText("aa");
+        label_StartP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_BodyCenterP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_BodyCenterP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_BodyCenterP_F1.setText("aa");
+        label_BodyCenterP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_BodyCenterP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body1.setText("Body CenterP");
+
+        label_TopFinStartP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_TopFinStartP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_TopFinStartP_F1.setText("aa");
+        label_TopFinStartP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_TopFinStartP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_TopFin1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_TopFin1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_TopFin1.setText("TopFin StartP");
+
+        F2_Head1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Head1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Head1.setText("Head CenterP");
+
+        label_HeadCenterP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_HeadCenterP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_HeadCenterP_F1.setText("aa");
+        label_HeadCenterP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_HeadCenterP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_BotFin1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_BotFin1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_BotFin1.setText("BotFin StartP");
+
+        label_BotFinStartP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_BotFinStartP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_BotFinStartP_F1.setText("aa");
+        label_BotFinStartP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_BotFinStartP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_TailECenterP_F1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_TailECenterP_F1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_TailECenterP_F1.setText("aa");
+        label_TailECenterP_F1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_TailECenterP_F1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_TailStartP1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_TailStartP1.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_TailStartP1.setText("TailE CenterP");
+
+        javax.swing.GroupLayout Fish1PanelLayout = new javax.swing.GroupLayout(Fish1Panel);
+        Fish1Panel.setLayout(Fish1PanelLayout);
+        Fish1PanelLayout.setHorizontalGroup(
+            Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Fish1PanelLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish1PanelLayout.createSequentialGroup()
+                        .addComponent(F2_BotFin1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_BotFinStartP_F1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish1PanelLayout.createSequentialGroup()
+                        .addComponent(F2_Head1)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_HeadCenterP_F1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish1PanelLayout.createSequentialGroup()
+                        .addComponent(F2_StartDraw1)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_StartP_F1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(F2_TopFin1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(F2_Body1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(F2_TailStartP1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_TailECenterP_F1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_TopFinStartP_F1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_BodyCenterP_F1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        Fish1PanelLayout.setVerticalGroup(
+            Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Fish1PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_BodyCenterP_F1)
+                    .addComponent(F2_Body1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_StartP_F1)
+                    .addComponent(F2_StartDraw1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_Head1)
+                        .addComponent(label_HeadCenterP_F1))
+                    .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_TopFin1)
+                        .addComponent(label_TopFinStartP_F1)))
+                .addGap(18, 18, 18)
+                .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_BotFin1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label_BotFinStartP_F1))
+                    .addGroup(Fish1PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(label_TailECenterP_F1)
+                        .addComponent(F2_TailStartP1)))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+
+        VolcanoTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        VolcanoTitle.setForeground(new java.awt.Color(255, 0, 0));
+        VolcanoTitle.setText("Volcano");
+
+        Fish2Panel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw2.setText("Drawing StartP");
+
+        label_StartP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_F2.setText("aa");
+        label_StartP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_BodyCenterP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_BodyCenterP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_BodyCenterP_F2.setText("aa");
+        label_BodyCenterP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_BodyCenterP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body2.setText("Body CenterP");
+
+        label_TopFinStartP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_TopFinStartP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_TopFinStartP_F2.setText("aa");
+        label_TopFinStartP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_TopFinStartP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_TopFin2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_TopFin2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_TopFin2.setText("TopFin StartP");
+
+        F2_Head2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Head2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Head2.setText("FoB CenterP");
+
+        label_FoBCenterP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_FoBCenterP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_FoBCenterP_F2.setText("aa");
+        label_FoBCenterP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_FoBCenterP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_BotFin2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_BotFin2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_BotFin2.setText("BotFin StartP");
+
+        label_BotFinStartP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_BotFinStartP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_BotFinStartP_F2.setText("aa");
+        label_BotFinStartP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_BotFinStartP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_TailStartP_F2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_TailStartP_F2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_TailStartP_F2.setText("aa");
+        label_TailStartP_F2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_TailStartP_F2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_TailStartP2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_TailStartP2.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_TailStartP2.setText("Tail StartP");
+
+        javax.swing.GroupLayout Fish2PanelLayout = new javax.swing.GroupLayout(Fish2Panel);
+        Fish2Panel.setLayout(Fish2PanelLayout);
+        Fish2PanelLayout.setHorizontalGroup(
+            Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Fish2PanelLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish2PanelLayout.createSequentialGroup()
+                        .addComponent(F2_BotFin2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_BotFinStartP_F2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish2PanelLayout.createSequentialGroup()
+                        .addComponent(F2_Head2)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_FoBCenterP_F2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Fish2PanelLayout.createSequentialGroup()
+                        .addComponent(F2_StartDraw2)
+                        .addGap(18, 18, 18)
+                        .addComponent(label_StartP_F2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(F2_TopFin2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(F2_Body2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(F2_TailStartP2, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_TailStartP_F2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_TopFinStartP_F2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_BodyCenterP_F2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        Fish2PanelLayout.setVerticalGroup(
+            Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Fish2PanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_BodyCenterP_F2)
+                    .addComponent(F2_Body2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_StartP_F2)
+                    .addComponent(F2_StartDraw2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_Head2)
+                        .addComponent(label_FoBCenterP_F2))
+                    .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_TopFin2)
+                        .addComponent(label_TopFinStartP_F2)))
+                .addGap(18, 18, 18)
+                .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(F2_BotFin2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(label_BotFinStartP_F2))
+                    .addGroup(Fish2PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(label_TailStartP_F2)
+                        .addComponent(F2_TailStartP2)))
+                .addContainerGap(10, Short.MAX_VALUE))
+        );
+
+        VolcanoPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw3.setText("Drawing StartP");
+
+        label_StartP_Volca.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_Volca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_Volca.setText("aa");
+        label_StartP_Volca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_Volca.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_EndP_Volca.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_EndP_Volca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_EndP_Volca.setText("aa");
+        label_EndP_Volca.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_EndP_Volca.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body3.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body3.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body3.setText("Drawing EndP");
+
+        javax.swing.GroupLayout VolcanoPanelLayout = new javax.swing.GroupLayout(VolcanoPanel);
+        VolcanoPanel.setLayout(VolcanoPanelLayout);
+        VolcanoPanelLayout.setHorizontalGroup(
+            VolcanoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VolcanoPanelLayout.createSequentialGroup()
+                .addContainerGap(12, Short.MAX_VALUE)
+                .addComponent(F2_StartDraw3)
+                .addGap(18, 18, 18)
+                .addComponent(label_StartP_Volca, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(F2_Body3, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(label_EndP_Volca, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        VolcanoPanelLayout.setVerticalGroup(
+            VolcanoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(VolcanoPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(VolcanoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_EndP_Volca)
+                    .addComponent(F2_Body3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_StartP_Volca)
+                    .addComponent(F2_StartDraw3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        GroundPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw4.setText("Drawing StartP");
+
+        label_StartP_ground.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_ground.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_ground.setText("aa");
+        label_StartP_ground.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_ground.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout GroundPanelLayout = new javax.swing.GroupLayout(GroundPanel);
+        GroundPanel.setLayout(GroundPanelLayout);
+        GroundPanelLayout.setHorizontalGroup(
+            GroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GroundPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(F2_StartDraw4)
+                .addGap(25, 25, 25)
+                .addComponent(label_StartP_ground, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        GroundPanelLayout.setVerticalGroup(
+            GroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(GroundPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(GroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(F2_StartDraw4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_StartP_ground)))
+        );
+
+        panelFish7.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw5.setText("Drawing CenterP");
+
+        label_CenterP_Smoke.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_CenterP_Smoke.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_CenterP_Smoke.setText("aa");
+        label_CenterP_Smoke.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_CenterP_Smoke.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_ScaleLevel_Smoke.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_ScaleLevel_Smoke.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_ScaleLevel_Smoke.setText("aa");
+        label_ScaleLevel_Smoke.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_ScaleLevel_Smoke.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body4.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body4.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body4.setText("Scale Level");
+
+        javax.swing.GroupLayout panelFish7Layout = new javax.swing.GroupLayout(panelFish7);
+        panelFish7.setLayout(panelFish7Layout);
+        panelFish7Layout.setHorizontalGroup(
+            panelFish7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFish7Layout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(F2_StartDraw5, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label_CenterP_Smoke, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addComponent(F2_Body4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(label_ScaleLevel_Smoke, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelFish7Layout.setVerticalGroup(
+            panelFish7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelFish7Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(panelFish7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_ScaleLevel_Smoke)
+                    .addComponent(F2_Body4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_CenterP_Smoke)
+                    .addComponent(F2_StartDraw5, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        TreePanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw6.setText("Drawing StartP");
+
+        label_StartP_Tree.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_Tree.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_Tree.setText("aa");
+        label_StartP_Tree.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_Tree.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout TreePanelLayout = new javax.swing.GroupLayout(TreePanel);
+        TreePanel.setLayout(TreePanelLayout);
+        TreePanelLayout.setHorizontalGroup(
+            TreePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TreePanelLayout.createSequentialGroup()
+                .addComponent(F2_StartDraw6, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(label_StartP_Tree, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        TreePanelLayout.setVerticalGroup(
+            TreePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TreePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(TreePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_StartP_Tree)
+                    .addComponent(F2_StartDraw6, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(37, 37, 37))
+        );
+
+        SunPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw7.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw7.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw7.setText("Drawing CenterP");
+
+        label_CenterP_Sun.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_CenterP_Sun.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_CenterP_Sun.setText("aa");
+        label_CenterP_Sun.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_CenterP_Sun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_Angle_Sun.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_Angle_Sun.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_Angle_Sun.setText("aa");
+        label_Angle_Sun.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_Angle_Sun.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body5.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body5.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body5.setText("Rotate Angle");
+
+        javax.swing.GroupLayout SunPanelLayout = new javax.swing.GroupLayout(SunPanel);
+        SunPanel.setLayout(SunPanelLayout);
+        SunPanelLayout.setHorizontalGroup(
+            SunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SunPanelLayout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addComponent(F2_StartDraw7)
+                .addGap(18, 18, 18)
+                .addComponent(label_CenterP_Sun, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addComponent(F2_Body5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(label_Angle_Sun, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        SunPanelLayout.setVerticalGroup(
+            SunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SunPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(SunPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_Angle_Sun)
+                    .addComponent(F2_Body5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_CenterP_Sun)
+                    .addComponent(F2_StartDraw7, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        CloudPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw8.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw8.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw8.setText("Drawing CP1");
+
+        label_CenterP_C1.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_CenterP_C1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_CenterP_C1.setText("aa");
+        label_CenterP_C1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_CenterP_C1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        label_CenterP_C2.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_CenterP_C2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_CenterP_C2.setText("aa");
+        label_CenterP_C2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_CenterP_C2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        F2_Body6.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_Body6.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_Body6.setText("Drawing CP2");
+
+        javax.swing.GroupLayout CloudPanelLayout = new javax.swing.GroupLayout(CloudPanel);
+        CloudPanel.setLayout(CloudPanelLayout);
+        CloudPanelLayout.setHorizontalGroup(
+            CloudPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CloudPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(F2_StartDraw8)
+                .addGap(39, 39, 39)
+                .addComponent(label_CenterP_C1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(F2_Body6)
+                .addGap(18, 18, 18)
+                .addComponent(label_CenterP_C2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        CloudPanelLayout.setVerticalGroup(
+            CloudPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(CloudPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(CloudPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_CenterP_C2)
+                    .addComponent(F2_Body6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_CenterP_C1)
+                    .addComponent(F2_StartDraw8, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        RiverPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        F2_StartDraw9.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        F2_StartDraw9.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        F2_StartDraw9.setText("Drawing StartP");
+
+        label_StartP_river.setFont(new java.awt.Font("Segoe UI", 0, 15)); // NOI18N
+        label_StartP_river.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_StartP_river.setText("aa");
+        label_StartP_river.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        label_StartP_river.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout RiverPanelLayout = new javax.swing.GroupLayout(RiverPanel);
+        RiverPanel.setLayout(RiverPanelLayout);
+        RiverPanelLayout.setHorizontalGroup(
+            RiverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RiverPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(F2_StartDraw9)
+                .addGap(28, 28, 28)
+                .addComponent(label_StartP_river, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        RiverPanelLayout.setVerticalGroup(
+            RiverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(RiverPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(RiverPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(label_StartP_river)
+                    .addComponent(F2_StartDraw9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
+
+        SunTitle.setFont(new java.awt.Font("Segoe UI", 2, 18)); // NOI18N
+        SunTitle.setForeground(new java.awt.Color(255, 0, 0));
+        SunTitle.setText("Sun");
+
+        javax.swing.GroupLayout coordinatePanelLayout = new javax.swing.GroupLayout(coordinatePanel);
+        coordinatePanel.setLayout(coordinatePanelLayout);
+        coordinatePanelLayout.setHorizontalGroup(
+            coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TreePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(coordinatePanelLayout.createSequentialGroup()
+                        .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(SunPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Fish1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Fish2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(panelFish7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(GroundPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(VolcanoPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addGroup(coordinatePanelLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Fish2Title)
+                                            .addComponent(VolcanoTitle)
+                                            .addComponent(GroundTitle)
+                                            .addComponent(SmokeTitle)
+                                            .addComponent(TreeTitle)))
+                                    .addGroup(coordinatePanelLayout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(CloudTitle))))
+                            .addComponent(CloudPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addGroup(coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(SunTitle)
+                                    .addComponent(RiverTitle)))
+                            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(RiverPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 6, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(Fish1Title)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        coordinatePanelLayout.setVerticalGroup(
+            coordinatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coordinatePanelLayout.createSequentialGroup()
+                .addComponent(jLabel1)
+                .addGap(38, 38, 38)
+                .addComponent(Fish1Title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Fish1Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Fish2Title)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Fish2Panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VolcanoTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(VolcanoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(GroundTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(GroundPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SmokeTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelFish7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TreeTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TreePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SunTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SunPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CloudTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(CloudPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RiverTitle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(RiverPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(78, 78, 78))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1362, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(coordinatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(coordinatePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(animationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 973, Short.MAX_VALUE)
         );
 
         pack();
@@ -346,6 +1115,72 @@ public class AnimationFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel CloudPanel;
+    private javax.swing.JLabel CloudTitle;
+    private javax.swing.JLabel F2_Body1;
+    private javax.swing.JLabel F2_Body2;
+    private javax.swing.JLabel F2_Body3;
+    private javax.swing.JLabel F2_Body4;
+    private javax.swing.JLabel F2_Body5;
+    private javax.swing.JLabel F2_Body6;
+    private javax.swing.JLabel F2_BotFin1;
+    private javax.swing.JLabel F2_BotFin2;
+    private javax.swing.JLabel F2_Head1;
+    private javax.swing.JLabel F2_Head2;
+    private javax.swing.JLabel F2_StartDraw1;
+    private javax.swing.JLabel F2_StartDraw2;
+    private javax.swing.JLabel F2_StartDraw3;
+    private javax.swing.JLabel F2_StartDraw4;
+    private javax.swing.JLabel F2_StartDraw5;
+    private javax.swing.JLabel F2_StartDraw6;
+    private javax.swing.JLabel F2_StartDraw7;
+    private javax.swing.JLabel F2_StartDraw8;
+    private javax.swing.JLabel F2_StartDraw9;
+    private javax.swing.JLabel F2_TailStartP1;
+    private javax.swing.JLabel F2_TailStartP2;
+    private javax.swing.JLabel F2_TopFin1;
+    private javax.swing.JLabel F2_TopFin2;
+    private javax.swing.JPanel Fish1Panel;
+    private javax.swing.JLabel Fish1Title;
+    private javax.swing.JPanel Fish2Panel;
+    private javax.swing.JLabel Fish2Title;
+    private javax.swing.JPanel GroundPanel;
+    private javax.swing.JLabel GroundTitle;
+    private javax.swing.JPanel RiverPanel;
+    private javax.swing.JLabel RiverTitle;
+    private javax.swing.JLabel SmokeTitle;
+    private javax.swing.JPanel SunPanel;
+    private javax.swing.JLabel SunTitle;
+    private javax.swing.JPanel TreePanel;
+    private javax.swing.JLabel TreeTitle;
+    private javax.swing.JPanel VolcanoPanel;
+    private javax.swing.JLabel VolcanoTitle;
     private javax.swing.JPanel animationPanel;
+    private javax.swing.JPanel coordinatePanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel label_Angle_Sun;
+    private javax.swing.JLabel label_BodyCenterP_F1;
+    private javax.swing.JLabel label_BodyCenterP_F2;
+    private javax.swing.JLabel label_BotFinStartP_F1;
+    private javax.swing.JLabel label_BotFinStartP_F2;
+    private javax.swing.JLabel label_CenterP_C1;
+    private javax.swing.JLabel label_CenterP_C2;
+    private javax.swing.JLabel label_CenterP_Smoke;
+    private javax.swing.JLabel label_CenterP_Sun;
+    private javax.swing.JLabel label_EndP_Volca;
+    private javax.swing.JLabel label_FoBCenterP_F2;
+    private javax.swing.JLabel label_HeadCenterP_F1;
+    private javax.swing.JLabel label_ScaleLevel_Smoke;
+    private javax.swing.JLabel label_StartP_F1;
+    private javax.swing.JLabel label_StartP_F2;
+    private javax.swing.JLabel label_StartP_Tree;
+    private javax.swing.JLabel label_StartP_Volca;
+    private javax.swing.JLabel label_StartP_ground;
+    private javax.swing.JLabel label_StartP_river;
+    private javax.swing.JLabel label_TailECenterP_F1;
+    private javax.swing.JLabel label_TailStartP_F2;
+    private javax.swing.JLabel label_TopFinStartP_F1;
+    private javax.swing.JLabel label_TopFinStartP_F2;
+    private javax.swing.JPanel panelFish7;
     // End of variables declaration//GEN-END:variables
 }

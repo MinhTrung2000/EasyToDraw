@@ -10,6 +10,9 @@ public class SKPoint2D {
 
     protected int coordX;
     protected int coordY;
+    
+    public static final int COORD_X_O_Animation = (int) (1362 / 2) - 1;
+    public static final int COORD_Y_O_Animation = (int) (973 / 2) - 1;
 
     public SKPoint2D() {
         SKPoint2D.this.setLocation(0, 0);
@@ -97,6 +100,12 @@ public class SKPoint2D {
             coordOfBoard[coordY][coordX] = "(" + x + ", " + y + ")";
         }
     }
+    public String saveCoordToString() {
+            int x = coordX - (COORD_X_O_Animation / SettingConstants.RECT_SIZE);
+            int y = -(coordY - (COORD_Y_O_Animation / SettingConstants.RECT_SIZE));
+            return "(" + x + ", " + y + ")";
+        
+}
 
     /**
      * Create a copy point rotated from <code>basePoint</code> by an

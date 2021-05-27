@@ -37,7 +37,10 @@ public abstract class Shape2D {
     /**
      * The total angle of this shape after rotation.
      */
-    protected double rotatedAngle = DEFAULT_ANGLE;
+    protected int rotatedAngle = (int)DEFAULT_ANGLE;
+    public int getRotatedAngle (){
+        return this.rotatedAngle;
+    }
 
     /**
      * The line style of shape.
@@ -53,7 +56,9 @@ public abstract class Shape2D {
      * Center point of shape.
      */
     protected SKPoint2D centerPoint2D = new SKPoint2D();
-
+    public SKPoint2D getCenterPoint2D (){
+        return this.centerPoint2D;
+    }
     /**
      * The total of pixel number.
      */
@@ -132,8 +137,9 @@ public abstract class Shape2D {
      */
     public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint,
             SettingConstants.LineStyle lineStyle) {
-        int pixelCounter = 1;
-
+        int pixelCounter = 0;
+        
+        pixelCounter++;
         savePointWithLineStyleCheck(startPoint.getCoordX(),
                 startPoint.getCoordY(), pixelCounter, lineStyle);
         pointSet2D.add(startPoint);
@@ -241,8 +247,9 @@ public abstract class Shape2D {
      */
     public void drawSegmentUnSave(SKPoint2D startPoint, SKPoint2D endPoint,
             SettingConstants.LineStyle lineStyle) {
-        int pixelCounter = 1;
-
+        int pixelCounter = 0;
+        
+        pixelCounter++;
         savePointWithLineStyleCheck(startPoint.getCoordX(),
                 startPoint.getCoordY(), pixelCounter, lineStyle);
 
@@ -355,8 +362,9 @@ public abstract class Shape2D {
 
     public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint,
             int[] roughNumberArray110, int[] roughNumberArray110_2) {
-        int pixelCounter = 1;
-
+        int pixelCounter = 0;
+        
+        pixelCounter++;
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
         pointSet2D.add(startPoint);
 
@@ -581,7 +589,7 @@ public abstract class Shape2D {
            SKPoint2D centerPoint, double radius){
            int x = 0;
         int y = (int) radius;
-        int pixelCounter =0;
+        int pixelCounter = 0;
         pixelCounter++;
         addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
 

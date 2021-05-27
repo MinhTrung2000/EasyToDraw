@@ -72,7 +72,7 @@ public class Volcano extends Shape2D {
         //vẽ dung nham
         setFilledColor(COLOR_1);
 
-        drawZigZag(pointList1);
+        drawZigZagS(pointList1,ROUGH_NUMBER_ARRAY_1, ROUGH_NUMBER_ARRAY_2);
 
         //nhánh 1.2
         drawSegmentS(new SKPoint2D(pointList1.get(2)),

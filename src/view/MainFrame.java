@@ -262,8 +262,7 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 };
 
-                getDrawingPanel().resetSavedPropertyArray();
-
+                
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
 
                 chooser.setFileFilter(filter);
@@ -462,6 +461,7 @@ public class MainFrame extends javax.swing.JFrame {
                 if (animationFrame.isShowing()) {
                     animationFrame.requestFocus();
                 } else {
+                    animationFrame.setSize(1846, 1020);
                     animationFrame.setVisible(true);
                 }
                 setSelectedToolMode(SettingConstants.DrawingToolMode.TOOL_ANIMATION);
@@ -505,9 +505,9 @@ public class MainFrame extends javax.swing.JFrame {
                     savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
 
-                for (int i = 0; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
-                    savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
-                }
+//                for (int i = 0; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
+//                    savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
+//                }
             }
         });
     }

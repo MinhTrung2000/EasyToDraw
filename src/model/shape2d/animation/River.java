@@ -36,7 +36,7 @@ public class River extends Shape2D {
     public void setProperty(int widthLimit, SKPoint2D startP) {
         this.widthLimit = widthLimit - 1;
         this.startPoint2D.setLocation(startP);
-        System.out.println(startPoint2D.getCoordX() + " " + startPoint2D.getCoordY());
+     //   System.out.println(startPoint2D.getCoordX() + " " + startPoint2D.getCoordY());
         pointList.clear();
 
         pointList.add(new SKPoint2D(startP, 0, HEIGHT_1));

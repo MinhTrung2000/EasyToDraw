@@ -25,6 +25,7 @@ import model.shape2d.Ellipse;
 import model.shape2d.Line2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Star;
+import model.shape2d.animation.Volcano;
 import model.shape3d.Cylinder;
 import model.shape3d.Pyramid;
 import model.shape3d.Rectangular;
@@ -141,6 +142,12 @@ public class DrawingPanel extends JPanel {
 
         this.addMouseMotionListener(new CustomMouseMotionHandling());
         this.addMouseListener(new CustomMouseClickHandling());
+        
+        
+         
+//        Volcano vol = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+//        vol.setProperty(new SKPoint2D(80, 40), new SKPoint2D(30, 100));
+//        vol.drawVolcano();
     }
 
     public Color[][] getColorOfBoard() {
@@ -496,8 +503,8 @@ public class DrawingPanel extends JPanel {
         MainFrame.button_Undo.setEnabled(this.ableUndo());
         // Save the changed coordinate into board.
         mergeCoordValue(changedCoordOfBoard, coordOfBoard);
-
-       
+        
+          
     }
 
     private boolean isNotSelected() {
@@ -916,16 +923,16 @@ public class DrawingPanel extends JPanel {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-
+            
             switch (selectedToolMode) {
                 case DRAWING_LINE_FREE: {
-                    endDrawingPoint.saveCoord(coordOfBoard);
+                    startDrawingPoint.saveCoord(changedCoordOfBoard);
                     break;
                 }
             }
-
-            apply();
+            apply();      
             repaint();
+            
         }
 
         @Override

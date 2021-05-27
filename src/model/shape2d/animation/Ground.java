@@ -121,7 +121,7 @@ public class Ground extends Shape2D {
             }
         }
 
-        // To 4 canh hoa
+        // To 4 canh hoa va nhụy hoa
         for (Map.Entry<SKPoint2D, Boolean> centerP : flower_CenterP.entrySet()) {
             Ultility.paint(changedColorOfBoard, markedChangeOfBoard,
                     centerP.getKey(), COLOR_5, false);

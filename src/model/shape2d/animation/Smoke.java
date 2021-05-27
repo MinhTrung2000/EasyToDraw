@@ -16,7 +16,9 @@ public class Smoke extends Shape2D {
     private ArrayList<SKPoint2D> pointList_Border = new ArrayList<>();
 
     private double levelScale = LEVEL_SCALE_START;
-
+    public double getLevelScale (){
+        return this.levelScale;
+    }
     private Color skyColor = Color.WHITE;
 
     public Smoke(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,

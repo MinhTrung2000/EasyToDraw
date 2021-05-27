@@ -99,8 +99,8 @@ public class Sun extends Shape2D {
             drawSegmentUnSave(sunLine_StartP[i], sunLine_EndP[i]);
         }
 
-        this.rotatedAngle += 7;
-        if (this.rotatedAngle > 45) {
+        this.rotatedAngle += 5;
+        if (this.rotatedAngle > 44) {
             this.rotatedAngle = 0;
         }
     }

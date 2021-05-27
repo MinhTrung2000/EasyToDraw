@@ -128,6 +128,29 @@ public class Fish2 extends Shape2D {
 
     private int widthLimit = 0;
 
+    public SKPoint2D getThanCaCenterPoint() {
+        return thanCaCenterPoint;
+    }
+
+    public SKPoint2D getVayTT2CenterPoint() {
+        return vayTT2CenterPoint;
+    }
+
+    public SKPoint2D getDuoiStartPoint() {
+        return duoiStartPoint;
+    }
+
+    public SKPoint2D getTopFinStartPoints() {
+        return topFinStartPoints[0];
+    }
+
+    public SKPoint2D getBotFinStartPoints() {
+        return botFinStartPoints[0];
+    }
+
+    
+    
+    
     public Fish2(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard,
