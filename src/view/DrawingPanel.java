@@ -795,7 +795,7 @@ public class DrawingPanel extends JPanel {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-
+            
             if (coordinateMode == SettingConstants.CoordinateMode.MODE_3D) {
                 return;
             }

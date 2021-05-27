@@ -366,9 +366,9 @@ public abstract class Shape2D {
             int[] roughNumberArray110, int[] roughNumberArray110_2) {
         int pixelCounter = 0;
         
-//        pixelCounter++;
-//        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
-//        pointSet2D.add(startPoint);
+        pixelCounter++;
+        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
+        pointSet2D.add(startPoint);
 
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
