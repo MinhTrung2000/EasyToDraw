@@ -139,10 +139,7 @@ public abstract class Shape2D {
             SettingConstants.LineStyle lineStyle) {
         int pixelCounter = 0;
         
-        pixelCounter++;
-        savePointWithLineStyleCheck(startPoint.getCoordX(),
-                startPoint.getCoordY(), pixelCounter, lineStyle);
-        pointSet2D.add(startPoint);
+        
 
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
@@ -175,7 +172,7 @@ public abstract class Shape2D {
             while (x != endPoint.getCoordX()) {
 
                 pixelCounter += 1;
-                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);  
                 pointSet2D.add(new SKPoint2D(x, y));
 
                 if (balance >= 0) {
@@ -188,7 +185,7 @@ public abstract class Shape2D {
             }
 
             pixelCounter += 1;
-            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);         
             pointSet2D.add(new SKPoint2D(x, y));
         } else {
             dx <<= 1;
@@ -197,7 +194,7 @@ public abstract class Shape2D {
 
             while (y != endPoint.getCoordY()) {
                 pixelCounter += 1;
-                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);       
                 pointSet2D.add(new SKPoint2D(x, y));
 
                 if (balance >= 0) {
@@ -210,10 +207,11 @@ public abstract class Shape2D {
             }
 
             pixelCounter += 1;
-            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);     
             pointSet2D.add(new SKPoint2D(x, y));
         }
-
+        savePoint(endPoint);
+        pointSet2D.add(endPoint);
         if (lineStyle == SettingConstants.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
 
@@ -249,10 +247,6 @@ public abstract class Shape2D {
             SettingConstants.LineStyle lineStyle) {
         int pixelCounter = 0;
         
-        pixelCounter++;
-        savePointWithLineStyleCheck(startPoint.getCoordX(),
-                startPoint.getCoordY(), pixelCounter, lineStyle);
-
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
@@ -285,7 +279,7 @@ public abstract class Shape2D {
 
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
-
+                
                 if (balance >= 0) {
                     y += incy;
                     balance -= dx;
@@ -297,6 +291,7 @@ public abstract class Shape2D {
 
             pixelCounter += 1;
             savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+            
         } else {
             dx <<= 1;
             balance = dx - dy;
@@ -305,7 +300,7 @@ public abstract class Shape2D {
             while (y != endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
-
+                
                 if (balance >= 0) {
                     x += incx;
                     balance -= dy;
@@ -316,8 +311,10 @@ public abstract class Shape2D {
             }
 
             pixelCounter += 1;
-            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);      
         }
+        savePoint(endPoint);
+        pointSet2D.add(endPoint);
 
         if (lineStyle == SettingConstants.LineStyle.ARROW) {
             Vector2D vector = new Vector2D(startPoint, endPoint);
@@ -364,10 +361,7 @@ public abstract class Shape2D {
             int[] roughNumberArray110, int[] roughNumberArray110_2) {
         int pixelCounter = 0;
         
-        pixelCounter++;
-        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
-        pointSet2D.add(startPoint);
-
+        
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
@@ -398,7 +392,7 @@ public abstract class Shape2D {
 
             while (x != endPoint.getCoordX()) {
                 pixelCounter += 1;
-                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+                savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);              
                 pointSet2D.add(new SKPoint2D(x, y));
 
                 for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
@@ -421,7 +415,7 @@ public abstract class Shape2D {
             }
 
             pixelCounter += 1;
-            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
+            savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);      
             pointSet2D.add(new SKPoint2D(x, y));
 
             for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
@@ -441,7 +435,7 @@ public abstract class Shape2D {
             while (y != endPoint.getCoordY()) {
                 pixelCounter += 1;
                 savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
-
+                
                 for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
                     savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
                     pointSet2D.add(new SKPoint2D(x, y - i));
@@ -463,7 +457,7 @@ public abstract class Shape2D {
 
             pixelCounter += 1;
             savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
-
+            
             for (int i = 1; i <= roughNumberArray110[pixelCounter] - 1; i++) {
                 savePointWithLineStyleCheck(x, y - i, pixelCounter, lineStyle);
                 pointSet2D.add(new SKPoint2D(x, y - i));
@@ -474,6 +468,8 @@ public abstract class Shape2D {
                 pointSet2D.add(new SKPoint2D(x, y + i));
             }
         }
+        savePoint(endPoint);
+        pointSet2D.add(endPoint);
     }
 
     public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint) {
@@ -492,11 +488,11 @@ public abstract class Shape2D {
 
         int pixelCounter = 0;
 
-        pixelCounter++;
+        
         putEightSymPoints(pixelCounter, x, y, centerPoint.getCoordX(),
                 centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
                 octant5, octant6, octant7, octant8);
-
+        pixelCounter++;
         double p = 5 / 4.0 - radius;
 
         while (x < y) {
@@ -512,6 +508,7 @@ public abstract class Shape2D {
             putEightSymPoints(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
                     octant5, octant6, octant7, octant8);
+            
         }
     }
     
@@ -527,7 +524,7 @@ public abstract class Shape2D {
         putEightSymPointsUnSave(pixelCounter, x, y, centerPoint.getCoordX(),
                 centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
                 octant5, octant6, octant7, octant8);
-
+        
         double p = 5 / 4.0 - radius;
 
         while (x < y) {
@@ -542,7 +539,7 @@ public abstract class Shape2D {
             pixelCounter++;
             putEightSymPointsUnSave(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), octant1, octant2, octant3, octant4,
-                    octant5, octant6, octant7, octant8);
+                    octant5, octant6, octant7, octant8);        
         }
     }
 
@@ -592,7 +589,7 @@ public abstract class Shape2D {
         int pixelCounter = 0;
         pixelCounter++;
         addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
-
+        
         double p = 5 / 4.0 - radius;
 
         while (x < y) {
@@ -604,7 +601,7 @@ public abstract class Shape2D {
             }
             x++;
         pixelCounter++;
-        addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
+        addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);    
         }
     }
     /**
@@ -784,10 +781,10 @@ public abstract class Shape2D {
 
         int pixelCounter = 0;
 
-        pixelCounter++;
+        
         putFourSymPoints(pixelCounter, x, y, centerPoint.getCoordX(),
                 centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
-
+        pixelCounter++;
         double p = minorRadius * minorRadius - majorRadius * majorRadius
                 * minorRadius + majorRadius * majorRadius * 0.25;
 
@@ -804,9 +801,10 @@ public abstract class Shape2D {
                 fy -= 2 * majorRadius * majorRadius;
             }
 
-            pixelCounter++;
+            
             putFourSymPoints(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+            pixelCounter++;
         }
 
         p = minorRadius * minorRadius * (x + 0.5) * (x + 0.5) + majorRadius
@@ -823,9 +821,10 @@ public abstract class Shape2D {
                 p += majorRadius * majorRadius * (3 - 2 * y);
             }
 
-            pixelCounter++;
+            
             putFourSymPoints(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+            pixelCounter++;
         }
     }
     
@@ -839,10 +838,10 @@ public abstract class Shape2D {
 
         int pixelCounter = 0;
 
-        pixelCounter++;
+        
         putFourSymPointsUnSave(pixelCounter, x, y, centerPoint.getCoordX(),
                 centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
-
+        pixelCounter++;
         double p = minorRadius * minorRadius - majorRadius * majorRadius
                 * minorRadius + majorRadius * majorRadius * 0.25;
 
@@ -859,9 +858,10 @@ public abstract class Shape2D {
                 fy -= 2 * majorRadius * majorRadius;
             }
 
-            pixelCounter++;
+            
             putFourSymPointsUnSave(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+            pixelCounter++;
         }
 
         p = minorRadius * minorRadius * (x + 0.5) * (x + 0.5) + majorRadius
@@ -878,9 +878,10 @@ public abstract class Shape2D {
                 p += majorRadius * majorRadius * (3 - 2 * y);
             }
 
-            pixelCounter++;
+            
             putFourSymPointsUnSave(pixelCounter, x, y, centerPoint.getCoordX(),
                     centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+            pixelCounter++;
         }
     }
 
@@ -993,12 +994,16 @@ public abstract class Shape2D {
      */
     public boolean savePointWithLineStyleCheck(int coordX, int coordY,
             int pixelCounter, SettingConstants.LineStyle lineStyle) {
+        System.out.println("----");
+        System.out.println(pixelCounter);
+        System.out.println("sus: "  + coordX + " " + coordY);
         if (Ultility.checkValidPoint(changedColorOfBoard, coordX, coordY)
                 && Ultility.checkPixelPut(pixelCounter, lineStyle)) {
             markedChangeOfBoard[coordY][coordX] = true;
             changedColorOfBoard[coordY][coordX] = this.filledColor;
             return true;
         }
+       // System.out.println("rejected");
         return false;
     }
 
