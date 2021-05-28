@@ -2,7 +2,6 @@ package control.util;
 
 import control.myawt.SKPoint2D;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.Queue;
 import javafx.util.Pair;
@@ -10,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import control.SettingConstants;
 import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
 import javax.swing.text.JTextComponent;
 import model.tuple.MyPair;
 
@@ -93,7 +91,6 @@ public class Ultility {
      */
     public static void paint(Color[][] colorOfBoard, boolean[][] markedArray,
             SKPoint2D point, Color chosenColor, boolean paintOnRealBoard) {
-        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
 
         if (!checkValidPoint(colorOfBoard, point.getCoordX(), point.getCoordY())) {
             return;
@@ -110,6 +107,8 @@ public class Ultility {
         }
 
         colorOfBoard[point.getCoordY()][point.getCoordX()] = chosenColor;
+        
+        Queue<Pair<Integer, Integer>> queue = new LinkedList<>();
         queue.add(new Pair<>(point.getCoordX(), point.getCoordY()));
 
         while (queue.size() > 0) {

@@ -52,22 +52,22 @@ public class Rectangular extends Shape3D {
         double half_hight = high / 2;
 
         // Set location in visual system coordinate mode.
-        pointA.setLocation(center_x - half_width, center_y +  half_height, 
+        pointA.setLocation(center_x - half_width, center_y + half_height,
                 center_z + half_hight);
-        pointB.setLocation(center_x + half_width, center_y +  half_height, 
+        pointB.setLocation(center_x + half_width, center_y + half_height,
                 center_z + half_hight);
-        pointC.setLocation(center_x + half_width, center_y +  half_height, 
+        pointC.setLocation(center_x + half_width, center_y + half_height,
                 center_z - half_hight);
-        pointD.setLocation(center_x - half_width, center_y +  half_height, 
+        pointD.setLocation(center_x - half_width, center_y + half_height,
                 center_z - half_hight);
 
-        pointA2.setLocation(center_x - half_width, center_y -  half_height, 
+        pointA2.setLocation(center_x - half_width, center_y - half_height,
                 center_z + half_hight);
-        pointB2.setLocation(center_x + half_width, center_y -  half_height, 
+        pointB2.setLocation(center_x + half_width, center_y - half_height,
                 center_z + half_hight);
-        pointC2.setLocation(center_x + half_width, center_y -  half_height, 
+        pointC2.setLocation(center_x + half_width, center_y - half_height,
                 center_z - half_hight);
-        pointD2.setLocation(center_x - half_width, center_y -  half_height, 
+        pointD2.setLocation(center_x - half_width, center_y - half_height,
                 center_z - half_hight);
 
     }
@@ -100,7 +100,7 @@ public class Rectangular extends Shape3D {
         drawSegment(pointB2, pointB, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointB2, pointC2, SettingConstants.LineStyle.DEFAULT);
         drawSegment(pointC2, pointC, SettingConstants.LineStyle.DEFAULT);
-        
+
         drawSegment(pointD, pointD2, SettingConstants.LineStyle.DOT);
         drawSegment(pointA2, pointD2, SettingConstants.LineStyle.DOT);
         drawSegment(pointD2, pointC2, SettingConstants.LineStyle.DOT);

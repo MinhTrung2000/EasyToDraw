@@ -31,13 +31,7 @@ public class Star extends Shape2D {
 
         int widthValue = Math.abs(width);
 
-        int preferedLength;
-
-        if (heightValue >= widthValue) {
-            preferedLength = widthValue;
-        } else {
-            preferedLength = heightValue;
-        }
+        int preferedLength = Math.min(heightValue, widthValue);
 
         int widthDirection;
 
@@ -64,8 +58,7 @@ public class Star extends Shape2D {
 
         centerPoint2D.setMidLocation(this.startPoint2D, this.endPoint2D);
 
-        if ((widthDirection == 1 && heightDirection == 1)
-                || (widthDirection == -1 && heightDirection == 1)) {
+        if (heightDirection == 1) {
             pointA.setLocation(centerPoint2D.getCoordX(),
                     this.startPoint2D.getCoordY());
         } else {

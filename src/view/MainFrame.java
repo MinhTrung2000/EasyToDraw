@@ -1,7 +1,3 @@
-/**
- * SketchPoint Application.
- *
- */
 package view;
 
 import com.pump.swing.JEyeDropper;
@@ -74,6 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
         setOptionLineStyle();
         setAllEventHandler();
         button_Line.requestFocus();
+
         panel_DrawingArea.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent event) {
@@ -262,7 +259,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                 };
 
-                
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("PNG Images", "png");
 
                 chooser.setFileFilter(filter);
@@ -282,7 +278,6 @@ public class MainFrame extends javax.swing.JFrame {
         button_CreateNewFile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                dispose();
                 new MainFrame().setVisible(true);
             }
         });
@@ -324,7 +319,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Undo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ((DrawingPanel) panel_DrawingArea).undo();
+                getDrawingPanel().undo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 getDrawingPanel().repaint();
@@ -334,7 +329,7 @@ public class MainFrame extends javax.swing.JFrame {
         button_Redo.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ((DrawingPanel) panel_DrawingArea).redo();
+                getDrawingPanel().redo();
                 button_Undo.setEnabled(getDrawingPanel().ableUndo());
                 button_Redo.setEnabled(getDrawingPanel().ableRedo());
                 getDrawingPanel().repaint();
@@ -350,7 +345,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 boolean showGrid_Flag = (event.getStateChange() == ItemEvent.SELECTED);
-                ((DrawingPanel) panel_DrawingArea).setShowGridLinesFlag(showGrid_Flag);
+                getDrawingPanel().setShowGridLinesFlag(showGrid_Flag);
             }
         });
 
@@ -358,7 +353,7 @@ public class MainFrame extends javax.swing.JFrame {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 boolean showCoordinate_Flag = (event.getStateChange() == ItemEvent.SELECTED);
-                ((DrawingPanel) panel_DrawingArea).setShowCoordinateFlag(showCoordinate_Flag);
+                getDrawingPanel().setShowCoordinateFlag(showCoordinate_Flag);
             }
         });
 
@@ -374,7 +369,7 @@ public class MainFrame extends javax.swing.JFrame {
                 int selectedIndex = comboBox_StyleLine.getSelectedIndex();
                 for (LineStyle ls : LineStyle.values()) {
                     if (selectedIndex == ls.ordinal()) {
-                        ((DrawingPanel) panel_DrawingArea).setSelectedLineStyle(ls);
+                        getDrawingPanel().setSelectedLineStyle(ls);
                         break;
                     }
                 }
@@ -394,13 +389,13 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
         SettingConstants.DrawingToolMode selectedDrawingToolMode
-                = ((DrawingPanel) panel_DrawingArea).getSelectedToolMode();
+                = getDrawingPanel().getSelectedToolMode();
 
         if (selectedDrawingToolMode == toolMode) {
             return false;
         }
 
-        return ((DrawingPanel) panel_DrawingArea).setSelectedToolMode(toolMode);
+        return getDrawingPanel().setSelectedToolMode(toolMode);
     }
 
     /**
@@ -504,10 +499,6 @@ public class MainFrame extends javax.swing.JFrame {
                     }
                     savedColorButtonList[SettingConstants.DEFAULT_SAVED_COLOR_NUMBER - 1].setBackground(selectedColor);
                 }
-
-//                for (int i = 0; i < SettingConstants.DEFAULT_SAVED_COLOR_NUMBER; i++) {
-//                    savedColorButtonList[i].addActionListener(new CustomSavedColorButtonEventHandling(savedColorButtonList[i]));
-//                }
             }
         });
     }
@@ -1638,7 +1629,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ((DrawingPanel) panel_DrawingArea).setSelectedColor(button.getBackground());
+            getDrawingPanel().setSelectedColor(button.getBackground());
             button_CurrentColor.setBackground(button.getBackground());
         }
     }
@@ -1719,7 +1710,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-        System.out.println("I set mode: " + getDrawingPanel().getSelectedToolMode());
+//        System.out.println("I set mode: " + getDrawingPanel().getSelectedToolMode());
     }
 
     public void promptTranformInput() {

@@ -13,8 +13,7 @@ public class Sphere extends Shape3D {
 
     private double radius = 0.0;
 
-    private Ellipse circle = new Ellipse(markedChangeOfBoard, changedColorOfBoard,
-            changedCoordOfBoard, filledColor);
+    private Ellipse circle;
 
     private ArrayList<SKPoint2D> circlePointList = new ArrayList<>();
 
@@ -22,6 +21,9 @@ public class Sphere extends Shape3D {
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard,
                 filledColor);
+
+        circle = new Ellipse(markedChangeOfBoard, changedColorOfBoard,
+                changedCoordOfBoard, filledColor);
     }
 
     public void setProperty(double center_x, double center_y, double center_z,

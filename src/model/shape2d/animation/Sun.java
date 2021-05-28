@@ -9,7 +9,6 @@ import control.util.Ultility;
 import java.awt.Color;
 import java.util.ArrayList;
 import control.myawt.SKPoint2D;
-import model.shape2d.Segment2D;
 import model.shape2d.Shape2D;
 import model.shape2d.Transform2D;
 import model.shape2d.Vector2D;

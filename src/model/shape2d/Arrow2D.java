@@ -22,7 +22,9 @@ import java.awt.Point;
                         C * *  |
                           *----+
                           G   end
-
+    
+    end.x - G.x = (end.x - start.x) / 5 * 4
+    d(F, D) = d(C, G) = AB / 2 = (end.y - start.y) / 4
  */
 public class Arrow2D extends Shape2D {
 

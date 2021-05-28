@@ -50,9 +50,9 @@ public class AnimationFrame extends javax.swing.JFrame {
         return ((AnimationPanel) this.animationPanel);
     }
 
-    public  class AnimationPanel extends JPanel {
+    public class AnimationPanel extends JPanel {
 
-        public  final Color SKY_COLOR = new Color(205, 249, 255);
+        public final Color SKY_COLOR = new Color(205, 249, 255);
 
         private int widthBoard;
         private int heightBoard;
@@ -91,11 +91,11 @@ public class AnimationFrame extends javax.swing.JFrame {
         }
 
         public void setComponent() {
-            widthBoard = (this.getWidth()) / SettingConstants.RECT_SIZE + 3;
+            widthBoard = this.getWidth() / SettingConstants.RECT_SIZE + 3;
             heightBoard = this.getHeight() / SettingConstants.RECT_SIZE + 3;
 
             this.colorOfBoard = new Color[heightBoard][widthBoard];
-            this.changedColorOfBoard = new Color[heightBoard][widthBoard];            
+            this.changedColorOfBoard = new Color[heightBoard][widthBoard];
             this.markedChangeOfBoard = new boolean[heightBoard][widthBoard];
 
             resetSavedPropertyArray();
@@ -151,14 +151,10 @@ public class AnimationFrame extends javax.swing.JFrame {
 
             for (int i = 0; i < this.heightBoard; i++) {
                 for (int j = 0; j < this.widthBoard; j++) {
-                    if (markedChangeOfBoard[i][j]) {
-                        graphic.setColor(changedColorOfBoard[i][j]);
-                    } else {
-                        graphic.setColor(colorOfBoard[i][j]);
-                    }
+                    graphic.setColor(colorOfBoard[i][j]);
 
-                    graphic.fillRect(j * SettingConstants.RECT_SIZE+1,
-                            i * SettingConstants.RECT_SIZE+1,
+                    graphic.fillRect(j * SettingConstants.RECT_SIZE + 1,
+                            i * SettingConstants.RECT_SIZE + 1,
                             SettingConstants.SIZE,
                             SettingConstants.SIZE
                     );
@@ -173,80 +169,75 @@ public class AnimationFrame extends javax.swing.JFrame {
             /* SKY */
             Ultility.paint(colorOfBoard, markedChangeOfBoard,
                     skyPaintPoint, SKY_COLOR, true);
-            
+
             /* VOLCANO */
             volcano.drawVolcano();
             label_StartP_Volca.setText(volcano.getStartPoint().saveCoordToString());
             label_EndP_Volca.setText(volcano.getEndPoint().saveCoordToString());
-            
-            
+
             /* SMOKE */
             Double scaleLevel = smoke.getLevelScale();
-            scaleLevel = BigDecimal.valueOf(scaleLevel)
-    .setScale(3, RoundingMode.HALF_UP)
-    .doubleValue();
-            
+            scaleLevel = BigDecimal.valueOf(scaleLevel).setScale(3, RoundingMode.HALF_UP)
+                    .doubleValue();
+
             smoke.drawSmoke();
             label_CenterP_Smoke.setText(smoke.getStartPoint().saveCoordToString());
             label_ScaleLevel_Smoke.setText(scaleLevel.toString());
-            
-            
+
             mergeColorValue();
             resetChangedPropertyArray();
 
-            
             /* SUN */
-            
             sun.drawSun();
             label_CenterP_Sun.setText(sun.getCenterPoint2D().saveCoordToString());
             label_Angle_Sun.setText(Integer.toString(sun.getRotatedAngle()));
-            
+
             /* GROUND */
             ground.drawGround();
             label_StartP_ground.setText(ground.getStartPoint().saveCoordToString());
+
             /* CLOUD */
             cloud1.drawCloud();
             cloud2.drawCloud();
             label_CenterP_C1.setText(cloud1.movingCenterPoint.saveCoordToString());
             label_CenterP_C2.setText(cloud2.movingCenterPoint.saveCoordToString());
-            
-            
+
             mergeColorValue();
             resetChangedPropertyArray();
-            
-            
+
             //cây đè lên Ground + Cloud
-            
             /* APPLE TREE */
             tree.drawAppleTree();
             label_StartP_Tree.setText(tree.getStartPoint().saveCoordToString());
-            
+
             /* RIVER */
             river.drawRiver();
             label_StartP_river.setText(river.getStartPoint().saveCoordToString());
-            
+
             /* FISH1, FISH2*/
             fish1.drawFish1();
-            
+
             label_StartP_F1.setText(fish1.getStartPoint().saveCoordToString());
             label_BodyCenterP_F1.setText(fish1.getThanCaCenterPoint().saveCoordToString());
             label_HeadCenterP_F1.setText(fish1.getDauCaCenterPoint().saveCoordToString());
             label_TopFinStartP_F1.setText(fish1.getVayTrenStartPoint().saveCoordToString());
             label_BotFinStartP_F1.setText(fish1.getVayDuoiStartPoint().saveCoordToString());
             label_TailECenterP_F1.setText(fish1.getTailEdgeCenterPoint().saveCoordToString());
-            
+
             mergeColorValue();
             resetChangedPropertyArray();
 
             fish2.drawFish2();
-            
+
             label_StartP_F2.setText(fish2.getStartPoint().saveCoordToString());
             label_BodyCenterP_F2.setText(fish2.getThanCaCenterPoint().saveCoordToString());
             label_FoBCenterP_F2.setText(fish2.getVayTT2CenterPoint().saveCoordToString());
             label_TopFinStartP_F2.setText(fish2.getTopFinStartPoints().saveCoordToString());
             label_BotFinStartP_F2.setText(fish2.getBotFinStartPoints().saveCoordToString());
             label_TailStartP_F2.setText(fish2.getDuoiStartPoint().saveCoordToString());
-            
+
+            mergeColorValue();
+            resetChangedPropertyArray();
             
             repaint();
         }

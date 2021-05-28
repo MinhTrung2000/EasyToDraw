@@ -45,16 +45,11 @@ public class SKPoint3D extends SKPoint2D {
         this.coordZ = other.coordZ;
     }
 
-    /**
-     * Note: Implement this code!
-     *
-     * @return SKPoint2D
-     */
     public SKPoint2D get2DRelativePosition() {
         //cabinet, f = 1/2 => y = y/2
         SKPoint2D ret = new SKPoint2D();
-        int tempX = (int) (this.coordX - Math.round(this.coordY/2 * Math.cos(Math.toRadians(45))));
-        int tempY = (int) (this.coordZ - Math.round(this.coordY/2 * Math.sin(Math.toRadians(45))));
+        int tempX = (int) (this.coordX - Math.round(this.coordY/2 * COS_DEGREE_45));
+        int tempY = (int) (this.coordZ - Math.round(this.coordY/2 * SIN_DEGREE_45));
         ret.setLocation(tempX, tempY);
         ret.convertToSystemCoord();
         return ret;
@@ -71,7 +66,7 @@ public class SKPoint3D extends SKPoint2D {
 
     @Override
     public void saveCoord(String[][] coordOfBoard) {
-        SKPoint2D relativePoint2D = this.get2DRelativePosition();
+        SKPoint2D relativePoint2D = get2DRelativePosition();
         if (Ultility.checkValidPoint(coordOfBoard, relativePoint2D.coordX, relativePoint2D.coordY)) {
             coordOfBoard[relativePoint2D.coordY][relativePoint2D.coordX] = "(" + coordX + ", " + coordY + ", " + coordZ + ")";
         }

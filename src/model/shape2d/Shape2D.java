@@ -22,23 +22,24 @@ public abstract class Shape2D {
     /**
      * This references to the marked coordinates of drawing board.
      */
-    protected  boolean[][] markedChangeOfBoard;
+    protected boolean[][] markedChangeOfBoard;
 
     /**
      * This references to the color value of points of drawing board.
      */
-    protected  Color[][] changedColorOfBoard;
+    protected Color[][] changedColorOfBoard;
 
     /**
      * This references to the coordinate property of points of drawing board.
      */
-    protected  String[][] changedCoordOfBoard;
+    protected String[][] changedCoordOfBoard;
 
     /**
      * The total angle of this shape after rotation.
      */
-    protected int rotatedAngle = (int)DEFAULT_ANGLE;
-    public int getRotatedAngle (){
+    protected int rotatedAngle = (int) DEFAULT_ANGLE;
+
+    public int getRotatedAngle() {
         return this.rotatedAngle;
     }
 
@@ -56,13 +57,14 @@ public abstract class Shape2D {
      * Center point of shape.
      */
     protected SKPoint2D centerPoint2D = new SKPoint2D();
-    public SKPoint2D getCenterPoint2D (){
+
+    public SKPoint2D getCenterPoint2D() {
         return this.centerPoint2D;
     }
     /**
      * The total of pixel number.
      */
-//    protected int pixelCounter = 0;
+
     protected SKPoint2D startPoint2D = new SKPoint2D();
     protected SKPoint2D endPoint2D = new SKPoint2D();
 
@@ -138,11 +140,6 @@ public abstract class Shape2D {
     public void drawSegment(SKPoint2D startPoint, SKPoint2D endPoint,
             SettingConstants.LineStyle lineStyle) {
         int pixelCounter = 0;
-        
-//        pixelCounter++;
-//        savePointWithLineStyleCheck(startPoint.getCoordX(),
-//                startPoint.getCoordY(), pixelCounter, lineStyle);
-//        pointSet2D.add(startPoint);
 
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
@@ -189,7 +186,7 @@ public abstract class Shape2D {
 
             pixelCounter += 1;
             savePointWithLineStyleCheck(x, y, pixelCounter, lineStyle);
-            
+
             pointSet2D.add(new SKPoint2D(x, y));
         } else {
             dx <<= 1;
@@ -234,8 +231,8 @@ public abstract class Shape2D {
                 Transform2D.transform(upPoint, Transform2D.getRotateFromPointMat(endPoint, angleSegmentWithOx));
                 Transform2D.transform(downPoint, Transform2D.getRotateFromPointMat(endPoint, angleSegmentWithOx));
 
-                drawSegment(endPoint, upPoint, SettingConstants.LineStyle.DEFAULT);
-                drawSegment(endPoint, downPoint, SettingConstants.LineStyle.DEFAULT);
+                drawSegmentUnSave(endPoint, upPoint, SettingConstants.LineStyle.DEFAULT);
+                drawSegmentUnSave(endPoint, downPoint, SettingConstants.LineStyle.DEFAULT);
             }
         }
     }
@@ -250,10 +247,6 @@ public abstract class Shape2D {
     public void drawSegmentUnSave(SKPoint2D startPoint, SKPoint2D endPoint,
             SettingConstants.LineStyle lineStyle) {
         int pixelCounter = 0;
-        
-//        pixelCounter++;
-//        savePointWithLineStyleCheck(startPoint.getCoordX(),
-//                startPoint.getCoordY(), pixelCounter, lineStyle);
 
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
@@ -365,11 +358,10 @@ public abstract class Shape2D {
     public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint,
             int[] roughNumberArray110, int[] roughNumberArray110_2) {
         int pixelCounter = 0;
-        
+
 //        pixelCounter++;
 //        savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
 //        pointSet2D.add(startPoint);
-
         int dx = 0, dy = 0;
         int incx = 0, incy = 0;
         int balance = 0;
@@ -518,7 +510,7 @@ public abstract class Shape2D {
                     octant5, octant6, octant7, octant8);
         }
     }
-    
+
     public void drawOutlineCircleUnSave(SKPoint2D centerPoint, double radius, boolean octant1,
             boolean octant2, boolean octant3, boolean octant4, boolean octant5,
             boolean octant6, boolean octant7, boolean octant8) {
@@ -590,8 +582,8 @@ public abstract class Shape2D {
     }
 
     public static void merPointSetCircleS(ArrayList<SKPoint2D> array,
-           SKPoint2D centerPoint, double radius){
-           int x = 0;
+            SKPoint2D centerPoint, double radius) {
+        int x = 0;
         int y = (int) radius;
         int pixelCounter = 0;
         pixelCounter++;
@@ -607,10 +599,11 @@ public abstract class Shape2D {
                 y--;
             }
             x++;
-        pixelCounter++;
-        addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
+            pixelCounter++;
+            addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
         }
     }
+
     /**
      * Merge point set of ellipse without drawing.
      *
@@ -740,6 +733,7 @@ public abstract class Shape2D {
             pointSet2D.add(new SKPoint2D(-x + center_x, y + center_y));
         }
     }
+
     public void putEightSymPointsUnSave(int pixelCounter, double x, double y,
             double center_x, double center_y, boolean octant1, boolean octant2,
             boolean octant3, boolean octant4, boolean octant5, boolean octant6,
@@ -832,7 +826,7 @@ public abstract class Shape2D {
                     centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
         }
     }
-    
+
     public void drawOutlineEllipseUnSave(SKPoint2D centerPoint, double majorRadius,
             double minorRadius, boolean quadrant1, boolean quadrant2, boolean quadrant3, boolean quadrant4) {
         double x = 0.0;
@@ -912,7 +906,7 @@ public abstract class Shape2D {
             pointSet2D.add(new SKPoint2D(center_x - x, center_y + y));
         }
     }
-    
+
     public void putFourSymPointsUnSave(int pixelCounter, double x, double y,
             double center_x, double center_y, boolean quadrant1,
             boolean quadrant2, boolean quadrant3, boolean quadrant4) {
@@ -1088,23 +1082,21 @@ public abstract class Shape2D {
             arr.add(new SKPoint2D(-x + center_x, y + center_y));
         }
     }
-    
+
     public static void addEightSymPoints_Special(ArrayList<SKPoint2D> arr, double x,
             double y, double center_x, double center_y, int pixelCounter) {
-            arr.add(new SKPoint2D(x + center_x, y + center_y));
-            arr.add(new SKPoint2D(y + center_x, x + center_y));
-            arr.add(new SKPoint2D(-y + center_x, x + center_y));
-            arr.add(new SKPoint2D(-x + center_x, y + center_y));
-        
-        if (pixelCounter %2 !=0) {//phần 1, 2, 7, 8 bị ẩn đi các pixel tạo thành dot style
+        arr.add(new SKPoint2D(x + center_x, y + center_y));
+        arr.add(new SKPoint2D(y + center_x, x + center_y));
+        arr.add(new SKPoint2D(-y + center_x, x + center_y));
+        arr.add(new SKPoint2D(-x + center_x, y + center_y));
+
+        if (pixelCounter % 2 != 0) {//phần 1, 2, 7, 8 bị ẩn đi các pixel tạo thành dot style
             arr.add(new SKPoint2D(y + center_x, -x + center_y));
             arr.add(new SKPoint2D(x + center_x, -y + center_y));
             arr.add(new SKPoint2D(-x + center_x, -y + center_y));
             arr.add(new SKPoint2D(-y + center_x, -x + center_y));
         }
-        
-            
-        
+
     }
 
     public void createRotate(SKPoint2D centerPoint, double angle) {
@@ -1119,7 +1111,7 @@ public abstract class Shape2D {
             savePoint(pt);
         }
     }
-    
+
     public void rotate(SKPoint2D centerPoint, double angle) {
         if (pointSet2D.isEmpty()) {
             return;
@@ -1150,7 +1142,7 @@ public abstract class Shape2D {
             savePoint(pt);
         }
     }
-    
+
     public void scale(double sx, double sy) {
         if (pointSet2D.isEmpty()) {
             return;
@@ -1230,7 +1222,7 @@ public abstract class Shape2D {
             savePoint(point);
         }
     }
-    
+
     public void symVertical(int x) {
         if (pointSet2D.isEmpty()) {
             return;
@@ -1251,7 +1243,7 @@ public abstract class Shape2D {
             savePoint(point);
         }
     }
-    
+
     public void symHorizontal(int y) {
         if (pointSet2D.isEmpty()) {
             return;

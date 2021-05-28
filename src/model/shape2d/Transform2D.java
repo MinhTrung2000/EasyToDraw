@@ -255,8 +255,4 @@ public class Transform2D {
         vec.setCoord(new_x, new_y);
     }
     
-    public static void main(String[] args) {
-        SKPoint2D p = new SKPoint2D(2, 5);
-        System.out.println(Transform2D.getTransformPoint(p, Transform2D.getVerSymMat(7)));
-    }
 }
