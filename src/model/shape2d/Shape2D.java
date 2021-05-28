@@ -485,8 +485,8 @@ public abstract class Shape2D {
             boolean octant2, boolean octant3, boolean octant4, boolean octant5,
             boolean octant6, boolean octant7, boolean octant8) {
         int x = 0;
+   //     int y = (int) (radius * Math.sqrt(2))/2;
         int y = (int) radius;
-
         int pixelCounter = 0;
 
         pixelCounter++;
@@ -516,8 +516,9 @@ public abstract class Shape2D {
             boolean octant2, boolean octant3, boolean octant4, boolean octant5,
             boolean octant6, boolean octant7, boolean octant8) {
         int x = 0;
+//        int y = (int) (radius * Math.sqrt(2))/2;
         int y = (int) radius;
-
+        
         int pixelCounter = 0;
 
         pixelCounter++;
@@ -564,7 +565,7 @@ public abstract class Shape2D {
             boolean octant7, boolean octant8) {
         int x = 0;
         int y = (int) radius;
-
+      //  int y = (int) (radius * Math.sqrt(2))/2;
         addEightSymPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), octant1, octant2, octant3, octant4, octant5, octant6, octant7, octant8);
 
         double p = 5 / 4.0 - radius;
@@ -586,7 +587,8 @@ public abstract class Shape2D {
             SKPoint2D centerPoint, double radius) {
         int x = 0;
         int y = (int) radius;
-        int pixelCounter = 0;
+    // int y = (int) (radius * Math.sqrt(2))/2;
+     int pixelCounter = 0;
         pixelCounter++;
         addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
 
