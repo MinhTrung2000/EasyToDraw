@@ -134,6 +134,8 @@ public class Ground extends Shape2D {
             Ultility.paint(changedColorOfBoard, markedChangeOfBoard,
                     new SKPoint2D(centerP.getKey(), -3, -2), COLOR_3, false);
         }
+        setFilledColor(Color.RED);
+        savePoint(this.startPoint2D);
     }
 
     @Override

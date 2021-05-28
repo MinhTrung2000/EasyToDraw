@@ -60,7 +60,7 @@ public class Line2D extends Segment2D {
         int limitLeft = (int) Math.round((-coeffC - coeffA * 0) / coeffB);
         int limitBot = (int) Math.round((-coeffC - coeffB * (heightLimit)) / coeffA);
         int limitRight = (int) Math.round((-coeffC - coeffA * (widthLimit)) / coeffB);
-
+        
         this.startPoint2D = null;
         this.endPoint2D = null;
 

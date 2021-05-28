@@ -55,9 +55,9 @@ public class Cloud extends Shape2D {
 
     public void drawCloud() {
         Vector2D vectorSlip = new Vector2D(slip, 0);
-
+//        setFilledColor(Color.BLACK);
         SKPoint2D centerPointToPaint = this.centerPoint2D.createMove(vectorSlip);
-        movingCenterPoint = centerPointToPaint;
+        movingCenterPoint = centerPointToPaint;   
         for (int i = 0; i < pointSet2D.size(); i++) {
             SKPoint2D point = new SKPoint2D(pointSet2D.get(i));
             point.move(vectorSlip);
@@ -82,6 +82,8 @@ public class Cloud extends Shape2D {
 
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard,
                 new SKPoint2D(centerPointToPaint, 1, -1), CLOUD_COLOR, false);
+//        setFilledColor(Color.RED);
+//        savePoint(movingCenterPoint);
     }
 
     @Override

@@ -119,6 +119,8 @@ public class River extends Shape2D {
         Ultility.paint(changedColorOfBoard, markedChangeOfBoard, 
                 new SKPoint2D(this.startPoint2D, 4, HEIGHT_1 + 4), filledColor, 
                 false);
+//        setFilledColor(Color.RED);
+//        savePoint(this.startPoint2D);
     }
 
     @Override
