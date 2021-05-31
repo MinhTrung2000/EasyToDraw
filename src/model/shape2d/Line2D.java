@@ -1,6 +1,8 @@
 package model.shape2d;
 
+import control.SettingConstants;
 import control.myawt.SKPoint2D;
+import control.util.Ultility;
 import java.awt.Color;
 
 public class Line2D extends Segment2D {
@@ -12,6 +14,7 @@ public class Line2D extends Segment2D {
     private double coeffA;
     private double coeffB;
     private double coeffC;
+    
 
     public Line2D(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
@@ -43,7 +46,7 @@ public class Line2D extends Segment2D {
         coeffB = -(startPoint.getCoordX() - endPoint.getCoordX());
         coeffC = -(coeffA * startPoint.getCoordX() + coeffB * startPoint.getCoordY());
         //coeffC dùng bộ x, y của start hay end để tìm đều dc
-
+        System.out.println(coeffA + " " + coeffB + " " + coeffC);
         //2 điểm trùng nhau => ko xác định được hướng
         if (startPoint.equal(endPoint)) {
             this.startPoint2D.setLocation(-1, -1);
@@ -111,6 +114,18 @@ public class Line2D extends Segment2D {
      * @param other
      * @return
      */
+
+    public void saveEquationLine(double a, double b, double c){
+        int coordX = (this.startPoint2D.getCoordX() + this.endPoint2D.getCoordX()) / 2;
+        int coordY = (this.startPoint2D.getCoordY() + this.endPoint2D.getCoordY()) / 2;
+        SKPoint2D savingPoint = new SKPoint2D(coordX, coordY);
+        String plusB;
+        if(b < 0) plusB = "-"; else plusB = "+";
+
+        if (Ultility.checkValidPoint(changedCoordOfBoard, coordX, coordY)) {
+            changedCoordOfBoard[coordY][coordX] = a + "x "+ plusB + Math.abs(b) + "y = " + (c);
+        }
+    }
     public SKPoint2D intersect(Line2D other) {
         Vector2D vectorA12 = new Vector2D(this.coeffA, other.coeffA);
         Vector2D vectorB12 = new Vector2D(this.coeffB, other.coeffB);

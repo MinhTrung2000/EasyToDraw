@@ -711,11 +711,36 @@ public class DrawingPanel extends JPanel {
         if (recentShape == null) {
             return;
         }
-
+        int x1, y1, x2, y2;
+        
+        y1 = (int) Math.round((a* (0) - c)/ -b);
+        System.out.println(y1);
+        SKPoint2D pointA = new SKPoint2D(0,y1);
+        if(!Ultility.checkValidPoint(coordOfBoard, 0, y1) || b == 0){
+            x1 = (int) Math.round((b * (0) -c)/ -a);
+            pointA.setLocation(x1, 0);
+        }
+        
+        y2 = (int) Math.round((a* (3) - c)/ -b);      
+        SKPoint2D pointB = new SKPoint2D(3,y2);
+        if(!Ultility.checkValidPoint(coordOfBoard, 3, y2) || b == 0){
+            x2 = (int) Math.round((b * (3) -c)/ -a);
+            pointB.setLocation(x2, 3);
+        }
+        System.out.println("A: " + pointA.getCoordX() + " "+ pointA.getCoordY());
+        System.out.println("B: " + pointB.getCoordX() + " "+ pointB.getCoordY());
+        pointA.convertToSystemCoord();
+        pointB.convertToSystemCoord();
+        
         recentShape.createSymLine(a, b, c);
+        Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
+        line.setProperty(pointA, pointB);
+        line.drawOutline();
+        line.saveEquationLine(a, b, c);
         apply();
         repaint();
     }
+    
 
     public void draw3DShapeRectangular(double center_x, double center_y, double center_z, int width, int height, int high) {
         resetChangedPropertyArray();
