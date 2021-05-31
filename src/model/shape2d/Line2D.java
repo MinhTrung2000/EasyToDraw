@@ -46,7 +46,6 @@ public class Line2D extends Segment2D {
         coeffB = -(startPoint.getCoordX() - endPoint.getCoordX());
         coeffC = -(coeffA * startPoint.getCoordX() + coeffB * startPoint.getCoordY());
         //coeffC dùng bộ x, y của start hay end để tìm đều dc
-        System.out.println(coeffA + " " + coeffB + " " + coeffC);
         //2 điểm trùng nhau => ko xác định được hướng
         if (startPoint.equal(endPoint)) {
             this.startPoint2D.setLocation(-1, -1);

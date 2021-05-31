@@ -712,23 +712,65 @@ public class DrawingPanel extends JPanel {
             return;
         }
         int x1, y1, x2, y2;
-        
-        y1 = (int) Math.round((a* (0) - c)/ -b);
-        System.out.println(y1);
-        SKPoint2D pointA = new SKPoint2D(0,y1);
-        if(!Ultility.checkValidPoint(coordOfBoard, 0, y1) || b == 0){
-            x1 = (int) Math.round((b * (0) -c)/ -a);
-            pointA.setLocation(x1, 0);
+        int counter = 1;
+        SKPoint2D test = new SKPoint2D();
+        SKPoint2D pointA = new SKPoint2D(), pointB = new SKPoint2D();
+        if(b!=0){
+            y1 = (int) Math.round((a* (counter) - c)/ -b);
+            test.setLocation(counter, y1);
+            test.convertToSystemCoord();
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+                counter++;
+                y1 = (int) Math.round((a* (counter) - c)/ -b);
+                test.setLocation(counter, y1);
+                test.convertToSystemCoord();
+            }
+            pointA.setLocation(counter, y1);
+            counter = -3;
+            
+            y2 = (int) Math.round((a* (counter) - c)/ -b); 
+            test.setLocation(counter, y2);
+            test.convertToSystemCoord();
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+                counter--;
+                y2 = (int) Math.round((a* (counter) - c)/ -b);
+                test.setLocation(counter, y2);
+                test.convertToSystemCoord();
+            }
+            
+            pointB.setLocation(counter, y2);
         }
         
-        y2 = (int) Math.round((a* (3) - c)/ -b);      
-        SKPoint2D pointB = new SKPoint2D(3,y2);
-        if(!Ultility.checkValidPoint(coordOfBoard, 3, y2) || b == 0){
-            x2 = (int) Math.round((b * (3) -c)/ -a);
-            pointB.setLocation(x2, 3);
+        else{
+            x1 = (int) Math.round((b * (counter) -c)/ -a);
+            test.setLocation(x1, counter);
+            test.convertToSystemCoord();
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+                counter++;
+                x1 = (int) Math.round((b * (counter) -c)/ -a);
+                test.setLocation(x1, counter);
+                test.convertToSystemCoord();
+            }
+            pointA.setLocation(x1, counter);
+            counter = -3;
+            
+            x2 = (int) Math.round((b * (counter) -c)/ -a);
+            test.setLocation(x2, counter);
+            test.convertToSystemCoord();
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+                counter--;
+                x2 = (int) Math.round((b * (counter) -c)/ -a);
+                test.setLocation(x2, counter);
+                test.convertToSystemCoord();
+            }
+            pointB.setLocation(x2, counter);
+            
+            
         }
-        System.out.println("A: " + pointA.getCoordX() + " "+ pointA.getCoordY());
-        System.out.println("B: " + pointB.getCoordX() + " "+ pointB.getCoordY());
+        
+        
+        
+        
         pointA.convertToSystemCoord();
         pointB.convertToSystemCoord();
         
