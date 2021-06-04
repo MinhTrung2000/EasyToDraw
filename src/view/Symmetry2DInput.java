@@ -188,18 +188,38 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
         rbtnOYOption.setText("Oy axis");
 
         rbtnPointOption.setText("Point");
+        rbtnPointOption.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                rbtnPointOptionPropertyChange(evt);
+            }
+        });
 
         rbtnLineOption.setText("Line Ax + By = C");
+        rbtnLineOption.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                rbtnLineOptionPropertyChange(evt);
+            }
+        });
 
         jLabel1.setText("X:");
 
         jLabel2.setText("Y:");
 
+        textfPointCoordX.setEditable(false);
+
+        textfPointCoordY.setEditable(false);
+
         jLabel3.setText("A:");
+
+        textfLineCoeffA.setEditable(false);
 
         jLabel4.setText("B:");
 
+        textfLineCoeffB.setEditable(false);
+
         jLabel5.setText("C:");
+
+        textfLineCoeffC.setEditable(false);
 
         btnOK.setText("Ok");
 
@@ -307,6 +327,33 @@ public class Symmetry2DInput extends javax.swing.JDialog implements ActionListen
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void rbtnPointOptionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rbtnPointOptionPropertyChange
+        if (rbtnPointOption.isSelected()) {
+            textfPointCoordX.setEditable(true);
+            textfPointCoordY.setEditable(true);
+        } else {
+            textfPointCoordX.setEditable(false);
+            textfPointCoordY.setEditable(false);
+            textfPointCoordX.setText("");
+            textfPointCoordY.setText("");
+        }
+    }//GEN-LAST:event_rbtnPointOptionPropertyChange
+
+    private void rbtnLineOptionPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_rbtnLineOptionPropertyChange
+        if (rbtnLineOption.isSelected()) {
+            textfLineCoeffA.setEditable(true);
+            textfLineCoeffB.setEditable(true);
+            textfLineCoeffC.setEditable(true);
+        } else {
+            textfLineCoeffA.setEditable(false);
+            textfLineCoeffB.setEditable(false);
+            textfLineCoeffC.setEditable(false);
+            textfLineCoeffA.setText("");
+            textfLineCoeffB.setText("");
+            textfLineCoeffC.setText("");
+        }
+    }//GEN-LAST:event_rbtnLineOptionPropertyChange
 
     /**
      * @param args the command line arguments

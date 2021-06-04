@@ -139,9 +139,6 @@ public class DrawingPanel extends JPanel {
         this.addMouseMotionListener(new CustomMouseMotionHandling());
         this.addMouseListener(new CustomMouseClickHandling());
 
-//        Volcano vol = new Volcano(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
-//        vol.setProperty(new SKPoint2D(80, 40), new SKPoint2D(30, 100));
-//        vol.drawVolcano();
     }
 
     public Color[][] getColorOfBoard() {
@@ -715,65 +712,59 @@ public class DrawingPanel extends JPanel {
         int counter = 1;
         SKPoint2D test = new SKPoint2D();
         SKPoint2D pointA = new SKPoint2D(), pointB = new SKPoint2D();
-        if(b!=0){
-            y1 = (int) Math.round((a* (counter) - c)/ -b);
+        if (b != 0) {
+            y1 = (int) Math.round((a * (counter) - c) / -b);
             test.setLocation(counter, y1);
             test.convertToSystemCoord();
-            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())) {
                 counter++;
-                y1 = (int) Math.round((a* (counter) - c)/ -b);
+                y1 = (int) Math.round((a * (counter) - c) / -b);
                 test.setLocation(counter, y1);
                 test.convertToSystemCoord();
             }
             pointA.setLocation(counter, y1);
             counter = -3;
-            
-            y2 = (int) Math.round((a* (counter) - c)/ -b); 
+
+            y2 = (int) Math.round((a * (counter) - c) / -b);
             test.setLocation(counter, y2);
             test.convertToSystemCoord();
-            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())) {
                 counter--;
-                y2 = (int) Math.round((a* (counter) - c)/ -b);
+                y2 = (int) Math.round((a * (counter) - c) / -b);
                 test.setLocation(counter, y2);
                 test.convertToSystemCoord();
             }
-            
+
             pointB.setLocation(counter, y2);
-        }
-        
-        else{
-            x1 = (int) Math.round((b * (counter) -c)/ -a);
+        } else {
+            x1 = (int) Math.round((b * (counter) - c) / -a);
             test.setLocation(x1, counter);
             test.convertToSystemCoord();
-            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())) {
                 counter++;
-                x1 = (int) Math.round((b * (counter) -c)/ -a);
+                x1 = (int) Math.round((b * (counter) - c) / -a);
                 test.setLocation(x1, counter);
                 test.convertToSystemCoord();
             }
             pointA.setLocation(x1, counter);
             counter = -3;
-            
-            x2 = (int) Math.round((b * (counter) -c)/ -a);
+
+            x2 = (int) Math.round((b * (counter) - c) / -a);
             test.setLocation(x2, counter);
             test.convertToSystemCoord();
-            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())){
+            while (!Ultility.checkValidPoint(coordOfBoard, test.getCoordX(), test.getCoordY())) {
                 counter--;
-                x2 = (int) Math.round((b * (counter) -c)/ -a);
+                x2 = (int) Math.round((b * (counter) - c) / -a);
                 test.setLocation(x2, counter);
                 test.convertToSystemCoord();
             }
             pointB.setLocation(x2, counter);
-            
-            
+
         }
-        
-        
-        
-        
+
         pointA.convertToSystemCoord();
         pointB.convertToSystemCoord();
-        
+
         recentShape.createSymLine(a, b, c);
         Line2D line = new Line2D(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, selectedColor);
         line.setProperty(pointA, pointB);
@@ -782,7 +773,6 @@ public class DrawingPanel extends JPanel {
         apply();
         repaint();
     }
-    
 
     public void draw3DShapeRectangular(double center_x, double center_y, double center_z, int width, int height, int high) {
         resetChangedPropertyArray();
@@ -849,7 +839,7 @@ public class DrawingPanel extends JPanel {
             if (!SwingUtilities.isLeftMouseButton(event)) {
                 return;
             }
-            
+
             if (coordinateMode == SettingConstants.CoordinateMode.MODE_3D) {
                 return;
             }

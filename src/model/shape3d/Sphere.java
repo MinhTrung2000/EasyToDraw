@@ -13,17 +13,15 @@ public class Sphere extends Shape3D {
 
     private double radius = 0.0;
 
-    private Ellipse circle;
-
     private ArrayList<SKPoint2D> circlePointList = new ArrayList<>();
+    public static final double COS_DEGREE_45 = Math.cos(Math.toRadians(45));
+    public static final double SIN_DEGREE_45 = Math.sin(Math.toRadians(45));
 
     public Sphere(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard,
             String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard,
                 filledColor);
 
-        circle = new Ellipse(markedChangeOfBoard, changedColorOfBoard,
-                changedCoordOfBoard, filledColor);
     }
 
     public void setProperty(double center_x, double center_y, double center_z,
@@ -55,19 +53,9 @@ public class Sphere extends Shape3D {
     @Override
     public void drawOutline() {
         super.drawOutline();
-
-        SKPoint2D p0 = getLeftTopPoint();
-        SKPoint2D p1 = getRightBottomPoint();
-
-        double a = Math.abs(p0.getCoordX() - p1.getCoordX()) / 2;
-        double b = Math.abs(p0.getCoordY() - p1.getCoordY()) / 2;
-
-        drawOutlineEllipse(centerPoint3D.get2DRelativePosition(), a, b, false, true, true, false);
-
-        setLineStyle(SettingConstants.LineStyle.DOT);
-        drawOutlineEllipse(centerPoint3D.get2DRelativePosition(), a, b, true, false, false, true);
-
-        setLineStyle(DEFAULT_LINE_STYLE);
+        double a = this.radius;
+        double b = this.radius / 2 * COS_DEGREE_45;
+        drawOutlineEllipseUnSaveS(centerPoint3D.get2DRelativePosition(), a, b, true, true, true, true);
     }
 
     @Override

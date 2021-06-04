@@ -4,6 +4,7 @@ import control.myawt.SKPoint2D;
 import java.awt.Color;
 import java.util.ArrayList;
 import control.SettingConstants;
+import control.SettingConstants.LineStyle;
 import control.myawt.SKPoint3D;
 import control.util.Ultility;
 
@@ -360,7 +361,7 @@ public abstract class Shape2D {
     public void drawSegmentS(SKPoint2D startPoint, SKPoint2D endPoint,
             int[] roughNumberArray110, int[] roughNumberArray110_2) {
         int pixelCounter = 0;
-        
+
         pixelCounter++;
         savePointWithLineStyleCheck(startPoint.getCoordX(), startPoint.getCoordY(), pixelCounter, lineStyle);
         pointSet2D.add(startPoint);
@@ -487,7 +488,7 @@ public abstract class Shape2D {
             boolean octant2, boolean octant3, boolean octant4, boolean octant5,
             boolean octant6, boolean octant7, boolean octant8) {
         int x = 0;
-   //     int y = (int) (radius * Math.sqrt(2))/2;
+        //     int y = (int) (radius * Math.sqrt(2))/2;
         int y = (int) radius;
         int pixelCounter = 0;
 
@@ -520,7 +521,7 @@ public abstract class Shape2D {
         int x = 0;
 //        int y = (int) (radius * Math.sqrt(2))/2;
         int y = (int) radius;
-        
+
         int pixelCounter = 0;
 
         pixelCounter++;
@@ -567,7 +568,7 @@ public abstract class Shape2D {
             boolean octant7, boolean octant8) {
         int x = 0;
         int y = (int) radius;
-      //  int y = (int) (radius * Math.sqrt(2))/2;
+        //  int y = (int) (radius * Math.sqrt(2))/2;
         addEightSymPoints(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), octant1, octant2, octant3, octant4, octant5, octant6, octant7, octant8);
 
         double p = 5 / 4.0 - radius;
@@ -589,8 +590,8 @@ public abstract class Shape2D {
             SKPoint2D centerPoint, double radius) {
         int x = 0;
         int y = (int) radius;
-    // int y = (int) (radius * Math.sqrt(2))/2;
-     int pixelCounter = 0;
+        // int y = (int) (radius * Math.sqrt(2))/2;
+        int pixelCounter = 0;
         pixelCounter++;
         addEightSymPoints_Special(array, x, y, centerPoint.getCoordX(), centerPoint.getCoordY(), pixelCounter);
 
@@ -887,6 +888,61 @@ public abstract class Shape2D {
         }
     }
 
+    public void drawOutlineEllipseUnSaveS(SKPoint2D centerPoint, double majorRadius,
+            double minorRadius, boolean quadrant1, boolean quadrant2, boolean quadrant3, boolean quadrant4) {
+        double x = 0.0;
+        double y = minorRadius;
+
+        double fx = 0;
+        double fy = 2 * majorRadius * majorRadius * y;
+
+        int pixelCounter = 0;
+
+        pixelCounter++;
+        putFourSymPointsUnSaveS(pixelCounter, x, y, centerPoint.getCoordX(),
+                centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+
+        double p = minorRadius * minorRadius - majorRadius * majorRadius
+                * minorRadius + majorRadius * majorRadius * 0.25;
+
+        while (fx < fy) {
+            x++;
+            fx += 2 * minorRadius * minorRadius;
+
+            if (p < 0) {
+                p += minorRadius * minorRadius * (2 * x + 3);
+            } else {
+                p += minorRadius * minorRadius * (2 * x + 3) + majorRadius
+                        * majorRadius * (-2 * y + 2);
+                y--;
+                fy -= 2 * majorRadius * majorRadius;
+            }
+
+            pixelCounter++;
+            putFourSymPointsUnSaveS(pixelCounter, x, y, centerPoint.getCoordX(),
+                    centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+        }
+
+        p = minorRadius * minorRadius * (x + 0.5) * (x + 0.5) + majorRadius
+                * majorRadius * (y - 1.0) * (y - 1.0) - majorRadius * majorRadius
+                * minorRadius * minorRadius;
+
+        while (y >= 0) {
+            y--;
+            if (p < 0) {
+                p += minorRadius * minorRadius * (2 * x + 2) + majorRadius
+                        * majorRadius * (-2 * y + 3);
+                x++;
+            } else {
+                p += majorRadius * majorRadius * (3 - 2 * y);
+            }
+
+            pixelCounter++;
+            putFourSymPointsUnSaveS(pixelCounter, x, y, centerPoint.getCoordX(),
+                    centerPoint.getCoordY(), quadrant1, quadrant2, quadrant3, quadrant4);
+        }
+    }
+
     public void putFourSymPoints(int pixelCounter, double x, double y,
             double center_x, double center_y, boolean quadrant1,
             boolean quadrant2, boolean quadrant3, boolean quadrant4) {
@@ -930,6 +986,27 @@ public abstract class Shape2D {
         if (quadrant3) {
             savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter,
                     lineStyle);
+        }
+    }
+
+    public void putFourSymPointsUnSaveS(int pixelCounter, double x, double y,
+            double center_x, double center_y, boolean quadrant1,
+            boolean quadrant2, boolean quadrant3, boolean quadrant4) {
+        if (quadrant2) {
+            savePointWithLineStyleCheck(center_x + x, center_y + y, pixelCounter,
+                    LineStyle.DEFAULT);
+        }
+        if (quadrant1) {
+            savePointWithLineStyleCheck(center_x + x, center_y - y, pixelCounter,
+                    LineStyle.DOT);
+        }
+        if (quadrant4) {
+            savePointWithLineStyleCheck(center_x - x, center_y - y, pixelCounter,
+                    LineStyle.DOT);
+        }
+        if (quadrant3) {
+            savePointWithLineStyleCheck(center_x - x, center_y + y, pixelCounter,
+                    LineStyle.DEFAULT);
         }
     }
 

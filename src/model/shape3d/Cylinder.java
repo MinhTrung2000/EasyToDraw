@@ -10,18 +10,17 @@ import model.shape2d.Vector2D;
 
 public class Cylinder extends Shape3D {
 
-    private Ellipse circle;
-    private ArrayList<SKPoint2D> circlePointList = new ArrayList<>();
-
     private double radius = 0.0;
     private double high = 0.0;
 
     private SKPoint3D topCenter;
     private SKPoint3D botCenter;
+    private SKPoint2D topLeft, topRight, botLeft, botRight;
+    public static final double COS_DEGREE_45 = Math.cos(Math.toRadians(45));
+    public static final double SIN_DEGREE_45 = Math.sin(Math.toRadians(45));
 
     public Cylinder(boolean[][] markedChangeOfBoard, Color[][] changedColorOfBoard, String[][] changedCoordOfBoard, Color filledColor) {
         super(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
-        circle = new Ellipse(markedChangeOfBoard, changedColorOfBoard, changedCoordOfBoard, filledColor);
     }
 
     public void setProperty(double center_x, double center_y, double center_z,
@@ -30,49 +29,19 @@ public class Cylinder extends Shape3D {
         this.radius = radius;
         this.high = high;
 
-        circle.setProperty(new SKPoint2D(center_x - radius, center_y + radius),
-                new SKPoint2D(center_x + radius, center_y - radius)
-        );
-
-        circle.setModal(Ellipse.Modal.CIRLCE);
-
-        circlePointList.clear();
-
-        mergePointSetCircle(circlePointList, centerPoint3D, this.radius, true, true,
-                true, true, true, true, true, true);
-
-        double half_high = this.high / 2;
-
-        pointSet3D.clear();
-
-        for (int i = 0; i < circlePointList.size(); i++) {
-            SKPoint2D p2d = circlePointList.get(i);
-            pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(),
-                    this.centerPoint3D.getCoordZ() + half_high));
-        }
-        
-        circlePointList.clear();
-        merPointSetCircleS(circlePointList, centerPoint3D, this.radius);
-
-        for (int i = 0; i < circlePointList.size(); i++) {
-            SKPoint2D p2d = circlePointList.get(i);
-            pointSet3D.add(new SKPoint3D(p2d.getCoordX(), p2d.getCoordY(),
-                    this.centerPoint3D.getCoordZ() - half_high));
-        }
-
-        pointSet2D.clear();
-
-        for (int i = 0; i < pointSet3D.size(); i++) {
-            pointSet2D.add(pointSet3D.get(i).get2DRelativePosition());
-        }
-
         topCenter = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY(),
-                centerPoint3D.getCoordZ() - this.high / 2);
-        botCenter = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY(),
                 centerPoint3D.getCoordZ() + this.high / 2);
+        botCenter = new SKPoint3D(centerPoint3D.getCoordX(), centerPoint3D.getCoordY(),
+                centerPoint3D.getCoordZ() - this.high / 2);
 
-        pointSet2D.add(topCenter.get2DRelativePosition());
-        pointSet2D.add(botCenter.get2DRelativePosition());
+        SKPoint2D topCenter2D = topCenter.get2DRelativePosition();
+        SKPoint2D botCenter2D = botCenter.get2DRelativePosition();
+
+        topLeft = new SKPoint2D(topCenter2D, -(int) this.radius, 0);
+        topRight = new SKPoint2D(topCenter2D, (int) this.radius, 0);
+
+        botLeft = new SKPoint2D(botCenter2D, -(int) this.radius, 0);
+        botRight = new SKPoint2D(botCenter2D, (int) this.radius, 0);
 
     }
 
@@ -84,36 +53,24 @@ public class Cylinder extends Shape3D {
 
     @Override
     public void drawOutline() {
-        super.drawOutline();
-
-        SKPoint2D leftTopPointToDraw = getLeftTopPoint();
-        SKPoint2D rightTopPointToDraw = getRightTopPoint();
-        SKPoint2D rightBottomPointToDraw = getRightBottomPoint();
-        SKPoint2D leftBottomPointToDraw = getLeftBottomPoint();
-
+        // super.drawOutline();
         SKPoint3D leftTopPoint = new SKPoint3D(this.centerPoint3D.getCoordX() - radius, this.centerPoint3D.getCoordY(),
-                 this.centerPoint3D.getCoordZ() + this.high / 2);
-
-        customSaveCoord(leftTopPointToDraw, leftTopPoint, changedCoordOfBoard);
-
+                this.centerPoint3D.getCoordZ() + this.high / 2);
         SKPoint3D leftBottomPoint = new SKPoint3D(this.centerPoint3D.getCoordX() - radius, this.centerPoint3D.getCoordY(),
-                 this.centerPoint3D.getCoordZ() - this.high / 2);
-
-        customSaveCoord(leftBottomPointToDraw, leftBottomPoint, changedCoordOfBoard);
-
+                this.centerPoint3D.getCoordZ() - this.high / 2);
         SKPoint3D rightTopPoint = new SKPoint3D(this.centerPoint3D.getCoordX() + radius, this.centerPoint3D.getCoordY(),
-                 this.centerPoint3D.getCoordZ() + this.high / 2);
-
-        customSaveCoord(rightTopPointToDraw, rightTopPoint, changedCoordOfBoard);
-
+                this.centerPoint3D.getCoordZ() + this.high / 2);
         SKPoint3D rightBottomPoint = new SKPoint3D(this.centerPoint3D.getCoordX() + radius, this.centerPoint3D.getCoordY(),
-                 this.centerPoint3D.getCoordZ() - this.high / 2);
+                this.centerPoint3D.getCoordZ() - this.high / 2);
+        customSaveCoord(topLeft, leftTopPoint, changedCoordOfBoard);
+        customSaveCoord(botLeft, leftBottomPoint, changedCoordOfBoard);
+        customSaveCoord(topRight, rightTopPoint, changedCoordOfBoard);
+        customSaveCoord(botRight, rightBottomPoint, changedCoordOfBoard);
 
-        customSaveCoord(rightBottomPointToDraw, rightBottomPoint, changedCoordOfBoard);
-
-        drawSegmentUnSave(leftTopPointToDraw, leftBottomPointToDraw);
-        drawSegmentUnSave(rightTopPointToDraw, rightBottomPointToDraw);
-
+        drawOutlineEllipseUnSave(topCenter.get2DRelativePosition(), radius, radius / 2 * COS_DEGREE_45, true, true, true, true);
+        drawOutlineEllipseUnSaveS(botCenter.get2DRelativePosition(), radius, radius / 2 * COS_DEGREE_45, true, true, true, true);
+        drawSegmentUnSave(topLeft, botLeft);
+        drawSegmentUnSave(topRight, botRight);
     }
 
     @Override
@@ -125,6 +82,8 @@ public class Cylinder extends Shape3D {
         super.saveCoordinates();
         topCenter.saveCoord(changedCoordOfBoard);
         botCenter.saveCoord(changedCoordOfBoard);
+        savePoint(topCenter.get2DRelativePosition());
+        savePoint(botCenter.get2DRelativePosition());
 
     }
 
